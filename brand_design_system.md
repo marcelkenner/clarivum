@@ -17,7 +17,7 @@
     - **Clarivum Skin** — topicals & appearance comfort (kept).
     - **Clarivum Fuel** — food & supplements (ingestibles literacy; non‑medical).
     - **Clarivum Habits** — sleep, stress, movement, environment & care‑navigation (non‑medical).
-- **One‑hue policy:** **Jade** is the **only action color** for all pillars. Differentiation uses surface **ratios, layout density, and motifs** (see Section K).
+- **Core palette:** **Jade** remains the global primary/action color. Each pillar adds a signature accent for surfaces, illustrations, and data highlights: **Skin → Teal**, **Fuel → Amber**, **Habits → Indigo** (see Section D for exact values and usage).
 
 ---
 
@@ -43,6 +43,7 @@
 - **Pairing (UI/body):** **Inter** (or system sans) for UI; **Noto Serif KR / Noto Sans KR** for Korean.
 - **Tracking:** +40–60 display, +10 nav, 0 small text.
 - **Case:** uppercase **CLARIVUM** by default; Title Case allowed in body.
+- **Font delivery:** self-host with `font-display: swap` and provide fallbacks (`"Cormorant Garamond", "Times New Roman", serif` and `"Inter", "Segoe UI", system-ui, sans-serif`) to avoid invisible text.
 
 **Type scale (desktop)**
 
@@ -50,6 +51,9 @@
 - Line‑height: headlines **1.1**, body **1.5**, Korean body **1.35**.
 - Numerals: **lining** for UI, **oldstyle** allowed in long‑form.
 - Ligatures: standard only; discretionary **off** for UI clarity.
+- Use `rem`/`em` units and responsive `clamp()` ramps so text respects user zoom (WCAG **1.4.4** Resize Text).
+- Constrain paragraph line length to **45–75 characters** (≈ 28–36 em) for readability; adjust column width responsively.
+- Ensure text styles retain ≥ 4.5:1 contrast against assigned surfaces; prefer Jade or Ink for body copy and reserve accents for short headings/calls-outs.
 
 ---
 
@@ -57,10 +61,13 @@
 
 | Token | Hex | Role & Notes |
 | --- | --- | --- |
-| **Jade** | **#2E6B5A** | **Primary/action**; trust, nature, depth |
-| **Beige** | **#EDE6DA** | **Ground/surfaces**; warm, quiet |
-| **Gold** | **#C7A55A** | **Accent (micro only)**; foil spot, dividers |
-| **Ink** | **#0E0F0F** | **Text** on light grounds; data |
+| **Jade** | **#2E6B5A** | **Global primary/action** (buttons, links, focus, charts default) |
+| **Skin Teal** | **#2F8C7A** | Skin pillar accent (surfaces, icons, data slices, headings) |
+| **Fuel Amber** | **#D98A1A** | Fuel pillar accent (surfaces, icons, data slices, headings) |
+| **Habits Indigo** | **#3F3C7F** | Habits pillar accent (surfaces, icons, data slices, headings) |
+| **Beige** | **#EDE6DA** | **Ground/surfaces**; warm, quiet neutral |
+| **Gold** | **#C7A55A** | **Micro accent** only (hairlines, annotations, foil) |
+| **Ink** | **#0E0F0F** | **Primary text** on light grounds; charts axes |
 | **Snow** | **#FFFFFF** | **Canvas**/secondary background |
 
 **Accessibility (WCAG quick refs)**
@@ -69,11 +76,25 @@
 - **Ink on Snow**: 21:1 → **AAA** ✓.
 - **Jade on Beige**: ~5.0:1 → **AA** ✓ (headlines, overlines; limit paragraphs).
 - **Snow on Jade**: ~6.2:1 → **AA** ✓ (**AAA large**).
+- **Snow on Skin Teal**: ~4.7:1 → **AA** ✓ (large text/icons).
+- **Snow on Fuel Amber**: ~4.5:1 → **AA large** ✓ (pair with 20 pt+ text/icons).
+- **Snow on Habits Indigo**: ~7.0:1 → **AA** ✓ (body allowed).
 - **Gold on Beige**: ~1.9:1 → **FAIL** (decorative only).
+- All text + background combinations must achieve **≥ 4.5:1** contrast (normal text) and **≥ 3:1** for large UI glyphs/outline icons per WCAG 2.2 techniques **G17/G145**. Critical body copy and dense tables should target **≥ 7:1** wherever feasible.
+- Verify hover, focus, visited, and disabled states against the same thresholds using a contrast checker before shipping.
+- Do not rely on color alone to convey meaning; pair accent hues with icons, labels, or patterns to satisfy WCAG **1.4.1 Use of Color**.
 
 **CMYK starting points** *(proof on press)*
 
-- Jade **75/30/55/30**, Beige **6/7/14/0**, Gold (ink) **20/30/70/5**; metallic foil for premium SKUs.
+- Jade **75/30/55/30**, Skin Teal **78/16/49/6**, Fuel Amber **8/44/82/0**, Habits Indigo **87/87/0/30**, Beige **6/7/14/0**, Gold (ink) **20/30/70/5**; metallic foil for premium SKUs.
+
+**Pillar surfaces & usage**
+
+- Skin pages may tint Beige with up to 10% Skin Teal or use Skin Teal for icon strokes, data highlights, and hero underlines (keep Jade for CTAs).
+- Fuel uses Fuel Amber for supporting bars, list markers, and tool cards; avoid large solid fills to preserve readability.
+- Habits leverages Habits Indigo for hero gradients (10–15% opacity), list markers, and data points; pair with Snow or Beige backgrounds.
+- Never mix pillar accents within the same component; Jade remains the connective color for primary actions and global elements.
+- Where accent text sits on tinted surfaces, increase lightness or add a neutral overlay to preserve ≥ 4.5:1 contrast; test with real copy rather than swatches.
 
 ---
 
@@ -110,7 +131,7 @@
 
 ## H) Imagery
 
-- **Photography:** soft diffused light, neutral backgrounds, jade props, real textures.
+- **Photography:** soft diffused light, neutral backgrounds, props in Jade or the matching pillar accent, real textures.
 - **People:** diverse tones, relaxed posture, clean skin, no heavy retouch.
 - **Food (Fuel):** in‑season produce, matte ceramics, top‑down or 45°.
 - **Post:** −10–15% saturation, slight shadow lift, gentle contrast.
@@ -120,7 +141,7 @@
 ## I) Accessibility
 
 - **Target:** WCAG **2.2 AA** minimum; AAA where practical for body text.
-- **Text on light grounds:** **Ink** or **Jade** only (with size caveats).
+- **Text on light grounds:** Use **Ink** for body copy; **Jade** or the relevant pillar accent may style headings ≥ 18 px and UI labels when contrast ≥ 4.5:1 (verify with tooling).
 - **Focus states:** **2 px outline** — Jade @ 40% on light; **Beige ring** on Jade surfaces.
 - **Hit areas:** ≥ **44×44 px**; 8‑pt spacing preserved.
 - **Forms:** label + helper text; error messaging not color‑only (icon + text).
@@ -134,7 +155,8 @@
 - **Primary:** Jade fill, Snow text, radius 10–12 px, vertical padding 14 px.
     - Hover: Jade‑90 (tint) • Active: Jade‑110 (shade) • Disabled: 30% opacity, cursor default.
 - **Secondary:** Jade outline 1 px, Jade text; hover: Beige fill @ ~6–10%.
-- **Link buttons:** Jade text + underline on hover/focus; no ghost buttons.
+- **Link buttons:** Jade text by default; pillar accent allowed on vertical-specific surfaces (maintain underline on hover/focus); no ghost buttons.
+- Focus ring: 2 px Jade outline at 1 px offset over any state; maintain ≥ 3:1 contrast with surrounding surface.
 
 **Forms**
 
@@ -150,8 +172,8 @@
 
 **Cards**
 
-- Surfaces: Snow or Beige‑95; hairline Jade‑10% border; 12 px radius.
-- Content: Ink title, Ink‑80 meta, Jade link.
+- Surfaces: Snow, Beige‑95, or the relevant pillar surface token; hairline Jade‑10% border; 12 px radius.
+- Content: Ink title, Ink‑80 meta, Jade or pillar accent link (ensure contrast).
 
 **Tables**
 
@@ -171,27 +193,31 @@
 
 **Charts**
 
-- Monochrome **Jade tints** (60–100%); Ink axes; Gold only as a **single annotation**.
+- Use the relevant **pillar accent** (Skin Teal/Fuel Amber/Habits Indigo) or Jade tints; limit to two hues per visualization; Ink axes; Gold only as a **single annotation**.
+- Provide redundant encoding (labels, patterns, markers) so insights are legible without relying on color alone.
 
 **Empty states**
 
-- Outline illustration (Jade/Ink), one sentence in Ink, primary CTA in Jade.
+- Outline illustration (Jade + matching pillar accent), one sentence in Ink, primary CTA in Jade.
 
 ---
 
-## K) Pillar Theming (without new hues)
+## K) Pillar Theming & Accents
 
-**One‑hue policy:** **Jade** for all actions. Pillar mood via **surfaces/layout/motifs**:
+- Pillar accents deliver vertical identity while **Jade** stays the universal CTA/focus color.
+- Do not mix pillar accents inside a single component; pick the accent that matches the page/experience.
 
-| Pillar | Surface ratio | Typographic feel | Imagery cue | Micro accent |
+| Pillar | Accent | Primary usage | Surface ratio | Imagery & icon cue |
 | --- | --- | --- | --- | --- |
-| **Skin** | Beige‑forward, Snow for data | Serif display + Sans body | clean skin, neutral props | micro Gold dots/dividers |
-| **Fuel** | Snow‑forward, Beige cards | Sans‑forward tables/lists | produce/capsules (outline) | sparse Gold section markers |
-| **Habits** | 50/50 Snow–Beige, more whitespace | Serif headlines, roomy body | moon/clock/steps (outline) | minimal Gold or none |
+| **Skin** | Skin Teal `#2F8C7A` | Hero underlines, statistic callouts, icon strokes | Beige-forward with Teal washes on cards | leaf/dermis outlines, product textures |
+| **Fuel** | Fuel Amber `#D98A1A` | Data points, list bullets, tool highlights | Snow-forward, Amber dividers/cards at ≤25% coverage | produce, capsule silhouettes |
+| **Habits** | Habits Indigo `#3F3C7F` | Headings, timeline markers, sleep/stress widgets | 50/50 Snow–Beige with Indigo overlays | moon/clock/steps line art |
 
 **Surface tokens** (backgrounds only):
 
-- `-surface-skin` = Beige‑95, `-surface-fuel` = Snow + Beige veil 10%, `-surface-habits` = Beige‑85.
+- `-surface-skin` = color-mix(in srgb, var(--clr-beige), var(--clr-skin-teal) 12%)
+- `-surface-fuel` = color-mix(in srgb, var(--clr-snow), var(--clr-fuel-amber) 10%)
+- `-surface-habits` = color-mix(in srgb, var(--clr-beige), var(--clr-habits-indigo) 8%)
 
 ---
 
@@ -275,14 +301,14 @@
 
 **Do**
 
-- Use **Ink** for long‑form text; **Jade** for actions and short headings.
+- Use **Ink** for long‑form text; **Jade** for primary actions; apply the matching pillar accent to supporting elements only.
 - Keep layouts quiet; prefer **hairlines** over shadows.
 - Limit **Gold** to micro details (<3% of a page).
 - Maintain clear space around marks.
 
 **Don’t**
 
-- Introduce new brand hues per pillar.
+- Mix multiple pillar accents inside a single component.
 - Set any text in **Gold**.
 - Add gradients or shadows to marks.
 - Outline the wordmark.
@@ -296,6 +322,8 @@
 - [ ]  All body text Ink on Beige/Snow (AA/AAA).
 - [ ]  Buttons: Jade fill/Snow label (AA).
 - [ ]  Focus ring visible; color‑independent cues present.
+- [ ]  Accent text + surface combinations tested ≥ 4.5:1 (use contrast checker referencing WCAG G17).
+- [ ]  Color is never the sole signal; icons/patterns/labels reinforce status and data series.
 - [ ]  Motion reduced when requested.
 
 **Visual**
@@ -316,6 +344,7 @@
 - **Design velocity:** tickets shipped/week.
 - **AA coverage:** % of text elements passing AA or higher.
 - **CTA performance:** Jade primary CTR vs. historical.
+- **Contrast score:** % of shipped components with automated contrast checks ≥ 4.5:1 (CI lint or Storybook tests).
 - **Brand drift index:** # of non‑token colors detected by linter per release.
 
 ---
@@ -331,17 +360,17 @@
 
 **Hero block (web)**
 
-- Background: `-surface-skin` (or pillar surface).
-- H1 (Ink), overline (Jade), body (Ink), primary CTA (Jade), secondary CTA (Jade outline).
-- Illustration: outline style; Jade strokes; no fills.
+- Background: `-surface-skin` (or relevant pillar surface).
+- H1 (Ink), overline (pillar accent), body (Ink), primary CTA (Jade), secondary CTA (Jade outline).
+- Illustration: outline style; Jade + pillar accent strokes; no fills.
 
 **Blog card**
 
-- Background: Beige‑95; border Jade‑10%; title Ink; meta Ink‑80; link Jade.
+- Background: Beige‑95; border Jade‑10%; title Ink; meta Ink‑80; link Jade or pillar accent (ensure contrast).
 
 **Data chart**
 
-- Bars: Jade tints 60–100%; axes Ink; single Gold annotation arrow.
+- Bars: pillar accent (Skin Teal/Fuel Amber/Habits Indigo) with Jade tint for secondary series; axes Ink; single Gold annotation arrow.
 
 ---
 
@@ -354,11 +383,12 @@
   /* Core colors */
   --clr-jade:#2E6B5A; --clr-beige:#EDE6DA; --clr-gold:#C7A55A;
   --clr-ink:#0E0F0F; --clr-snow:#FFFFFF;
+  --clr-skin-teal:#2F8C7A; --clr-fuel-amber:#D98A1A; --clr-habits-indigo:#3F3C7F;
 
   /* Surfaces (pillar accents) */
-  --surface-skin:  color-mix(in srgb, var(--clr-beige), white 5%);   /* Beige-95 */
-  --surface-fuel:  color-mix(in srgb, var(--clr-snow), var(--clr-beige) 10%); /* Snow veil */
-  --surface-habits:color-mix(in srgb, var(--clr-beige), white 15%);  /* Beige-85 */
+  --surface-skin:  color-mix(in srgb, var(--clr-beige), var(--clr-skin-teal) 12%);   /* Teal wash */
+  --surface-fuel:  color-mix(in srgb, var(--clr-snow), var(--clr-fuel-amber) 10%);  /* Amber veil */
+  --surface-habits:color-mix(in srgb, var(--clr-beige), var(--clr-habits-indigo) 8%); /* Indigo mist */
 
   /* Interaction states */
   --jade-90:  color-mix(in srgb, var(--clr-jade), white 10%); /* hover */
@@ -388,8 +418,16 @@
     "gold": {"value":"#C7A55A"},
     "ink": {"value":"#0E0F0F"},
     "snow": {"value":"#FFFFFF"},
+    "skinTeal": {"value":"#2F8C7A"},
+    "fuelAmber": {"value":"#D98A1A"},
+    "habitsIndigo": {"value":"#3F3C7F"},
     "jadeHover": {"value":"{color.jade} 90% tint"},
     "jadeActive": {"value":"{color.jade} 110% shade"}
+  },
+  "surface": {
+    "skin": {"value":"color-mix(in srgb, {color.beige}, {color.skinTeal} 12%)"},
+    "fuel": {"value":"color-mix(in srgb, {color.snow}, {color.fuelAmber} 10%)"},
+    "habits": {"value":"color-mix(in srgb, {color.beige}, {color.habitsIndigo} 8%)"}
   },
   "radius": {"card":{"value":"12px"},"button":{"value":"10px"}},
   "space": {"1":{"value":"4px"},"2":{"value":"8px"},"3":{"value":"12px"},"4":{"value":"16px"},"6":{"value":"24px"}},
