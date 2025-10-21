@@ -1,36 +1,20 @@
 **Brand architecture (branded house):**
 
 - **Clarivum Skin** — *Topicals & appearance comfort* (cosmetic focus, Poland‑first).
-- **Clarivum Fuel** — *Food & supplements* (meal structure, grocery systems, supplement literacy; non‑medical).
-- **Clarivum Habits** — *Sleep, stress, movement, environment & care‑navigation* (non‑medical; scripts for talking to pros).
+- **Clarivum Fuel** — *Food & supplements* (meal structure, grocery systems, supplement literacy; non‑medical, Poland first).
+- **Clarivum Habits** — *Sleep, stress, movement, environment & care‑navigation* (trainings, non‑medical, Poland first).
 
 **Scope boundaries (include/exclude):**
 
-- **Skin**: Face/body/scalp routines, ingredient literacy, SPF adherence, at‑home device literacy (education only), clinic conversation prep. *Exclude:* diagnosis/treatment.
-- **Fuel**: Meal timing, protein/fiber targets, pantry systems, dining‑out swaps, **supplement claims literacy**. *Exclude:* therapeutic diets, medical nutrition therapy.
+- **Skin**: Face/body/scalp/hair routines, ingredient literacy, SPF adherence, at‑home device literacy (education only), clinic conversation prep. *Exclude:* diagnosis/treatment.
+- **Fuel**: Meal timing, protein/fiber targets, pantry systems, vitamin understanding, dining‑out swaps, **supplement claims literacy**. *Exclude:* therapeutic diets, medical nutrition therapy.
 - **Habits**: Sleep protocol, stress tools, movement snacks, ergonomics, indoor air/light, **doctor/pharmacist conversation scripts**, screening literacy (what to ask, not what to diagnose). *Exclude:* prescribing, individualized treatment.
 
 **Naming & taglines:**
 
 - Clarivum **Skin** — “Świadoma pielęgnacja, zero ściemy.”
 - Clarivum **Fuel** — “Jedzenie i suplementy, które działają dla Ciebie.”
-- Clarivum **Habits** — “Sen, stres, ruch — decyzje, które trzymasz.”
-    
-    *(Optional umbrella: “Clarivum Health Series” across Fuel + Habits for storefront coherence.)*
-    
-
-**Navigation & URLs (with 301s):**
-
-```
-/skin/…         
-/fuel/…         
-/habits/…       
-```
-
-- **Blog** becomes category‑first per pillar:
-    - `/skin/<kategoria>/<artykuł>`
-    - `/fuel/<kategoria>/<artykuł>` (e.g., `/fuel/bialko/ile-i-kiedy/`)
-    - `/habits/<kategoria>/<artykuł>` (e.g., `/habits/sen/90-min-okna/`)
+- Clarivum **Habits** — “Sen, stres, ruch - decyzje, które trzymasz.”
 
 **Primary funnels (pillar → flagship e‑books):**
 

@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "ensure:agents": "node scripts/ensure-agents.mjs",
+    "postinstall": "npm run ensure:agents",
+    "predev": "npm run ensure:agents",
+    "prebuild": "npm run ensure:agents",
+    "prestart": "npm run ensure:agents",
+    "prelint": "npm run ensure:agents",
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",

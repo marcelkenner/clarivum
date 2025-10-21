@@ -65,7 +65,7 @@ Use ISO/IEC 25010 quality characteristics to force clarity (performance, reliabi
 
 ## 4) Data model, storage & indexing (so month‑7 doesn’t kill you)
 
-**4.1 Database plan (Postgres example)**
+**4.1 Database plan (Postgres)**
 
 - Schema v0 (ERD + naming, auditing columns, soft‑delete policy).
 - **Indexing policy:**

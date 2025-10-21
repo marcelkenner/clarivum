@@ -39,8 +39,8 @@
 
 ## C) Wordmark & Typography
 
-- **Wordmark typeface:** modern serif with high contrast, smooth terminals. Options: **Cormorant Garamond, Canela, or licensed equivalent**.
-- **Pairing (UI/body):** **Inter** (or system sans) for UI; **Noto Serif KR / Noto Sans KR** for Korean.
+- **Wordmark typeface:** modern serif with high contrast, smooth terminals. Options: **Cormorant Garamond**.
+- **Pairing (UI/body):** **Inter**
 - **Tracking:** +40–60 display, +10 nav, 0 small text.
 - **Case:** uppercase **CLARIVUM** by default; Title Case allowed in body.
 - **Font delivery:** self-host with `font-display: swap` and provide fallbacks (`"Cormorant Garamond", "Times New Roman", serif` and `"Inter", "Segoe UI", system-ui, sans-serif`) to avoid invisible text.
