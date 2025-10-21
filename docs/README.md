@@ -8,6 +8,9 @@ Clarivum’s pre-code documentation gathers all technical, operational, and gove
 - **docs/runbooks/** – Step-by-step operational guides (deployment, incident response, FinOps review).
 - **docs/policies/** – Error budget policy and security baseline commitments.
 - **docs/checklists/** – Pull request checklist aligning with testing and security guardrails from the PTRD.
+- **docs/role-guides/** – Discipline-specific handbooks for frontend, backend, architecture, DevOps, and QA teams (start with `role-guides/README.md`).
+- **tasks/README.md** – Task board structure with status/discipline lanes and authoring rules.
+- **tasks/status-summary.md** – Auto-generated digest of active tasks by status and area (`npm run tasks:summary`).
 
 ## How to keep documentation healthy
 

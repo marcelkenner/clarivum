@@ -8,7 +8,10 @@ Agents editing the `docs/` tree should follow this guidance to keep Clarivum’s
 - `docs/PRDs/` contains product, brand, and architecture readiness artifacts. Coordinate with stakeholders before major edits.
 - `docs/architecture.md` mirrors the current C4 view; update it whenever components, data flows, or SLO alignments change.
 - Architecture decisions live in `docs/adr/`. New decisions require a dedicated ADR using `_template.md`; superseded ones must link forward/backward.
+- Role-specific playbooks live in `docs/role-guides/`; update those when process changes affect a discipline.
 - **Use Context7 for any library or platform references** so documentation cites current guidance.
+- Point to `tasks/README.md` whenever documentation work generates actionable follow-ups and keep `tasks/status-summary.md` updated for stakeholders.
+- Reference `docs/role-guides/planning.md` when introducing new workflows or ceremonies.
 
 ## Editing guidelines
 

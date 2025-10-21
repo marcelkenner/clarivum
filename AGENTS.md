@@ -62,6 +62,8 @@ This file gives coding agents the operational context that complements `README.m
 - Stack: Next.js 15 (App Router) with React 19, Tailwind CSS 4, TypeScript 5. Runs on Vercel (see `docs/architecture.md`).
 - Decision history lives in `docs/adr/ADR-001…005`. Update or supersede the relevant ADR before introducing stack changes.
 - Product & brand context is in `docs/PRDs/` (`first_steps.md`, `clarivum_brand.md`, etc.). Keep feature work aligned with those documents.
+- Role-specific workflows live in `docs/role-guides/`. Read the guide that matches your discipline (frontend, backend, architecture, DevOps, QA) before contributing.
+- Work tracking happens in `tasks/README.md`. Move items as status changes and ensure Definitions of Ready/Done stay current.
 - **Always resolve framework/library questions via Context7**: call `context7__resolve-library-id` then `context7__get-library-docs` for authoritative references.
 
 ## Build & verification commands
@@ -70,8 +72,10 @@ This file gives coding agents the operational context that complements `README.m
 |----------------------|---------------------------------|-------|
 | Start dev server     | `npm run dev`                   | Uses Turbopack; requires Node 20+. |
 | Production build     | `npm run build`                 | Run before shipping infra changes. |
-| Lint (required)      | `npm run lint`                  | ESLint config mirrors CI gate. |
-| Ensure agent guides  | `npm run ensure:agents`         | Auto-generates `AGENTS.md` for new directories. |
+| Agent scaffolding    | `npm run ensure:agents`         | Auto-generates `AGENTS.md` for new directories. |
+| Tasks lint           | `npm run lint:tasks`            | Validates task files (front matter, DR/DoD, naming). |
+| Lint (required)      | `npm run lint`                  | Runs task lint + ESLint. |
+| Task summary         | `npm run tasks:summary`         | Regenerates `tasks/status-summary.md` digest. |
 
 There are no automated tests yet. When you add them (Vitest/Playwright, etc.), extend scripts and update this guide.
 
@@ -87,6 +91,9 @@ There are no automated tests yet. When you add them (Vitest/Playwright, etc.), e
 - Update `docs/architecture.md` if architecture or integrations change.
 - Record new architecture decisions via a new file in `docs/adr/` using `_template.md`. Set status and link to superseded ADRs when relevant.
 - Keep PRDs and policies in sync with code. If a change contradicts existing docs, update the docs in the same PR.
+- Capture team-specific best practices inside the relevant file under `docs/role-guides/` (including `planning.md`).
+- Maintain task files with the YAML schema (`tasks/AGENTS.md`); run `npm run lint:tasks` before merging changes there.
+- Update `tasks/README.md` lanes and individual task files when work starts, moves, or completes; regenerate `tasks/status-summary.md` as part of status updates.
 
 ## Coding conventions
 
@@ -101,4 +108,4 @@ There are no automated tests yet. When you add them (Vitest/Playwright, etc.), e
 2. Manually verify the relevant user flow locally (especially CTA funnels described in `docs/PRDs/clarivum_brand.md`).
 3. Summarize doc updates and note any follow-up ADRs or runbook changes.
 
-Agents should treat this file as living guidance. Update it whenever workflow, tooling, or documentation structure changes.
+Agents should treat this file as living guidance. Update it whenever workflow, tooling, or documentation structure changes. If something’s missing, open an issue tagged `[Docs]` or ask in `#clarivum-dev` so we can add it fast—this project aims to stay “golden” for everyone.

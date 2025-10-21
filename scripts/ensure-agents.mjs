@@ -267,13 +267,166 @@ Product Requirement Documents capture discovery and alignment before code begins
 These documents are canonical—avoid speculative edits or premature implementation details.
 `;
 
-  return new Map([
+  const checklistsTemplate = `# Checklists · AGENTS Guide
+
+Checklists in this directory codify the gates used in CI/CD and code review. Keep them concise, actionable, and aligned with real automation.
+
+## Maintenance expectations
+
+- Ensure checklist items map to actual CI steps (lint, tests, deploy blocks). Update CI when the checklist changes, and vice versa.
+- Reference the relevant PTRD sections or ADRs when adding new items so reviewers know the source of truth.
+- Use Context7 when instructions cite tooling (ESLint, Vitest, Playwright) to stay current with best practices.
+- Avoid duplicating guidance from root \`AGENTS.md\`; instead, link to shared policies or runbooks.
+
+## Review checklist
+
+- [ ] Items are ordered by criticality (security, reliability, quality, docs).
+- [ ] Each item is phrased as a binary question an agent can check quickly.
+- [ ] Links point to maintained docs/runbooks.
+- [ ] CI configuration reflects the checklist (no orphaned steps).
+`;
+
+  const policiesTemplate = `# Policies · AGENTS Guide
+
+Policy documents in this directory capture commitments (error budgets, security baselines, governance). Treat them as binding agreements.
+
+## Editing principles
+
+- Coordinate with the engineering lead and relevant stakeholders (security, product) before changes.
+- Note effective dates and owners when updating policies.
+- Tie every change back to an ADR, PTRD section, or incident/root cause analysis.
+- Validate external references (OWASP, CIS, etc.) via Context7 or official docs before citing them.
+
+## Review checklist
+
+  - [ ] Policy aligns with current architecture (\`docs/architecture.md\`) and ADRs.
+- [ ] Enforcement mechanisms (CI checks, runbook steps) exist and are up to date.
+- [ ] Budget/threshold numbers match dashboards and alerts.
+- [ ] Communication plan for stakeholders documented.
+`;
+
+  const runbooksTemplate = `# Runbooks · AGENTS Guide
+
+Runbooks describe repeatable operational procedures (deployments, incidents, cost reviews). They must stay synchronized with tooling.
+
+## Maintenance expectations
+
+- Update runbooks immediately after process changes or postmortems.
+- Include prerequisites, exact commands, decision trees, and escalation paths.
+- Keep links to dashboards, alerts, and third-party consoles current.
+- Reference originating policies/ADRs and confirm tooling syntax via Context7 when in doubt.
+
+## Review checklist
+
+- [ ] Steps are ordered, actionable, and free of ambiguity.
+- [ ] Rollback/mitigation paths are documented.
+- [ ] Contacts/escalation rules are current.
+- [ ] Runbook cross-links to relevant policies and checklists.
+`;
+
+  const appTemplate = `# App Router · AGENTS Guide
+
+The \`src/app/\` directory houses Next.js route segments, layouts, metadata, and server actions.
+
+## Routing & structure
+
+- Follow App Router conventions: segment folders, \`page.tsx\`, \`layout.tsx\`, and route groups as needed.
+- Keep route hierarchy aligned with the sitemap defined in \`docs/PRDs/clarivum_brand.md\` and \`first_configuration.md\`.
+- Annotate dynamic segments with TypeScript types; validate params before use.
+- Centralize shared layout patterns (navigation, footers) to avoid duplication.
+
+## Data & async considerations
+
+- Prefer server components for data fetching; use Suspense boundaries thoughtfully.
+- Ensure caching strategies (\`revalidate\`, fetch cache tags) match performance targets from \`docs/README.md\`.
+- Consult Context7 for Next.js caching, metadata, and streaming updates before adopting new APIs.
+
+## Review checklist
+
+- [ ] Routes render the correct CTA funnels per PRDs.
+- [ ] Metadata and SEO tags meet brand requirements.
+- [ ] Edge/runtime configuration matches reliability expectations.
+- [ ] Telemetry (OTel spans, analytics) preserved for key flows.
+`;
+
+  const tasksTemplate = `# Tasks · AGENTS Guide
+
+This directory holds the Clarivum task board (backlog → ready → in-progress → blocked → done). Maintain it diligently so everyone has accurate visibility.
+
+- Each status column has its own subfolder. Task cards live as Markdown files inside the appropriate folder.
+- File naming convention: \`<area>-<sequence>-<slug>.md\` (e.g., \`fe-001-bootstrap-vitest.md\`). Use prefixes like \`fe\`, \`be\`, \`devops\`, \`qa\`, \`biz\` to signal domain.
+- Every task must include metadata (status, owner, links), Definition of Ready, and Definition of Done referencing PRDs/ADRs/runbooks and Context7 docs.
+- Move tasks between folders via PRs when status changes; update content if scope shifts or blockers emerge.
+- Archive completed tasks in \`done/\` to preserve history for retrospectives.
+`;
+
+  const taskStatusTemplate = (title, description) => `# ${title} Tasks
+
+${description}
+
+- Store each task as a Markdown file following the naming convention \`<prefix>-<sequence>-<slug>.md\`.
+- Place files inside the appropriate discipline lane (frontend, backend, platform, qa, business, shared).
+- Include metadata (status, owner, created/updated dates, related docs/Context7 lookups) in YAML front matter.
+- Provide Definition of Ready / Definition of Done checklists and note blockers or follow-ups in the body.
+- Move files to another status folder as work progresses, updating content accordingly.
+`;
+
+  const taskStatusTemplates = new Map([
+    [
+      "tasks/backlog",
+      taskStatusTemplate(
+        "Backlog",
+        "Store future initiatives and discovery items here before they meet Definition of Ready."
+      ),
+    ],
+    [
+      "tasks/ready",
+      taskStatusTemplate(
+        "Ready",
+        "Tasks here meet Definition of Ready and can begin immediately once resourced."
+      ),
+    ],
+    [
+      "tasks/in-progress",
+      taskStatusTemplate(
+        "In-Progress",
+        "Active work items live here while engineering/testing is underway."
+      ),
+    ],
+    [
+      "tasks/blocked",
+      taskStatusTemplate(
+        "Blocked",
+        "Tasks that cannot proceed belong here until their dependencies are resolved."
+      ),
+    ],
+    [
+      "tasks/done",
+      taskStatusTemplate(
+        "Done",
+        "Archive completed tasks here for retrospectives and tracking outcomes."
+      ),
+    ],
+  ]);
+
+  const templatesMap = new Map([
     [".", rootTemplate],
     ["docs", docsTemplate],
     ["docs/adr", adrTemplate],
     ["docs/PRDs", prdTemplate],
+    ["docs/checklists", checklistsTemplate],
+    ["docs/policies", policiesTemplate],
+    ["docs/runbooks", runbooksTemplate],
     ["src", srcTemplate],
+    ["src/app", appTemplate],
+    ["tasks", tasksTemplate],
   ]);
+
+  for (const [key, value] of taskStatusTemplates.entries()) {
+    templatesMap.set(key, value);
+  }
+
+  return templatesMap;
 }
 
 function defaultTemplate(relPath) {
