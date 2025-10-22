@@ -3,7 +3,7 @@
 > Brand promise: knowledge‑forward wellness that is premium, serene, and trustworthy.
 > 
 > 
-> **Visual theme:** Korean calm, scientific rigor, natural materials, limited ornament.
+> **Visual theme:** Premium minimalistic Korean calm, scientific rigor, natural materials, limited ornament.
 > 
 > **Pillars:** **evidence, craft, harmony, restraint**.
 > 
@@ -39,7 +39,7 @@
 
 ## C) Wordmark & Typography
 
-- **Wordmark typeface:** modern serif with high contrast, smooth terminals. Options: **Cormorant Garamond**.
+- **Wordmark typeface:** modern serif with high contrast, smooth terminals. Default: **Cormorant Garamond**.
 - **Pairing (UI/body):** **Inter**
 - **Tracking:** +40–60 display, +10 nav, 0 small text.
 - **Case:** uppercase **CLARIVUM** by default; Title Case allowed in body.
