@@ -36,7 +36,7 @@ try {
     console.log(
       `[ensure-agents] Generated AGENTS.md for: ${created
         .map((entry) => (entry === "." ? "." : `./${entry}`))
-        .join(", ")}`
+        .join(", ")}`,
     );
   }
 } catch (error) {
@@ -54,7 +54,7 @@ async function ensureAgents(directory) {
   }
 
   const hasAgents = entries.some(
-    (entry) => entry.isFile() && entry.name.toLowerCase() === "agents.md"
+    (entry) => entry.isFile() && entry.name.toLowerCase() === "agents.md",
   );
 
   if (!hasAgents) {
@@ -232,7 +232,7 @@ Clarivum’s frontend lives under \`src/\` using the Next.js App Router. Follow 
 ## Telemetry
 
 - Instrument meaningful spans and metrics per ADR-004. Even for UI-only changes, ensure logging/analytics hooks remain intact.
-- Surface Core Web Vitals issues and keep p95/p99 targets from \`docs/README.md\` in mind (p95 < 300 ms, p99 < 800 ms).
+- Surface Core Web Vitals issues and keep p95/p99 targets from \`docs/README.md\` in mind (p95 < 300 ms, p99 < 800 ms).
 
 ## Developer checklist
 
@@ -376,35 +376,35 @@ ${description}
       "tasks/backlog",
       taskStatusTemplate(
         "Backlog",
-        "Store future initiatives and discovery items here before they meet Definition of Ready."
+        "Store future initiatives and discovery items here before they meet Definition of Ready.",
       ),
     ],
     [
       "tasks/ready",
       taskStatusTemplate(
         "Ready",
-        "Tasks here meet Definition of Ready and can begin immediately once resourced."
+        "Tasks here meet Definition of Ready and can begin immediately once resourced.",
       ),
     ],
     [
       "tasks/in-progress",
       taskStatusTemplate(
         "In-Progress",
-        "Active work items live here while engineering/testing is underway."
+        "Active work items live here while engineering/testing is underway.",
       ),
     ],
     [
       "tasks/blocked",
       taskStatusTemplate(
         "Blocked",
-        "Tasks that cannot proceed belong here until their dependencies are resolved."
+        "Tasks that cannot proceed belong here until their dependencies are resolved.",
       ),
     ],
     [
       "tasks/done",
       taskStatusTemplate(
         "Done",
-        "Archive completed tasks here for retrospectives and tracking outcomes."
+        "Archive completed tasks here for retrospectives and tracking outcomes.",
       ),
     ],
   ]);

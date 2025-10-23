@@ -41,7 +41,11 @@ async function collectTaskFiles(dir) {
     const entryPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       out.push(...(await collectTaskFiles(entryPath)));
-    } else if (entry.name.endsWith(".md") && entry.name !== "AGENTS.md" && entry.name !== "README.md") {
+    } else if (
+      entry.name.endsWith(".md") &&
+      entry.name !== "AGENTS.md" &&
+      entry.name !== "README.md"
+    ) {
       out.push(entryPath);
     }
   }

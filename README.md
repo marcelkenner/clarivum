@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This repository hosts the Clarivum web experience (Next.js App Router, React 19, Tailwind CSS 4, TypeScript 5). It is preconfigured with governance, documentation, and tooling captured in `AGENTS.md`, the PTRD (`docs/PRDs/first_steps.md`), and the ADR set (`docs/adr/`).
 
-## Getting Started
+## Local development
 
-First, run the development server:
+Install dependencies (Node ≥ 20.11):
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Common scripts:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Purpose             | Command                | Notes                                                                 |
+| ------------------- | ---------------------- | --------------------------------------------------------------------- |
+| Start dev server    | `npm run dev`          | Uses Turbopack; hot reload enabled.                                   |
+| Build production    | `npm run build`        | Generates the production bundle (Turbopack).                          |
+| Run quality gate    | `npm run validate`     | Executes lint (tasks + code), typecheck, and Prettier format check.   |
+| Lint tasks only     | `npm run lint:tasks`   | Validates task board metadata/schema.                                 |
+| Lint code only      | `npm run lint:code`    | ESLint with zero warnings allowed.                                    |
+| Type-check only     | `npm run typecheck`    | Uses `tsconfig.json` strict settings.                                 |
+| Auto-format source  | `npm run format`       | Runs Prettier respecting `.prettierignore`.                           |
+| Refresh AGENTS docs | `npm run ensure:agents`| Regenerates directory-specific agent guidance files.                  |
+| Task status digest  | `npm run tasks:summary`| Rebuilds `tasks/status-summary.md`.                                   |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+CI relies on `npm run validate`; ensure it passes before pushing. Task changes alone still require `npm run lint:tasks`.
 
-## Learn More
+## Documentation map
 
-To learn more about Next.js, take a look at the following resources:
+- Project guardrails: `AGENTS.md`, `docs/PRDs/first_steps.md`, `docs/architecture.md`.
+- Architecture decisions: `docs/adr/ADR-00x-*.md`.
+- Policy references: `docs/policies/`.
+- Role and workflow guides: `docs/role-guides/`.
+- Task board: `tasks/` (see `tasks/README.md` + lane-specific `AGENTS.md` guides).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Consult these artifacts before altering stack choices. Update or add new ADRs and PRD appendices when decisions change.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+Vercel deploys automatically from protected branches. GitHub Actions enforces lint, type-check, tests (once available), and formatting before merges. See `docs/runbooks/deployment.md` and `docs/policies/repository-governance.md` for the detailed promotion and rollback process.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Support
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Resolve framework/library questions via Context7 (see `AGENTS.md`).
+- Keep files under 500 lines as mandated in `AGENTS.md`.
+- For new directories, run `npm run ensure:agents` and customize the generated guide.

@@ -1,6 +1,5 @@
 ALWAYS USE CONTEXT7
 
-
 <file_length_and_structure>
 – Never allow a file to exceed 500 lines.
 – If a file approaches 400 lines, break it up immediately.
@@ -53,6 +52,7 @@ ALWAYS USE CONTEXT7
 – Never let one file or class hold everything (e.g., massive ViewController, ViewModel, or Service).
 – Split into UI, State, Handlers, Networking, etc.
 </avoid_god_classes>
+
 # Clarivum · AGENTS Guide
 
 This file gives coding agents the operational context that complements `README.md`, the PTRD, and the ADRs. Read this before making changes.
@@ -68,14 +68,17 @@ This file gives coding agents the operational context that complements `README.m
 
 ## Build & verification commands
 
-| Purpose              | Command                         | Notes |
-|----------------------|---------------------------------|-------|
-| Start dev server     | `npm run dev`                   | Uses Turbopack; requires Node 20+. |
-| Production build     | `npm run build`                 | Run before shipping infra changes. |
-| Agent scaffolding    | `npm run ensure:agents`         | Auto-generates `AGENTS.md` for new directories. |
-| Tasks lint           | `npm run lint:tasks`            | Validates task files (front matter, DR/DoD, naming). |
-| Lint (required)      | `npm run lint`                  | Runs task lint + ESLint. |
-| Task summary         | `npm run tasks:summary`         | Regenerates `tasks/status-summary.md` digest. |
+| Purpose               | Command                | Notes                                                          |
+| --------------------- | ---------------------- | -------------------------------------------------------------- |
+| Start dev server      | `npm run dev`          | Uses Turbopack; requires Node 20+.                             |
+| Production build      | `npm run build`        | Run before shipping infra changes.                             |
+| Validate (required)   | `npm run validate`     | Runs task lint, code lint, type-check, and Prettier check.     |
+| Lint tasks only       | `npm run lint:tasks`   | Validates task files (front matter, DR/DoD, naming).           |
+| Lint code only        | `npm run lint:code`    | ESLint enforced with zero warnings.                            |
+| Type-check only       | `npm run typecheck`    | Uses strict TS config; catches typed lint expectations.        |
+| Auto-format source    | `npm run format`       | Applies Prettier respecting `.prettierignore`.                 |
+| Agent scaffolding     | `npm run ensure:agents`| Auto-generates `AGENTS.md` for new directories.                |
+| Task summary          | `npm run tasks:summary`| Regenerates `tasks/status-summary.md` digest.                  |
 
 There are no automated tests yet. When you add them (Vitest/Playwright, etc.), extend scripts and update this guide.
 
@@ -104,7 +107,7 @@ There are no automated tests yet. When you add them (Vitest/Playwright, etc.), e
 
 ## Before finishing a task
 
-1. Run `npm run lint`.
+1. Run `npm run validate`.
 2. Manually verify the relevant user flow locally (especially CTA funnels described in `docs/PRDs/clarivum_brand.md`).
 3. Summarize doc updates and note any follow-up ADRs or runbook changes.
 

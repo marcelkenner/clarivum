@@ -10,22 +10,9 @@ const __filename = fileURLToPath(import.meta.url);
 const repoRoot = path.resolve(path.dirname(__filename), "..");
 const tasksRoot = path.join(repoRoot, "tasks");
 
-const VALID_STATUSES = new Set([
-  "backlog",
-  "ready",
-  "in-progress",
-  "blocked",
-  "done",
-]);
+const VALID_STATUSES = new Set(["backlog", "ready", "in-progress", "blocked", "done"]);
 
-const VALID_AREAS = new Set([
-  "frontend",
-  "backend",
-  "platform",
-  "qa",
-  "business",
-  "shared",
-]);
+const VALID_AREAS = new Set(["frontend", "backend", "platform", "qa", "business", "shared"]);
 
 const AREA_PREFIXES = {
   frontend: ["fe", "frontend"],
@@ -114,18 +101,18 @@ async function collectTaskFiles(dir) {
 
 function parseFrontMatter(content, relPath) {
   if (!content.startsWith("---\n")) {
-    throw new Error("missing YAML front matter");
+    throw new Error(`${relPath}: missing YAML front matter`);
   }
   const closingIndex = content.indexOf("\n---", 4);
   if (closingIndex === -1) {
-    throw new Error("unterminated YAML front matter");
+    throw new Error(`${relPath}: unterminated YAML front matter`);
   }
   const yamlSection = content.slice(4, closingIndex);
   let data;
   try {
     data = yaml.parse(yamlSection) ?? {};
   } catch (error) {
-    throw new Error(`invalid YAML front matter: ${error.message}`);
+    throw new Error(`${relPath}: invalid YAML front matter: ${error.message}`);
   }
   const body = content.slice(closingIndex + 4).replace(/^\n/, "");
   return { data, body };
@@ -149,11 +136,15 @@ function validateMetadata(data, relPath, errors, warnings, seenIds) {
   }
 
   if (data.status && !VALID_STATUSES.has(data.status)) {
-    errors.push(`${relPath}: status '${data.status}' must be one of ${Array.from(VALID_STATUSES).join(", ")}`);
+    errors.push(
+      `${relPath}: status '${data.status}' must be one of ${Array.from(VALID_STATUSES).join(", ")}`,
+    );
   }
 
   if (data.area && !VALID_AREAS.has(data.area)) {
-    errors.push(`${relPath}: area '${data.area}' must be one of ${Array.from(VALID_AREAS).join(", ")}`);
+    errors.push(
+      `${relPath}: area '${data.area}' must be one of ${Array.from(VALID_AREAS).join(", ")}`,
+    );
   }
 
   if (data.created_at && !DATE_PATTERN.test(data.created_at)) {
@@ -213,11 +204,15 @@ function validateLocation(filePath, data, relPath, errors) {
   const areaFolder = segments[1];
 
   if (status && data.status && status !== data.status) {
-    errors.push(`${relPath}: status folder '${status}' does not match metadata status '${data.status}'`);
+    errors.push(
+      `${relPath}: status folder '${status}' does not match metadata status '${data.status}'`,
+    );
   }
 
   if (areaFolder && data.area && areaFolder !== data.area) {
-    errors.push(`${relPath}: area folder '${areaFolder}' does not match metadata area '${data.area}'`);
+    errors.push(
+      `${relPath}: area folder '${areaFolder}' does not match metadata area '${data.area}'`,
+    );
   }
 }
 
@@ -227,7 +222,9 @@ function validateNaming(data, relPath, errors) {
   if (data.area && AREA_PREFIXES[data.area]) {
     const allowed = AREA_PREFIXES[data.area];
     if (!allowed.some((candidate) => prefix.toLowerCase() === candidate.toLowerCase())) {
-      errors.push(`${relPath}: filename prefix '${prefix}' does not match area '${data.area}' (allowed: ${allowed.join(", ")})`);
+      errors.push(
+        `${relPath}: filename prefix '${prefix}' does not match area '${data.area}' (allowed: ${allowed.join(", ")})`,
+      );
     }
   }
 }
