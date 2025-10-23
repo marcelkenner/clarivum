@@ -1,9 +1,34 @@
-# docs/diagrams/adr-016-ci-cd-platform · AGENTS Guide
+# CI/CD Platform & Quality Gates Diagrams · AGENTS Guide
 
-This directory does not yet have tailored agent guidance. Use these defaults until you add project-specific notes.
+## Directory Purpose
+- Anchor updates to `docs/adr/ADR-016-ci-cd-platform.md`; treat that ADR as the canonical decision log for this domain.
+- Partner with DevOps before changing scope, integration points, or lifecycle assumptions documented here.
+- Keep coverage aligned: These diagrams detail the GitHub Actions-based CI/CD platform, illustrating workflow triggers, integration with Vercel and Supabase, secrets distribution, and the status checks that gate merges.
 
-- Keep changes aligned with the PTRD (`docs/PRDs/first_steps.md`) and relevant ADRs.
-- Run `npm run ensure:agents` after restructuring to keep agent docs in sync.
-- Follow coding standards from the root `AGENTS.md`.
-- Always resolve library and framework questions via Context7 (`context7__resolve-library-id` + `context7__get-library-docs`).
-- Update this file with localized best practices as soon as the directory gains dedicated responsibilities.
+## Diagram Responsibilities
+- `architecture-overview.mmd`: Keep workflow topology across GitHub Actions, Vercel, and infrastructure targets accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `data-lineage.mmd`: Keep build artifacts, status reports, and deployment records accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `uml-automation.mmd`: Keep pipeline coordinators, job definitions, and secret management helpers accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `bpmn-release.mmd`: Keep merge and deploy workflow with quality gates accurate and synchronized with the latest implementation notes and shared vocabulary.
+
+## Contribution Workflow
+- Reflect any diagram change in `docs/adr/ADR-016-ci-cd-platform.md` or add cross-links explaining why the diagram evolved.
+- Capture rationale in the PR description and reference impacted PRDs or runbooks when applicable.
+- Request review from the owning team and one cross-discipline reviewer (design, platform, or reliability as relevant).
+- Regenerate previews or exports if downstream docs rely on rendered SVG/PNG assets.
+
+## Quality Checklist
+- Keep Mermaid files under 500 lines; break into dedicated diagrams when flows grow complex.
+- Favor explicit node names and layered swimlanes; avoid ambiguous labels like `Service` or `Process` without context.
+- Ensure terminology matches the ADR, architecture docs, and live system naming.
+- Run `npm run validate` before merging to keep repo-wide checks green.
+- Rerun `npm run ensure:agents` if you introduce new diagram directories or rename existing ones.
+
+## Reuse & Extensibility
+- Structure diagrams so teams can reuse fragments in other ADRs (e.g., shared components, pipelines, or governance steps).
+- Prefer modular Mermaid subgraphs and consistent color schemes to support embedding in presentation decks.
+- Document any required tooling (e.g., `@mermaid-js/mermaid-cli` version) in the directory README if it differs from the default stack.
+
+## Escalation
+- Log open questions in `tasks/` and tag the owning team when diagram intent is unclear.
+- Raise a new ADR or ADR amendment when diagram updates signal a material architectural shift.

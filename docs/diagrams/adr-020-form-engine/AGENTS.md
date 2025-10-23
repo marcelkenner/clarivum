@@ -1,9 +1,34 @@
-# docs/diagrams/adr-020-form-engine · AGENTS Guide
+# Form Engine & Validation Stack Diagrams · AGENTS Guide
 
-This directory does not yet have tailored agent guidance. Use these defaults until you add project-specific notes.
+## Directory Purpose
+- Anchor updates to `docs/adr/ADR-020-form-engine.md`; treat that ADR as the canonical decision log for this domain.
+- Partner with Funnel Engineering before changing scope, integration points, or lifecycle assumptions documented here.
+- Keep coverage aligned: These diagrams show how React Hook Form, Zod schemas, and Clarivum coordinators collaborate to deliver consistent forms.
 
-- Keep changes aligned with the PTRD (`docs/PRDs/first_steps.md`) and relevant ADRs.
-- Run `npm run ensure:agents` after restructuring to keep agent docs in sync.
-- Follow coding standards from the root `AGENTS.md`.
-- Always resolve library and framework questions via Context7 (`context7__resolve-library-id` + `context7__get-library-docs`).
-- Update this file with localized best practices as soon as the directory gains dedicated responsibilities.
+## Diagram Responsibilities
+- `architecture-overview.mmd`: Keep form coordinators, managers, RHF controllers, and network boundaries accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `data-lineage.mmd`: Keep zod schemas, form state, submissions, and telemetry events accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `uml-components.mmd`: Keep coordinator, manager, validation, and telemetry classes accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `bpmn-submission.mmd`: Keep form submission flow including validation, enrichment, and response handling accurate and synchronized with the latest implementation notes and shared vocabulary.
+
+## Contribution Workflow
+- Reflect any diagram change in `docs/adr/ADR-020-form-engine.md` or add cross-links explaining why the diagram evolved.
+- Capture rationale in the PR description and reference impacted PRDs or runbooks when applicable.
+- Request review from the owning team and one cross-discipline reviewer (design, platform, or reliability as relevant).
+- Regenerate previews or exports if downstream docs rely on rendered SVG/PNG assets.
+
+## Quality Checklist
+- Keep Mermaid files under 500 lines; break into dedicated diagrams when flows grow complex.
+- Favor explicit node names and layered swimlanes; avoid ambiguous labels like `Service` or `Process` without context.
+- Ensure terminology matches the ADR, architecture docs, and live system naming.
+- Run `npm run validate` before merging to keep repo-wide checks green.
+- Rerun `npm run ensure:agents` if you introduce new diagram directories or rename existing ones.
+
+## Reuse & Extensibility
+- Structure diagrams so teams can reuse fragments in other ADRs (e.g., shared components, pipelines, or governance steps).
+- Prefer modular Mermaid subgraphs and consistent color schemes to support embedding in presentation decks.
+- Document any required tooling (e.g., `@mermaid-js/mermaid-cli` version) in the directory README if it differs from the default stack.
+
+## Escalation
+- Log open questions in `tasks/` and tag the owning team when diagram intent is unclear.
+- Raise a new ADR or ADR amendment when diagram updates signal a material architectural shift.
