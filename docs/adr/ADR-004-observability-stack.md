@@ -6,6 +6,7 @@ Status: Accepted
 - PTRD Section 9 mandates OpenTelemetry from day one, with SLO dashboards and golden signal alerting.
 - We have distributed workloads (Vercel functions + AWS Lambda) that need consistent tracing, metrics, and logs.
 - The team lacks the bandwidth to self-host a full observability stack but requires long-term retention for audits and performance tuning.
+- Detailed telemetry requirements live in `docs/PRDs/requierments/observability/feature-requirements.md`.
 
 ## Decision
 - Standardize on **OpenTelemetry SDKs** across the Next.js application, Lambda workers, and any future services.

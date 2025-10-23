@@ -7,6 +7,7 @@ Status: Accepted
 - The web experience spans server components, client interactivity, and edge middleware; feedback must behave consistently across these surfaces and degrade gracefully when JavaScript is unavailable.
 - Accessibility guardrails demand announcements through ARIA live regions with configurable focus handling, while maintaining sub-10 ms interaction overhead.
 - We require a reusable abstraction so future ViewModels can trigger notifications without duplicating styling or business rules.
+- Usage patterns are specified in `docs/PRDs/requierments/frontend-platform/homepage.md` and interface sketches in `docs/PRDs/requierments/ascii_designs.md`.
 
 ## Decision
 - Standardize on **toast-based notifications only** for transient feedback; block modal popups for confirmations, error states, and marketing prompts.

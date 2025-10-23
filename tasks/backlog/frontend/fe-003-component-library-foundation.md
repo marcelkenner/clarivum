@@ -16,6 +16,7 @@ links:
   - docs/PRDs/brand_design_system.md
   - docs/adr/ADR-027-component-library-and-storybook.md
   - docs/adr/ADR-017-icon-system.md
+  - docs/adr/ADR-012-notification-experience-and-toasts.md
 context7:
   - /vercel/next.js
   - /tailwindlabs/tailwindcss

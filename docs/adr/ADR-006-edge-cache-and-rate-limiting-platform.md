@@ -7,6 +7,7 @@ Status: Accepted
 - The platform requires shared response caching, idempotency coordination, and API abuse protection that work across edge middleware, server actions, and background workers.
 - Solutions must guarantee EU data residency, scale elastically with traffic spikes, and avoid bespoke infrastructure management for the ≤4 person engineering team.
 - Rate limiting needs to support burst handling (sliding window + token bucket) while keeping latency overhead below the 10 ms budget documented in the analytics PRD.
+- Caching and guardrail expectations are described in `docs/PRDs/requierments/frontend-platform/feature-requirements.md` and `docs/PRDs/requierments/security/feature-requirements.md`.
 
 ## Decision
 - Adopt **Upstash Redis (EU-central)** as the managed serverless data store for cacheable application state, rate limiting counters, and short-lived coordination locks.

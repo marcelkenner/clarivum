@@ -6,6 +6,7 @@ Status: Accepted
 - Trunk-based development with progressive delivery is a core guardrail (PTRD Section 8).
 - We need a low-friction way to hide unfinished features, run limited rollouts, and coordinate experiments across verticals without custom infrastructure.
 - The solution must offer a hosted control plane, SDK support for Next.js (including edge), and role-based access for marketers/PMs.
+- Functional requirements are captured in `docs/PRDs/requierments/feature-flags/feature-requirements.md`.
 
 ## Decision
 - Adopt **Flagsmith (managed SaaS)** for feature flag management and simple experimentation.

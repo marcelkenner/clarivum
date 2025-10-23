@@ -7,6 +7,7 @@ Status: Accepted
 - Existing guidelines (`docs/policies/security-baseline.md`) forbid plaintext secrets in git or `.env` files and require auditable access with short rotation cycles.
 - Marketing and analytics integrations (Auth0 M2M, PostHog, Stripe) demand environment-specific credentials that should roll out to Vercel environments without manual copying.
 - GitHub Actions and Terraform workflows need programmatic retrieval of secrets while keeping least-privilege IAM boundaries.
+- Product requirements mandate these controls in `docs/PRDs/requierments/security/feature-requirements.md` and the early milestone playbook in `docs/PRDs/first_steps.md`.
 
 ## Decision
 - Use **AWS Secrets Manager (eu-central-1)** as the single source of truth for application secrets across all runtimes.

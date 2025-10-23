@@ -7,6 +7,7 @@ Status: Accepted
 - Subscription and lead funnels must sync with marketing emails while respecting GDPR (EU residency, consent capture, right-to-erasure).
 - The engineering team is small; mailing infrastructure must be simple to operate, scriptable via Terraform, and integrate with existing Supabase/Flagsmith data flows.
 - Campaign tooling needs robust segmentation, template management, bulk send performance, and API hooks for transactional sends (e.g., ebook delivery receipts).
+- Newsletter and lifecycle requirements are defined in `docs/PRDs/requierments/newsletter/feature-requirements.md`.
 
 ## Decision
 - Adopt **Listmonk** (`/knadh/listmonk`) as the self-hosted newsletter and campaign platform.

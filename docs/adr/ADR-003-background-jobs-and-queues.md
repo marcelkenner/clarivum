@@ -6,6 +6,7 @@ Status: Accepted
 - Clarivum must process asynchronous workloads: lead enrichment, email fulfillment, analytics backfills, sitemap regeneration, and scheduled cache warming.
 - Vercel functions are short-lived and not suited for long-running or resource-intensive tasks.
 - We require at-least-once delivery semantics, predictable retries, and dead-letter handling without standing up self-managed infrastructure.
+- Workflows are detailed in `docs/PRDs/requierments/supabase-platform/feature-requirements.md` and long-running export expectations in `docs/PRDs/requierments/pdf-converter/requirements.md`.
 
 ## Decision
 - Adopt **Amazon SQS (standard queue)** as the central job queue.

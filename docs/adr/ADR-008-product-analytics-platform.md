@@ -7,6 +7,7 @@ Status: Accepted
 - Engineering capacity is limited; self-hosting a full analytics stack would compete with roadmap delivery and observability maintenance.
 - GDPR mandates EU data residency, consent management, right-to-forget workflows, and clear separation between aggregated insights and raw PII.
 - Existing instrumentation plans (analytics PRD plus the former event catalogue) require cohesive SDK support across web clients, server actions, and background jobs.
+- Product analytics expectations are detailed in `docs/PRDs/requierments/analytics/feature-requirements.md`.
 
 ## Decision
 - Adopt **PostHog Cloud (EU residency)** as the primary product analytics platform.

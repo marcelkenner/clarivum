@@ -1,4 +1,4 @@
-> **Canonical decisions:** This PTRD is implemented through the ADR suite (`docs/adr/ADR-001-…ADR-028`). Link new sections to the relevant ADRs before promoting work to tasks, per `docs/policies/work-intake-workflow.md`.
+> **Canonical decisions:** This PTRD is implemented through the ADR suite (e.g., `docs/adr/ADR-001-primary-cloud-and-database.md`, `docs/adr/ADR-002-authentication-and-authorization.md`, `docs/adr/ADR-003-background-jobs-and-queues.md`, `docs/adr/ADR-004-observability-stack.md`, `docs/adr/ADR-005-feature-flags.md`). Link new sections to the relevant ADRs before promoting work to tasks, per `docs/policies/work-intake-workflow.md`.
 
 ---
 

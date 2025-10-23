@@ -7,6 +7,7 @@ Status: Accepted
 - We need globally cached delivery for anonymous visitors, plus secure sessions for members and editors.
 - The data model comprises structured taxonomies, lead records, and entitlement metadata that must support relational queries, auditing, and row-level security.
 - The engineering team is small (≤4 engineers) and must bias toward managed services with EU residency to satisfy GDPR for the Poland-first launch.
+- Product requirements tracked in `docs/PRDs/requierments/supabase-platform/feature-requirements.md` and environment bootstrap milestones in `docs/PRDs/first_configuration.md`.
 
 ## Decision
 - Host the web application on **Vercel** with two persistent environments (`dev`, `prod`) plus ephemeral preview deployments per pull request. Leverage Vercel Edge Network for CDN, incremental static regeneration, and image optimization.

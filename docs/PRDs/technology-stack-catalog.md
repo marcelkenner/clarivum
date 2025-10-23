@@ -29,10 +29,10 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 - **Zod (MIT)** – Runtime schema validation for user input, API payloads, and personalization logic.
 
 ### Identity, security & feature control
-- **Auth0 (Commercial SaaS)** – OIDC provider for members and staff (ADR-002), paired with enforced MFA.
+- **Auth0 (Commercial SaaS)** – OIDC provider for members and staff (ADR-002), paired with enforced MFA. Implementation tracked in `tasks/backlog/platform/plat-013-auth0-tenancy-configuration.md` (TSK-PLAT-013).
 - **Auth.js / NextAuth (ISC)** – Session orchestration inside Next.js BFF layer.
 - **AWS Secrets Manager (Commercial)** – Central secret store with rotation workflows (ADR-007, `docs/runbooks/secrets-management.md`).
-- **Flagsmith (BSD-3-Clause)** – Feature flag management with EU hosting (ADR-005).
+- **Flagsmith (BSD-3-Clause)** – Feature flag management with EU hosting (ADR-005). Implementation tracked in `tasks/backlog/platform/plat-014-flagsmith-environments.md` (TSK-PLAT-014).
 - **Klaro! (AGPL-3.0)** – Consent Management Platform for cookie banners and preference center (ADR-014, `docs/runbooks/cookie-consent-operations.md`).
 
 ### Content, messaging & engagement
@@ -41,18 +41,18 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 - **Amazon SES (Commercial)** – Outbound SMTP provider backing Listmonk campaigns and transactional messaging.
 
 ### Data, storage & integration
-- **Supabase (Apache 2.0 managed)** – Primary Postgres + storage with Row Level Security (ADR-001).
-- **Upstash Redis (Commercial)** – Serverless Redis backing caching, rate limiting, and locks (ADR-006, `docs/runbooks/cache-invalidation.md`).
+- **Supabase (Apache 2.0 managed)** – Primary Postgres + storage with Row Level Security (ADR-001). Implementation tracked in `tasks/backlog/platform/plat-012-supabase-tenancy-provision.md` (TSK-PLAT-012).
+- **Upstash Redis (Commercial)** – Serverless Redis backing caching, rate limiting, and locks (ADR-006, `docs/runbooks/cache-invalidation.md`). Implementation tracked in `tasks/backlog/platform/plat-015-upstash-platform.md` (TSK-PLAT-015).
 - **Amazon RDS Postgres (Commercial)** – Dedicated database for Listmonk workloads.
 - **AWS ECS Fargate / S3** – Container runtime and asset storage for auxiliary services.
 
 ### Search & discovery
-- **Meilisearch Cloud (Commercial / open core)** – Managed full-text search for articles, tools, and ebooks (ADR-009, `docs/runbooks/search-operations.md`).
+- **Meilisearch Cloud (Commercial / open core)** – Managed full-text search for articles, tools, and ebooks (ADR-009, `docs/runbooks/search-operations.md`). Implementation tracked in `tasks/backlog/platform/plat-016-meilisearch-service.md` (TSK-PLAT-016).
 
 ### Analytics, observability & quality
 - **PostHog Cloud EU (MIT managed)** – Product analytics, funnels, and experimentation (ADR-008, `docs/runbooks/analytics-qa.md`).
 - **OpenTelemetry (Apache 2.0)** – Unified tracing and metrics instrumentation exported to Grafana stack.
-- **Grafana OSS Stack (AGPL/Apache mix)** – Loki, Tempo, Prometheus dashboards for reliability KPIs.
+- **Grafana OSS Stack (AGPL/Apache mix)** – Loki, Tempo, Prometheus dashboards for reliability KPIs. Implementation tracked in `tasks/backlog/platform/plat-017-grafana-observability-stack.md` (TSK-PLAT-017).
 - **Vitest + Testing Library (MIT)** – Unit and component testing harness.
 - **Playwright (Apache 2.0)** – Cross-browser E2E automation for primary funnels.
 - **Lighthouse CI (Apache 2.0)** – Performance regression checks within CI pipelines.
@@ -66,11 +66,6 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 - **Vercel (Commercial)** – Primary hosting platform for the Next.js application.
 - **Terraform (MPL 2.0)** – Infrastructure as code for AWS, Upstash, and Listmonk resources.
 - **GitHub Actions (MIT)** – CI/CD automation enforcing lint, type-check, and validation steps.
-
-## Under evaluation
-- **Drizzle ORM** – Typed database migrations complementing Supabase; awaiting RLS compatibility assessment.
-- **Checkly OSS Runner** – Synthetic monitoring alternative if Grafana Synthetic Monitoring cost scales.
-- **CloudZero** – Supplemental cost observability if FinOps dashboards require richer allocation.
 
 ## Maintenance expectations
 - Track security advisories monthly; patch high-severity issues within two weeks.

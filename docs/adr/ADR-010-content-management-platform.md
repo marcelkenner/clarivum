@@ -7,6 +7,7 @@ Status: Accepted
 - Editors require rich custom components, scheduled releases, and SEO controls aligned with the Strapi PRDs while engineering must keep schemas version-controlled.
 - Small team size (<4 engineers) and GDPR obligations favour a managed solution with EU-hosted data and minimal DevOps overhead.
 - Content deploys must integrate with Next.js ISR revalidation, feature flag metadata, and search webhooks while providing extensible APIs (REST + GraphQL).
+- Requirements are outlined in `docs/PRDs/requierments/strapi/feature-requirements.md` and operational setup guidance in `docs/PRDs/requierments/strapi/setup.md`.
 
 ## Decision
 - Standardize on **Strapi v5**, hosted on **Strapi Cloud (EU region)** for managed infrastructure and compliance.

@@ -7,6 +7,7 @@ Status: Accepted
 - Search queries must stay under 100 ms p95 to preserve UX expectations from the marketing PRDs, even when invoked from ISR pages or client-side experiences.
 - Editorial workflows (Strapi) emit publish/unpublish events that should instantly refresh the search index without downtime.
 - The engineering team needs a managed service to avoid operating a search cluster; deployments must support EU residency and integration with Vercel edge/serverless workloads.
+- Discovery experiences and SLAs are defined in `docs/PRDs/requierments/glossary/cosmetic-ingredients-glossary.md` and `docs/PRDs/requierments/homepage/feature-requirements.md`.
 
 ## Decision
 - Adopt **Meilisearch Cloud (EU region)** as the managed search engine for all user-facing discovery surfaces.

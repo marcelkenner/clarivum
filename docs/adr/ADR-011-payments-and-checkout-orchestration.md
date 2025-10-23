@@ -7,6 +7,7 @@ Status: Accepted
 - Checkout flows need to support cards, wallets, and dominant Polish methods (BLIK, pay-by-link bank transfers) with PSD2-compliant SCA and minimal PCI scope for the small engineering team.
 - Marketing requires rapid experimentation (coupons, trials) and unified reporting across one-off purchases and recurring billing.
 - Existing architecture (Vercel + Supabase) depends on serverless-friendly SDKs; we must avoid hosting custom payment infrastructure.
+- Platform requirements and funnel expectations live in `docs/PRDs/requierments/subscriptions/feature-requirements.md` and `docs/PRDs/requierments/ebooks/feature-requirements.md`.
 
 ## Decision
 - Establish a dual-provider strategy:

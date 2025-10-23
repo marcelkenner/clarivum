@@ -7,6 +7,7 @@ Status: Proposed
 - The experience must provide multilingual disclosures, granular categories (essential, analytics, marketing, functional), audit logging for regulators, and a “manage cookies” interface accessible from the footer and legal hub.
 - Next.js 15 + Vercel edge runtime constraints mean the solution must load asynchronously, avoid blocking rendering, and expose hooks so feature flags/analytics respect consent state.
 - Building a bespoke Consent Management Platform (CMP) would require significant engineering and legal effort (consent state storage, proof of consent, geo-targeted behavior, accessibility), increasing compliance risk.
+- Legal and compliance expectations are catalogued in `docs/PRDs/requierments/legal/feature-requirements.md`.
 
 ## Decision
 - Adopt **Klaro!** (AGPL-3.0) as the consent management platform.

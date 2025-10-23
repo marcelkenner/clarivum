@@ -7,6 +7,7 @@ Status: Accepted
 - Compliance expectations include MFA for privileged roles, GDPR consent capture, and the ability to revoke access centrally.
 - Next.js runs primarily on Vercel (serverless/edge constraints), so bespoke auth services would increase maintenance cost.
 - We must support social sign-in (Google, Apple) for members while keeping SSO/MFA enforceable for staff.
+- Product requirements originate in `docs/PRDs/requierments/login/feature-requirements.md` and `docs/PRDs/requierments/security/feature-requirements.md`.
 
 ## Decision
 - Use **Auth0 (EU region)** as the primary OIDC identity provider.
