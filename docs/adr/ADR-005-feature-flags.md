@@ -10,7 +10,7 @@ Status: Accepted
 ## Decision
 - Adopt **Flagsmith (managed SaaS)** for feature flag management and simple experimentation.
   - Use the EU-hosted Flagsmith environment to satisfy GDPR requirements.
-  - Environments: `development`, `staging`, `production`. Only engineering can toggle in development/staging; production toggles require dual approval (engineering + product).
+  - Environments: `dev`, `prod`. Only engineering can toggle in dev; production toggles require dual approval (engineering + product). Preview deployments inherit the `dev` configuration.
   - Integrate the Flagsmith JavaScript SDK in the Next.js app (SSR + client). Evaluate edge SDK once edge middleware is introduced.
 - Store flag metadata (ownership, rollout plan, expiry date) in `flagsmith` tags; expose them via documentation automation (`npm run flags:report` to be added).
 - Wire Flagsmith audit logs to Grafana Loki for compliance and change tracking.

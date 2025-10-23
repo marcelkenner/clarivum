@@ -81,7 +81,7 @@ Operational tooling:
 
 ## Deployment topology
 
-- **Environments:** `preview` (per pull request), `staging` (pre-production), `production`.
+- **Environments:** `dev` (shared testing), `prod` (customer-facing). Vercel preview deployments continue to spin up per pull request for isolated QA.
 - **Hosting:** Vercel handles web build/deploy with GitHub Actions orchestrating linting, tests, and SLO guardrails before promotion. Lambda jobs are deployed via Terraform-driven GitHub Actions workflows.
 - **Release model:** Trunk-based development with feature flags and automated smoke tests. Rollbacks prefer redeploying the last known good build rather than hotfix branches (documented in the deployment runbook).
 

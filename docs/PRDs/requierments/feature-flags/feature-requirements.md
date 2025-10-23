@@ -12,7 +12,7 @@
 
 ## Primary Users & Segments
 - Internal: engineering (flag creation), product/marketing (production toggles), QA (scenario testing).
-- Segmentation: environment (dev/staging/prod), user roles (anonymous, lead, customer, subscriber), vertical focus, cohort tags from diagnostics.
+- Segmentation: environment (dev/prod), user roles (anonymous, lead, customer, subscriber), vertical focus, cohort tags from diagnostics.
 
 ## Experience Principles
 - Flags should be small in scope, owned, and time-boxed; no long-lived toggles without documented sunset.

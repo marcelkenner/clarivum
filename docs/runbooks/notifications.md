@@ -18,7 +18,7 @@
 
 ## Release workflow
 1. **Design sign-off:** Update copy variants and visual tokens in `docs/design-system/notifications.md` (pending ADR action).
-2. **Implementation staging:**
+2. **Implementation in dev:**
    - Introduce changes behind feature flag (`notifications_theme_experiment`).
    - Update `Toaster` configuration (position, rich colors) referencing Sonner API.
 3. **Automated checks:**

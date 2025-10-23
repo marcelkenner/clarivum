@@ -15,6 +15,6 @@
 - Instrument completions and CTA conversions per analytics schema; document metrics expectations in the requirement.
 
 ## Handoff Checklist
-- Validate tool flows (inputs, edge cases, exports, reminders) in staging and record QA outcomes.
+- Validate tool flows (inputs, edge cases, exports, reminders) in the dev environment and record QA outcomes.
 - Update marketing/support collateral when launching or modifying tools; attach FAQs or troubleshooting notes.
 - Notify observability owners if new tools require additional monitoring or alerting.

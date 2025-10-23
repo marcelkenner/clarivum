@@ -15,6 +15,6 @@
 - Personalization decisions must degrade gracefully when diagnostics data is unavailable; document fallbacks.
 
 ## Handoff Checklist
-- Validate hero → target funnel journey (CTA click-through, analytics tracking) in staging.
+- Validate hero → target funnel journey (CTA click-through, analytics tracking) in the dev environment.
 - Update marketing and lifecycle teams when homepage messaging or promotions change.
 - Refresh support and incident playbooks if new modules introduce additional dependencies (e.g., feature flags, coupons).

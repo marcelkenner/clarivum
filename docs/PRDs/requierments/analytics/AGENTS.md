@@ -10,7 +10,7 @@
 
 ## Execution Guardrails
 - Maintain a canonical event schema: document naming, properties, and consent requirements before shipping changes.
-- Budget client overhead (<10 ms) by lazy-loading analytics bundles and caching flag payloads; validate against Web Vitals in staging.
+- Budget client overhead (<10 ms) by lazy-loading analytics bundles and caching flag payloads; validate against Web Vitals in the dev environment.
 - Ensure exports and dashboards mask PII unless analyst roles explicitly require access; reflect decisions in change logs.
 - Keep anomaly detection thresholds and alert routing in sync with `docs/policies/error-budget-policy.md`.
 

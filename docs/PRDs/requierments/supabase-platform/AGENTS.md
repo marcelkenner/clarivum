@@ -15,6 +15,6 @@
 - Document data residency, retention, and backup requirements; coordinate with legal on GDPR commitments.
 
 ## Handoff Checklist
-- Validate migrations in staging, including RLS tests and restore drills; attach results or logs.
+- Validate migrations in the dev environment, including RLS tests and restore drills; attach results or logs.
 - Update data contracts shared with frontend/services when schema or API views change.
 - Notify analytics and reporting owners if schema updates alter exports or warehousing pipelines.

@@ -13,7 +13,7 @@ Status: Accepted
   - Define resource attributes: `service.name`, `deployment.environment`, `clarivum.vertical` when applicable.
 - Send traces, metrics, and logs to **Grafana Cloud**:
   - Traces → Tempo, Metrics → Prometheus, Logs → Loki.
-  - Provision separate tenants per environment (`preview`, `staging`, `production`) with cross-environment dashboards.
+- Provision separate tenants per environment (`preview`, `dev`, `prod`) with cross-environment dashboards.
 - Configure **Grafana Alerting** to back SLO error budgets:
   - Alerts route to PagerDuty (`clarivum-oncall`) and Slack (`#clarivum-alerts`).
   - Alert thresholds tie back to the error budget policy (50/75/100% burn).

@@ -16,5 +16,5 @@
 
 ## Handoff Checklist
 - Update Storybook form examples and schema packages when new patterns ship.
-- Verify analytics instrumentation for starts, errors, and completions in staging.
+- Verify analytics instrumentation for starts, errors, and completions in the dev environment.
 - Provide QA scripts covering localization, keyboard navigation, and persistence if multi-step flows change.

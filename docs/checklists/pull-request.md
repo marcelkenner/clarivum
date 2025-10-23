@@ -33,6 +33,6 @@ Use this checklist before requesting review. It covers quality, testing, observa
 
 - Confirm checklist items are complete; request clarifications when unchecked.
 - Ensure PR links to related tickets/incidents.
-- Validate changes against staging once merged, especially for Sev-1/2 fixes.
+- Validate changes against the shared dev environment once merged, especially for Sev-1/2 fixes.
 
 Attach this checklist (or reference it) in the PR description. CI enforces presence via a template gating rule.

@@ -28,7 +28,7 @@
 4. **Sync Flagsmith traits:**
    - Update consent trait mappings in `ConsentPreferenceManager`.
    - Verify new categories propagate to feature flag rules.
-5. **Review & approval:** Legal signs off wording; engineering validates behavior in staging before merge.
+5. **Review & approval:** Legal signs off wording; engineering validates behavior in the dev environment before merge.
 
 ## Pre-release QA checklist
 - Run `npm run consent:test` (Playwright suite) to verify:

@@ -31,7 +31,7 @@ Use index swaps to achieve zero downtime while applying schema migrations (per C
 1. **Design the migration:**
    - Update schema definitions in `search-manager/src/schema/{domain}` and write migration script (`SearchSchemaMigration` class).
    - Add regression fixtures for representative queries.
-2. **Create staging index:** Deploy migration to staging Meilisearch; smoke test via `SearchViewModel` Storybook scenarios.
+2. **Create dev index:** Deploy migration to the dev Meilisearch instance; smoke test via `SearchViewModel` Storybook scenarios.
 3. **Provision shadow index:** In production, create `articles_vNEXT`, `tools_vNEXT`, etc., and ingest full dataset using the migration script. Monitor tasks queue until completed.
 4. **Swap atomically:** Execute swap request once verification passes.
    ```bash
@@ -45,7 +45,7 @@ Use index swaps to achieve zero downtime while applying schema migrations (per C
 ## Relevance tuning workflow
 1. **Collect evidence:** Use analytics to identify queries with low CTR or high zero-result rate.
 2. **Prototype factors:** Adjust ranking rules (typo tolerance, word proximity) locally; record changes in `SearchRelevanceConfig`.
-3. **A/B in staging:** Run manual evaluation with curated query list; gather editorial feedback.
+3. **A/B in dev:** Run manual evaluation with curated query list; gather editorial feedback.
 4. **Promote:** Update production config via feature flag and monitor for 24 hours.
 5. **Document:** Log adjustments in ADR-008’s event catalogue and append summary to this runbook's changelog section.
 

@@ -12,7 +12,7 @@ Status: Accepted
 ## Decision
 - Adopt a layered testing approach:
   - **Unit & integration:** use **Vitest** with React Testing Library wrappers for component logic and shared TypeScript modules. Co-locate tests under `__tests__` directories to keep files ≤200 lines and maintain single-responsibility view models/managers.
-  - **End-to-end smoke:** use **Playwright** for critical flows (home → vertical CTA, diagnostics, subscriptions) executed on preview and staging builds.
+  - **End-to-end smoke:** use **Playwright** for critical flows (home → vertical CTA, diagnostics, subscriptions) executed on preview and dev builds.
   - **Accessibility & performance spot checks:** reuse Playwright traces with axe scans and Lighthouse scripted runs; extend coverage incrementally via follow-up tasks.
 - Integrate both Vitest and Playwright into GitHub Actions CI:
   - Pull requests must pass `npm run test` (Vitest) and `npm run test:e2e -- --project smoke` on preview deployments.

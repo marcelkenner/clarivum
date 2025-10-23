@@ -23,7 +23,7 @@
 - FR1 — Configure Vitest with Next.js-compatible tooling (tsx, module aliases, environment polyfills).
 - FR2 — Implement Testing Library utilities with custom render helpers that wrap providers (feature flags, analytics, theming).
 - FR3 — Provide fixtures/mocks for common services (Strapi content, Supabase queries, Flagsmith flags).
-- FR4 — Set up Playwright project with multi-browser (Chromium, Firefox, WebKit) support and environment switching (staging vs production smoke).
+- FR4 — Set up Playwright project with multi-browser (Chromium, Firefox, WebKit) support and environment switching (dev vs production smoke).
 - FR5 — Integrate visual regression or screenshot comparisons for key marketing pages (optional backlog).
 - FR6 — Wire tests into CI with required checks (unit tests on every PR, e2e nightly + pre-release gate).
 - FR7 — Collect coverage reports (Vitest -> c8) and enforce thresholds (e.g., statements 80%, critical files 90%).

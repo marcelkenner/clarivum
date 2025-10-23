@@ -41,7 +41,7 @@
 ## Data quality triage workflow
 1. **Detection sources:** Dashboard anomalies, alert triggers, QA bug reports.
 2. **Triage steps:**
-   - Reproduce event path using staging env; capture network logs.
+  - Reproduce event path using the dev environment; capture network logs.
    - Compare event payload vs schema; identify missing/incorrect properties.
    - If regression caused by flag, toggle fallback (e.g., disable new event property) via Flagsmith.
 3. **Fix implementation:** Coordinate with feature squad to patch instrumentation. Add regression test in analytics QA suite.

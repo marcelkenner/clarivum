@@ -25,18 +25,18 @@ tags:
 ---
 
 ## Summary
-Introduce Playwright-based smoke coverage for Clarivum’s critical funnels (home → pillar start → CTA) running in CI on previews and staging.
+Introduce Playwright-based smoke coverage for Clarivum’s critical funnels (home → pillar start → CTA) running in CI on previews and the dev environment.
 
 ## Definition of Ready
 - [ ] Confirm prioritized user journeys and CTA destinations with business analyst/product.
-- [ ] Obtain staging credentials, seeded data strategy, and environment URLs from DevOps.
+- [ ] Obtain dev credentials, seeded data strategy, and environment URLs from DevOps.
 - [ ] Define artifact retention (videos, traces) and reporting expectations with engineering/QA.
 - [ ] Document how tests integrate with feature flags for staged rollouts.
 
 ## Definition of Done
 - [ ] Playwright configured with `npm run test:e2e` script and environment-specific configuration.
 - [ ] Smoke tests implemented for Skin, Fuel, and Habits primary funnels.
-- [ ] CI workflow triggers tests on PR previews and staging deploys with results surfaced in Slack/dashboard.
+- [ ] CI workflow triggers tests on PR previews and dev deploys with results surfaced in Slack/dashboard.
 - [ ] Documentation updated in `docs/role-guides/qa.md` and deployment runbook.
 - [ ] Follow-up tasks created for broader regression coverage.
 

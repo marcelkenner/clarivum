@@ -15,6 +15,6 @@
 - Scrub PII before export; capture compliance considerations (data residency, retention) in requirements.
 
 ## Handoff Checklist
-- Validate dashboards and alert policies in staging/preview environments; attach screenshots or links.
+- Validate dashboards and alert policies in dev/preview environments; attach screenshots or links.
 - Update runbooks and ownership tables when telemetry coverage changes.
 - Notify dependent feature owners when observability requirements add instrumentation work to their backlog.

@@ -142,7 +142,7 @@ Use ISO/IEC 25010 quality characteristics to force clarity (performance, reliabi
 
 ## 11) Release & runtime operations
 
-- **Environments:** dev → staging → prod; prod is the truth.
+- **Environments:** dev → prod; dev is the single pre-production gate and prod is the truth.
 - **Runbooks & incident levels:** who pages whom; severities; rollback steps.
 - **Change management:** canary, automated rollbacks, feature kill‑switch.
 - **Data retention:** define per‑object lifecycle and deletion (user‑requested, auto).
@@ -190,7 +190,7 @@ Use ISO/IEC 25010 quality characteristics to force clarity (performance, reliabi
 
 **Day 7–8: CI/CD & testing**
 
-- Create pipelines: lint → unit → service tests → E2E smoke → build → deploy (staging). Add test pyramid skeleton & merge gates. ([martinfowler.com](https://martinfowler.com/articles/practical-test-pyramid.html?utm_source=chatgpt.com))
+- Create pipelines: lint → unit → service tests → E2E smoke → build → deploy (dev). Add test pyramid skeleton & merge gates. ([martinfowler.com](https://martinfowler.com/articles/practical-test-pyramid.html?utm_source=chatgpt.com))
 
 **Day 9–10: Observability & cost**
 

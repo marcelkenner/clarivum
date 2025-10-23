@@ -6,7 +6,7 @@ This runbook defines the process for promoting changes from trunk to production 
 
 - Pull requests merge only when the PR checklist in `docs/checklists/pull-request.md` is complete.
 - `main` is always deployable; feature work ships behind Flagsmith flags when incomplete.
-- Staging environment mirrors production configuration (feature flags, environment variables, database migrations).
+- Dev environment mirrors production configuration (feature flags, environment variables, database migrations).
 - SLO dashboards (Grafana) show error budget burn < 50% and no Sev-1 incidents are open.
 
 ## CI/CD pipeline overview
@@ -15,9 +15,9 @@ This runbook defines the process for promoting changes from trunk to production 
    - Lint (`eslint`, `stylelint`), type-check (`tsc`), unit tests (`vitest`), integration tests (`playwright` smoke), OpenTelemetry lint.
    - Build Next.js artifacts and export static assets.
 2. On success, artifacts are promoted to **Vercel preview** and integration smoke tests run against the preview URL.
-3. On manual approval (release captain), the pipeline promotes the build to **staging**:
+3. On manual approval (release captain), the pipeline promotes the build to the persistent **dev** environment:
    - Run database migrations via Supabase CLI.
-   - Execute staging smoke test suite + synthetic SLO probes (Checkly).
+   - Execute dev smoke test suite + synthetic SLO probes (Checkly).
 4. Production deployment is triggered via a protected GitHub Actions workflow (`deploy-production.yml`) requiring approvals from:
    - Release captain (engineering).
    - Product owner for the impacted vertical.

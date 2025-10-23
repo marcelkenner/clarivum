@@ -8,7 +8,7 @@ This document sets the authoritative requirements for provisioning, configuring,
 
 ## 1. Scope & Objectives
 
-- **Scope**: Infrastructure, environments, build/release workflow, security posture, plugin/config policy, and operations for Strapi (admin + API). Applies to Development, Staging, and Production.
+- **Scope**: Infrastructure, environments, build/release workflow, security posture, plugin/config policy, and operations for Strapi (admin + API). Applies to Local, Dev, and Production.
 - **Goals**:
   - Deliver a stable headless CMS with reproducible deployments and clear environment parity.
   - Enforce least-privilege access, secure secrets management, and reliable webhooks for frontend revalidation.
@@ -20,7 +20,7 @@ This document sets the authoritative requirements for provisioning, configuring,
 
 - **Strapi version**: v5.x (keep within latest LTS minor; document upgrade path).
 - **Runtime**: Node.js 20 LTS; Yarn 4 or npm 10 (pick one and lock via `.nvmrc`/`.yarnrc`).
-- **Database**: PostgreSQL 15 (managed service preferred). Development may use Dockerized Postgres; staging/prod use managed instances with point-in-time recovery.
+- **Database**: PostgreSQL 15 (managed service preferred). Development may use Dockerized Postgres; dev/prod deploy on managed instances with point-in-time recovery.
 - **Cache**: Redis (optional) for session store if admin traffic requires it.
 - **Storage**: S3-compatible bucket (e.g., AWS S3) with versioning + lifecycle policies; integrate via upload provider config.[^upload]
 - **Hosting**: Containerized deployment (e.g., AWS ECS/Fargate or Render). Admin panel served by Strapi backend behind HTTPS.
@@ -33,11 +33,10 @@ This document sets the authoritative requirements for provisioning, configuring,
 | Env | Purpose | Branch | Data | Auth | Notes |
 | --- | --- | --- | --- | --- | --- |
 | `local` | Developer sandbox | feature branches | Local Postgres | Local admin user | Hot reload, content seeds via fixtures |
-| `dev` | Integration testing | `develop` | Reset nightly | SSO via test IdP, fallback admin | Publishes to Dev Next.js preview |
-| `staging` | Pre-prod editorial review | `main` staging tag | Sanitized prod clone weekly | SSO (production IdP) + role gating | Hooks to staging Next.js + search index |
+| `dev` | Integration testing | `develop` | Reset nightly | SSO via test IdP, fallback admin | Publishes to dev Next.js environment & search sandbox |
 | `production` | Live editorial system | `main` release tag | Production | SSO enforced, no local accounts | Webhook to production frontend ISR & analytics |
 
-- No schema changes allowed directly in staging/prod UIs; all model edits originate from git, deployed through pipeline (see §6).[^faq]
+- No schema changes allowed directly in dev/prod UIs; all model edits originate from git, deployed through pipeline (see §6).[^faq]
 - Enforce content freeze windows before releases when migrations occur.
 
 ---
@@ -83,7 +82,7 @@ This document sets the authoritative requirements for provisioning, configuring,
 8. **Post-deploy hooks**: Trigger revalidation for homepage + blog index to ensure new content types accessible.
 
 - CI must gate merges to `main` until build & tests pass.
-- Staging deploy requires manual approval; production deploy requires release tag.
+- Dev deploy requires manual approval; production deploy requires release tag.
 
 ---
 
@@ -120,10 +119,10 @@ This document sets the authoritative requirements for provisioning, configuring,
 ## 9. Operations
 
 - **Backups**:
-  - Database: Automated nightly snapshot + PITR retention 7 days (dev), 30 days (staging), 90 days (prod).
+  - Database: Automated nightly snapshot + PITR retention 7 days (dev), 90 days (prod).
   - Uploads: S3 versioning + weekly integrity check.
   - Config: Git is source of truth; ensure environment config hashed.
-- **Restore drills**: Twice per year trigger staging restore from prod snapshot.
+- **Restore drills**: Twice per year trigger a dev restore from the prod snapshot.
 - **Monitoring**:
   - Health check cron (synthetic) hitting `/api/healthz`.
   - Alerts on CPU, memory, DB connections, webhook failures.
@@ -137,7 +136,7 @@ This document sets the authoritative requirements for provisioning, configuring,
 
 ## 10. Content Mobility & Data Transfer
 
-- Use Strapi Content Transfer or Terraform-like automation to sync baseline data (categories, tool teasers) from staging → prod with approvals.
+- Use Strapi Content Transfer or Terraform-like automation to sync baseline data (categories, tool teasers) from dev → prod with approvals.
 - Maintain migration scripts for structural changes; version them alongside code (e.g., `/migrations/2025-xx-yy_add_tool_teasers.js`).
 - Prevent editors from exporting/importing data without DevOps oversight.
 

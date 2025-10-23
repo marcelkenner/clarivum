@@ -23,5 +23,5 @@ Status: Proposed
 - **Operational impacts:** Need to maintain Klaro configuration alongside legal policy updates; add to runbook for audits and localization.
 - **Follow-ups:**
   - Create `docs/runbooks/cookie-consent-operations.md` to cover configuration changes, testing, and audit procedures.
-  - Add Klaro to the technology stack catalog and ensure CI verifies consent scripts load correctly in staging.
+  - Add Klaro to the technology stack catalog and ensure CI verifies consent scripts load correctly in the dev environment.
   - Plan automated tests verifying consent enforcement (analytics disabled until opt-in, revoke updates Flagsmith traits).

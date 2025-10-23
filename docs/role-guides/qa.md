@@ -19,7 +19,7 @@ Quality is everyone’s job, but this guide focuses on tooling and expectations 
    - Validate API routes and Supabase interactions. Use mocked Auth0 tokens as needed.  
    - Ensure idempotent job handlers have contract coverage.
 3. **E2E smoke**  
-   - Playwright-based smoke suite runs on preview/staging builds.  
+   - Playwright-based smoke suite runs on preview/dev builds.  
    - Maintain scripts that hit the primary funnels (landing → vertical start → CTA).
 4. **Observability-driven testing**  
    - Verify OTel spans and metrics exist for each new flow; add assertions to alerting dashboards.

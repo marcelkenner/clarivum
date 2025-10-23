@@ -12,7 +12,7 @@
 
 ## Primary Users & Segments
 - Internal: engineering, SRE/on-call, product analysts monitoring performance.
-- Segmentation: environments (preview, staging, production), vertical tags (`skin`, `fuel`, `habits`), user roles (anonymous vs authenticated).
+- Segmentation: environments (preview, dev, prod), vertical tags (`skin`, `fuel`, `habits`), user roles (anonymous vs authenticated).
 
 ## Experience Principles
 - Follow consistent span naming and attribute conventions so dashboards stay legible.

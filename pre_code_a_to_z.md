@@ -71,7 +71,7 @@ The goal is to settle every critical decision, artifact, and workflow before a s
 ## H. Hosting & Infrastructure Strategy
 **Goal:** pick cloud/hosting defaults and deployment topology.
 - Decisions to lock:
-  - Primary cloud provider, region(s), and baseline environment topology (preview, staging, prod).
+- Primary cloud provider, region(s), and baseline environment topology (preview, dev, prod).
   - Static vs. dynamic rendering strategy in Next.js (ISR windows, edge usage).
 - Actions before coding:
   - Document choices in ADR-001 (primary DB & cloud) and ADR-004 (observability stack).

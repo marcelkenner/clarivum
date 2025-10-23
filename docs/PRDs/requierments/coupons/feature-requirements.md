@@ -52,7 +52,7 @@
 ## Launch Readiness Checklist
 - Inventory of initial coupons validated with partners and QA.
 - Automated checks for expired coupons scheduled (cron or workflow).
-- Analytics tracking plan confirmed; test click tracking in staging.
+- Analytics tracking plan confirmed; test click tracking in the dev environment.
 - Customer support briefed on redemption flow and escalation path.
 
 ## Open Questions & Assumptions

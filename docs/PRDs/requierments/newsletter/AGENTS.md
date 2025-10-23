@@ -15,6 +15,6 @@
 - Ensure capture modules reuse component library patterns and maintain accessibility/performance targets.
 
 ## Handoff Checklist
-- Validate consent logging end-to-end (form → automation → profile) in staging.
+- Validate consent logging end-to-end (form → automation → profile) in the dev environment.
 - Update lifecycle playbooks and dashboards when adding segments or sequences.
 - Notify support and marketing teams about preference center changes and deliver updated FAQs if flows shift.

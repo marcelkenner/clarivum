@@ -54,7 +54,7 @@
 ## Launch Readiness Checklist
 - Form component library documented in Storybook with accessibility notes.
 - Shared schema package published and consumed by server routes.
-- Analytics instrumentation verified in staging for key forms (diagnostic, newsletter, checkout).
+- Analytics instrumentation verified in the dev environment for key forms (diagnostic, newsletter, checkout).
 - QA scripts executed covering localization, validation, and assistive tech scenarios.
 
 ## Open Questions & Assumptions

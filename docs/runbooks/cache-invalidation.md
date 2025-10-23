@@ -48,7 +48,7 @@
 ## Rate limiting policy updates
 - Policies defined in `RateLimiterConfig`. For changes:
   1. Update policy class with new quota/sliding window values.
-  2. Deploy to staging; run smoke script `npm run rate-limit:test`.
+  2. Deploy to the dev environment; run smoke script `npm run rate-limit:test`.
   3. Monitor Upstash metrics for throttled count anomalies post-release.
 - For ad-hoc overrides (e.g., partner demo), apply allowlist entry via `RateLimiterManager.allowTemporaryAccess(ip, ttl)`.
 

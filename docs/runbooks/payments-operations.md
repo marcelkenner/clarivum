@@ -61,7 +61,7 @@
 1. **Data pulls:**
    - Stripe: Export payouts + balance transactions (UTC window).
    - PayU & Przelewy24: Download settlement reports (CSV) from dashboards.
-2. **Normalize:** Load into Supabase staging tables via `npm run payments:import -- --provider stripe`.
+2. **Normalize:** Load into Supabase dev tables via `npm run payments:import -- --provider stripe`.
 3. **Compare:** Run `PaymentsReconciliationManager.compare(provider, dateRange)`; resolves discrepancies by session ID.
 4. **Mismatch handling:** For differences > 5 PLN, open Linear ops ticket, attach provider CSV, and escalate to finance.
 

@@ -38,7 +38,7 @@
 
 ## Analytics & KPIs
 - KPIs: ebook lead conversion %, tool completion rate, newsletter sign-up rate per vertical, subscription activation and retention, coupon CTR, diagnostic completion.
-- Instrumentation checklist: verify event payloads in staging, ensure consent flags attached, publish dictionary in shared analytics repo.
+- Instrumentation checklist: verify event payloads in the dev environment, ensure consent flags attached, publish dictionary in shared analytics repo.
 
 ## Non-Functional Requirements
 - Client bundles must lazy-load analytics to preserve LCP ≤ 2.5 s (per `first_steps.md` web performance guardrails).
@@ -51,7 +51,7 @@
 
 ## Launch Readiness Checklist
 - Consent banner live with analytics-specific callouts.
-- Event tracking plans reviewed with marketing; QA in staging validates payloads and PostHog ingestion.
+- Event tracking plans reviewed with marketing; QA in the dev environment validates payloads and PostHog ingestion.
 - Dashboards seeded with baseline visualizations and shared with stakeholders.
 - Incident playbook documented for data gaps or PostHog outages (see `docs/runbooks/analytics-qa.md` for QA and triage steps).
 

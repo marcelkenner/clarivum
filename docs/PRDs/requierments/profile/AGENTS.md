@@ -15,6 +15,6 @@
 - Capture accessibility and performance expectations (≤2 s load, lazy-loaded modules) in requirement updates.
 
 ## Handoff Checklist
-- Validate key flows (download ebook, update profile, manage subscription, DSAR request) in staging with analytics instrumentation.
+- Validate key flows (download ebook, update profile, manage subscription, DSAR request) in the dev environment with analytics instrumentation.
 - Update support documentation and FAQs when dashboard capabilities change.
 - Inform legal/privacy owners if data retention or export behaviors shift.

@@ -15,6 +15,6 @@
 - Align legal disclosures and refund policies with the legal PRD before changing copy.
 
 ## Handoff Checklist
-- Validate purchase → access journey end-to-end (checkout, email, profile library) in staging.
+- Validate purchase → access journey end-to-end (checkout, email, profile library) in the dev environment.
 - Update analytics dashboards and marketing collateral when introducing new bundles or funnels.
 - Brief support on new products, pricing, or fulfillment changes and attach runbook updates if workflows shift.

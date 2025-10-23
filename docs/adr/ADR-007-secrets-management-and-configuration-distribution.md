@@ -18,7 +18,7 @@ Status: Accepted
   - `clarivum-ci` IAM role limited to read secrets required for CI/CD workflows.
 - Synchronize secrets into Vercel using a GitHub Actions job:
   - Fetch values with the AWS Secrets Manager GitHub Action.
-  - Inject them into Vercel projects via the Vercel CLI API, ensuring preview/staging/prod parity.
+  - Inject them into Vercel projects via the Vercel CLI API, ensuring preview/dev/prod parity.
 - Maintain a lightweight configuration overlay repository (`infra/config/`) with checked-in non-sensitive defaults and schema definitions; validate via CI to catch missing secrets before deploy.
 - Log secret access events to CloudTrail with alerts piped into Grafana Loki for anomaly detection.
 

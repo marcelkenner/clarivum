@@ -16,5 +16,5 @@
 
 ## Handoff Checklist
 - Refresh editorial QA checklists and partner communication when product lineups change.
-- Validate affiliate URLs, disclosure rendering, and analytics tracking in staging.
+- Validate affiliate URLs, disclosure rendering, and analytics tracking in the dev environment.
 - Update re-review cadences or freshness metrics if recommendation categories expand or contract.

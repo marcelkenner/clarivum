@@ -9,7 +9,7 @@ Status: Accepted
 - The engineering team is small (≤4 engineers) and must bias toward managed services with EU residency to satisfy GDPR for the Poland-first launch.
 
 ## Decision
-- Host the web application on **Vercel** (production + staging + preview environments). Leverage Vercel Edge Network for CDN, incremental static regeneration, and image optimization.
+- Host the web application on **Vercel** with two persistent environments (`dev`, `prod`) plus ephemeral preview deployments per pull request. Leverage Vercel Edge Network for CDN, incremental static regeneration, and image optimization.
 - Use **Supabase Postgres 16** as the primary transactional database (region: `eu-central-1`). Enable `pg_stat_statements`, point-in-time recovery (PITR), and row-level security.
 - Store large assets (ebooks, media) in **Supabase Storage** (S3-compatible) with lifecycle rules; serve via signed URLs.
 - Manage infrastructure configuration via Terraform modules stored in the `infra/` repository (to be created). Provision the Vercel project, Supabase instance, networking, and secrets through IaC.

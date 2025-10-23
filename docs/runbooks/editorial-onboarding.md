@@ -33,7 +33,7 @@
   2. Requests medical review via Strapi workflow comment.
   3. Submits for publication; mentor publishes once QA checklist passes.
 - **Access confirmation:** Verify user appears under Strapi *Users* with correct role and email confirmed (advanced settings require unique email per Context7 guidance).
-- **Search verification:** Publish second draft to staging; confirm Meilisearch entry via `npm run search:find -- --query "<title>"`.
+- **Search verification:** Publish second draft to the dev environment; confirm Meilisearch entry via `npm run search:find -- --query "<title>"`.
 
 ## Day 4–7: Autonomy milestone
 1. **Assign real content ticket:** Must include SEO brief, medical reviewer, publish window.

@@ -16,5 +16,5 @@
 
 ## Handoff Checklist
 - Expiration automation or cron updates documented with owners and schedules.
-- Legal reviewed disclosure copy; partner links tested in staging with analytics verification.
+- Legal reviewed disclosure copy; partner links tested in the dev environment with analytics verification.
 - Notify support and marketing when offer states change (new, expiring, archived) and update playbooks as needed.

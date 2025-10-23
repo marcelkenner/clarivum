@@ -55,7 +55,7 @@
 ## Launch Readiness Checklist
 - Content QA for copy, translations, and assets complete.
 - Performance tests run (Lighthouse ≥ 90 for performance and accessibility).
-- Analytics and personalization validated in staging.
+- Analytics and personalization validated in the dev environment.
 - Incident fallback plan ready (feature flags to hide promotional modules if needed).
 
 ## Open Questions & Assumptions

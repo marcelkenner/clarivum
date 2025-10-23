@@ -143,7 +143,9 @@ class DiagramValidator {
     }
     const links = document.extractDiagramLinks();
     if (links.length === 0) {
-      return [`${this.relative(document.filePath)}: missing ## Diagrams section with required links`];
+      return [
+        `${this.relative(document.filePath)}: missing ## Diagrams section with required links`,
+      ];
     }
     const errors = [];
     for (const requirement of this.requirements) {
