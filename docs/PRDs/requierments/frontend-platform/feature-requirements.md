@@ -36,7 +36,7 @@
 
 ## Integrations & Dependencies
 - Internal: component library, analytics instrumentation, auth (Auth0/NextAuth), Supabase data access, form engine.
-- External: Vercel deployment targets, PostHog analytics SDK, Grafana instrumentation exporters.
+- External: Vercel deployment targets, Plausible Analytics SDK/script proxy, Grafana instrumentation exporters.
 
 ## Analytics & KPIs
 - Monitor Web Vitals (LCP, FID/INP, CLS), conversion funnels, and navigation drop-offs.

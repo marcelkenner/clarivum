@@ -16,7 +16,7 @@ Status: Accepted
   - Built atop the frontend platform (ADR-019) and form engine (ADR-020).
   - Each tool lives under `app/(marketing)/narzedzia/<slug>/` with view models/managers split to keep files <200 lines.
 - Observability & analytics:
-  - Instrument events using ADR-008 catalogue (e.g., `FuelToolLaunched`, `HabitsQuizCompleted`).
+  - Instrument events using ADR-029 catalogue (e.g., `FuelToolLaunched`, `HabitsQuizCompleted`).
   - Expose metrics through OpenTelemetry spans (ADR-004).
 - Accessibility & UX:
   - Enforce WCAG AA compliance, keyboard navigation, and 44×44 px interactive targets.

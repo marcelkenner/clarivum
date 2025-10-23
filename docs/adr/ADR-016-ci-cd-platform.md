@@ -25,7 +25,7 @@ Status: Accepted
   - Store ancillary secrets (Slack webhooks, Flagsmith tokens) in GitHub Encrypted Secrets with rotation tracked in the security runbook.
 - Observability:
   - Emit workflow metrics to Grafana via GitHub Actions export; alert on failure rate or runtime regressions.
-  - Log deployment metadata to PostHog for analytics correlations.
+  - Log deployment metadata to Plausible Analytics for funnel correlations (via custom events API).
 
 ## Diagrams
 - [Architecture Overview](../diagrams/adr-016-ci-cd-platform/architecture-overview.mmd) — GitHub Actions workflows, integration checks, and deployment targets.

@@ -1,6 +1,8 @@
 # ADR-008: Product Analytics Platform
 Date: 2025-10-21
-Status: Accepted
+Status: Superseded by ADR-029
+
+> ⚠️ **Superseded:** This ADR captured the former PostHog Cloud strategy. See `docs/adr/ADR-029-plausible-analytics-platform.md` for the current Plausible Analytics decision. Retain this document for historical context only.
 
 ## Context
 - Marketing and growth teams need near-real-time funnels (≤5 minutes lag) across Clarivum’s vertical experiences, diagnostics, and subscription flows.

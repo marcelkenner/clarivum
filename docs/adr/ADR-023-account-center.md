@@ -10,7 +10,7 @@ Status: Accepted
 ## Decision
 - Implement a **Profile Service Layer** backed by Supabase Postgres.
   - Use Supabase Row Level Security for tenant isolation (ADR-001).
-  - Synchronize Auth0 user metadata with Supabase profiles; maintain hashed identifiers for analytics (ADR-008).
+  - Synchronize Auth0 user metadata with Supabase profiles; maintain hashed identifiers for analytics (ADR-029).
 - Frontend architecture:
   - Build profile flows on the frontend platform (ADR-019) with view models that fetch via server actions.
   - Organize sections (Overview, Orders/Subs, Diagnostics, Preferences) into dedicated managers to keep files <200 lines.

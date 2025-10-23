@@ -8,5 +8,5 @@ flowchart LR
     GitHubActions --> Observability["Grafana Metrics Export"]
     StatusChecks --> MergeGate["Protected Main Branch"]
     MergeGate --> ProdDeploy["Production Deploy via Vercel CLI"]
-    ProdDeploy --> PostHog["Deployment Analytics Event"]
+    ProdDeploy --> Plausible["Deployment Analytics Event (Plausible)"]
 ```

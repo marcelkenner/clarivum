@@ -1,6 +1,6 @@
-# Frontend Platform — Homepage ASCII Specification
+# ASCII Designs & Narrative Concepts
 
-> **Canonical decisions:** Follow `docs/adr/ADR-019-frontend-platform.md` for implementation patterns and `docs/adr/ADR-018-brand-design-system.md` for visual rules.
+> **Canonical decisions:** Follow the brand system in `docs/adr/ADR-018-brand-design-system.md` and the frontend platform in `docs/adr/ADR-019-frontend-platform.md`.
 
 A tools‑first homepage proves value in ≤20 s, builds **mental availability** (jasne kody pionów) and **physical availability** (głęboki dostęp do narzędzi), while the optional capture respects autonomy—users stay, explore, i wracają.
 
@@ -34,7 +34,14 @@ WIDTH ≈ 120ch
 │ Krok 3. (opcjonalnie) e‑mail → wyślemy Twój plan PDF + przypomnienia.  [pole e‑mail _________] [Pomiń]      │
 │ [Generuj plan →]   Badges: ✓ Za darmo  ✓ Bez spamu  ✓ Oparte na dowodach                                     │
 │ Microcopy: “To nie porada medyczna. Zobacz nasz [Disclaimer medyczny].”                                      │
-│                                                                                                  [Hero IMG]  │
+│ Widżet UV: geolokalizacja → pokazujemy bieżący indeks UV; brak zgody = domyślnie Warszawa + manualna zmiana. (Spec: docs/PRDs/requierments/tools/widget_indeks_uv.md) │
+│                                                                                                  ┌─────────────────────────┐  │
+│                                                                                                  │ UV & POGODA             │  │
+│                                                                                                  │ UV teraz: [  ☀  5.3 ]   │  │
+│                                                                                                  │ Lokalizacja: [Warszawa] │  │
+│                                                                                                  │ Jeśli udostępnisz ->    │  │
+│                                                                                                  │ pokażemy Twoje miasto.  │  │
+│                                                                                                  └─────────────────────────┘  │
 ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
 │ NARZĘDZIA — NAJSZYBSZE SKRÓTY (8 kafelków, ikonki, 1 zdanie, CTA)                                            │
 │ ┌────────────────────────┐ ┌────────────────────────┐ ┌────────────────────────┐ ┌────────────────────────┐   │
@@ -150,6 +157,7 @@ WIDTH ≈ 120ch
   * **Czytaj dalej (3)**: linki do przewodników/porównań (wejście do /skin/… lub /fuel/… itd.)
   * **CTA**: “Zapisz plan jako PDF →” (bez logowania) oraz “Pobierz rozszerzony przewodnik → /ebooks/…”
   * **Zastrzeżenie**: “Edukacyjnie, nie zastępuje konsultacji. [Disclaimer medyczny]”
+* **Widżet UV**: pyta o zgodę na lokalizację przy pierwszym wejściu; brak zgody = dane z Warszawy (PL) z copy “Możesz zmienić lokalizację”. Odświeżanie co 30 min, fallback tekstowy jeśli API offline.
 
 **Karty narzędzi**
 
@@ -189,7 +197,7 @@ WIDTH ≈ 120ch
 **Alt‑texty**
 
 * Logo: “Clarivum — nauka w praktyce”
-* Hero IMG: “Osoba korzysta z prostego planu na telefonie”
+* Widżet UV: “Widżet z bieżącym indeksem UV dla [miasto]”
 * Okładki ebooków: “Okładka ebooka ‘Retinoid bez paniki’” itd.
 * Ikony narzędzi: “Ikona słońca dla UV Index SPF” / “Ikona kolby dla Składniki Checker” itp.
 
@@ -201,7 +209,7 @@ WIDTH ≈ 120ch
 
 ### 5) Tracking & UTM (Plausible Analytics — jedyny dostawca)
 
-**Zdarzenia (nazwy czytelne, snake_case; raportowane wyłącznie do Plausible)** 
+**Zdarzenia (nazwy czytelne, snake_case; raportowane wyłącznie do Plausible)**
 
 * `diag_start`, `diag_select_area`, `diag_select_goal`, `diag_email_entered`, `plan_generate_click`, `plan_view`,
   `tool_card_view`, `tool_card_click`, `subbrand_card_click`, `ebook_card_click`,
@@ -267,6 +275,8 @@ WIDTH ≈ 120ch
 ---
 
 ## Unknowns/Verify
+
+* Unknown/Unverifiable as of 2025-10-22: **Brand kit (logo/kolory/typografia) i kody wizualne subbrandów**. Szybkie sprawdzenia: 1) podeślij pliki + wytyczne kontrastu; 2) wskaż zasady “na ekranie w 1–2 s”.
 * Unknown/Unverifiable as of 2025-10-22: **ESP/CRM do newslettera i tagowania pionów**. Szybkie sprawdzenia: 1) nazwij pola/tagi; 2) wyślij tekst double‑opt‑in i polityki.
 
 ---
@@ -275,4 +285,6 @@ WIDTH ≈ 120ch
 
 * Zbyt rozbudowana diagnostyka może zwiększyć **drop** — mitigacja: chipsy, 3 kroki, e‑mail opcjonalny.
 * Przesadne roszczenia YMYL w proof/case’ach — mitigacja: neutralna kopia + disclaimery + link do Metodologii.
-* Personalizacja bez zgód CMP — mitigacja: domyślny porządek, personalizacja dopiero po zgodzie marketingowej
+* Personalizacja bez zgód CMP — mitigacja: domyślny porządek, personalizacja dopiero po zgodzie marketingowej.
+
+—

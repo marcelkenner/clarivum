@@ -32,7 +32,7 @@
 ## Content & Data Inputs
 - Structured content IDs from Strapi; maintain sync tables or references.
 - Auth claims from Auth0 via NextAuth for mapping to database roles.
-- Analytics events aggregated for warehousing (PostHog export into Supabase or external storage).
+- Analytics events aggregated for warehousing (Plausible Analytics API export into Supabase or external storage).
 
 ## Integrations & Dependencies
 - Internal: Next.js API routes, background jobs, Strapi webhooks, analytics ETL, subscription billing system.

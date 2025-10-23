@@ -19,7 +19,7 @@ Status: Accepted
 - Architecture patterns:
   - Wrap forms in `FormCoordinator` objects that orchestrate managers (network) and view models (UI state).
   - Inject dependencies (APIs, analytics clients) for testability.
-  - Provide `FormTelemetryManager` to emit analytics events (ADR-008) and observability traces (ADR-004).
+  - Provide `FormTelemetryManager` to emit analytics events (ADR-029) and observability traces (ADR-004).
 - Accessibility & UX:
   - Enforce 44×44 px hit targets, semantic labels, and error announcements.
   - Manage optimistic updates vs. server validation through `ServerActionManager`.

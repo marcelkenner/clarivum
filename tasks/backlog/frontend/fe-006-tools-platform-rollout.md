@@ -31,7 +31,7 @@ links:
 context7:
   - /react-hook-form/react-hook-form
   - /supabase/supabase
-  - /posthog/posthog
+  - /plausible/docs
 tags:
   - tools
   - calculators
@@ -49,7 +49,7 @@ Implement the shared tools platform along with the initial calculator portfolio 
 
 ## Definition of Done
 - [ ] ToolShell + shared components shipped with theming and accessibility coverage.
-- [ ] All scoped tools implemented with analytics, localization, and consent handling.
+- [ ] All scoped tools implemented with Plausible analytics (ADR-029), localization, and consent handling.
 - [ ] Server integrations (Supabase, external APIs) operational where required.
 - [ ] Documentation updated (PRDs annotated, runbooks, Storybook stories).
 - [ ] Backlog captured for iterative improvements and future tool ideas.

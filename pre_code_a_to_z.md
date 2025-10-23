@@ -216,7 +216,7 @@ The goal is to settle every critical decision, artifact, and workflow before a s
 ## Y. Yield & Analytics Strategy
 **Goal:** ensure insights and KPIs are observable from day one.
 - Decisions to lock:
-  - Analytics stack (e.g., PostHog, GA) and event taxonomy.
+  - Analytics stack (Plausible Analytics only) and event taxonomy.
 - Actions before coding:
   - Draft analytics implementation spec (events, properties, success criteria).
   - Connect analytics strategy to the business outcomes in Section B.

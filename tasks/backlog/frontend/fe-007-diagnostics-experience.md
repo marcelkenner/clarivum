@@ -18,7 +18,7 @@ links:
   - docs/adr/ADR-020-form-engine.md
 context7:
   - /react-hook-form/react-hook-form
-  - /posthog/posthog
+  - /plausible/docs
   - /flagsmith/docs
 tags:
   - diagnostics
@@ -37,7 +37,7 @@ Deliver the reusable diagnostics flow, question rendering, and scoring visuals s
 
 ## Definition of Done
 - [ ] Diagnostics flow implemented with progress, error, resume, and result states.
-- [ ] Telemetry + analytics events emitted per ADR-008, monitored in PostHog.
+- [ ] Telemetry + analytics events emitted per ADR-029, monitored exclusively in Plausible Analytics.
 - [ ] Accessibility, localization, and performance checks completed.
 - [ ] Documentation updated (PRD notes, Storybook, runbooks).
 - [ ] Backlog populated for future quizzes and optimizations.

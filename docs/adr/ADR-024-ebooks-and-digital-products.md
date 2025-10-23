@@ -23,7 +23,7 @@ Status: Accepted
   - Generate EPUB 3 exports from the same semantic content sources (Markdown/HTML) using a scripted pipeline (e.g., Pandoc/`epub-gen`) to guarantee reflowable, accessible ebooks.
   - Encapsulate both rendering paths behind a shared `PdfEpubGenerationManager` with dependency-injected engines so future tooling swaps remain isolated.
 - Analytics & tracking:
-  - Emit events (ADR-008) for downloads, completions, upsell conversions.
+  - Emit events (ADR-029) for downloads, completions, upsell conversions.
   - Monitor storage bandwidth and costs; integrate with FinOps runbook.
 - Security & compliance:
   - Respect consent preferences (ADR-014) before sending follow-up communications.

@@ -1,7 +1,7 @@
 # docs/PRDs/requierments/analytics · AGENTS Guide
 
 ## Scope
-- Owns instrumentation and reporting requirements for PostHog-powered analytics, including funnel dashboards and anomaly alerts.
+- Owns instrumentation and reporting requirements for Plausible Analytics (sole provider), including funnel dashboards and anomaly alerts.
 - Captures cross-vertical telemetry rules that every surface (homepage, tools, ebooks, subscriptions) must reuse.
 
 ## Must Read

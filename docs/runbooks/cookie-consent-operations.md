@@ -43,7 +43,7 @@
 1. Merge configuration changes; deploy via standard pipeline.
 2. Validate on production:
    - Clear cookies, load homepage; check banner copy and links to `/ustawienia-prywatnosci/`.
-   - Accept analytics consent; confirm PostHog loads (check network requests).
+   - Accept analytics consent; confirm only Plausible Analytics loads (check network requests; no GA4 or other vendors).
    - Revoke consent via footer link; ensure analytics stops.
 3. Log deployment summary in compliance register (date, changes, approving parties).
 

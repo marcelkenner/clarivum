@@ -15,7 +15,7 @@ flowchart LR
     Response["UV Widget Payload\n(uv_now, uv_max, risk_level, copy, fallback metadata)"]
     LocalCache["Client Cache\nlocalStorage uv_widget_payload (30 min)"]
     UI["Hero Widget UI"]
-    Analytics["Analytics Events\nGA4/Segment"]
+    Analytics["Analytics Events\nPlausible Analytics"]
 
     Consent -->|granted| Geoposition
     Consent -->|denied| Fallback

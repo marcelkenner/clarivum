@@ -11,7 +11,7 @@
 
 ## Collaboration
 - Product science lead validates formulas; content lead approves copy tone & disclaimers.
-- Analytics owner configures GA4 + server events; document naming conventions inside each PRD.
+- Analytics owner konfiguruje wyłącznie Plausible Analytics (w tym event API); dokumentuj nazewnictwo zdarzeń i parametry w każdym PRD — brak GA4 lub innych alternatyw.
 
 ## Before You Ship Changes
 - Run `npm run validate` after updating PRDs to catch formatting/link issues.

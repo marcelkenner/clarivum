@@ -34,7 +34,7 @@
 - Log enrichment fields for correlation IDs and request context.
 
 ## Integrations & Dependencies
-- Internal: frontend platform, Supabase, Flagsmith, PostHog ingestion, CI/CD for deploying collectors.
+- Internal: frontend platform, Supabase, Flagsmith, Plausible ingestion pipeline, CI/CD for deploying collectors.
 - External: Grafana Cloud tenants (per environment) or self-hosted stack, PagerDuty for incidents.
 
 ## Analytics & KPIs
@@ -60,4 +60,4 @@
 ## Open Questions & Assumptions
 - Evaluate need for distributed tracing on edge functions (pending usage).
 - Decide whether to self-host collectors or rely on Grafana Cloud agents.
-- Assume PostHog ingestion will provide complementary product analytics; ensure no duplicate instrumentation.
+- Assume Plausible ingestion will provide complementary product analytics; ensure no duplicate instrumentation.

@@ -12,7 +12,7 @@ Status: Accepted
 ## Decision
 - Adopt **Klaro!** (AGPL-3.0) as the consent management platform.
   - Self-host the loader script and configuration JSON within Clarivum’s assets to keep data inside EU infrastructure.
-  - Configure consent categories (`essential`, `analytics`, `marketing`, `personalization`) mapped to Flagsmith traits so services (PostHog, Sonner notifications, marketing pixels) respect user preferences.
+  - Configure consent categories (`essential`, `analytics`, `marketing`, `personalization`) mapped to Flagsmith traits so services (Plausible Analytics, Sonner notifications, marketing pixels) respect user preferences.
   - Localize consent copy via Strapi-managed strings and Klaro’s translation hooks (Polish + English initial rollout).
 - Persist consent decisions in browser storage (Klaro default) and emit a server-side event (`consent.updated`) for audit logs stored in Supabase.
 - Expose a global “Manage cookies” entry point via Klaro’s modal API, anchored in the footer and legal pages.

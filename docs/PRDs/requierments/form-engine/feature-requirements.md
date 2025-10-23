@@ -34,7 +34,7 @@
 - Pre-fill data from profile service for authenticated users.
 
 ## Integrations & Dependencies
-- Internal: component library, analytics (PostHog), diagnostics engine, checkout/subscription flows, auth/profile APIs.
+- Internal: component library, analytics (Plausible Analytics — exclusive provider), diagnostics engine, checkout/subscription flows, auth/profile APIs.
 - External: optional service integrations (e.g., postal code validation), email service for double opt-in.
 
 ## Analytics & KPIs

@@ -18,7 +18,7 @@ links:
   - docs/runbooks/search-operations.md
 context7:
   - /meilisearch/documentation
-  - /posthog/posthog
+  - /plausible/docs
   - /supabase/supabase
 tags:
   - recommendations
@@ -37,7 +37,7 @@ Build the service layer that combines Strapi curation, behavioral signals, and d
 
 ## Definition of Done
 - [ ] Recommendation API/service deployed with deterministic fallbacks and feature flags.
-- [ ] Affiliate tracking, coupon overlays, and analytics instrumentation operational.
+- [ ] Affiliate tracking, coupon overlays, and Plausible analytics instrumentation operational.
 - [ ] Dashboards & alerts configured for impression/click/conversion performance.
 - [ ] Documentation updated (PRD links, runbooks, experimentation guide).
 - [ ] Follow-up experiments and ML roadmap captured as tasks.

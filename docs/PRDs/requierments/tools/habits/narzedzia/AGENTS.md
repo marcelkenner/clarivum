@@ -11,7 +11,7 @@
 
 ## Collaboration
 - Behavioural science lead validates assessment scoring; product marketing approves copy and CTAs.
-- Analytics owner sets GA4/server events; document naming conventions inside each PRD.
+- Analytics owner instrumentuje wyłącznie Plausible Analytics; dokumentuj nazewnictwo zdarzeń i parametry w każdym PRD (brak GA4 ani innych vendorów).
 
 ## Before Shipping Changes
 - Run `npm run validate` locally to guard formatting/link integrity.

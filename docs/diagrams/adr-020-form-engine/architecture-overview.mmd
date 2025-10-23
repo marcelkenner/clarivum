@@ -6,5 +6,5 @@ flowchart LR
     FormCoordinator --> Validation["Zod Schema Validation"]
     FormCoordinator --> ServerAction["ServerActionManager"]
     ServerAction --> APIs["Supabase / External APIs"]
-    FormCoordinator --> Telemetry["FormTelemetryManager (PostHog/OTel)"]
+    FormCoordinator --> Telemetry["FormTelemetryManager (Plausible/OTel)"]
 ```

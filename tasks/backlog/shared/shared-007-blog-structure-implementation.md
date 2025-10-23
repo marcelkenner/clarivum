@@ -20,7 +20,7 @@ links:
 context7:
   - /strapi/documentation
   - /vercel/next.js
-  - /posthog/posthog
+  - /plausible/docs
 tags:
   - blog
   - content
@@ -39,6 +39,6 @@ Stand up the category-first blog taxonomy, templates, and CTA strategy so Clariv
 ## Definition of Done
 - [ ] Blog UI shipped with category hubs, article templates, and CTAs per PRD.
 - [ ] Strapi content workflows live with editorial training completed.
-- [ ] Analytics + SEO instrumentation validated (sitemaps, structured data, PostHog).
+- [ ] Analytics + SEO instrumentation validated (sitemaps, structured data, Plausible).
 - [ ] Documentation updated (PRD notes, brand guidelines, component stories).
 - [ ] Backlog tasks filed for localization and future category expansions.

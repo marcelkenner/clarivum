@@ -21,7 +21,7 @@ links:
   - docs/runbooks/background-jobs.md
 context7:
   - /supabase/supabase
-  - /posthog/posthog
+  - /plausible/docs
   - /flagsmith/docs
 tags:
   - coupons
@@ -41,6 +41,6 @@ Deliver the ingestion, governance, and presentation workflow for coupons and aff
 ## Definition of Done
 - [ ] Coupon ingestion + lifecycle jobs deployed with validation and alerting.
 - [ ] APIs/UI updated to expose filtered coupons with affiliate tracking.
-- [ ] Analytics + PostHog events capture impressions, clicks, redemptions.
+- [ ] Analytics (Plausible per ADR-029) capture impressions, clicks, redemptions.
 - [ ] `docs/runbooks/mission-moderation.md`, `docs/runbooks/feature-flags-operations.md`, and `docs/runbooks/background-jobs.md` updated with operating procedures and escalation steps.
 - [ ] Follow-up tasks filed for automation or partner-specific enhancements.

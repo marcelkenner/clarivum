@@ -1,0 +1,27 @@
+```mermaid
+flowchart LR
+    subgraph Inputs
+        ConsentFlags["Flagsmith Traits\n(consent_analytics)"]
+        EventRegistry["AnalyticsEventRegistry Types"]
+        ClientEvents["Client Event Payloads"]
+        ServerEvents["Server Event Payloads"]
+    end
+
+    ProxyScript["/analytics/js/script.js"]
+    ProxyEvent["/analytics/api/event"]
+    PlausibleStore["Plausible EU Storage"]
+    AggregateCache["Plausible Aggregates"]
+    SupabaseExport["Nightly Supabase Export"]
+    Warehouse["Supabase Analytics Schema"]
+    Dashboards["Plausible Dashboards"]
+    FinanceReports["Revenue / KPI Reports"]
+
+    ConsentFlags --> ProxyScript
+    ConsentFlags --> ProxyEvent
+    EventRegistry --> ClientEvents
+    EventRegistry --> ServerEvents
+    ClientEvents --> ProxyScript --> PlausibleStore
+    ServerEvents --> ProxyEvent --> PlausibleStore
+    PlausibleStore --> AggregateCache --> Dashboards
+    PlausibleStore --> SupabaseExport --> Warehouse --> FinanceReports
+```

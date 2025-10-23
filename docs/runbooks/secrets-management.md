@@ -35,13 +35,13 @@
    - Document secret in service README and link to this runbook.
 
 ## Rotation procedure
-1. **Schedule:** Minimum every 90 days; align with provider requirements (Stripe, PostHog, Upstash).
+1. **Schedule:** Minimum every 90 days; align with provider requirements (Stripe, Plausible Analytics, Upstash).
 2. **Execution:**
    - Generate new credential; update secret using `put-secret-value`.
    - Run `npm run secrets:sync -- --service payments` to push to Vercel.
    - Restart dependent workloads (deploy Vercel, redeploy Lambda).
 3. **Validation:**
-   - Confirm health checks succeed (e.g., Stripe ping, PostHog API).
+   - Confirm health checks succeed (e.g., Stripe ping, Plausible Analytics API).
    - Monitor CloudWatch/Grafana for errors during 1-hour observation window.
 4. **Cleanup:** Delete previous secret version if provider revokes old credentials automatically. Otherwise, schedule manual revocation.
 
@@ -75,7 +75,7 @@
 ## Audit & compliance
 - Maintain secret inventory spreadsheet with owner, rotation date, classification.
 - Provide auditors with CloudTrail export and access review evidence.
-- Ensure GDPR-related integrations (Auth0, PostHog) have rotation logs accessible.
+- Ensure GDPR-related integrations (Auth0, Plausible Analytics) have rotation logs accessible.
 
 ## Change log
 - **2025-10-23:** Initial secrets management runbook covering lifecycle, rotation, CI sync, and incident handling.

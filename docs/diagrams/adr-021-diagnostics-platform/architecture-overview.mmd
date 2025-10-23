@@ -5,6 +5,6 @@ flowchart LR
     Presentation --> Flagsmith["Flagsmith Experiments"]
     Presentation --> EvaluationEngine["Evaluation Engine"]
     EvaluationEngine --> SupabaseResults["Supabase Diagnostics Results"]
-    EvaluationEngine --> Telemetry["DiagnosticsTelemetryManager (PostHog/OTel)"]
+    EvaluationEngine --> Telemetry["DiagnosticsTelemetryManager (Plausible/OTel)"]
     Presentation --> Consent["Klaro Consent State"]
 ```

@@ -9,7 +9,7 @@ This document captures the current system context and high-level architecture de
 | Public visitors             | Consume marketing, education, and funnel experiences delivered via the Clarivum web application. |
 | Logged-in members           | Access gated assets (ebooks, tools) and manage preferences via secure sessions.                   |
 | Content & marketing editors | Curate content, upload assets, and trigger publishing workflows through the Strapi admin console. |
-| Third-party services        | Email/SMS providers (for lead magnets), analytics (PostHog), and payment gateway (Stripe)         |
+| Third-party services        | Email/SMS providers (for lead magnets), analytics (Plausible Analytics – exclusive), and payment gateway (Stripe) |
 
 Clarivum itself is the branded digital experience that surfaces verticalized content (Skin, Fuel, Habits) and orchestrates lead capture, diagnostics, and educational flows. It must remain compliant with EU privacy rules (Poland-first launch) and meet the SLOs defined in the PTRD.
 
@@ -92,6 +92,7 @@ Next.js + Lambda workers
 Operational tooling:
 
 - **Feature flag service:** Flagsmith SaaS (via SDK in the Next.js app).
+- **Analytics platform:** Plausible Analytics (privacy-first SaaS, sole analytics provider; proxied via Vercel per ADR-029).
 - **CDN & caching:** Vercel’s global edge cache + Upstash Redis (plan) for application-level caching and rate limiting.
 - **Secrets management:** Vercel Environments + AWS Secrets Manager (mirrored via Terraform) with rotation policy.
 - **Primary data platform:** Supabase Postgres & Storage (ADR-001) provisioned via Terraform with PITR, RLS, and access policies enforced by Supabase Dashboard + GitOps.

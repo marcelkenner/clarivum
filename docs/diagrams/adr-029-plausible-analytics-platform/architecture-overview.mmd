@@ -1,0 +1,30 @@
+```mermaid
+flowchart LR
+    subgraph Client["Client Surfaces"]
+        HeroVM["Homepage / Tool ViewModels"]
+        FormVM["FormCoordinator"]
+    end
+
+    Consent["AnalyticsConsentGuard\n(consent traits)"]
+    ScriptMgr["PlausibleScriptManager"]
+    ProxyScript["/analytics/js/script.js\n(Vercel Proxy)"]
+    PlausibleJS["Plausible Script Loader"]
+
+    ServerDispatcher["PlausibleEventDispatcher\n(server actions, jobs)"]
+    ProxyAPI["/analytics/api/event\n(Vercel Proxy)"]
+    PlausibleIngest["Plausible Ingestion API (EU)"]
+    PlausibleApp["Plausible Dashboards & Alerts"]
+    SlackAlerts["Slack Funnel Alerts"]
+    NightlyExport["Nightly Export Job"]
+    SupabaseWarehouse["Supabase Warehouse Tables"]
+
+    Client --> Consent
+    Consent --> ScriptMgr
+    ScriptMgr --> ProxyScript --> PlausibleJS --> PlausibleIngest
+
+    Client --> ServerDispatcher
+    ServerDispatcher --> ProxyAPI --> PlausibleIngest
+
+    PlausibleIngest --> PlausibleApp --> SlackAlerts
+    PlausibleIngest --> NightlyExport --> SupabaseWarehouse
+```

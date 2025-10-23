@@ -58,5 +58,5 @@
 
 ## Open Questions & Assumptions
 - Need to confirm whether marketing requires self-serve segment creation or if engineering will manage.
-- Determine long-term plan for experimentation analysis (Flagsmith vs PostHog integration).
+- Determine long-term plan for experimentation analysis (Flagsmith experiments with Plausible Analytics attribution).
 - Assume serverless runtime limits (Vercel Edge) will be considered later; evaluate edge SDK readiness before adoption.

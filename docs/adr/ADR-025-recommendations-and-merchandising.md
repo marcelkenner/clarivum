@@ -4,13 +4,13 @@ Status: Accepted
 
 ## Context
 - The recommendations PRD (`docs/PRDs/requierments/recommendations/feature-requirements.md`) defines curated affiliate picks, dynamic bundles, and personalized suggestions across Clarivum surfaces.
-- Recommendations must combine editorial curation (Strapi), behavior signals (PostHog), diagnostics outcomes, and affiliate tracking.
+- Recommendations must combine editorial curation (Strapi), behavior signals (Plausible Analytics), diagnostics outcomes, and affiliate tracking.
 - Existing search ADR-009 covers Meilisearch but not the merchandising rules or affiliate compliance requirements.
 
 ## Decision
 - Build a **Recommendations Service Layer** with three inputs:
   - **Curated collections** from Strapi (ADR-010) tagged by vertical, persona, and campaign.
-  - **Behavioral signals** ingested from PostHog (ADR-008) and stored in Supabase for segmentation.
+  - **Behavioral signals** ingested from Plausible Analytics (ADR-029) and stored in Supabase for segmentation.
   - **Diagnostics outcomes** from ADR-021 to personalize content.
 - Engine:
   - Run selection algorithms server-side (Next.js Route Handlers) using deterministic rules first; leave room for ML scoring later.
@@ -22,7 +22,7 @@ Status: Accepted
   - Track outbound clicks and conversions; enrich with coupon availability (ADR-026).
   - Maintain compliance with partner policies (disclosure, UTM tagging).
 - Observability:
-  - Emit recommendation events (impression, click, convert) aligned with ADR-008.
+  - Emit recommendation events (impression, click, convert) aligned with ADR-029.
   - Monitor zero-result rate via Search Operations Runbook.
 
 ## Diagrams

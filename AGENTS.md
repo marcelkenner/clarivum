@@ -85,6 +85,8 @@ There are no automated tests yet. When you add them (Vitest/Playwright, etc.), e
 ## Workflow expectations
 
 - Trunk-based development with Flagsmith feature flags (see `docs/adr/ADR-005-feature-flags.md`).
+- Honor the docs-first Work Intake Workflow (`docs/policies/work-intake-workflow.md`): PRD → ADR → task → runbook before any code edits.
+- Do not modify or add source files until you confirm with the requester that the workflow artifacts are complete and approved; surface gaps immediately and stay in documentation mode until resolved.
 - Follow the PR checklist in `docs/checklists/pull-request.md`; the CI gate expects those tasks to be complete.
 - Respect reliability guardrails in `docs/policies/error-budget-policy.md` and deployment steps in `docs/runbooks/deployment.md`.
 - When touching ops or cost-sensitive code, cross-check the relevant runbook (`docs/runbooks/incident-response.md`, `docs/runbooks/cost-review.md`).

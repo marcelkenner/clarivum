@@ -21,7 +21,7 @@ links:
 context7:
   - /vercel/next.js
   - /tailwindlabs/tailwindcss
-  - /posthog/posthog
+  - /plausible/docs
 tags:
   - homepage
   - marketing
@@ -39,7 +39,7 @@ Deliver the tools-first Clarivum homepage with hero, CTA funnels, diagnostic tea
 
 ## Definition of Done
 - [ ] Homepage implemented across breakpoints with pillar-specific accents.
-- [ ] Analytics, feature flags, and experiments wired per requirements.
+- [ ] Analytics instrumentation (Plausible per ADR-029), feature flags, and experiments wired per requirements.
 - [ ] Core Web Vitals measured (LCP, INP, CLS) and within targets.
 - [ ] Content editors trained on Strapi slots and fallback behavior.
 - [ ] Launch checklist completed with QA sign-off and documentation updates.

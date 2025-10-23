@@ -53,7 +53,7 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 - **Meilisearch Cloud (Commercial / open core)** – Managed full-text search for articles, tools, and ebooks (ADR-009, `docs/runbooks/search-operations.md`). Implementation tracked in `tasks/backlog/platform/plat-016-meilisearch-service.md` (TSK-PLAT-016).
 
 ### Analytics, observability & quality
-- **PostHog Cloud EU (MIT managed)** – Product analytics, funnels, and experimentation (ADR-008, `docs/runbooks/analytics-qa.md`).
+- **Plausible Analytics (Commercial SaaS)** – Product analytics, funnels, and event instrumentation (ADR-029, `docs/runbooks/analytics-qa.md`); no alternative analytics vendors permitted.
 - **OpenTelemetry (Apache 2.0)** – Unified tracing and metrics instrumentation exported to Grafana stack.
 - **Grafana OSS Stack (AGPL/Apache mix)** – Loki, Tempo, Prometheus dashboards for reliability KPIs. Implementation tracked in `tasks/backlog/platform/plat-017-grafana-observability-stack.md` (TSK-PLAT-017).
 - **Vitest + Testing Library (MIT)** – Unit and component testing harness.

@@ -1,0 +1,31 @@
+```mermaid
+classDiagram
+    class PlausibleScriptManager {
+        -ConsentEvaluator consentEvaluator
+        -ScriptLoader loader
+        +load(): void
+        +flushQueue(): void
+    }
+
+    class PlausibleEventDispatcher {
+        -HttpClient client
+        -AnalyticsEventRegistry registry
+        +dispatch(EventName, EventPayload): Promise<void>
+        +dispatchBatch(EventPayload[]): Promise<void>
+    }
+
+    class AnalyticsEventRegistry {
+        +getSchema(EventName): EventSchema
+        +validate(EventName, payload): ValidationResult
+    }
+
+    class AnalyticsConsentGuard {
+        -ConsentEvaluator evaluator
+        +isAllowed(): boolean
+        +assertAllowed(): void
+    }
+
+    PlausibleScriptManager --> AnalyticsConsentGuard
+    PlausibleEventDispatcher --> AnalyticsConsentGuard
+    PlausibleEventDispatcher --> AnalyticsEventRegistry
+```

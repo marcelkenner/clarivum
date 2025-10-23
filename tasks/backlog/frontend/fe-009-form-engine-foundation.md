@@ -19,7 +19,7 @@ links:
 context7:
   - /react-hook-form/react-hook-form
   - /colinhacks/zod
-  - /posthog/posthog
+  - /plausible/docs
 tags:
   - forms
   - validation
@@ -38,6 +38,6 @@ Create reusable form primitives, schema validation, telemetry, and accessibility
 ## Definition of Done
 - [ ] Form primitives (input, select, checkbox, radio, CTA) implemented with RHF + Zod.
 - [ ] Validation, error states, and accessibility behavior documented and tested.
-- [ ] Telemetry hooks integrated with analytics + OpenTelemetry.
+- [ ] Telemetry hooks integrated with Plausible Analytics (ADR-029) + OpenTelemetry.
 - [ ] Storybook stories and usage guidelines published.
 - [ ] Backlog tasks added for additional field types and advanced cases.

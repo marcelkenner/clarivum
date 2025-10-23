@@ -1,0 +1,17 @@
+```mermaid
+flowchart TD
+    Idea["Propose Event Change\n(Product/Analytics)"]
+    Review["Review Event Schema\n(Analytics Lead + Privacy)"]
+    UpdateADR["Update ADR-029 Catalogue"]
+    UpdateRegistry["Update AnalyticsEventRegistry"]
+    QA["Run Analytics QA Suite\n(dev + Playwright)"]
+    Validate["Validate in Plausible Debug View"]
+    Deploy["Deploy with Consent Checks"]
+    Monitor["Monitor Dashboards & Alerts"]
+    Rollback["Rollback via Feature Flag or Revert"]
+
+    Idea --> Review
+    Review -->|Approved| UpdateADR --> UpdateRegistry --> QA --> Validate --> Deploy --> Monitor
+    Monitor -->|Regression| Rollback
+    Review -->|Rejected| Idea
+```

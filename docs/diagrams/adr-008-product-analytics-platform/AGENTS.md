@@ -1,21 +1,22 @@
 # Product Analytics Platform Diagrams · AGENTS Guide
 
 ## Directory Purpose
-- Anchor updates to `docs/adr/ADR-008-product-analytics-platform.md`; treat that ADR as the canonical decision log for this domain.
-- Partner with Growth Analytics before changing scope, integration points, or lifecycle assumptions documented here.
-- Keep coverage aligned: These diagrams describe the managed PostHog analytics stack, instrumentation toolkit, and governance workflows adopted in ADR-008.
+- Archive historical diagrams from `docs/adr/ADR-008-product-analytics-platform.md`; ADR-029 is now the canonical decision log for product analytics.
+- Partner with Growth Analytics before referencing these assets externally; ensure new work aligns with Plausible architecture in ADR-029.
+- Keep coverage aligned: These diagrams describe the managed PostHog analytics stack previously adopted in ADR-008 and are retained for provenance only.
 
 ## Diagram Responsibilities
-- `architecture-overview.mmd`: Keep event producers and sinks across PostHog, Supabase, and alerting tools accurate and synchronized with the latest implementation notes and shared vocabulary.
-- `data-lineage.mmd`: Keep canonical event schema relationships and warehouse sync mapping accurate and synchronized with the latest implementation notes and shared vocabulary.
-- `uml-instrumentation.mmd`: Keep analytics SDK facades providing consent gating and type-safe event emission accurate and synchronized with the latest implementation notes and shared vocabulary.
-- `bpmn-governance.mmd`: Keep workflow for publishing schema changes and remediation of funnel regressions accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `architecture-overview.mmd`: Historical event producers and sinks across PostHog, Supabase, and alerting tools.
+- `data-lineage.mmd`: Historical canonical event schema relationships and warehouse sync mapping.
+- `uml-instrumentation.mmd`: Historical analytics SDK facades providing consent gating and type-safe event emission.
+- `bpmn-governance.mmd`: Historical workflow for publishing schema changes and remediation of funnel regressions.
 
 ## Contribution Workflow
-- Reflect any diagram change in `docs/adr/ADR-008-product-analytics-platform.md` or add cross-links explaining why the diagram evolved.
+- Do not modify these archived diagrams for new work; create or update diagrams under `docs/diagrams/adr-029-plausible-analytics-platform/` alongside ADR-029 instead.
+- If a historical correction is required, document the reason in ADR-029 and cross-link back to this archive.
 - Capture rationale in the PR description and reference impacted PRDs or runbooks when applicable.
-- Request review from the owning team and one cross-discipline reviewer (design, platform, or reliability as relevant).
-- Regenerate previews or exports if downstream docs rely on rendered SVG/PNG assets.
+- Request review from the owning team and one cross-discipline reviewer (design, platform, or reliability as relevant) for any archival corrections.
+- Regenerate previews or exports only if downstream docs explicitly reference these historical diagrams.
 
 ## Quality Checklist
 - Keep Mermaid files under 500 lines; break into dedicated diagrams when flows grow complex.

@@ -4,7 +4,7 @@ Status: Accepted
 
 ## Context
 - Diagnostics experiences (Habits quiz, SPF advisor, routine planners) are core to Clarivum’s value proposition and must feed personalization, recommendations, and analytics.
-- `docs/PRDs/requierments/diagnostics/feature-requirements.md` outlines workflows, branching logic, consent, and integrations with Supabase, Flagsmith, and PostHog.
+- `docs/PRDs/requierments/diagnostics/feature-requirements.md` outlines workflows, branching logic, consent, and integrations with Supabase, Flagsmith, and Plausible Analytics.
 - We need a reusable architecture that separates question banks, scoring engines, and presentation layers while keeping compliance (GDPR) top of mind.
 
 ## Decision
@@ -19,7 +19,7 @@ Status: Accepted
   - Capture explicit consent with Klaro! flags (ADR-014).
   - Hash personal identifiers and honor deletion requests within 30 days.
 - Observability & analytics:
-  - Emit diagnostics events through `DiagnosticsTelemetryManager` aligning with ADR-008.
+  - Emit diagnostics events through `DiagnosticsTelemetryManager` aligning with ADR-029.
   - Trace key spans with OpenTelemetry (ADR-004); monitor completion rates and errors.
 - Extensibility:
   - Define question schemas using JSON Schema + Zod for consistent typing.

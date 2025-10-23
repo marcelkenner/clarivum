@@ -190,11 +190,12 @@ w repozytorium narzędzi Clarivum.
 * **Primary KPI:** CTR na CTA SPF z widżetu, `%users_with_high_uv_warning`.
 * **Secondary:** procent użytkowników udzielających zgody lokalizacyjnej,
   średnia wartość `uv_now`.
-* **Events (GA4 / Segment):**
+* **Events (Plausible Analytics — jedyny dostawca):**
   * `uv_widget_load` (props: `has_consent`, `source_city`, `uv_now`).
   * `uv_widget_refresh`.
   * `uv_widget_city_search` (props: `query_length`, `results_count`).
   * `uv_widget_cta_click` (props: `cta_id`).
+  * Brak zgody na inne narzędzia (GA4, Segment itd.); implementacja korzysta z modułów `@clarivum/analytics` z ADR-029.
 
 ---
 
