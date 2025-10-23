@@ -1,6 +1,6 @@
 # ADR-014: Cookie Consent & Preference Management Platform
 Date: 2025-10-23
-Status: Proposed
+Status: Accepted
 
 ## Context
 - Clarivum must comply with EU GDPR, ePrivacy Directive, and Polish national requirements by collecting explicit consent before setting non-essential cookies or triggering marketing analytics (per legal PRD requirements).
@@ -29,6 +29,6 @@ Status: Proposed
 - **Trade-offs:** AGPL license obligates sharing modifications if distributed; mitigate by isolating Klaro customization to configuration and CSS overrides. If deeper code changes are required, coordinate with legal for compliance.
 - **Operational impacts:** Need to maintain Klaro configuration alongside legal policy updates; add to runbook for audits and localization.
 - **Follow-ups:**
-  - Create `docs/runbooks/cookie-consent-operations.md` to cover configuration changes, testing, and audit procedures.
-  - Add Klaro to the technology stack catalog and ensure CI verifies consent scripts load correctly in the dev environment.
-  - Plan automated tests verifying consent enforcement (analytics disabled until opt-in, revoke updates Flagsmith traits).
+  - ✅ `docs/runbooks/cookie-consent-operations.md` documents configuration changes, testing, and audit procedures.
+  - ✅ Klaro listed in the technology stack catalog with runbook reference.
+  - Plan automated tests verifying consent enforcement (analytics disabled until opt-in, revoke updates Flagsmith traits) and add CI check for consent script loading.

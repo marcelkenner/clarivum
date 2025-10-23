@@ -3,10 +3,10 @@
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-010-content-management-platform.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with Editorial Engineering before changing scope, integration points, or lifecycle assumptions documented here.
-- Keep coverage aligned: These diagrams outline the managed Strapi Cloud setup, including environment promotion, integration hooks with Clarivum’s Next.js app, and supporting automation.
+- Keep coverage aligned: These diagrams outline the AWS-hosted Strapi platform, including environment promotion, integration hooks with Clarivum’s Next.js app, and supporting automation.
 
 ## Diagram Responsibilities
-- `architecture-overview.mmd`: Keep strapi Cloud environments, integrations, and webhook consumers accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `architecture-overview.mmd`: Keep Strapi ECS environments, integrations, and webhook consumers accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `data-lineage.mmd`: Keep core content types, localization, and backup relationships accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `uml-extensions.mmd`: Keep custom plugin and deployment classes governing schema promotion accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `bpmn-release.mmd`: Keep editorial publish workflow from drafting through production release accurate and synchronized with the latest implementation notes and shared vocabulary.

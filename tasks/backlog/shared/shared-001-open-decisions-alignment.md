@@ -31,7 +31,7 @@ Collect every open question surfaced across the Clarivum PRDs, requirements, ADR
 ### Platform & Engineering Decisions
 - Frontend localization framework (next-intl vs custom), browser polyfill strategy, and Edge Middleware personalization timeline. *(frontend-platform requirements)*
 - Supabase migration tooling choice (Drizzle vs SQL scripts), analytics warehousing destination (Supabase vs BigQuery), and potential adoption of Supabase Edge Functions. *(supabase-platform requirements)*
-- Strapi deployment model (self-managed vs Strapi Cloud), localization tooling plan, and taxonomy ownership across content domains. *(strapi requirements)*
+- Strapi deployment model (**resolved**: self-managed on AWS per `ADR-010`), localization tooling plan, and taxonomy ownership across content domains. *(strapi requirements)*
 - Observability hosting (Grafana Cloud vs self-managed collectors), distributed tracing coverage for edge functions, and overlap boundaries between Grafana telemetry and PostHog analytics. *(observability requirements)*
 - Feature flag operations: marketing self-serve segmentation, experimentation readouts (Flagsmith vs PostHog), and edge SDK readiness. *(feature-flags requirements)*
 - Form engine localization model, need for heightened consent workflows (HIPAA-like), and mobile app reuse expectations. *(form-engine requirements)*

@@ -5,7 +5,7 @@
 - Supports data needs for profiles, diagnostics, purchases, subscriptions, coupons, and personalization.
 
 ## Must Read
-- `feature-requirements.md`, `docs/PRDs/requierments/profile/feature-requirements.md`, `docs/PRDs/requierments/diagnostics/feature-requirements.md`, `docs/PRDs/requierments/subscriptions/feature-requirements.md`.
+- `feature-requirements.md`, `docs/PRDs/requierments/profile/feature-requirements.md`, `docs/PRDs/requierments/diagnostics/feature-requirements.md`, `docs/PRDs/requierments/subscriptions/feature-requirements.md`, `docs/runbooks/supabase-operations.md`.
 - Pull Supabase/Postgres documentation via Context7 when defining migrations, RLS policies, or storage rules.
 
 ## Execution Guardrails

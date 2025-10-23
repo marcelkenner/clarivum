@@ -4,6 +4,7 @@
 - Operate the Listmonk-based mailing platform adopted in ADR-013.
 - Coordinate `MailingCoordinator`, `AudienceSyncManager`, and integration pipelines with Supabase/Flagsmith.
 - Provide campaign lifecycle governance (brief → approval → send → postmortem) with GDPR compliance.
+- Channel selection guidance describing when to use Listmonk vs Novu lives in `docs/runbooks/communication-channel-selection.md`.
 
 ## Roles & tooling
 - **Owner:** Lifecycle Marketing Manager.

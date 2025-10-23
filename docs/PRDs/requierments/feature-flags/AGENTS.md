@@ -5,7 +5,7 @@
 - Captures targeting rules, ownership expectations, and stale-flag governance.
 
 ## Must Read
-- `feature-requirements.md`, `docs/adr/ADR-005-feature-flags.md`, `docs/PRDs/requierments/frontend-platform/feature-requirements.md`.
+- `feature-requirements.md`, `docs/adr/ADR-005-feature-flags.md`, `docs/PRDs/requierments/frontend-platform/feature-requirements.md`, `docs/runbooks/feature-flags-operations.md`.
 - Reference Flagsmith docs via Context7 before altering SDK patterns or caching strategies.
 
 ## Execution Guardrails

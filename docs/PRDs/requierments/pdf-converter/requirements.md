@@ -84,6 +84,7 @@
 - [ ] Accessibility automated checks (PDF/UA where possible, ACE for EPUB) pass; manual spot checks completed.
 - [ ] Supabase Storage paths versioned and protected; download links tested behind authentication where required.
 - [ ] Observability metrics and alerts configured for generation failures or long runtimes.
+- [ ] `docs/runbooks/background-jobs.md` and `docs/runbooks/ebooks-fulfillment.md` updated with generation + delivery procedures.
 
 ## Open Questions & Next Steps
 - Determine hosting constraints (Vercel serverless vs. dedicated workers) for Playwright workloads.

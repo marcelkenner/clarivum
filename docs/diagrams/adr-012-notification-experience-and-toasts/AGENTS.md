@@ -3,13 +3,13 @@
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-012-notification-experience-and-toasts.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with Frontend Platform before changing scope, integration points, or lifecycle assumptions documented here.
-- Keep coverage aligned: These diagrams illustrate the Sonner-based toast architecture, including how ViewModels publish events, how coordinators enforce deduplication, and how telemetry captures notification effectiveness.
+- Keep coverage aligned: These diagrams illustrate the Sonner + Novu notification architecture, including how ViewModels publish events, how coordinators enforce deduplication, and how telemetry captures toast and multi-channel delivery effectiveness.
 
 ## Diagram Responsibilities
-- `architecture-overview.mmd`: Keep application shell, ViewModel publishing, and Sonner rendering flow accurate and synchronized with the latest implementation notes and shared vocabulary.
-- `data-lineage.mmd`: Keep notification payloads, persisted dismissals, and telemetry events accurate and synchronized with the latest implementation notes and shared vocabulary.
-- `uml-collaborators.mmd`: Keep coordinator, manager, and adapter classes orchestrating toasts accurate and synchronized with the latest implementation notes and shared vocabulary.
-- `bpmn-notification.mmd`: Keep toast lifecycle from trigger through dismissal accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `architecture-overview.mmd`: Keep application shell, ViewModel publishing, Sonner rendering, and Novu workflow dispatch accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `data-lineage.mmd`: Keep notification payloads, persisted dismissals, Novu delivery receipts, and telemetry events accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `uml-collaborators.mmd`: Keep coordinator, manager, Novu publisher, and adapter classes orchestrating notifications accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `bpmn-notification.mmd`: Keep toast + Novu lifecycle from trigger through dismissal and delivery acknowledgment accurate and synchronized with the latest implementation notes and shared vocabulary.
 
 ## Contribution Workflow
 - Reflect any diagram change in `docs/adr/ADR-012-notification-experience-and-toasts.md` or add cross-links explaining why the diagram evolved.

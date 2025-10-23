@@ -168,7 +168,7 @@ This document sets the authoritative requirements for provisioning, configuring,
 
 ## 13. Open Questions
 
-1. Hosting choice finalization (ECS vs. Render vs. Strapi Cloud) — reconcile with infra budget.
+1. Hosting choice **resolved**: deploy on AWS ECS Fargate in eu-central-1 per `ADR-010`; document cost guardrails and fallback plans.
 2. Confirm whether Review Workflows license is budgeted; otherwise fallback to status flags.
 3. Decide on observability stack (Datadog vs. OpenTelemetry collector) for Strapi metrics/logs.
 

@@ -274,7 +274,7 @@ Provide strings in both **EN** and **PL** (see §I).
 
 * Blue/green or canary deploys with instant rollback.
 * Feature flag for **PL language** and **localStorage remember‑me**.
-* Runbooks for 5xx spikes and latency regressions.
+* `docs/runbooks/tools-platform-operations.md` owns 5xx spike, latency regression, and failover procedures.
 * Synthetic probes hitting `/api/skin/timer-reapply/compute` every 1 min with fixed payload.
 
 ---

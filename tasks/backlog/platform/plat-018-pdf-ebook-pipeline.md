@@ -14,6 +14,8 @@ updated_at: 2025-10-25
 links:
   - docs/PRDs/requierments/pdf-converter/requirements.md
   - docs/adr/ADR-024-ebooks-and-digital-products.md
+  - docs/runbooks/background-jobs.md
+  - docs/runbooks/ebooks-fulfillment.md
 context7:
   - /vercel/next.js
   - /playwright/test
@@ -38,4 +40,4 @@ Deliver the server-side services, storage integration, and accessibility checks 
 - [ ] API routes/background jobs generate PDFs and EPUBs, storing results in Supabase Storage with signed download URLs.
 - [ ] Automated accessibility checks configured (PDF/UA smoke tests, ACE for EPUB) plus manual spot-check playbook.
 - [ ] Observability instrumentation added (timings, success/failure counts) with alerts on prolonged runtimes or errors.
-- [ ] Documentation updated (runbooks + developer guide) and hand-off completed with marketing/content stakeholders.
+- [ ] Documentation updated (`docs/runbooks/background-jobs.md`, `docs/runbooks/ebooks-fulfillment.md`, developer guide) and hand-off completed with marketing/content stakeholders.

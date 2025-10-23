@@ -54,7 +54,7 @@
 - SDK wired into app shell with provider pattern.
 - Initial flag inventory documented (e.g., homepage hero CTA test, gated coupons).
 - CI job for stale flag reporting implemented.
-- Runbook updated with fallback procedure if Flagsmith outage occurs.
+- `docs/runbooks/feature-flags-operations.md` reviewed with engineering + product approvers; fallback drill scheduled.
 
 ## Open Questions & Assumptions
 - Need to confirm whether marketing requires self-serve segment creation or if engineering will manage.

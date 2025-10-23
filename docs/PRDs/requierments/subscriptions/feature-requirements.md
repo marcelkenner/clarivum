@@ -20,6 +20,11 @@
 - Reduce friction in checkout; highlight trial or money-back guarantees if available.
 - Surface proactive guidance for subscribers (new content drops, recommended next actions).
 
+## Trial Strategy
+- Offer a 14-day free trial for monthly plans; charge immediately for annual plans with a 14-day refund grace period.
+- Require payment method up front via Stripe Billing with clear disclosure of post-trial pricing.
+- Send lifecycle reminders 3 days and 1 day before trial end; include self-serve cancel link in email and profile.
+
 ## Functional Requirements
 - FR1 — Subscription landing page with plan comparison, benefits table, testimonials, and FAQ.
 - FR2 — Checkout flow supporting trials, coupon codes, and upsell to annual plans.
@@ -48,7 +53,7 @@
 - Provide PCI-compliant handling by delegating card data to the payment processor.
 
 ## Compliance & Access Control
-- Adhere to consumer protection regulations (clear cancellation, refunds, renewal notifications).
+- Adhere to consumer protection regulations (clear cancellation, refunds, renewal notifications) orchestrated through Novu workflows with audit trails.
 - Store payment and personal data securely; rely on processor for sensitive details.
 - Implement role-based permissions for internal staff to manage subscriptions (support vs finance vs admin).
 
@@ -56,9 +61,9 @@
 - Pricing strategy and plan benefits finalized with stakeholders.
 - Payment processor configured with production keys, webhooks, and test cases validated.
 - Subscriber-only content flagged and access rules tested.
-- Lifecycle messaging flows authored, QA’d, and scheduled.
+- Lifecycle messaging flows authored, QA’d, and scheduled within Novu (trial reminders, renewal notices, churn follow-up).
+- Trial reminder cadence (T-3, T-1) validated end-to-end with Stripe webhook simulator.
 
 ## Open Questions & Assumptions
-- Need decision on trial strategy (length, limitations) and upgrade incentives.
 - Determine handling of corporate/team subscriptions and seat management (future).
 - Assume integration with existing ebook checkout; confirm technical approach.

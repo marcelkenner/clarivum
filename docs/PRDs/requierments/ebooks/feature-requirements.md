@@ -51,13 +51,18 @@
 - Ensure VAT/tax calculation compliance per region (liaise with finance/legal).
 - Limit access to purchased ebooks to the authenticated buyer; support data deletion requests.
 
+## DRM & Watermarking
+- Skip heavy DRM to preserve user experience; instead apply personalized watermarking (buyer name + order ID) on PDF exports via PDF generation pipeline.
+- Ensure watermarking template managed in Strapi so marketing/legal can adjust copy without code changes.
+- Provide guidance in fulfillment emails about permissible sharing; log watermark application for audit traces.
+
 ## Launch Readiness Checklist
 - Content QA (copy, assets, links) complete per ebook.
 - Checkout tested across devices; fulfilment emails deliver correctly.
 - Analytics events validated; dashboards for sales and conversion set up.
+- `docs/runbooks/ebooks-fulfillment.md` reviewed with support, lifecycle marketing, and finance.
 - Customer support macros created for ebook access issues.
 
 ## Open Questions & Assumptions
-- Decision pending on DRM or watermarking approach.
 - Need clarity on localization roadmap (multi-language distribution).
 - Assume same checkout flow will serve future product types; verify extensibility requirements.

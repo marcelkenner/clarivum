@@ -5,7 +5,7 @@
 - Covers tool taxonomy, UX patterns, saved states, exports, and supporting CTAs.
 
 ## Must Read
-- `feature-requirements.md`, `docs/PRDs/requierments/diagnostics/feature-requirements.md`, `docs/PRDs/requierments/ebooks/feature-requirements.md`, `docs/PRDs/requierments/coupons/feature-requirements.md`.
+- `feature-requirements.md`, `docs/PRDs/requierments/diagnostics/feature-requirements.md`, `docs/PRDs/requierments/ebooks/feature-requirements.md`, `docs/PRDs/requierments/coupons/feature-requirements.md`, `docs/runbooks/tools-platform-operations.md`.
 - Confirm formulas and disclaimers with subject-matter experts and legal PRD before capturing changes.
 
 ## Execution Guardrails

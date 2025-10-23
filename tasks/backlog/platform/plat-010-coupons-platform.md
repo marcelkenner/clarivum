@@ -14,8 +14,11 @@ created_at: 2025-10-24
 updated_at: 2025-10-24
 links:
   - docs/PRDs/requierments/coupons/feature-requirements.md
+  - docs/PRDs/requierments/coupons/mission-engineering-scope.md
   - docs/adr/ADR-026-coupons-and-affiliate-incentives.md
-  - docs/runbooks/search-operations.md
+  - docs/runbooks/mission-moderation.md
+  - docs/runbooks/feature-flags-operations.md
+  - docs/runbooks/background-jobs.md
 context7:
   - /supabase/supabase
   - /posthog/posthog
@@ -39,5 +42,5 @@ Deliver the ingestion, governance, and presentation workflow for coupons and aff
 - [ ] Coupon ingestion + lifecycle jobs deployed with validation and alerting.
 - [ ] APIs/UI updated to expose filtered coupons with affiliate tracking.
 - [ ] Analytics + PostHog events capture impressions, clicks, redemptions.
-- [ ] Runbooks updated with operating procedures and escalation steps.
+- [ ] `docs/runbooks/mission-moderation.md`, `docs/runbooks/feature-flags-operations.md`, and `docs/runbooks/background-jobs.md` updated with operating procedures and escalation steps.
 - [ ] Follow-up tasks filed for automation or partner-specific enhancements.

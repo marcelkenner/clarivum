@@ -26,7 +26,7 @@
 - FR3 — Provide database functions or views optimized for common read patterns (e.g., ebook listings by vertical, coupon availability).
 - FR4 — Configure Supabase Storage buckets for ebooks and media assets with lifecycle rules and signed URL distribution.
 - FR5 — Enable real-time change streams for features that need live updates (optional backlog) while defaulting to polling to avoid overuse.
-- FR6 — Set up automated backups, PITR, and retention policies documented in runbooks.
+- FR6 — Set up automated backups, PITR, and retention policies documented in `docs/runbooks/supabase-operations.md`.
 - FR7 — Establish monitoring (pg_stat_statements, connection pooling, slow query alerts) integrated with Grafana.
 
 ## Content & Data Inputs
@@ -55,7 +55,7 @@
 ## Launch Readiness Checklist
 - Schema v1 reviewed and approved across product, analytics, and engineering.
 - RLS policies tested with integration tests; unauthorized access attempts rejected.
-- Backup/restore drill completed with documented RPO/RTO.
+- Backup/restore drill completed per `docs/runbooks/supabase-operations.md` with documented RPO/RTO.
 - Supabase client libraries configured with service/access roles and rotation policy.
 
 ## Open Questions & Assumptions

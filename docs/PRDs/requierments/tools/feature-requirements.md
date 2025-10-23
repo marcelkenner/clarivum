@@ -35,7 +35,7 @@
 
 ## Integrations & Dependencies
 - Internal: diagnostics (for pre-filled inputs), ebooks/recommendations, profile service (saved results), analytics, component library.
-- External: third-party APIs if any tool requires external data (e.g., UV index feed), email service for result delivery.
+- External: Open-Meteo weather APIs for UV index widget (`docs/PRDs/requierments/tools/widget_indeks_uv.md`), additional third-party feeds as defined per tool, email service for result delivery.
 
 ## Analytics & KPIs
 - Tool start vs completion rate, conversion to related CTA, average time spent, repeat usage frequency.
@@ -56,6 +56,7 @@
 - Documentation created for formulas/logic and maintenance schedule.
 - Analytics events validated; dashboards set for monitoring.
 - Support materials (FAQ, troubleshooting) prepared for customer service.
+- `docs/runbooks/tools-platform-operations.md` updated and walk-through completed with on-call engineers and support.
 
 ## Open Questions & Assumptions
 - Determine list of MVP tools per vertical and prioritization.

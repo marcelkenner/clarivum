@@ -44,7 +44,8 @@ async function collectTaskFiles(dir) {
     } else if (
       entry.name.endsWith(".md") &&
       entry.name !== "AGENTS.md" &&
-      entry.name !== "README.md"
+      entry.name !== "README.md" &&
+      entry.name !== "status-summary.md"
     ) {
       out.push(entryPath);
     }

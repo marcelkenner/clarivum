@@ -5,7 +5,7 @@
 - Covers free lead magnets, paid products, bundles, and post-purchase delivery expectations.
 
 ## Must Read
-- `feature-requirements.md`, `docs/PRDs/clarivum_brand.md`, `docs/PRDs/requierments/subscriptions/feature-requirements.md`, and `docs/PRDs/requierments/coupons/feature-requirements.md` for cross-sell logic.
+- `feature-requirements.md`, `docs/PRDs/clarivum_brand.md`, `docs/PRDs/requierments/subscriptions/feature-requirements.md`, `docs/PRDs/requierments/coupons/feature-requirements.md`, and `docs/runbooks/ebooks-fulfillment.md` for cross-sell logic.
 - Confirm checkout assumptions with relevant ADRs and consult payment platform docs via Context7 when integration details shift.
 
 ## Execution Guardrails

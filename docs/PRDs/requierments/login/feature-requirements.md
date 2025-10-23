@@ -30,12 +30,12 @@
 
 ## Content & Data Inputs
 - Copy for benefits, security notes, and consent statements from marketing/legal.
-- Email templates for verification, password reset, login notifications (multilingual).
+- Email templates for verification, password reset, login notifications (multilingual) managed through Novu workflows.
 - Feature flags to enable/disable specific login providers.
 
 ## Integrations & Dependencies
 - Internal: profile service, analytics (login events), ecommerce/checkout, diagnostics personalization, coupon gating.
-- External: identity provider (Auth0, Clerk, Supabase Auth—pending ADR decision), email delivery service for transactional messages.
+- External: identity provider (Auth0, Clerk, Supabase Auth—pending ADR decision), Novu notification platform (email/in-app templates), email delivery service for transactional messages.
 
 ## Analytics & KPIs
 - Metrics: sign-up conversion rate, login success rate, time-to-first-action post login, password reset volume.

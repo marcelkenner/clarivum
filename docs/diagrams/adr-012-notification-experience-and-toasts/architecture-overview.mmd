@@ -2,8 +2,12 @@
 flowchart LR
     ViewModel["Feature ViewModels"] --> NotificationManager["NotificationManager"]
     NotificationManager --> ToastCoordinator["ToastNotificationCoordinator"]
+    NotificationManager --> NovuPublisher["NovuNotificationPublisher"]
     ToastCoordinator --> SonnerToaster["<Toaster /> (Sonner)"]
     SonnerToaster --> UI["Toast UI Layer"]
     ToastCoordinator --> DismissStorage["Local storage dismissals"]
     ToastCoordinator --> Telemetry["Telemetry Events (OTel)"]
+    NovuPublisher --> NovuAPI["Novu API (Self-hosted)"]
+    NovuAPI --> NovuChannels["Email / In-App / SMS Channels"]
+    NovuPublisher --> Telemetry
 ```

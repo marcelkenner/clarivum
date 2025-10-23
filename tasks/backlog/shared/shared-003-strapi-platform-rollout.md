@@ -34,12 +34,17 @@ Configure Strapi v5, content models, workflows, and integrations so editors can 
 ## Definition of Ready
 - [ ] Confirm content types, localization, and lifecycle states with editorial team.
 - [ ] Align deployment strategy (hosting, environments, CI) with DevOps.
+- [ ] Document AWS infrastructure requirements (ECS services, RDS instances, S3 buckets) with Platform.
 - [ ] Document integration contracts for Next.js, Supabase, and search.
-- [ ] Plan permissions and governance (roles, reviews, audit logging).
+- [ ] Plan permissions, SSO integration, and governance (roles, reviews, audit logging).
+- [ ] Capture secrets catalog and distribution flow via AWS Secrets Manager.
 
 ## Definition of Done
-- [ ] Strapi environments deployed with required plugins, roles, and localization.
+- [ ] ECS-hosted Strapi dev/prod environments deployed with required plugins, roles, localization, and AWS ALB ingress.
+- [ ] RDS PostgreSQL, S3 media storage, and secrets wiring provisioned via Terraform with `.env.example` documented.
 - [ ] Content models created per PRDs (homepage, blog, basic pages, ebooks).
-- [ ] API integrations validated (preview, publish, webhook triggers).
-- [ ] Editorial workflow documented with training session scheduled.
-- [ ] Follow-up tasks logged for automation or future content types.
+- [ ] CI/CD pipeline builds admin, runs schema validation/tests, and promotes changes with migration step.
+- [ ] API integrations validated (preview, publish, webhook triggers) including signed webhook secrets.
+- [ ] SSO, RBAC, security middleware (CSP/CORS), and audit logging configured per requirements.
+- [ ] Backup + restore automation tested and logged; editorial workflow documented with training session scheduled.
+- [ ] Follow-up tasks logged for observability, autoscaling, advanced content types, or automation gaps.

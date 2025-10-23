@@ -4,10 +4,10 @@
 - **Owners:** Editorial Engineering
 
 ## Overview
-These diagrams outline the managed Strapi Cloud setup, including environment promotion, integration hooks with Clarivum’s Next.js app, and supporting automation. They capture how content schemas map to delivery surfaces, the plugin architecture, and the release workflow for editorial teams.
+These diagrams outline the self-hosted Strapi platform on AWS, including environment promotion, integration hooks with Clarivum’s Next.js app, and supporting automation. They capture how content schemas map to delivery surfaces, the plugin architecture, and the release workflow for editorial teams.
 
 ## Files
-- `architecture-overview.mmd` — Strapi Cloud environments, integrations, and webhook consumers.
+- `architecture-overview.mmd` — Strapi ECS environments, integrations, and webhook consumers.
 - `data-lineage.mmd` — Core content types, localization, and backup relationships.
 - `uml-extensions.mmd` — Custom plugin and deployment classes governing schema promotion.
 - `bpmn-release.mmd` — Editorial publish workflow from drafting through production release.

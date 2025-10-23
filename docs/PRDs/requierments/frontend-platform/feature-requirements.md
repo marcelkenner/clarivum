@@ -32,7 +32,7 @@
 ## Content & Data Inputs
 - Content fetched from Strapi via REST/GraphQL, cached appropriately.
 - Feature flags from Flagsmith, personalization inputs from diagnostics/profile services.
-- Localization strings sourced from CMS or translation files (future extension).
+- Localization strings sourced from Strapi-managed copy and `next-intl` translation files grouped by locale.
 
 ## Integrations & Dependencies
 - Internal: component library, analytics instrumentation, auth (Auth0/NextAuth), Supabase data access, form engine.
@@ -47,6 +47,12 @@
 - Enforce tree-shaking and code-splitting; use Turbopack build outputs.
 - Keep JSX components under 200 lines; break into child components to uphold single responsibility.
 
+## Localization Framework
+- Adopt `next-intl` for server/client translations, routing locale resolution, and message formatting.
+- Launch with Polish (`pl-PL`) as the sole active locale while structuring folders (`app/[locale]/`) and message loaders to support future expansions without refactors.
+- Load locale dictionaries via async server functions backed by Strapi-managed content, enabling runtime swaps without redeploy.
+- Expose localization provider hooks to form engine, mission flows, and component library for shared translation access.
+
 ## Compliance & Access Control
 - Honor GDPR with consent-aware analytics loading and cookie banners.
 - Ensure route guards respect role-based access from auth claims.
@@ -57,8 +63,8 @@
 - Performance budgets verified in production-like environment.
 - TypeScript build and ESLint pass with zero errors; CI gating configured.
 - Documentation added to developer guide describing folder conventions and theming strategy.
+- Locale detection and message loading strategy documented with `next-intl` provider usage examples; confirm Polish baseline coverage before activating additional locales.
 
 ## Open Questions & Assumptions
-- Need decision on localization framework (next-intl vs custom); placeholder assumed.
 - Determine polyfill/load strategy for legacy browsers (support baseline to be defined).
 - Assume Vercel Edge Middleware will be introduced later for personalization; plan providers accordingly.

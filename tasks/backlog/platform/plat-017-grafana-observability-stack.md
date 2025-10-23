@@ -15,6 +15,7 @@ links:
   - docs/PRDs/requierments/observability/feature-requirements.md
   - docs/PRDs/technology-stack-catalog.md
   - docs/adr/ADR-004-observability-stack.md
+  - docs/runbooks/observability-operations.md
   - docs/runbooks/analytics-qa.md
 context7:
   - /grafana/docs
@@ -38,6 +39,5 @@ Deploy the Grafana Tempo, Loki, and Prometheus stack (managed or self-hosted), c
 - [ ] Grafana stack provisioned with environments separated for dev and prod plus access controls enforced.
 - [ ] OpenTelemetry collectors configured and receiving traces, logs, and metrics from key services.
 - [ ] Core dashboards (Web Vitals, API latency, subscription funnel) published and shared.
-- [ ] Alert policies created and tested with simulated incidents; runbooks updated.
+- [ ] Alert policies created and tested with simulated incidents; `docs/runbooks/observability-operations.md` updated and shared with on-call engineers.
 - [ ] Follow-up items filed for synthetic monitoring and cost optimization.
-

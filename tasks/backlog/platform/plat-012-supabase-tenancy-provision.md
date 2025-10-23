@@ -15,6 +15,7 @@ links:
   - docs/PRDs/technology-stack-catalog.md
   - docs/adr/ADR-001-primary-cloud-and-database.md
   - docs/adr/ADR-007-secrets-management-and-configuration-distribution.md
+  - docs/runbooks/supabase-operations.md
   - docs/runbooks/deployment.md
 context7:
   - /supabase/supabase
@@ -37,6 +38,6 @@ Provision Supabase projects for dev and prod, configure storage buckets, and dis
 ## Definition of Done
 - [ ] Supabase dev/prod projects created with Postgres 16, Storage buckets, and PITR enabled per ADR-001.
 - [ ] Service roles, anon keys, and access tokens stored in secrets manager with rotation schedule documented.
-- [ ] Baseline Terraform configuration merged and applied; runbook updated with provisioning details.
+- [ ] Baseline Terraform configuration merged and applied; `docs/runbooks/supabase-operations.md` updated with provisioning details.
 - [ ] Connectivity validated from Next.js dev environment and Strapi webhooks using limited-scope keys.
 - [ ] Follow-up tickets logged for schema migration automation and monitoring dashboards.

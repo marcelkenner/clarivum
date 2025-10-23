@@ -1,12 +1,17 @@
 ```mermaid
 flowchart LR
-    Editors["Editorial Users"] --> StrapiCloud["Strapi Cloud (EU)"]
-    StrapiCloud --> DevEnv["Strapi Dev Environment"]
-    StrapiCloud --> ProdEnv["Strapi Prod Environment"]
-    DevEnv --> GitPackages["Schema packages (cms/ workspace)"]
-    ProdEnv --> NextRevalidate["Next.js ISR Revalidation"]
-    ProdEnv --> MeilisearchWebhook["Meilisearch Indexing Webhook"]
-    ProdEnv --> AnalyticsWebhook["Lifecycle Analytics"]
-    StrapiCloud --> SupabaseBackup["Nightly backup to Supabase"]
-    SecretsManager["AWS Secrets Manager"] --> StrapiCloud
+    Editors["Editorial Users"] --> StrapiDev["Strapi Dev (ECS Fargate)"]
+    Editors --> StrapiProd["Strapi Prod (ECS Fargate)"]
+    StrapiDev --> GitPackages["Schema packages (cms workspace)"]
+    StrapiProd --> NextRevalidate["Next.js ISR Revalidation"]
+    StrapiProd --> MeilisearchWebhook["Meilisearch Indexing Webhook"]
+    StrapiProd --> AnalyticsWebhook["Lifecycle Analytics"]
+    StrapiDev --> RDSDev["RDS PostgreSQL (dev)"]
+    StrapiProd --> RDSProd["RDS PostgreSQL (prod)"]
+    StrapiDev --> S3Media["S3 Media Bucket (versioned)"]
+    StrapiProd --> S3Media
+    SecretsManager["AWS Secrets Manager"] --> StrapiDev
+    SecretsManager --> StrapiProd
+    BackupJobs["Backup & Snapshot Automation"] --> RDSProd
+    BackupJobs --> S3Media
 ```

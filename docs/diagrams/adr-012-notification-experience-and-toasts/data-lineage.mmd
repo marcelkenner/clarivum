@@ -6,6 +6,12 @@ erDiagram
         string title
         string description
     }
+    NOVU_DELIVERY {
+        string delivery_id
+        string channel
+        string status
+        datetime delivered_at
+    }
     PERSISTED_DISMISSAL {
         string digest
         datetime dismissed_at
@@ -17,4 +23,6 @@ erDiagram
     }
     NOTIFICATION_EVENT ||--o{ PERSISTED_DISMISSAL : suppresses
     NOTIFICATION_EVENT ||--o{ TELEMETRY_RECORD : measured_by
+    NOTIFICATION_EVENT ||--o{ NOVU_DELIVERY : delivered_via
+    NOVU_DELIVERY ||--o{ TELEMETRY_RECORD : observed_by
 ```

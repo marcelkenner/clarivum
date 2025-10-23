@@ -8,7 +8,7 @@
 ## Roles & prerequisites
 - **Owner:** Editorial Operations Manager.
 - **Coordinators:** `EditorialAccessCoordinator` (provisions Strapi/Supabase), `ContentWorkflowManager` (training), `SearchIntegrationManager` (webhook verification).
-- **Systems touched:** Strapi Cloud admin (`/websites/strapi_io_cms` Users & Permissions), Flagsmith, Supabase, Linear (content backlog), Notion (style guides).
+- **Systems touched:** Self-hosted Strapi admin (`/websites/strapi_io_cms` Users & Permissions), Flagsmith, Supabase, Linear (content backlog), Notion (style guides).
 - **Preconditions:** New hire record in HRIS, contract signed, email account activated, DPA acknowledged.
 
 ## Day -5: Access preparation

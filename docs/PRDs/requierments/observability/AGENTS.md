@@ -5,7 +5,7 @@
 - Aligns telemetry requirements with product funnels, error budgets, and incident response expectations.
 
 ## Must Read
-- `feature-requirements.md`, `docs/policies/error-budget-policy.md`, `docs/runbooks/incident-response.md`, and analytics PRD for shared KPIs.
+- `feature-requirements.md`, `docs/policies/error-budget-policy.md`, `docs/runbooks/incident-response.md`, `docs/runbooks/observability-operations.md`, and analytics PRD for shared KPIs.
 - Reference OpenTelemetry and Grafana docs via Context7 before proposing instrumentation or exporter changes.
 
 ## Execution Guardrails

@@ -55,7 +55,7 @@
 - All baseline policies authored, reviewed, and localized.
 - Disclosure components implemented across dependent pages/features.
 - DSAR workflow tested end-to-end (submission, acknowledgment, fulfillment).
-- Update notifications process defined (email or in-app notice when policies change).
+- Update notifications process defined (email or in-app notice when policies change) via Novu workflows with audit logs.
 
 ## Open Questions & Assumptions
 - Need to determine whether HIPAA or other sector-specific rules apply; currently assumed out of scope.

@@ -21,7 +21,7 @@
 - Use consistent CTA language and Jade action color, with per-vertical accent cues from the design system.
 
 ## Functional Requirements
-- FR1 — Hero section with brand promise (“Uczymy. Upraszczamy. Dowozimy.”) and primary CTA leading to flagship ebook or diagnostic.
+- FR1 — Hero section with brand promise (“Uczymy. Upraszczamy. Dowozimy.”), embedded UV widget (spec: `docs/PRDs/requierments/tools/widget_indeks_uv.md`), and primary CTA leading to flagship ebook or diagnostic.
 - FR2 — Subbrand cards summarizing Skin, Fuel, Habits with key promises and CTAs.
 - FR3 — Cross-vertical tools sampler (3–6 tiles) with quick-launch links.
 - FR4 — Success proof module featuring testimonials, press logos, metrics (editable via CMS).

@@ -23,6 +23,7 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 - **Tailwind CSS 4 (MIT)** – Utility-first styling mapped to Clarivum design tokens in `docs/PRDs/brand_design_system.md`.
 - **Sonner (MIT)** – Toast notification system per ADR-012, orchestrated via `NotificationManager`.
 - **Storybook (MIT)** – Component workbench supporting design QA and documentation.
+- **next-intl (MIT)** – Localization framework powering runtime translations with Polish baseline and future multi-locale readiness (see frontend platform PRD).
 
 ### Forms & validation
 - **React Hook Form (MIT)** – High-performance form controller for diagnostics and checkout flows.
@@ -39,6 +40,8 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 - **Strapi v5 (MIT)** – Headless CMS for editorial workflows (ADR-010).
 - **Listmonk (AGPLv3 self-hosted)** – Lifecycle mailing engine deployed on AWS ECS Fargate (ADR-013, `docs/runbooks/mailing-operations.md`).
 - **Amazon SES (Commercial)** – Outbound SMTP provider backing Listmonk campaigns and transactional messaging.
+- **Novu (MIT self-hosted)** – Multi-channel notification orchestration (in-app inbox, email, SMS) integrated via `NotificationManager` (ADR-012); deployed on AWS ECS with Terraform-managed secrets.
+- See `docs/runbooks/communication-channel-selection.md` for when to route messages through Novu versus Listmonk.
 
 ### Data, storage & integration
 - **Supabase (Apache 2.0 managed)** – Primary Postgres + storage with Row Level Security (ADR-001). Implementation tracked in `tasks/backlog/platform/plat-012-supabase-tenancy-provision.md` (TSK-PLAT-012).

@@ -55,7 +55,7 @@
 - OpenTelemetry instrumentation merged with default config for all routes.
 - Dashboards for core KPIs published and shared with stakeholders.
 - Alert routing tested (PagerDuty + Slack) with mock incidents.
-- Runbook updated covering sampling strategies, dashboard ownership, and escalation paths.
+- `docs/runbooks/observability-operations.md` published; on-call engineers briefed on sampling strategy and escalation paths.
 
 ## Open Questions & Assumptions
 - Evaluate need for distributed tracing on edge functions (pending usage).

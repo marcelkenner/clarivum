@@ -10,26 +10,27 @@ Status: Accepted
 - Requirements are outlined in `docs/PRDs/requierments/strapi/feature-requirements.md` and operational setup guidance in `docs/PRDs/requierments/strapi/setup.md`.
 
 ## Decision
-- Standardize on **Strapi v5**, hosted on **Strapi Cloud (EU region)** for managed infrastructure and compliance.
-  - Use Strapi Cloud CLI deployment flow (`strapi deploy` per Context7 `/strapi/documentation`) from the dedicated `cms/` workspace, ensuring reproducible builds and environment parity.
-  - Configure Postgres backing storage via Strapi Cloud; mirror nightly backups to Supabase for DR alignment with ADR-001.
+- Standardize on **Strapi v5**, self-managed on **AWS (eu-central-1)** to retain cost control and align infrastructure with existing Terraform & runbook standards.
+  - Package Strapi as a container deployed to AWS ECS Fargate with ALB ingress and HTTPS termination (Context7 `/strapi/documentation` deployment guidance).
+  - Provision Amazon RDS for PostgreSQL 15 with PITR enabled; replicate daily snapshots to Supabase to satisfy ADR-001 disaster recovery goals.
+  - Store media in S3 with versioning + lifecycle policies; connect via the Strapi S3 upload provider.
 - Define the CMS solution architecture:
-  - Create separate Strapi environments (`dev`, `prod`) mapped to Clarivum promotion flow; content migrations promoted via Git-based configuration packages.
+  - Create separate Strapi workloads for `dev` and `prod`, each sourced from GitOps-based configuration packages; schema changes promoted through CI/CD pipelines.
   - Model content types/components according to the Strapi blog requirements, enforcing Draft & Publish, localization, and workflow stages.
   - Expose read-only REST & GraphQL endpoints with API tokens scoped by environment; integrate rate limiting (ADR-006) to shield from abuse.
   - Webhooks trigger Next.js revalidation, Meilisearch indexing (ADR-009), and lifecycle analytics.
-- Bundle custom admin extensions (e.g., medical review tools) as Strapi plugins stored in `cms/plugins/`, built into the admin panel during `yarn build` (Context7 notes on admin build pipeline).
-- Manage secrets via AWS Secrets Manager sync (ADR-007); Strapi Cloud environment variables pull from centralized store during deployment.
+- Bundle custom admin extensions (e.g., medical review tools) as Strapi plugins stored in `cms/plugins/`, built into the admin panel during `yarn build`.
+- Manage secrets via AWS Secrets Manager (ADR-007) injected at runtime through ECS task definitions and CI pipelines.
 
 ## Diagrams
-- [Architecture Overview](../diagrams/adr-010-content-management-platform/architecture-overview.mmd) — Managed Strapi environments, integrations, and backup flows.
+- [Architecture Overview](../diagrams/adr-010-content-management-platform/architecture-overview.mmd) — AWS-hosted Strapi environments, integrations, and backup flows.
 - [Data Lineage](../diagrams/adr-010-content-management-platform/data-lineage.mmd) — Core content types, localization relationships, and asset associations.
 - [UML Extensions](../diagrams/adr-010-content-management-platform/uml-extensions.mmd) — Deployment, migration, plugin, and webhook components.
 - [BPMN Release Workflow](../diagrams/adr-010-content-management-platform/bpmn-release.mmd) — Editorial path from drafting to publish and validation.
 
 ## Consequences
-- **Benefits:** Managed Strapi reduces ops toil, delivers editorial UX, and keeps schemas/versioning under engineer control while meeting localization and workflow needs.
-- **Trade-offs:** Strapi Cloud introduces license cost and limited infra customization; mitigated by periodic cost reviews and fallback playbook for self-hosting if required.
+- **Benefits:** Self-managed Strapi keeps operating costs predictable, provides full control over upgrades, and still meets localization and workflow needs.
+- **Trade-offs:** Clarivum assumes responsibility for runtime patching, autoscaling, and observability; mitigated via Terraform modules and runbook automation.
 - **Operational notes:** Strapi upgrade cadence (v5 minor releases) must be tracked quarterly; regression tests run against the dev environment before promotion.
 - **Follow-ups:**
   - Document editorial onboarding and role permissions in `docs/role-guides/editorial.md`.

@@ -34,7 +34,14 @@ WIDTH ≈ 120ch
 │ Krok 3. (opcjonalnie) e‑mail → wyślemy Twój plan PDF + przypomnienia.  [pole e‑mail _________] [Pomiń]      │
 │ [Generuj plan →]   Badges: ✓ Za darmo  ✓ Bez spamu  ✓ Oparte na dowodach                                     │
 │ Microcopy: “To nie porada medyczna. Zobacz nasz [Disclaimer medyczny].”                                      │
-│                                                                                                  [Hero IMG]  │
+│ Widżet UV: geolokalizacja → pokazujemy bieżący indeks UV; brak zgody = domyślnie Warszawa + manualna zmiana. (Spec: docs/PRDs/requierments/tools/widget_indeks_uv.md) │
+│                                                                                                  ┌─────────────────────────┐  │
+│                                                                                                  │ UV & POGODA             │  │
+│                                                                                                  │ UV teraz: [  ☀  5.3 ]   │  │
+│                                                                                                  │ Lokalizacja: [Warszawa] │  │
+│                                                                                                  │ Jeśli udostępnisz ->    │  │
+│                                                                                                  │ pokażemy Twoje miasto.  │  │
+│                                                                                                  └─────────────────────────┘  │
 ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
 │ NARZĘDZIA — NAJSZYBSZE SKRÓTY (8 kafelków, ikonki, 1 zdanie, CTA)                                            │
 │ ┌────────────────────────┐ ┌────────────────────────┐ ┌────────────────────────┐ ┌────────────────────────┐   │
@@ -150,6 +157,7 @@ WIDTH ≈ 120ch
   * **Czytaj dalej (3)**: linki do przewodników/porównań (wejście do /skin/… lub /fuel/… itd.)
   * **CTA**: “Zapisz plan jako PDF →” (bez logowania) oraz “Pobierz rozszerzony przewodnik → /ebooks/…”
   * **Zastrzeżenie**: “Edukacyjnie, nie zastępuje konsultacji. [Disclaimer medyczny]”
+* **Widżet UV**: pyta o zgodę na lokalizację przy pierwszym wejściu; brak zgody = dane z Warszawy (PL) z copy “Możesz zmienić lokalizację”. Odświeżanie co 30 min, fallback tekstowy jeśli API offline.
 
 **Karty narzędzi**
 
@@ -189,7 +197,7 @@ WIDTH ≈ 120ch
 **Alt‑texty**
 
 * Logo: “Clarivum — nauka w praktyce”
-* Hero IMG: “Osoba korzysta z prostego planu na telefonie”
+* Widżet UV: “Widżet z bieżącym indeksem UV dla [miasto]”
 * Okładki ebooków: “Okładka ebooka ‘Retinoid bez paniki’” itd.
 * Ikony narzędzi: “Ikona słońca dla UV Index SPF” / “Ikona kolby dla Składniki Checker” itp.
 

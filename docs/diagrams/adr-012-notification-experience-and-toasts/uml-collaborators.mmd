@@ -14,11 +14,20 @@ classDiagram
         +renderError(payload)
         +renderInfo(payload)
     }
+    class NovuNotificationPublisher {
+        +send(event)
+        +sendAsync(event, result)
+    }
+    class NovuClientAdapter {
+        +triggerWorkflow(key, payload)
+    }
     class DismissalRepository {
         +hasSeen(digest)
         +store(digest)
     }
     NotificationManager --> ToastNotificationCoordinator
+    NotificationManager --> NovuNotificationPublisher
     ToastNotificationCoordinator --> SonnerAdapter
     ToastNotificationCoordinator --> DismissalRepository
+    NovuNotificationPublisher --> NovuClientAdapter
 ```

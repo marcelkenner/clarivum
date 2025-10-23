@@ -46,6 +46,11 @@
 - Provide fallbacks for browsers without JavaScript (server validation responses).
 - Maintain TypeScript typings for forms and DTOs; no implicit `any`.
 
+## Localization Strategy
+- Maintain a single Zod schema per form with validation messages expressed as translation keys.
+- Resolve localized copy at runtime via Next.js `next-intl` providers; start with Polish dictionaries while keeping schemas language-agnostic so additional locales can be enabled later without duplication.
+- Store locale-specific helper/label strings alongside consent copy; schema definitions remain language-agnostic.
+
 ## Compliance & Access Control
 - Log consent timestamps and source; sync with newsletter and legal systems.
 - Provide audit trail for schema changes impacting legal copy or mandatory fields.
@@ -58,6 +63,5 @@
 - QA scripts executed covering localization, validation, and assistive tech scenarios.
 
 ## Open Questions & Assumptions
-- Need decision on multi-language handling strategy (one schema per locale vs dynamic messages).
 - Determine if we require HIPAA-like consent flows for future medical partnerships.
 - Assume future mobile apps will reuse same schemas; plan deliverable as shared package.

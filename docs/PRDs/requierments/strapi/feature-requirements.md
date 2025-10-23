@@ -58,6 +58,6 @@
 - Editorial training delivered, with playbook for using workflows and assets.
 
 ## Open Questions & Assumptions
-- Need decision on hosting (self-managed vs Strapi Cloud) and deployment pipeline.
+- Hosting decision settled (self-managed on AWS ECS per `ADR-010`); document deployment pipeline expectations.
 - Determine localization tooling (manual vs integrated translation provider).
 - Assume Strapi will manage taxonomy for both blog and ecommerce content; confirm no conflicting systems.

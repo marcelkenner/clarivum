@@ -8,7 +8,7 @@ This document captures the current system context and high-level architecture de
 |-----------------------------|----------------------------------------------------------------------------------------------------|
 | Public visitors             | Consume marketing, education, and funnel experiences delivered via the Clarivum web application. |
 | Logged-in members           | Access gated assets (ebooks, tools) and manage preferences via secure sessions.                   |
-| Content & marketing editors | Curate content, upload assets, and trigger publishing workflows through the admin console.        |
+| Content & marketing editors | Curate content, upload assets, and trigger publishing workflows through the Strapi admin console. |
 | Third-party services        | Email/SMS providers (for lead magnets), analytics (PostHog), and payment gateway (Stripe)         |
 
 Clarivum itself is the branded digital experience that surfaces verticalized content (Skin, Fuel, Habits) and orchestrates lead capture, diagnostics, and educational flows. It must remain compliant with EU privacy rules (Poland-first launch) and meet the SLOs defined in the PTRD.
@@ -41,21 +41,45 @@ Clarivum itself is the branded digital experience that surfaces verticalized con
               │        │ (job workers) │
               │        └───────────────┘
               │
-              │ PostgREST / direct SQL over pooled connections
+              │ Supabase SDKs (SQL + Storage)
               ▼
 ┌──────────────────────────────────────────┐
-│     Supabase Postgres 16 (eu-central-1)  │
-│  - Content metadata & taxonomy           │
-│  - Membership + entitlements             │
-│  - Audit trails (pg_audit, row-level sec)│
-└───────────────────┬──────────────────────┘
-                    │
-                    │ Asset storage (signed URLs)
-                    ▼
-             ┌─────────────────────┐
-             │ Supabase Storage /  │
-             │ S3-compatible bucket│
-             └─────────────────────┘
+│ Supabase Postgres & Storage (eu-central) │
+│  - Primary application data (profiles,   │
+│    leads, entitlements, mission states)  │
+│  - Signed asset delivery + RLS policies  │
+└─────────────┬──────────────┬──────────────┘
+              │              │
+              │              │ CMS content sync
+              │              ▼
+              │        ┌────────────────────────┐
+              │        │ Strapi CMS (AWS ECS)   │
+              │        │ - Admin UI behind ALB  │
+              │        │ - REST/GraphQL delivery│
+              │        │ - Webhooks (ISR, search)│
+              │        └──────────────┬─────────┘
+              │                       │
+              │                       │ Asset storage (signed URLs)
+              │                       ▼
+              │                ┌─────────────────────┐
+              │                │ Amazon S3 (media)   │
+              │                └─────────────────────┘
+              │
+              │ Strapi persistence (SQL)
+              ▼
+        ┌──────────────────────────────────────────┐
+        │ Amazon RDS PostgreSQL 15 (eu-central-1)  │
+        │  - CMS content schemas & workflows       │
+        │  - Snapshot replication into Supabase    │
+        └──────────────────────────────────────────┘
+              │
+              │ Notification workflows (REST)
+              ▼
+┌──────────────────────────────────────────┐
+│ Novu Notifications (AWS ECS Fargate)     │
+│  - Inbox + multi-channel orchestration   │
+│  - Node SDK auth via AWS Secrets Manager │
+└──────────────────────────────────────────┘
 
 Telemetry pipeline:
 
@@ -70,26 +94,28 @@ Operational tooling:
 - **Feature flag service:** Flagsmith SaaS (via SDK in the Next.js app).
 - **CDN & caching:** Vercel’s global edge cache + Upstash Redis (plan) for application-level caching and rate limiting.
 - **Secrets management:** Vercel Environments + AWS Secrets Manager (mirrored via Terraform) with rotation policy.
+- **Primary data platform:** Supabase Postgres & Storage (ADR-001) provisioned via Terraform with PITR, RLS, and access policies enforced by Supabase Dashboard + GitOps.
 
 ## Data flows & responsibilities
 
-1. **Content delivery:** Editors publish content into Supabase via the admin UI. Next.js APIs fetch structured content and hydrate static or ISR pages. Frequently-read queries must have appropriate indexes (see Section 4 of the PTRD); `pg_stat_statements` stays enabled in all environments.
-2. **Lead capture:** Web forms post to `/api/leads`. The BFF persists the lead in Postgres, enqueues enrichment via SQS, and hands off to Lambda workers that push to the CRM and email providers.
-3. **Background processing:** Lambda handlers implement idempotent jobs (content snapshotting, email fulfillment, sitemap regeneration). Dead-letter queues capture poison messages; retries use exponential backoff capped at 15 minutes.
-4. **Observability:** All HTTP handlers and workers emit traces, metrics, and logs via OTel exporters. Golden signals (latency, error rate, saturation, traffic) feed SLO dashboards. Alerts route to the #clarivum-oncall channel.
-5. **Security & privacy:** Row Level Security protects member data; Supabase policies enforce tenant isolation. MFA is mandatory for admin accounts through Auth0 (see ADR-002). PII stored at rest uses Postgres column-level AES-GCM encryption via pgcrypto.
+1. **Content delivery:** Editors work in Strapi; content persists in RDS and media in S3. Next.js fetches structured copy via Strapi REST/GraphQL APIs, stores derived references in Supabase, hydrates ISR pages, and caches responses. Frequently-read queries must have appropriate Strapi API pagination and caching headers; database indices tracked via Terraform modules.
+2. **Lead capture & entitlements:** Web forms post to `/api/leads`. The BFF persists leads, entitlements, and mission progress directly in Supabase Postgres, enqueues enrichment via SQS, and hands off to Lambda workers that push to the CRM and email providers.
+3. **Background processing:** Lambda handlers implement idempotent jobs (content snapshotting, email fulfillment, sitemap regeneration) that read/write Supabase and invoke Strapi webhooks as needed. Dead-letter queues capture poison messages; retries use exponential backoff capped at 15 minutes.
+4. **Notification delivery:** ViewModels invoke `NotificationManager`, which renders Sonner toasts locally, reads subscriber preferences from Supabase, and triggers Novu workflows for inbox/email/SMS delivery. Novu stores channel receipts for audit.
+5. **Observability:** All HTTP handlers and workers emit traces, metrics, and logs via OTel exporters. Golden signals (latency, error rate, saturation, traffic) feed SLO dashboards. Alerts route to the #clarivum-oncall channel.
+6. **Security & privacy:** Supabase Row Level Security protects member data; policies enforce tenant isolation across profiles, diagnostics, and entitlements. MFA is mandatory for admin accounts through Auth0 (see ADR-002). PII stored at rest uses Postgres column-level AES-GCM encryption via pgcrypto; Strapi data snapshots replicate into Supabase following ADR-010 controls.
 
 ## Deployment topology
 
 - **Environments:** `dev` (shared testing), `prod` (customer-facing). Vercel preview deployments continue to spin up per pull request for isolated QA.
-- **Hosting:** Vercel handles web build/deploy with GitHub Actions orchestrating linting, tests, and SLO guardrails before promotion. Lambda jobs are deployed via Terraform-driven GitHub Actions workflows.
+- **Hosting:** Vercel handles web build/deploy with GitHub Actions orchestrating linting, tests, and SLO guardrails before promotion. Strapi and Novu run on AWS ECS Fargate with Terraform-managed services; Lambda jobs are deployed via Terraform-driven GitHub Actions workflows.
 - **Release model:** Trunk-based development with feature flags and automated smoke tests. Rollbacks prefer redeploying the last known good build rather than hotfix branches (documented in the deployment runbook).
 
 ## Alignment with non-functional requirements
 
-- **Availability:** Vercel + Supabase provide regional redundancy; combined design supports the 99.9% uptime objective. Lambda workers run across at least two AZs.
-- **Performance:** CDN caching, ISR, and Redis-backed edge caching keep p95 HTML responses below 300 ms for Poland. API surfaces have explicit budgets (p99 < 800 ms).
-- **Reliability:** RPO ≤ 15 minutes via Supabase point-in-time recovery; RTO ≤ 2 hours with automated restore scripts tested quarterly.
+- **Availability:** Vercel + Strapi ECS + Novu ECS (two AZs) + Supabase provide regional redundancy; combined design supports the 99.9% uptime objective. Lambda workers run across at least two AZs.
+- **Performance:** CDN caching, ISR, Strapi response tuning, Novu workflow SLAs, and Redis-backed edge caching keep p95 HTML responses below 300 ms for Poland. API surfaces have explicit budgets (p99 < 800 ms).
+- **Reliability:** RPO ≤ 15 minutes via RDS and Supabase point-in-time recovery; RTO ≤ 2 hours with automated restore scripts tested quarterly.
 - **Security:** Auth0 + RBAC, secrets management, and CIS IG1 controls are codified in `docs/policies/security-baseline.md`.
 - **Cost:** Budgets and alerts are configured through AWS Budgets and Vercel spend caps; the FinOps runbook defines actions when hitting 50/75/90% of monthly spend.
 
