@@ -68,17 +68,17 @@ This file gives coding agents the operational context that complements `README.m
 
 ## Build & verification commands
 
-| Purpose               | Command                | Notes                                                          |
-| --------------------- | ---------------------- | -------------------------------------------------------------- |
-| Start dev server      | `npm run dev`          | Uses Turbopack; requires Node 20+.                             |
-| Production build      | `npm run build`        | Run before shipping infra changes.                             |
-| Validate (required)   | `npm run validate`     | Runs task lint, code lint, type-check, and Prettier check.     |
-| Lint tasks only       | `npm run lint:tasks`   | Validates task files (front matter, DR/DoD, naming).           |
-| Lint code only        | `npm run lint:code`    | ESLint enforced with zero warnings.                            |
-| Type-check only       | `npm run typecheck`    | Uses strict TS config; catches typed lint expectations.        |
-| Auto-format source    | `npm run format`       | Applies Prettier respecting `.prettierignore`.                 |
-| Agent scaffolding     | `npm run ensure:agents`| Auto-generates `AGENTS.md` for new directories.                |
-| Task summary          | `npm run tasks:summary`| Regenerates `tasks/status-summary.md` digest.                  |
+| Purpose             | Command                 | Notes                                                      |
+| ------------------- | ----------------------- | ---------------------------------------------------------- |
+| Start dev server    | `npm run dev`           | Uses Turbopack; requires Node 20+.                         |
+| Production build    | `npm run build`         | Run before shipping infra changes.                         |
+| Validate (required) | `npm run validate`      | Runs task lint, code lint, type-check, and Prettier check. |
+| Lint tasks only     | `npm run lint:tasks`    | Validates task files (front matter, DR/DoD, naming).       |
+| Lint code only      | `npm run lint:code`     | ESLint enforced with zero warnings.                        |
+| Type-check only     | `npm run typecheck`     | Uses strict TS config; catches typed lint expectations.    |
+| Auto-format source  | `npm run format`        | Applies Prettier respecting `.prettierignore`.             |
+| Agent scaffolding   | `npm run ensure:agents` | Auto-generates `AGENTS.md` for new directories.            |
+| Task summary        | `npm run tasks:summary` | Regenerates `tasks/status-summary.md` digest.              |
 
 There are no automated tests yet. When you add them (Vitest/Playwright, etc.), extend scripts and update this guide.
 

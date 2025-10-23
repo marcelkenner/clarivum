@@ -10,17 +10,17 @@ npm install
 
 Common scripts:
 
-| Purpose             | Command                | Notes                                                                 |
-| ------------------- | ---------------------- | --------------------------------------------------------------------- |
-| Start dev server    | `npm run dev`          | Uses Turbopack; hot reload enabled.                                   |
-| Build production    | `npm run build`        | Generates the production bundle (Turbopack).                          |
-| Run quality gate    | `npm run validate`     | Executes lint (tasks + code), typecheck, and Prettier format check.   |
-| Lint tasks only     | `npm run lint:tasks`   | Validates task board metadata/schema.                                 |
-| Lint code only      | `npm run lint:code`    | ESLint with zero warnings allowed.                                    |
-| Type-check only     | `npm run typecheck`    | Uses `tsconfig.json` strict settings.                                 |
-| Auto-format source  | `npm run format`       | Runs Prettier respecting `.prettierignore`.                           |
-| Refresh AGENTS docs | `npm run ensure:agents`| Regenerates directory-specific agent guidance files.                  |
-| Task status digest  | `npm run tasks:summary`| Rebuilds `tasks/status-summary.md`.                                   |
+| Purpose             | Command                 | Notes                                                               |
+| ------------------- | ----------------------- | ------------------------------------------------------------------- |
+| Start dev server    | `npm run dev`           | Uses Turbopack; hot reload enabled.                                 |
+| Build production    | `npm run build`         | Generates the production bundle (Turbopack).                        |
+| Run quality gate    | `npm run validate`      | Executes lint (tasks + code), typecheck, and Prettier format check. |
+| Lint tasks only     | `npm run lint:tasks`    | Validates task board metadata/schema.                               |
+| Lint code only      | `npm run lint:code`     | ESLint with zero warnings allowed.                                  |
+| Type-check only     | `npm run typecheck`     | Uses `tsconfig.json` strict settings.                               |
+| Auto-format source  | `npm run format`        | Runs Prettier respecting `.prettierignore`.                         |
+| Refresh AGENTS docs | `npm run ensure:agents` | Regenerates directory-specific agent guidance files.                |
+| Task status digest  | `npm run tasks:summary` | Rebuilds `tasks/status-summary.md`.                                 |
 
 CI relies on `npm run validate`; ensure it passes before pushing. Task changes alone still require `npm run lint:tasks`.
 
