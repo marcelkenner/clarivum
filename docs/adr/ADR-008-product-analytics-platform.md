@@ -24,6 +24,12 @@ Status: Accepted
   - Integrate alerting with Slack for the >20% funnel drop detector.
 - Embed privacy controls: respect Flagsmith-based consent flags, support user deletion via PostHog API hooks invoked from the GDPR portal.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-008-product-analytics-platform/architecture-overview.mmd) — Event producers, PostHog ingestion, and Supabase warehouse sync.
+- [Data Lineage](../diagrams/adr-008-product-analytics-platform/data-lineage.mmd) — Event schema, properties, cohorts, and warehouse facts.
+- [UML Instrumentation Toolkit](../diagrams/adr-008-product-analytics-platform/uml-instrumentation.mmd) — Clients and registries enforcing consent and type safety.
+- [BPMN Governance Flow](../diagrams/adr-008-product-analytics-platform/bpmn-governance.mmd) — Schema change review, rollout, and regression response.
+
 ## Event Catalogue (Canonical)
 This appendix replaces `docs/analytics_events.md`. Update this table whenever instrumentation changes and reference it from implementation PRs.
 

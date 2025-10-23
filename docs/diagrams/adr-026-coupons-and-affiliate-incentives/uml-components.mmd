@@ -1,0 +1,28 @@
+```mermaid
+classDiagram
+    class CouponIngestionManager {
+        +importFeed(feed)
+        +validateCoupon(data)
+    }
+    class CouponRepository {
+        +save(coupon)
+        +findValid(criteria)
+    }
+    class ComplianceManager {
+        +applyDisclosure(coupon)
+        +buildTrackingUrl(coupon)
+    }
+    class AlertService {
+        +scheduleExpiryAlert(coupon)
+        +notifySlack(alert)
+    }
+    class CouponTelemetry {
+        +recordClick(coupon)
+        +recordRedemption(coupon)
+    }
+    CouponIngestionManager --> CouponRepository
+    CouponIngestionManager --> ComplianceManager
+    CouponRepository --> AlertService
+    CouponRepository --> CouponTelemetry
+    ComplianceManager --> CouponTelemetry
+```

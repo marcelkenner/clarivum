@@ -1,0 +1,24 @@
+```mermaid
+classDiagram
+    class SearchManager {
+        +enqueuePayload(payload)
+        +applySchemaMigration()
+        +swapIndex()
+    }
+    class IndexClient {
+        +upsertDocuments(records)
+        +deleteDocuments(ids)
+        +getStats()
+    }
+    class SearchViewModel {
+        +search(query, filters)
+        +recordAnalytics(event)
+    }
+    class RelevanceTuner {
+        +computeBoosts(document)
+        +normalizeContent(content)
+    }
+    SearchManager --> IndexClient
+    SearchManager --> RelevanceTuner
+    SearchViewModel --> IndexClient
+```

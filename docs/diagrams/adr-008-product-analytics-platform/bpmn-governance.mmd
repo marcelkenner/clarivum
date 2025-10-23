@@ -1,0 +1,16 @@
+```mermaid
+flowchart TD
+    propose([Propose schema change])
+    review{Analytics + Product review}
+    updateAdr[Update ADR catalogue]
+    implement[Implement instrumentation]
+    validate[Playwright analytics QA]
+    monitor[Monitor funnel dashboards]
+    trigger{Regression detected?}
+    remediate[Open incident + rollback flag]
+    propose --> review
+    review -->|Approved| updateAdr --> implement --> validate --> monitor --> trigger
+    review -->|Rejected| monitor
+    trigger -->|Yes| remediate --> monitor
+    trigger -->|No| monitor
+```

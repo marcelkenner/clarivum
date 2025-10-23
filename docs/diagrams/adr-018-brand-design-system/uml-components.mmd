@@ -1,0 +1,23 @@
+```mermaid
+classDiagram
+    class TokenRegistry {
+        +getColor(name)
+        +getTypography(name)
+        +getSpacing(name)
+    }
+    class ThemeProvider {
+        +applyTokens(component)
+        +subscribeUpdates(listener)
+    }
+    class StorybookSync {
+        +generateStories(tokens)
+        +publishDocs()
+    }
+    class DesignReviewBoard {
+        +approveChange(request)
+        +scheduleReview()
+    }
+    ThemeProvider --> TokenRegistry
+    StorybookSync --> TokenRegistry
+    DesignReviewBoard --> TokenRegistry
+```

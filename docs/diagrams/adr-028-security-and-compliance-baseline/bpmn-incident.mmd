@@ -1,0 +1,14 @@
+```mermaid
+flowchart TD
+    detect([Security signal detected])
+    triage[Security team triage]
+    severity{Severity >= medium?}
+    declare[Declare incident & notify stakeholders]
+    contain[Contain impact]
+    remediate[Remediate vulnerability]
+    review[Post-incident review + update controls]
+    document[Update compliance records]
+    detect --> triage --> severity
+    severity -->|Yes| declare --> contain --> remediate --> review --> document
+    severity -->|No| review --> document
+```

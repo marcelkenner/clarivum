@@ -1,0 +1,10 @@
+```mermaid
+flowchart LR
+    ViewModelForm["Form ViewModel"] --> FormCoordinator["FormCoordinator"]
+    FormCoordinator --> RHF["React Hook Form Controllers"]
+    RHF --> Inputs["Form Inputs & Components"]
+    FormCoordinator --> Validation["Zod Schema Validation"]
+    FormCoordinator --> ServerAction["ServerActionManager"]
+    ServerAction --> APIs["Supabase / External APIs"]
+    FormCoordinator --> Telemetry["FormTelemetryManager (PostHog/OTel)"]
+```

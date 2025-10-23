@@ -1,0 +1,18 @@
+```mermaid
+flowchart TD
+    start([Initiate checkout])
+    select[Collect payment details]
+    route{Select provider}
+    processStripe[Stripe confirm]
+    processPayu[PayU redirect/BLIK]
+    processP24[Przelewy24 hosted form]
+    webhook[Receive webhook]
+    updateLedger[Update Supabase ledger]
+    deliver[Fulfill order / activate subscription]
+    reconcile[Run reconciliation job]
+    start --> select --> route
+    route -->|Stripe| processStripe --> webhook
+    route -->|PayU| processPayu --> webhook
+    route -->|P24| processP24 --> webhook
+    webhook --> updateLedger --> deliver --> reconcile
+```

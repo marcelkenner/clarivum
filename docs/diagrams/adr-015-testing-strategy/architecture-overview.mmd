@@ -1,0 +1,13 @@
+```mermaid
+flowchart LR
+    Developer["Developer (local)"] --> Vitest["Vitest + React Testing Library"]
+    Developer --> PlaywrightLocal["Playwright Smoke Suite"]
+    GitHubPR["GitHub Pull Request"] --> GitHubActions["GitHub Actions CI"]
+    GitHubActions --> VitestCI["Vitest CI Job"]
+    GitHubActions --> PlaywrightCI["Playwright Smoke Job"]
+    GitHubActions --> Reports["Test Reports & Artifacts"]
+    GitHubActions --> VercelPreview["Vercel Preview Deploy"]
+    PlaywrightCI --> VercelPreview
+    VitestCI --> Reports
+    PlaywrightCI --> Reports
+```

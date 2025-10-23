@@ -1,0 +1,23 @@
+```mermaid
+erDiagram
+    WORKFLOW_RUN {
+        string run_id
+        string branch
+        string status
+        datetime started_at
+    }
+    CHECK_RESULT {
+        string run_id
+        string check_name
+        string outcome
+        float duration
+    }
+    DEPLOYMENT_RECORD {
+        string deployment_id
+        string run_id
+        string environment
+        datetime deployed_at
+    }
+    WORKFLOW_RUN ||--o{ CHECK_RESULT : produces
+    WORKFLOW_RUN ||--o{ DEPLOYMENT_RECORD : leads_to
+```

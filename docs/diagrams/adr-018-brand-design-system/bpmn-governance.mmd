@@ -1,0 +1,12 @@
+```mermaid
+flowchart TD
+    proposal([Propose brand change])
+    review{Brand council review}
+    tokenUpdate[Update design tokens]
+    storybookSync[Refresh Storybook documentation]
+    implement[Apply tokens in codebase]
+    communicate[Communicate change to squads]
+    proposal --> review
+    review -->|Approved| tokenUpdate --> storybookSync --> implement --> communicate
+    review -->|Rejected| proposal
+```

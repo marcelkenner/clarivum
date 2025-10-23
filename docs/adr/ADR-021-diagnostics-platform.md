@@ -25,6 +25,12 @@ Status: Accepted
   - Define question schemas using JSON Schema + Zod for consistent typing.
   - Support pluggable outcome calculators so teams can introduce new quizzes without rewriting framework.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-021-diagnostics-platform/architecture-overview.mmd) — Question bank ingestion, presentation layer, evaluation engine, and telemetry flow.
+- [Data Lineage](../diagrams/adr-021-diagnostics-platform/data-lineage.mmd) — Questions, responses, outcomes, telemetry, and consent records.
+- [UML Components](../diagrams/adr-021-diagnostics-platform/uml-components.mmd) — Managers, coordinators, evaluators, repositories, and telemetry services.
+- [BPMN Session Flow](../diagrams/adr-021-diagnostics-platform/bpmn-session.mmd) — Consent, branching, persistence, scoring, and outcome delivery.
+
 ## Consequences
 - **Benefits:** Modular architecture enables reuse across Skin/Fuel/Habits, supports A/B testing, and enforces compliance.
 - **Trade-offs:** Requires disciplined content governance and schema versioning; more upfront work than bespoke quizzes.

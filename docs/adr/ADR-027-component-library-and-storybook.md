@@ -27,6 +27,12 @@ Status: Accepted
   - Storybook deployed to Vercel; preview gating via CI (ADR-016).
   - Add addons for viewport, interactions, and docs.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-027-component-library-and-storybook/architecture-overview.mmd) — Component library inputs, Storybook workbench, and CI integrations.
+- [Data Lineage](../diagrams/adr-027-component-library-and-storybook/data-lineage.mmd) — Component, story, test, and deployment records.
+- [UML Components](../diagrams/adr-027-component-library-and-storybook/uml-components.mmd) — ViewModel, manager, documentation, and test classes.
+- [BPMN Change Workflow](../diagrams/adr-027-component-library-and-storybook/bpmn-change.mmd) — Review, implementation, validation, and deployment steps.
+
 ## Consequences
 - **Benefits:** Shared library accelerates feature work, avoids duplication, and keeps UI consistent with brand.
 - **Trade-offs:** Requires process discipline; Storybook upkeep adds overhead.

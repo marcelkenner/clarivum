@@ -1,0 +1,14 @@
+```mermaid
+flowchart TD
+    request([User requests export/deletion])
+    verify[Verify identity + MFA]
+    route{Request type}
+    export[Compile data from Supabase + integrations]
+    deliver[Deliver export download]
+    delete[Queue deletion workflow]
+    notify[Notify user + log audit event]
+    purge[Remove data & revoke tokens]
+    request --> verify --> route
+    route -->|Export| export --> deliver --> notify
+    route -->|Deletion| delete --> purge --> notify
+```

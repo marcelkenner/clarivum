@@ -1,0 +1,22 @@
+```mermaid
+classDiagram
+    class WorkflowCoordinator {
+        +dispatchPipeline(trigger)
+        +aggregateResults()
+    }
+    class CheckJob {
+        +runCommand(script)
+        +uploadArtifacts()
+    }
+    class SecretProvider {
+        +issueOidcToken(service)
+        +fetchSecret(key)
+    }
+    class NotificationPublisher {
+        +postStatus(run)
+        +emitMetrics(run)
+    }
+    WorkflowCoordinator --> CheckJob
+    WorkflowCoordinator --> SecretProvider
+    WorkflowCoordinator --> NotificationPublisher
+```

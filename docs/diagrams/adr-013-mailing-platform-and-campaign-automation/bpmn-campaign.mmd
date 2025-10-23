@@ -1,0 +1,14 @@
+```mermaid
+flowchart TD
+    plan([Plan campaign])
+    segment[Build audience segment]
+    approve{Marketing approval?}
+    schedule[Schedule send in Listmonk]
+    send[Execute campaign via SES]
+    collect[Collect delivery/bounce webhooks]
+    sync[Update Supabase + suppression]
+    report[Generate performance report]
+    plan --> segment --> approve
+    approve -->|Approved| schedule --> send --> collect --> sync --> report
+    approve -->|Changes needed| plan
+```

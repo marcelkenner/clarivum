@@ -1,0 +1,15 @@
+```mermaid
+flowchart TD
+    request([Incoming request])
+    cacheHit{Cache hit?}
+    serveCache[Serve cached response]
+    evaluate[Evaluate rate limit policy]
+    allowed{Within quota?}
+    execute[Execute handler / fetch fresh data]
+    throttle[Return 429 with guidance]
+    request --> cacheHit
+    cacheHit -->|Yes| serveCache
+    cacheHit -->|No| evaluate --> allowed
+    allowed -->|Yes| execute --> serveCache
+    allowed -->|No| throttle
+```

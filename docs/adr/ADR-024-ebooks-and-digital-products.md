@@ -38,4 +38,7 @@ Status: Accepted
   - Evaluate additional formats (audio, interactive) once core system stabilizes.
 
 ## Diagrams
-- Pending: add PDF/EPUB generation sequence diagram under `docs/diagrams/ebooks/pdf-epub-generation.drawio`.
+- [Architecture Overview](../diagrams/adr-024-ebooks-and-digital-products/architecture-overview.mmd) — Catalog, entitlement, rendering, storage, and fulfillment flow.
+- [Data Lineage](../diagrams/adr-024-ebooks-and-digital-products/data-lineage.mmd) — Ebook metadata, entitlements, downloads, and messaging events.
+- [UML Generation Components](../diagrams/adr-024-ebooks-and-digital-products/uml-generation.mmd) — PDF/EPUB generation manager, rendering engines, and watermark service.
+- [BPMN Fulfillment Flow](../diagrams/adr-024-ebooks-and-digital-products/bpmn-fulfillment.mmd) — Purchase/lead capture through asset delivery and telemetry.

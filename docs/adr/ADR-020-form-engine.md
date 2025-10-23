@@ -27,6 +27,12 @@ Status: Accepted
   - Use RHF DevTools in Storybook (ADR-027) for component previews.
   - Write Vitest unit tests with testing-library helpers; cover Zod schema edge cases.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-020-form-engine/architecture-overview.mmd) — Form coordinators, RHF controllers, validation, network, and telemetry interactions.
+- [Data Lineage](../diagrams/adr-020-form-engine/data-lineage.mmd) — Zod schemas, form state, submission records, and telemetry events.
+- [UML Components](../diagrams/adr-020-form-engine/uml-components.mmd) — Coordinator, manager, validation, telemetry, and server action collaborators.
+- [BPMN Submission Flow](../diagrams/adr-020-form-engine/bpmn-submission.mmd) — Validation, submission, fallback, and analytics lifecycle.
+
 ## Consequences
 - **Benefits:** Strong DX with RHF + Zod pairing, shared validation logic across server/client, fast re-render performance.
 - **Trade-offs:** Team must stay current with RHF/Zod updates; schema complexity can grow—mitigate with decomposition and documentation.

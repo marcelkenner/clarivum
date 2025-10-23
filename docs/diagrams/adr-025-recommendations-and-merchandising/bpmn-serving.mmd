@@ -1,0 +1,17 @@
+```mermaid
+flowchart TD
+    start([Request recommendations])
+    gather[Collect profile context + flags]
+    fetchCollections[Fetch curated collections]
+    aggregate[Aggregate behavior signals]
+    personalize[Merge diagnostics outcome]
+    score[Score and rank items]
+    fallback{Enough items?}
+    enrich[Attach affiliate links/coupons]
+    cache[Cache response at edge]
+    respond[Return recommendations]
+    record[Record impression telemetry]
+    start --> gather --> fetchCollections --> aggregate --> personalize --> score --> fallback
+    fallback -->|Yes| enrich --> cache --> respond --> record
+    fallback -->|No| fetchCollections
+```

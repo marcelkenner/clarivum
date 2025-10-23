@@ -1,0 +1,13 @@
+```mermaid
+flowchart TD
+    request([Request new icon])
+    review{Design review approves?}
+    select[Select Phosphor glyph + weight]
+    updateTokens[Update token definitions]
+    implement[Implement component usage]
+    lint[Add lint rule/test if needed]
+    document[Update design system docs]
+    request --> review
+    review -->|Yes| select --> updateTokens --> implement --> lint --> document
+    review -->|No| request
+```

@@ -1,0 +1,28 @@
+```mermaid
+classDiagram
+    class ProfileViewModel {
+        +loadOverview(profileId)
+        +updatePreference(input)
+        +exportData()
+    }
+    class ProfileManager {
+        +fetchProfile(profileId)
+        +fetchLinkedData(profileId)
+        +savePreference(change)
+    }
+    class ComplianceService {
+        +requestExport(profileId)
+        +requestDeletion(profileId)
+    }
+    class SubscriptionAdapter {
+        +listSubscriptions(profileId)
+        +syncStatus(event)
+    }
+    class DiagnosticsAdapter {
+        +listResults(profileId)
+    }
+    ProfileViewModel --> ProfileManager
+    ProfileViewModel --> ComplianceService
+    ProfileManager --> SubscriptionAdapter
+    ProfileManager --> DiagnosticsAdapter
+```

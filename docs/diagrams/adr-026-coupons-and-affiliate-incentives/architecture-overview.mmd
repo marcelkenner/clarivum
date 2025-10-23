@@ -1,0 +1,11 @@
+```mermaid
+flowchart LR
+    PartnerFeeds["Partner Feeds / Manual Entry"] --> CouponIngestion["CouponIngestionManager"]
+    CouponIngestion --> SupabaseCoupons["Supabase Coupon Tables"]
+    BackgroundJobs["Nightly Jobs (ADR-003)"] --> SupabaseCoupons
+    SupabaseCoupons --> CouponAPI["Coupon Server Actions / APIs"]
+    CouponAPI --> Recommendations["Recommendations Engine (ADR-025)"]
+    CouponAPI --> Checkout["Checkout Flow (ADR-011)"]
+    CouponAPI --> UI["Frontend Components"]
+    CouponAPI --> Analytics["Telemetry + PostHog"]
+```

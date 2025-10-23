@@ -21,6 +21,12 @@ Status: Accepted
   - Target CIS Controls IG1 + OWASP ASVS L2 as baseline; document compensating controls for gaps.
   - Maintain records of processing activities (RoPA) and DPIA for high-risk workflows.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-028-security-and-compliance-baseline/architecture-overview.mmd) — Identity, secrets, data protection, observability, and governance layers.
+- [Data Lineage](../diagrams/adr-028-security-and-compliance-baseline/data-lineage.mmd) — Control records, audit logs, and incident reports.
+- [UML Components](../diagrams/adr-028-security-and-compliance-baseline/uml-components.mmd) — Registries, rotation manager, compliance reporting, and incident coordination classes.
+- [BPMN Incident Response](../diagrams/adr-028-security-and-compliance-baseline/bpmn-incident.mmd) — Detection, declaration, containment, remediation, and review workflow.
+
 ## Consequences
 - **Benefits:** Clear baseline for engineers, alignment with legal requirements, and traceability in audits.
 - **Trade-offs:** Increased upfront diligence; requires ongoing policy maintenance.

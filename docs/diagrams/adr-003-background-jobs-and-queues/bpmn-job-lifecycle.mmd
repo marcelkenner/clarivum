@@ -1,0 +1,15 @@
+```mermaid
+flowchart LR
+    start([Enqueue job])
+    dispatch[Dispatch to SQS]
+    pull[Lambda polls message]
+    execute[Execute handler]
+    success{Success?}
+    record[Record result]
+    retry[Schedule retry w/backoff]
+    deadletter[Move to DLQ + alert]
+    start --> dispatch --> pull --> execute --> success
+    success -->|Yes| record
+    success -->|No| retry --> pull
+    retry -->|Exhausted| deadletter
+```

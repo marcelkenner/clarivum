@@ -24,6 +24,12 @@ Status: Accepted
   - Keep role guides (`frontend`, `backend`, `qa`) aligned with this stack.
   - Update runbooks when adding new suites or modifying triggers; note references in tasks per the work-intake policy.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-015-testing-strategy/architecture-overview.mmd) — Local and CI execution of Vitest, Playwright, and preview deployments.
+- [Data Lineage](../diagrams/adr-015-testing-strategy/data-lineage.mmd) — Test results, traces, and accessibility reports.
+- [UML Test Modules](../diagrams/adr-015-testing-strategy/uml-modules.mmd) — Environment factories, flag seeding, fixture management, and Playwright orchestration.
+- [BPMN CI Flow](../diagrams/adr-015-testing-strategy/bpmn-ci.mmd) — Pull request validation pipeline and merge gate.
+
 ## Consequences
 - **Benefits:** Consistent tooling across squads, faster feedback loops, and deterministic smoke coverage tied to product funnels.
 - **Trade-offs:** CI runtime increases; mitigate with test parallelism and selective Playwright suites for smoke vs. regression.

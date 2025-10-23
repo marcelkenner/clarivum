@@ -25,6 +25,12 @@ Status: Accepted
   - New tools must follow template `ToolBlueprint` exporting metadata (slug, vertical, required consents).
   - Central registry enumerates tools for sitemap generation and feature flags.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-022-tools-and-calculators-platform/architecture-overview.mmd) — Tool shell, computation managers, data providers, and analytics.
+- [Data Lineage](../diagrams/adr-022-tools-and-calculators-platform/data-lineage.mmd) — Tool metadata, inputs, results, and instrumentation events.
+- [UML Components](../diagrams/adr-022-tools-and-calculators-platform/uml-components.mmd) — ViewModel, computation manager, data provider interface, blueprint, and telemetry classes.
+- [BPMN Tool Lifecycle](../diagrams/adr-022-tools-and-calculators-platform/bpmn-tool-lifecycle.mmd) — Ideation, build, review, launch, and monitoring workflow.
+
 ## Consequences
 - **Benefits:** Reuse across tool specs, faster implementation, consistent analytics and compliance handling.
 - **Trade-offs:** Shared abstractions add complexity; ensure documentation stays current.

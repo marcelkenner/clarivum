@@ -1,0 +1,13 @@
+```mermaid
+flowchart TD
+    request([Request component change])
+    designReview[Design & accessibility review]
+    implement[Implement component + stories + tests]
+    runChecks[Run lint/tests/Storybook]
+    approve{All checks passing?}
+    deploy[Deploy Storybook + merge]
+    document[Update component handbook]
+    request --> designReview --> implement --> runChecks --> approve
+    approve -->|Yes| deploy --> document
+    approve -->|No| implement
+```

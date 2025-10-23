@@ -1,0 +1,21 @@
+```mermaid
+erDiagram
+    UNIT_TEST_RESULT {
+        string suite
+        string test_name
+        string status
+        float duration_ms
+    }
+    E2E_TRACE {
+        string scenario
+        string trace_path
+        datetime captured_at
+    }
+    ACCESSIBILITY_REPORT {
+        string scenario
+        int violations
+        datetime generated_at
+    }
+    UNIT_TEST_RESULT ||--o{ E2E_TRACE : contextualizes
+    E2E_TRACE ||--o{ ACCESSIBILITY_REPORT : reuses
+```

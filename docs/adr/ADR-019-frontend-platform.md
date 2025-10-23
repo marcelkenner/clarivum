@@ -30,6 +30,12 @@ Status: Accepted
   - Vitest + Testing Library (ADR-015) cover view models and UI logic.
   - GitHub Actions (ADR-016) runs lint/type/test gates before merge.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-019-frontend-platform/architecture-overview.mmd) — Route groups, ViewModels, Managers, Coordinators, and external services.
+- [Data Lineage](../diagrams/adr-019-frontend-platform/data-lineage.mmd) — Relationships between view models, managers, shared utilities, and style tokens.
+- [UML Platform Components](../diagrams/adr-019-frontend-platform/uml-components.mmd) — Core classes orchestrating data loading, business rules, theming, and caching.
+- [BPMN Delivery Flow](../diagrams/adr-019-frontend-platform/bpmn-release.mmd) — Feature implementation pipeline from scaffold to monitoring.
+
 ## Consequences
 - **Benefits:** Shared conventions for routing, styling, and composition accelerate delivery and align with the brand system. Next.js + Tailwind synergy keeps bundle size low.
 - **Trade-offs:** Requires ongoing vigilance to prevent client bundle creep; Tailwind utility sprawl must be tamed via linting.

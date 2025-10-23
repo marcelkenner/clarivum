@@ -1,0 +1,11 @@
+```mermaid
+flowchart LR
+    EdgeMiddleware["Vercel Edge Middleware"] --> Upstash["Upstash Redis (EU)"]
+    NextApi["Next.js Server Actions"] --> Upstash
+    LambdaJobs["AWS Lambda Jobs"] --> Upstash
+    Upstash --> CacheDB["clarivum-cache"]
+    Upstash --> GuardrailDB["clarivum-guardrails"]
+    CacheDB --> Observability["OTel hit/miss metrics"]
+    GuardrailDB --> Observability
+    Terraform["Terraform Upstash Provider"] --> Upstash
+```

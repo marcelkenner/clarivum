@@ -1,0 +1,27 @@
+```mermaid
+classDiagram
+    class JobDispatcher {
+        +enqueue(jobPayload)
+        +schedule(delay)
+    }
+    class QueueClient {
+        +sendMessage()
+        +deleteMessage()
+    }
+    class WorkerHandler {
+        +handle(event)
+        +acknowledge()
+    }
+    class RetryStrategy {
+        +shouldRetry(error)
+        +nextDelay(attempt)
+    }
+    class DeadLetterHandler {
+        +recordFailure()
+        +alertOncall()
+    }
+    JobDispatcher --> QueueClient
+    QueueClient --> WorkerHandler
+    WorkerHandler --> RetryStrategy
+    WorkerHandler --> DeadLetterHandler
+```

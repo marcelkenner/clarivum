@@ -1,0 +1,19 @@
+```mermaid
+flowchart TD
+    start([Start diagnostics])
+    consent{Consent granted?}
+    load[Load next question]
+    respond[Capture response]
+    branch{Branching rule}
+    save[Persist response to Supabase]
+    done{Questions remaining?}
+    evaluate[Run scoring engine]
+    deliver[Present outcome & recommendations]
+    telemetry[Emit telemetry + traces]
+    start --> consent
+    consent -->|Yes| load --> respond --> branch --> save --> done
+    consent -->|No| telemetry
+    branch --> load
+    done -->|Yes| load
+    done -->|No| evaluate --> deliver --> telemetry
+```

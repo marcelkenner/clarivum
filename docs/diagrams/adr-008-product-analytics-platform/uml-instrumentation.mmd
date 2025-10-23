@@ -1,0 +1,23 @@
+```mermaid
+classDiagram
+    class BrowserEventClient {
+        +identify(user)
+        +track(event)
+        +setFeatureFlags(flags)
+    }
+    class ServerEventDispatcher {
+        +queue(event)
+        +flush()
+    }
+    class SchemaRegistry {
+        +validate(event)
+        +listEvents()
+    }
+    class ConsentManager {
+        +hasConsent(type)
+        +recordDecision()
+    }
+    BrowserEventClient --> SchemaRegistry
+    BrowserEventClient --> ConsentManager
+    ServerEventDispatcher --> SchemaRegistry
+```

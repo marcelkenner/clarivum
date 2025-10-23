@@ -1,0 +1,13 @@
+```mermaid
+flowchart TD
+    create([Create/import coupon])
+    validate[Validate terms & compliance]
+    publish[Publish to Supabase + Strapi metadata]
+    monitor[Monitor clicks/redemptions]
+    expire{Expired or revoked?}
+    notify[Send alert / update partners]
+    archive[Archive coupon & remove from UI]
+    create --> validate --> publish --> monitor --> expire
+    expire -->|Yes| notify --> archive
+    expire -->|No| monitor
+```

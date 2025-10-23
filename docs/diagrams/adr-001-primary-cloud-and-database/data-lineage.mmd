@@ -1,0 +1,26 @@
+```mermaid
+erDiagram
+    MEMBER ||--o{ ENTITLEMENT : grants
+    MEMBER {
+        uuid id
+        string email
+        timestamp created_at
+    }
+    ENTITLEMENT {
+        uuid id
+        string product_code
+        timestamp expires_at
+    }
+    CONTENT ||--o{ ENTITLEMENT : unlocks
+    CONTENT {
+        uuid id
+        string slug
+        string format
+    }
+    LEAD ||--o{ MEMBER : converts_to
+    LEAD {
+        uuid id
+        string source
+        string campaign
+    }
+```

@@ -1,0 +1,23 @@
+```mermaid
+classDiagram
+    class TestEnvironmentFactory {
+        +createNodeEnv()
+        +loadEnvFile(path)
+    }
+    class FeatureFlagSeeder {
+        +seedFlags(config)
+        +resetFlags()
+    }
+    class SupabaseFixtureManager {
+        +applyFixtures()
+        +cleanup()
+    }
+    class PlaywrightRunner {
+        +launchPreview(url)
+        +runSmokeSuite()
+    }
+    TestEnvironmentFactory --> FeatureFlagSeeder
+    TestEnvironmentFactory --> SupabaseFixtureManager
+    PlaywrightRunner --> FeatureFlagSeeder
+    PlaywrightRunner --> SupabaseFixtureManager
+```

@@ -1,0 +1,30 @@
+```mermaid
+erDiagram
+    PROFILE {
+        uuid id
+        string auth0_id
+        string email_hash
+        string locale
+    }
+    SUBSCRIPTION {
+        uuid id
+        string profile_id
+        string provider
+        string status
+    }
+    DIAGNOSTIC_RESULT {
+        uuid id
+        string profile_id
+        string quiz_slug
+        string segment
+    }
+    PREFERENCE {
+        uuid id
+        string profile_id
+        string type
+        json value
+    }
+    PROFILE ||--o{ SUBSCRIPTION : owns
+    PROFILE ||--o{ DIAGNOSTIC_RESULT : receives
+    PROFILE ||--o{ PREFERENCE : manages
+```

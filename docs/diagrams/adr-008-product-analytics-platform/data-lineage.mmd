@@ -1,0 +1,27 @@
+```mermaid
+erDiagram
+    EVENT {
+        string event_key
+        datetime occurred_at
+        string distinct_id
+    }
+    PROPERTY {
+        string event_key
+        string name
+        string type
+    }
+    COHORT {
+        string cohort_id
+        string name
+        string definition
+    }
+    WAREHOUSE_FACT {
+        string event_key
+        datetime occurred_at
+        string vertical
+        string funnel_stage
+    }
+    EVENT ||--o{ PROPERTY : describes
+    EVENT ||--o{ COHORT : segments
+    EVENT ||--o{ WAREHOUSE_FACT : synced_to
+```

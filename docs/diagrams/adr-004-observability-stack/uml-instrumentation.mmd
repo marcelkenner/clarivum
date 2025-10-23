@@ -1,0 +1,26 @@
+```mermaid
+classDiagram
+    class TelemetryConfigurator {
+        +registerResourceAttributes()
+        +enableAutoInstrumentation()
+    }
+    class TraceExporter {
+        +exportSpan(span)
+    }
+    class MetricExporter {
+        +exportMetric(metric)
+    }
+    class LogExporter {
+        +pushLog(event)
+    }
+    class AlertRuleEngine {
+        +evaluateSlo()
+        +dispatchNotification()
+    }
+    TelemetryConfigurator --> TraceExporter
+    TelemetryConfigurator --> MetricExporter
+    TelemetryConfigurator --> LogExporter
+    MetricExporter --> AlertRuleEngine
+    TraceExporter --> AlertRuleEngine
+    LogExporter --> AlertRuleEngine
+```

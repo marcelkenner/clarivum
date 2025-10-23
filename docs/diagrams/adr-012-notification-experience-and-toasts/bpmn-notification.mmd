@@ -1,0 +1,15 @@
+```mermaid
+flowchart TD
+    trigger([Trigger notification])
+    dedupe{Seen digest?}
+    render[Render toast via Sonner]
+    wait[Await auto-dismiss or user close]
+    dismiss{User dismissed?}
+    persist[Store dismissal digest]
+    telemetry[Emit telemetry event]
+    trigger --> dedupe
+    dedupe -->|No| render --> wait --> dismiss
+    dedupe -->|Yes| telemetry
+    dismiss -->|Yes| persist --> telemetry
+    dismiss -->|Auto| telemetry
+```

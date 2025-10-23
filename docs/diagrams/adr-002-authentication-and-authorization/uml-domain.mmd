@@ -1,0 +1,24 @@
+```mermaid
+classDiagram
+    class Auth0Client {
+        +exchangeCode()
+        +enforceMfa()
+        +fetchRoles()
+    }
+    class NextAuthAdapter {
+        +createSession()
+        +rotateTokens()
+        +augmentClaims()
+    }
+    class SessionManager {
+        +issueCookie()
+        +validateSession()
+    }
+    class RolePolicy {
+        +mapToSupabaseRole()
+        +buildSqlPolicy()
+    }
+    Auth0Client --> NextAuthAdapter
+    NextAuthAdapter --> SessionManager
+    SessionManager --> RolePolicy
+```

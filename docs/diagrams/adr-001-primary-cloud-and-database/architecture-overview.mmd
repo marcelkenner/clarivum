@@ -1,0 +1,11 @@
+```mermaid
+flowchart TD
+    Visitors["Global visitors"] --> VercelEdge["Vercel Edge Network"]
+    VercelEdge --> NextApp["Next.js App Router"]
+    NextApp --> SupabasePostgres["Supabase Postgres 16"]
+    NextApp --> SupabaseStorage["Supabase Storage (S3-compatible)"]
+    Terraform["Terraform IaC"] --> VercelEdge
+    Terraform --> SupabasePostgres
+    Terraform --> SupabaseStorage
+    SupabasePostgres --> PITR["Point-in-time recovery snapshots"]
+```

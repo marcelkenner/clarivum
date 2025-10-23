@@ -1,0 +1,11 @@
+```mermaid
+flowchart TD
+    start([Purchase or lead capture])
+    entitlement[Create entitlement in Supabase]
+    render[Generate PDF/EPUB + watermark if needed]
+    store[Upload to Supabase Storage]
+    deliver[Listmonk sends download link]
+    profileAccess[Enable download from Account Center]
+    telemetry[Record analytics + FinOps metrics]
+    start --> entitlement --> render --> store --> deliver --> profileAccess --> telemetry
+```

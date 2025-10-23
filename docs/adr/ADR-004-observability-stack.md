@@ -20,6 +20,12 @@ Status: Accepted
   - Alert thresholds tie back to the error budget policy (50/75/100% burn).
 - Instrument front-end Real User Monitoring (RUM) via Vercel Analytics + custom OTel Web SDK to capture Core Web Vitals segmented by vertical.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-004-observability-stack/architecture-overview.mmd) — Unified telemetry pipeline feeding Grafana Cloud Tempo, Prometheus, and Loki.
+- [Data Lineage](../diagrams/adr-004-observability-stack/data-lineage.mmd) — Structure of spans, metrics, and log events with cross-correlation points.
+- [UML Instrumentation](../diagrams/adr-004-observability-stack/uml-instrumentation.mmd) — Components initializing SDKs and handling exporter lifecycles.
+- [BPMN Alerting Flow](../diagrams/adr-004-observability-stack/bpmn-alerting.mmd) — Error budget breach response from detection to review.
+
 ## Consequences
 - **Pros:** Unified telemetry pipeline, vendor-managed availability, mature visualization and alerting, and adherence to OTel standards enabling future portability.
 - **Cons:** Ongoing SaaS fees and potential vendor lock-in. Mitigation: keep exporters configurable; if costs rise, we can redirect exporters to self-hosted Tempo/Prometheus/Loki with minimal code changes.

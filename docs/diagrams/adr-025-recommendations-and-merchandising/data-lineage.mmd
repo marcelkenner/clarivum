@@ -1,0 +1,33 @@
+```mermaid
+erDiagram
+    COLLECTION {
+        string id
+        string slug
+        string persona
+    }
+    SIGNAL {
+        string profile_id
+        string event_key
+        float weight
+    }
+    OUTCOME {
+        string profile_id
+        string quiz_slug
+        string segment
+    }
+    RECOMMENDATION {
+        string request_id
+        string item_id
+        string source
+        float score
+    }
+    EVENT_LOG {
+        string recommendation_id
+        string event_type
+        datetime occurred_at
+    }
+    COLLECTION ||--o{ RECOMMENDATION : contributes
+    SIGNAL ||--o{ RECOMMENDATION : influences
+    OUTCOME ||--o{ RECOMMENDATION : personalizes
+    RECOMMENDATION ||--o{ EVENT_LOG : measured_by
+```

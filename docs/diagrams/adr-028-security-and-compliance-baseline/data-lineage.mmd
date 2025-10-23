@@ -1,0 +1,23 @@
+```mermaid
+erDiagram
+    CONTROL_RECORD {
+        string id
+        string control
+        datetime reviewed_at
+        string owner
+    }
+    AUDIT_LOG {
+        string id
+        string source
+        string action
+        datetime timestamp
+    }
+    INCIDENT_REPORT {
+        string id
+        string incident_id
+        string severity
+        datetime closed_at
+    }
+    CONTROL_RECORD ||--o{ AUDIT_LOG : supported_by
+    AUDIT_LOG ||--o{ INCIDENT_REPORT : referenced_by
+```

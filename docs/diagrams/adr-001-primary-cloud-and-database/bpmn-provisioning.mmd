@@ -1,0 +1,12 @@
+```mermaid
+flowchart LR
+    start([Start Provisioning])
+    plan{Infrastructure change?}
+    terraform[Apply Terraform module]
+    verify[Run smoke checks]
+    monitor[Enable monitoring + PITR]
+    handoff([Handoff to operations])
+    start --> plan
+    plan -->|New environment| terraform --> verify --> monitor --> handoff
+    plan -->|No change| handoff
+```

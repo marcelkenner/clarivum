@@ -1,0 +1,10 @@
+```mermaid
+flowchart TD
+    Members["Members & Staff"] --> Auth0["Auth0 Tenant (EU)"]
+    Auth0 --> NextAuth["NextAuth.js BFF"]
+    NextAuth --> NextApp["Next.js App Router"]
+    NextAuth --> SessionCookies["Encrypted session cookies"]
+    NextApp --> Supabase["Supabase Postgres"]
+    Supabase --> RLS["Row Level Security Policies"]
+    BackgroundJobs["Service Accounts"] --> Auth0
+```

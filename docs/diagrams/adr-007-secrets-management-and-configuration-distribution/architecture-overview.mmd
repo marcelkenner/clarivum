@@ -1,0 +1,12 @@
+```mermaid
+flowchart LR
+    SecretsMgr["AWS Secrets Manager (eu-central-1)"] --> VercelHook["Vercel Deploy Hooks"]
+    SecretsMgr --> LambdaRuntime["AWS Lambda Runtime Role"]
+    SecretsMgr --> CICD["GitHub Actions (clarivum-ci)"]
+    CICD --> VercelAPI["Vercel CLI API"]
+    Terraform["Terraform Modules"] --> SecretsMgr
+    Terraform --> IAM["IAM Policies & Roles"]
+    SecretsMgr --> CloudTrail["CloudTrail Audit Logs"]
+    CloudTrail --> Grafana["Grafana Loki Alerts"]
+    ConfigRepo["infra/config defaults"] --> CICD
+```

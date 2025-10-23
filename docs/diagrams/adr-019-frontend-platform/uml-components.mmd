@@ -1,0 +1,27 @@
+```mermaid
+classDiagram
+    class RouteViewModel {
+        +loadData(params)
+        +toProps()
+    }
+    class FeatureManager {
+        +fetchDomainData()
+        +applyBusinessRules()
+    }
+    class PlatformCoordinator {
+        +composeDependencies()
+        +registerCachePolicy()
+    }
+    class TailwindTheme {
+        +resolveToken(name)
+        +toClassName(token)
+    }
+    class EdgeCacheClient {
+        +get(key)
+        +set(key, value, ttl)
+    }
+    RouteViewModel --> FeatureManager
+    FeatureManager --> PlatformCoordinator
+    RouteViewModel --> TailwindTheme
+    PlatformCoordinator --> EdgeCacheClient
+```

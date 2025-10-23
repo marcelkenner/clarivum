@@ -1,0 +1,30 @@
+```mermaid
+erDiagram
+    SUBSCRIBER {
+        uuid id
+        string email
+        string locale
+        boolean double_opt_in
+    }
+    CONSENT {
+        uuid subscriber_id
+        string channel
+        boolean granted
+        datetime updated_at
+    }
+    CAMPAIGN {
+        uuid id
+        string slug
+        datetime scheduled_at
+        string status
+    }
+    EVENT_LOG {
+        uuid id
+        uuid subscriber_id
+        string event_type
+        datetime occurred_at
+    }
+    SUBSCRIBER ||--o{ CONSENT : has
+    CAMPAIGN ||--o{ EVENT_LOG : generates
+    SUBSCRIBER ||--o{ EVENT_LOG : participates_in
+```

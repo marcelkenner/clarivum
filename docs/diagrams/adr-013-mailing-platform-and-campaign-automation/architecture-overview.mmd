@@ -1,0 +1,12 @@
+```mermaid
+flowchart LR
+    Supabase["Supabase Profiles & Leads"] --> MailingCoordinator["MailingCoordinator Service"]
+    Flagsmith["Consent Flags"] --> MailingCoordinator
+    MailingCoordinator --> ListmonkAPI["Listmonk REST API"]
+    ListmonkAPI --> ECS["Listmonk on ECS Fargate"]
+    ECS --> RDS["RDS Postgres (Listmonk DB)"]
+    ECS --> SES["Amazon SES / SMTP Provider"]
+    ECS --> Webhooks["Delivery/Bounce Webhooks"]
+    Webhooks --> Supabase
+    ECS --> Backups["EU S3 Backups"]
+```

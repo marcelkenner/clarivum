@@ -1,0 +1,11 @@
+```mermaid
+flowchart LR
+    NextApp["Next.js Client Shell"] --> KlaroLoader["Klaro Loader JS"]
+    KlaroLoader --> ConsentModal["Consent Modal UI"]
+    KlaroLoader --> ConsentStore["Browser Consent Store"]
+    ConsentStore --> FlagsmithTraits["Flagsmith Trait Sync"]
+    ConsentStore --> AnalyticsGate["Analytics Gate (PostHog, marketing pixels)"]
+    KlaroLoader --> AuditPublisher["consent.updated Event"]
+    AuditPublisher --> SupabaseAudit["Supabase Consent Audit Log"]
+    StrapiTranslations["Strapi Translations"] --> KlaroLoader
+```

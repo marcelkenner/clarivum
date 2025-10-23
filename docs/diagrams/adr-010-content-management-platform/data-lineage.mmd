@@ -1,0 +1,34 @@
+```mermaid
+erDiagram
+    ARTICLE {
+        uuid id
+        string slug
+        boolean published
+        datetime scheduled_at
+    }
+    EBOOK {
+        uuid id
+        string title
+        string download_asset
+    }
+    DIAGNOSTIC_COPY {
+        uuid id
+        string tool_slug
+        string locale
+    }
+    LOCALIZATION {
+        uuid id
+        string locale
+        string status
+    }
+    ASSET {
+        uuid id
+        string path
+        string checksum
+    }
+    ARTICLE ||--o{ LOCALIZATION : supports
+    EBOOK ||--o{ LOCALIZATION : supports
+    DIAGNOSTIC_COPY ||--o{ LOCALIZATION : supports
+    ARTICLE ||--o{ ASSET : embeds
+    EBOOK ||--o{ ASSET : bundles
+```

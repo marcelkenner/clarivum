@@ -15,6 +15,12 @@ Status: Accepted
 - Store large assets (ebooks, media) in **Supabase Storage** (S3-compatible) with lifecycle rules; serve via signed URLs.
 - Manage infrastructure configuration via Terraform modules stored in the `infra/` repository (to be created). Provision the Vercel project, Supabase instance, networking, and secrets through IaC.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-001-primary-cloud-and-database/architecture-overview.mmd) — Delivery path across Vercel Edge, the Next.js application, and Supabase services.
+- [Data Lineage](../diagrams/adr-001-primary-cloud-and-database/data-lineage.mmd) — Key entities for members, content, leads, and entitlements inside Postgres.
+- [UML Service Boundaries](../diagrams/adr-001-primary-cloud-and-database/uml-service-boundaries.mmd) — Runtime collaborators that coordinate deployment and platform automation.
+- [BPMN Provisioning Flow](../diagrams/adr-001-primary-cloud-and-database/bpmn-provisioning.mmd) — Operational workflow for provisioning and validating infrastructure changes.
+
 ## Consequences
 - **Upside:** Fast developer feedback loops (Vercel previews), minimal ops burden, and native Postgres capabilities (indexes, RLS, extensions). EU residency is guaranteed through Supabase’s Frankfurt region.
 - **Risk:** Vendor concentration (Vercel + Supabase). Mitigate by keeping IaC exportable and documenting migration paths (AWS App Runner + RDS) if cost or compliance drives change.

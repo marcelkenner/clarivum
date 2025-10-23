@@ -1,0 +1,25 @@
+```mermaid
+erDiagram
+    ZOD_SCHEMA {
+        string name
+        json definition
+    }
+    FORM_STATE {
+        string form_id
+        json values
+        json errors
+    }
+    SUBMISSION_RECORD {
+        string form_id
+        datetime submitted_at
+        string status
+    }
+    TELEMETRY_EVENT {
+        string form_id
+        string event_name
+        datetime recorded_at
+    }
+    ZOD_SCHEMA ||--o{ FORM_STATE : validates
+    FORM_STATE ||--o{ SUBMISSION_RECORD : persists
+    SUBMISSION_RECORD ||--o{ TELEMETRY_EVENT : triggers
+```

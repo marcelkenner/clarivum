@@ -1,0 +1,16 @@
+```mermaid
+flowchart TD
+    load([Page load])
+    showModal[Display Klaro modal]
+    decision{User choice?}
+    accept[Grant selected categories]
+    reject[Deny non-essential]
+    persist[Persist + sync traits]
+    audit[Store audit record]
+    manage[User opens manage cookies]
+    update[Update consent selections]
+    load --> showModal --> decision
+    decision -->|Accept| accept --> persist --> audit --> manage
+    decision -->|Reject| reject --> persist --> audit --> manage
+    manage --> update --> persist
+```

@@ -1,0 +1,19 @@
+```mermaid
+classDiagram
+    class IconRegistry {
+        +getIcon(name)
+        +registerAlias(alias, name)
+    }
+    class IconPresenter {
+        +render(name, size, weight)
+    }
+    class IconButtonViewModel {
+        +buildProps(iconName, label)
+    }
+    class AccessibilityHelper {
+        +resolveAriaAttributes(label)
+    }
+    IconPresenter --> IconRegistry
+    IconButtonViewModel --> IconPresenter
+    IconButtonViewModel --> AccessibilityHelper
+```

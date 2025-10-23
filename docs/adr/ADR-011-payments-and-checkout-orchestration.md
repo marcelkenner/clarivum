@@ -24,6 +24,12 @@ Status: Accepted
   - Offer currency handling (PLN primary, EUR secondary) with tax/VAT rules managed through Stripe Tax where available.
 - Centralize secrets in AWS Secrets Manager (ADR-007) and rotate quarterly; adopt idempotency keys across all outgoing payment requests.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-011-payments-and-checkout-orchestration/architecture-overview.mmd) — Checkout coordinator routing traffic to Stripe, PayU, and Przelewy24 with normalized ledger updates.
+- [Data Lineage](../diagrams/adr-011-payments-and-checkout-orchestration/data-lineage.mmd) — Payment intents, provider charges, refunds, and ledger entries.
+- [UML Service Collaborators](../diagrams/adr-011-payments-and-checkout-orchestration/uml-services.mmd) — Coordinator and provider-specific managers plus webhook processors.
+- [BPMN Fulfillment Flow](../diagrams/adr-011-payments-and-checkout-orchestration/bpmn-fulfillment.mmd) — Checkout, confirmation, fulfillment, and reconciliation process.
+
 ## Consequences
 - **Benefits:** Stripe covers recurring billing and global expansion while PayU/Przelewy24 deliver localized trust signals (BLIK, bank redirects) essential for Polish conversion rates.
 - **Trade-offs:** Multiple providers increase integration complexity; mitigated by the coordinator pattern and shared telemetry pipeline.

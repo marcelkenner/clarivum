@@ -1,0 +1,28 @@
+```mermaid
+erDiagram
+    EBOOK {
+        string slug
+        string title
+        string vertical
+        string format
+    }
+    ENTITLEMENT {
+        string profile_id
+        string ebook_slug
+        datetime granted_at
+        string source
+    }
+    DOWNLOAD {
+        string entitlement_id
+        datetime downloaded_at
+        string channel
+    }
+    MESSAGE_EVENT {
+        string entitlement_id
+        string message_type
+        datetime sent_at
+    }
+    EBOOK ||--o{ ENTITLEMENT : grants
+    ENTITLEMENT ||--o{ DOWNLOAD : enables
+    ENTITLEMENT ||--o{ MESSAGE_EVENT : triggers
+```

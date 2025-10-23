@@ -1,0 +1,23 @@
+```mermaid
+classDiagram
+    class SecurityControlRegistry {
+        +registerControl(control)
+        +recordReview(control, owner)
+    }
+    class SecretsRotationManager {
+        +scheduleRotation(secret)
+        +verifyRotation(secret)
+    }
+    class ComplianceReportGenerator {
+        +generateRopa()
+        +generateDpia()
+    }
+    class IncidentCoordinator {
+        +openIncident(alert)
+        +assignResponder()
+        +closeIncident(report)
+    }
+    SecurityControlRegistry --> ComplianceReportGenerator
+    SecurityControlRegistry --> SecretsRotationManager
+    IncidentCoordinator --> SecurityControlRegistry
+```

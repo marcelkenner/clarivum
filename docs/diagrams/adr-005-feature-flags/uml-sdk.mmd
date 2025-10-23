@@ -1,0 +1,22 @@
+```mermaid
+classDiagram
+    class FlagsClient {
+        +getFlag(key)
+        +getVariant(key)
+        +preload()
+    }
+    class FlagsmithAdapter {
+        +fetchEnvironment()
+        +recordTrait()
+    }
+    class FallbackCache {
+        +read(key)
+        +write(key, value)
+    }
+    class AuditPublisher {
+        +publish(event)
+    }
+    FlagsClient --> FlagsmithAdapter
+    FlagsClient --> FallbackCache
+    FlagsmithAdapter --> AuditPublisher
+```

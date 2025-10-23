@@ -1,0 +1,16 @@
+```mermaid
+flowchart TD
+    start([Plan schema change])
+    stage[Create staging index]
+    import[Import transformed content]
+    validate{Search QA passed?}
+    swap[Trigger Meilisearch index swap]
+    monitor[Monitor telemetry + counts]
+    rollback{Regression detected?}
+    revert[Revert to previous index]
+    start --> stage --> import --> validate
+    validate -->|Yes| swap --> monitor --> rollback
+    validate -->|No| revert
+    rollback -->|Yes| revert
+    rollback -->|No| monitor
+```

@@ -1,0 +1,17 @@
+```mermaid
+flowchart LR
+    NextApp["Next.js (Vercel)"] --> OTelSDK["OpenTelemetry SDK"]
+    Lambda["AWS Lambda Workers"] --> OTelSDKLambda["OpenTelemetry SDK"]
+    OTelSDK --> GrafanaOTLP["Grafana Cloud OTLP Endpoint"]
+    OTelSDKLambda --> GrafanaOTLP
+    VercelAnalytics["Vercel Analytics / RUM"] --> OTelWeb["OTel Web Exporter"] --> GrafanaOTLP
+    GrafanaOTLP --> Tempo["Grafana Tempo (Traces)"]
+    GrafanaOTLP --> Prometheus["Grafana Prometheus (Metrics)"]
+    GrafanaOTLP --> Loki["Grafana Loki (Logs)"]
+    Tempo --> GrafanaDash["Grafana Dashboards"]
+    Prometheus --> GrafanaDash
+    Loki --> GrafanaDash
+    GrafanaDash --> Alerting["Grafana Alerting"]
+    Alerting --> PagerDuty["PagerDuty clarivum-oncall"]
+    Alerting --> Slack["Slack #clarivum-alerts"]
+```

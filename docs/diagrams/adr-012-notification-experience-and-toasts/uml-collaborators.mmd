@@ -1,0 +1,24 @@
+```mermaid
+classDiagram
+    class NotificationManager {
+        +notify(event)
+        +notifyAsync(promise, messages)
+    }
+    class ToastNotificationCoordinator {
+        +shouldDisplay(event)
+        +showToast(payload)
+        +recordDismissal(event)
+    }
+    class SonnerAdapter {
+        +renderSuccess(payload)
+        +renderError(payload)
+        +renderInfo(payload)
+    }
+    class DismissalRepository {
+        +hasSeen(digest)
+        +store(digest)
+    }
+    NotificationManager --> ToastNotificationCoordinator
+    ToastNotificationCoordinator --> SonnerAdapter
+    ToastNotificationCoordinator --> DismissalRepository
+```

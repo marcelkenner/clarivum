@@ -1,0 +1,20 @@
+```mermaid
+erDiagram
+    NOTIFICATION_EVENT {
+        string event_id
+        string severity
+        string title
+        string description
+    }
+    PERSISTED_DISMISSAL {
+        string digest
+        datetime dismissed_at
+    }
+    TELEMETRY_RECORD {
+        string event_id
+        string outcome
+        datetime recorded_at
+    }
+    NOTIFICATION_EVENT ||--o{ PERSISTED_DISMISSAL : suppresses
+    NOTIFICATION_EVENT ||--o{ TELEMETRY_RECORD : measured_by
+```

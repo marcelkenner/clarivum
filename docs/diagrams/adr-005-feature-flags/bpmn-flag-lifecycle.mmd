@@ -1,0 +1,15 @@
+```mermaid
+flowchart TD
+    ideation([Propose flag])
+    review{Product + Eng approve?}
+    config[Configure in Flagsmith]
+    rollout{Rollout stage}
+    monitor[Monitor metrics + logs]
+    sunset{Flag still needed?}
+    cleanup[Archive flag + remove code]
+    ideation --> review
+    review -->|Approved| config --> rollout --> monitor --> sunset
+    review -->|Rejected| cleanup
+    sunset -->|No| cleanup
+    sunset -->|Yes| monitor
+```

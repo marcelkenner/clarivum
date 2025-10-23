@@ -1,0 +1,27 @@
+```mermaid
+erDiagram
+    JOB_MESSAGE ||--o{ RETRY_LOG : records
+    JOB_MESSAGE {
+        string job_id
+        string type
+        datetime scheduled_at
+        json payload
+    }
+    RETRY_LOG {
+        string attempt
+        datetime attempted_at
+        string error_code
+    }
+    JOB_MESSAGE ||--o{ JOB_RESULT : produces
+    JOB_RESULT {
+        string job_id
+        datetime completed_at
+        string status
+    }
+    JOB_MESSAGE ||--o{ DEAD_LETTER : escalates_to
+    DEAD_LETTER {
+        string job_id
+        datetime failed_at
+        string reason
+    }
+```

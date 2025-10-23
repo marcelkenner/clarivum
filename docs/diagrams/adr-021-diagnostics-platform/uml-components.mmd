@@ -1,0 +1,28 @@
+```mermaid
+classDiagram
+    class QuestionBankManager {
+        +fetchQuestions(quizId)
+        +resolveVersion(version)
+    }
+    class QuizSessionCoordinator {
+        +startSession(context)
+        +nextStep(response)
+        +complete()
+    }
+    class EvaluationEngine {
+        +score(session)
+        +generateOutcome()
+    }
+    class DiagnosticsTelemetryManager {
+        +recordStep(step)
+        +recordOutcome(outcome)
+    }
+    class StateRepository {
+        +persistResponse(response)
+        +loadSession(sessionId)
+    }
+    QuizSessionCoordinator --> QuestionBankManager
+    QuizSessionCoordinator --> EvaluationEngine
+    QuizSessionCoordinator --> StateRepository
+    EvaluationEngine --> DiagnosticsTelemetryManager
+```

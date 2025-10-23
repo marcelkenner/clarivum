@@ -19,6 +19,12 @@ Status: Accepted
 - Model RBAC within Auth0 and mirror permissions in Postgres using role claims; apply Row Level Security policies that map to Auth0 roles.
 - For internal tooling (background workers, scripts), use Auth0 Machine-to-Machine applications with client credentials, rotated via AWS Secrets Manager.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-002-authentication-and-authorization/architecture-overview.mmd) — OIDC integration between Auth0, NextAuth.js, and Supabase.
+- [Data Lineage](../diagrams/adr-002-authentication-and-authorization/data-lineage.mmd) — Identity, session, and role synchronization across providers.
+- [UML Domain Model](../diagrams/adr-002-authentication-and-authorization/uml-domain.mmd) — Collaborators that manage tokens, sessions, and RBAC claims.
+- [BPMN Access Governance](../diagrams/adr-002-authentication-and-authorization/bpmn-access-governance.mmd) — Joiner-mover-leaver workflow for granting and revoking access.
+
 ## Consequences
 - **Benefits:** Managed identity lifecycle, MFA out-of-the-box, low engineering lift, auditable login history, and GDPR-compliant EU data residency.
 - **Trade-offs:** Adds recurring vendor cost and platform lock-in. Mitigation: review annually; keep NextAuth adapters abstracted to enable migration to Cognito or custom IdP.

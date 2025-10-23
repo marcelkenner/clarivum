@@ -26,6 +26,12 @@ Status: Accepted
   - Require MFA and confirm re-authentication for sensitive changes.
   - Encrypt PII at rest where supported; mask in UIs unless necessary.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-023-account-center/architecture-overview.mmd) — Auth0 synchronization, Supabase profile service, integrations, and frontend consumption.
+- [Data Lineage](../diagrams/adr-023-account-center/data-lineage.mmd) — Profile, subscription, diagnostics, and preference entities.
+- [UML Components](../diagrams/adr-023-account-center/uml-components.mmd) — ViewModel, profile manager, compliance service, and adapters.
+- [BPMN Compliance Flow](../diagrams/adr-023-account-center/bpmn-compliance.mmd) — Data export and deletion workflow with audit notifications.
+
 ## Consequences
 - **Benefits:** Single source of truth for customer data, streamlined compliance, consistent UX.
 - **Trade-offs:** Additional coordination with multiple services; must manage data freshness (webhooks/events).

@@ -1,0 +1,32 @@
+```mermaid
+classDiagram
+    class CheckoutCoordinator {
+        +createIntent(cart)
+        +handleProviderSelection()
+    }
+    class StripePaymentManager {
+        +createPaymentIntent(data)
+        +attachPaymentMethod()
+        +confirm()
+    }
+    class PayuPaymentManager {
+        +registerOrder(data)
+        +authorizeBlik(code)
+        +status()
+    }
+    class P24PaymentManager {
+        +registerTransaction(data)
+        +verifySignature()
+    }
+    class WebhookProcessor {
+        +normalizePayload()
+        +updateLedger()
+        +triggerFulfillment()
+    }
+    CheckoutCoordinator --> StripePaymentManager
+    CheckoutCoordinator --> PayuPaymentManager
+    CheckoutCoordinator --> P24PaymentManager
+    WebhookProcessor --> StripePaymentManager
+    WebhookProcessor --> PayuPaymentManager
+    WebhookProcessor --> P24PaymentManager
+```

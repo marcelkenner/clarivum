@@ -1,0 +1,24 @@
+```mermaid
+classDiagram
+    class PdfEpubGenerationManager {
+        +generatePDF(ebook)
+        +generateEPUB(ebook)
+    }
+    class PlaywrightRenderer {
+        +renderHtmlToPdf(url)
+    }
+    class ReactPdfRenderer {
+        +renderComponent(component)
+    }
+    class EpubPipeline {
+        +buildFromMarkdown(content)
+        +packageEpub(metadata)
+    }
+    class WatermarkService {
+        +applyWatermark(filePath, metadata)
+    }
+    PdfEpubGenerationManager --> PlaywrightRenderer
+    PdfEpubGenerationManager --> ReactPdfRenderer
+    PdfEpubGenerationManager --> EpubPipeline
+    PdfEpubGenerationManager --> WatermarkService
+```

@@ -1,0 +1,22 @@
+```mermaid
+erDiagram
+    CONSENT_EVENT {
+        string visitor_id
+        string category
+        boolean granted
+        datetime recorded_at
+    }
+    CONSENT_CATEGORY {
+        string key
+        string flagsmith_trait
+        string description
+    }
+    AUDIT_LOG {
+        string event_id
+        string visitor_id
+        map decisions
+        datetime stored_at
+    }
+    CONSENT_EVENT ||--o{ AUDIT_LOG : aggregated_into
+    CONSENT_CATEGORY ||--o{ CONSENT_EVENT : classifies
+```

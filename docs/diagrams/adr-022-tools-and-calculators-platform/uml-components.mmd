@@ -1,0 +1,29 @@
+```mermaid
+classDiagram
+    class ToolShellViewModel {
+        +initialize(toolSlug)
+        +onSubmit(inputs)
+        +renderState()
+    }
+    class ComputationManager {
+        +compute(inputs)
+        +validate(inputs)
+    }
+    class ToolDataProvider {
+        <<interface>>
+        +fetchReferenceData()
+        +persistSession(result)
+    }
+    class ToolBlueprint {
+        +metadata
+        +createViewModel()
+    }
+    class ToolTelemetry {
+        +recordUsage(event)
+        +recordResult(result)
+    }
+    ToolShellViewModel --> ComputationManager
+    ComputationManager --> ToolDataProvider
+    ToolShellViewModel --> ToolTelemetry
+    ToolBlueprint --> ToolShellViewModel
+```

@@ -1,0 +1,12 @@
+```mermaid
+flowchart LR
+    Editors["Editorial Users"] --> StrapiCloud["Strapi Cloud (EU)"]
+    StrapiCloud --> DevEnv["Strapi Dev Environment"]
+    StrapiCloud --> ProdEnv["Strapi Prod Environment"]
+    DevEnv --> GitPackages["Schema packages (cms/ workspace)"]
+    ProdEnv --> NextRevalidate["Next.js ISR Revalidation"]
+    ProdEnv --> MeilisearchWebhook["Meilisearch Indexing Webhook"]
+    ProdEnv --> AnalyticsWebhook["Lifecycle Analytics"]
+    StrapiCloud --> SupabaseBackup["Nightly backup to Supabase"]
+    SecretsManager["AWS Secrets Manager"] --> StrapiCloud
+```

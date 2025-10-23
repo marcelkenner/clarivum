@@ -24,6 +24,12 @@ Status: Accepted
 - Manage lifecycle via Terraform (Upstash provider) with rotation of REST tokens every 90 days and audit bindings in the FinOps dashboard.
 - Instrument cache hit/miss and throttling metrics via OpenTelemetry, exporting to Grafana Loki/Prometheus.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-006-edge-cache-and-rate-limiting-platform/architecture-overview.mmd) — Edge, API, and worker integrations with Upstash Redis logical databases.
+- [Data Lineage](../diagrams/adr-006-edge-cache-and-rate-limiting-platform/data-lineage.mmd) — Cache entries, rate-limit counters, and distributed lock records.
+- [UML Adapters](../diagrams/adr-006-edge-cache-and-rate-limiting-platform/uml-adapters.mmd) — Internal library abstractions over Upstash REST APIs.
+- [BPMN Guardrail Flow](../diagrams/adr-006-edge-cache-and-rate-limiting-platform/bpmn-guardrail.mmd) — Request evaluation from cache lookup through throttling.
+
 ## Consequences
 - **Benefits:** Serverless-native Redis removes connection pooling complexity, keeps latency low on the edge, and provides turnkey rate limiting primitives with EU residency.
 - **Trade-offs:** Upstash enforces request quotas; exceeding the free tier incurs SaaS spend. Mitigate by monitoring usage and enabling SDK-side caching.

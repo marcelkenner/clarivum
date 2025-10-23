@@ -1,0 +1,23 @@
+```mermaid
+classDiagram
+    class DeploymentCoordinator {
+        +provisionInfrastructure()
+        +promoteRelease()
+    }
+    class VercelAdapter {
+        +createProject()
+        +configureEnvironment()
+    }
+    class SupabaseAdapter {
+        +migrateSchema()
+        +enableRLS()
+        +scheduleBackups()
+    }
+    class StorageGateway {
+        +issueSignedUrl()
+        +enforceLifecyclePolicy()
+    }
+    DeploymentCoordinator --> VercelAdapter
+    DeploymentCoordinator --> SupabaseAdapter
+    DeploymentCoordinator --> StorageGateway
+```

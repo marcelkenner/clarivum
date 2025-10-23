@@ -1,0 +1,26 @@
+```mermaid
+erDiagram
+    COLOR_TOKEN {
+        string name
+        string hex
+        string pillar
+    }
+    TYPOGRAPHY_TOKEN {
+        string name
+        string font_family
+        string size_clamp
+    }
+    SPACING_TOKEN {
+        string name
+        int value_px
+    }
+    COMPONENT_STYLE {
+        string component
+        string color_token
+        string type_token
+        string spacing_token
+    }
+    COLOR_TOKEN ||--o{ COMPONENT_STYLE : applied_by
+    TYPOGRAPHY_TOKEN ||--o{ COMPONENT_STYLE : applied_by
+    SPACING_TOKEN ||--o{ COMPONENT_STYLE : applied_by
+```

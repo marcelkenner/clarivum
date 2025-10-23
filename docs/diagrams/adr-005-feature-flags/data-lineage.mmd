@@ -1,0 +1,28 @@
+```mermaid
+erDiagram
+    FLAG {
+        string key
+        string owner
+        date sunset_date
+        string status
+    }
+    VARIANT {
+        string flag_key
+        string variant_name
+        float rollout_percentage
+    }
+    AUDIT_EVENT {
+        string event_id
+        string actor
+        string action
+        datetime occurred_at
+    }
+    CACHE_ENTRY {
+        string flag_key
+        datetime cached_at
+        string value
+    }
+    FLAG ||--o{ VARIANT : defines
+    FLAG ||--o{ AUDIT_EVENT : recorded_by
+    FLAG ||--o{ CACHE_ENTRY : cached_as
+```

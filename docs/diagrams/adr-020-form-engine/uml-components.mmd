@@ -1,0 +1,27 @@
+```mermaid
+classDiagram
+    class FormCoordinator {
+        +initialize(formSchema)
+        +handleSubmit(data)
+        +handleError(errors)
+    }
+    class FormManager {
+        +saveDraft(values)
+        +submit(values)
+    }
+    class ValidationService {
+        +parse(values)
+        +formatErrors(result)
+    }
+    class FormTelemetryManager {
+        +recordInteraction(field)
+        +recordSubmission(status)
+    }
+    class ServerActionManager {
+        +invoke(action, payload)
+    }
+    FormCoordinator --> FormManager
+    FormCoordinator --> ValidationService
+    FormCoordinator --> FormTelemetryManager
+    FormManager --> ServerActionManager
+```

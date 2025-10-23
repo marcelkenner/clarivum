@@ -1,0 +1,28 @@
+```mermaid
+erDiagram
+    VIEW_MODEL {
+        string name
+        string route_group
+        string manager_interface
+    }
+    MANAGER {
+        string name
+        string domain
+    }
+    COORDINATOR {
+        string name
+        string responsibility
+    }
+    SHARED_UTILITY {
+        string name
+        string package
+    }
+    STYLE_TOKEN {
+        string token
+        string category
+    }
+    VIEW_MODEL ||--o{ MANAGER : depends_on
+    MANAGER ||--o{ COORDINATOR : collaborates_with
+    VIEW_MODEL ||--o{ STYLE_TOKEN : consumes
+    MANAGER ||--o{ SHARED_UTILITY : uses
+```

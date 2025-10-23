@@ -1,0 +1,22 @@
+```mermaid
+classDiagram
+    class KlaroInitializer {
+        +loadConfig()
+        +bootModal()
+    }
+    class ConsentState {
+        +getDecision(category)
+        +subscribe(listener)
+        +persist(decisions)
+    }
+    class FlagsmithSync {
+        +applyTraits(decisions)
+        +revokeTraits(decisions)
+    }
+    class AuditService {
+        +publishUpdate(decisions)
+    }
+    KlaroInitializer --> ConsentState
+    ConsentState --> FlagsmithSync
+    ConsentState --> AuditService
+```

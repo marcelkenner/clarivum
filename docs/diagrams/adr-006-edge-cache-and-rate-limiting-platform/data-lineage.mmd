@@ -1,0 +1,21 @@
+```mermaid
+erDiagram
+    CACHE_ENTRY {
+        string key
+        datetime cached_at
+        datetime expires_at
+        string checksum
+    }
+    RATE_LIMIT_COUNTER {
+        string key
+        int remaining
+        datetime resets_at
+    }
+    DISTRIBUTED_LOCK {
+        string key
+        string owner
+        datetime ttl
+    }
+    CACHE_ENTRY ||--o{ DISTRIBUTED_LOCK : invalidated_by
+    RATE_LIMIT_COUNTER ||--o{ DISTRIBUTED_LOCK : protects
+```

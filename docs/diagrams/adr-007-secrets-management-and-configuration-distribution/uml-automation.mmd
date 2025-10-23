@@ -1,0 +1,23 @@
+```mermaid
+classDiagram
+    class SecretSyncJob {
+        +fetchSecrets()
+        +pushToVercel()
+        +validateSchema()
+    }
+    class SecretsManagerClient {
+        +getSecret(path)
+        +listSecrets(prefix)
+    }
+    class RotationHandler {
+        +rotateSecret(event)
+        +testConnection()
+    }
+    class AuditPublisher {
+        +recordAccess(actor, path)
+    }
+    SecretSyncJob --> SecretsManagerClient
+    SecretSyncJob --> AuditPublisher
+    RotationHandler --> SecretsManagerClient
+    RotationHandler --> AuditPublisher
+```

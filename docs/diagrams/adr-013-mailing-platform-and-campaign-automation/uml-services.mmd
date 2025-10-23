@@ -1,0 +1,23 @@
+```mermaid
+classDiagram
+    class MailingCoordinator {
+        +enqueueTransactionalEmail(event)
+        +syncAudience(profile)
+        +updateConsent(change)
+    }
+    class AudienceSyncManager {
+        +reconcileNightly()
+        +resolveConflicts()
+    }
+    class WebhookProcessor {
+        +handleBounce(payload)
+        +handleComplaint(payload)
+    }
+    class TemplateManager {
+        +publishTemplate(version)
+        +validateCopy()
+    }
+    MailingCoordinator --> AudienceSyncManager
+    MailingCoordinator --> TemplateManager
+    WebhookProcessor --> MailingCoordinator
+```

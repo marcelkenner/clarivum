@@ -1,0 +1,28 @@
+```mermaid
+erDiagram
+    TOOL_METADATA {
+        string slug
+        string vertical
+        string required_consent
+    }
+    TOOL_INPUT {
+        string session_id
+        string tool_slug
+        json values
+        datetime captured_at
+    }
+    TOOL_RESULT {
+        string session_id
+        string tool_slug
+        json result
+        datetime computed_at
+    }
+    TOOL_EVENT {
+        string session_id
+        string event_name
+        datetime occurred_at
+    }
+    TOOL_METADATA ||--o{ TOOL_INPUT : references
+    TOOL_INPUT ||--o{ TOOL_RESULT : produces
+    TOOL_RESULT ||--o{ TOOL_EVENT : logs
+```

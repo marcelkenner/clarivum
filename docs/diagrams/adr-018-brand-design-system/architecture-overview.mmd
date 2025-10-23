@@ -1,0 +1,9 @@
+```mermaid
+flowchart LR
+    BrandGuidelines["Brand Guidelines PRD"] --> TokenLibrary["Design Tokens (color, type, spacing)"]
+    TokenLibrary --> Storybook["Storybook Foundations"]
+    TokenLibrary --> TailwindConfig["Tailwind Config / CSS Vars"]
+    TailwindConfig --> UIComponents["UI Components & ViewModels"]
+    Storybook --> UIComponents
+    Governance["Brand Council"] --> TokenLibrary
+```

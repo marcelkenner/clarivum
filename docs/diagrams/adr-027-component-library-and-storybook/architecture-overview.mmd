@@ -1,0 +1,10 @@
+```mermaid
+flowchart LR
+    TokenSource["Design Tokens (ADR-018)"] --> ComponentLibrary["Component Library Package"]
+    IconSystem["Phosphor Icons (ADR-017)"] --> ComponentLibrary
+    ComponentLibrary --> Storybook["Storybook Workbench"]
+    ComponentLibrary --> AppConsumers["Application ViewModels (ADR-019)"]
+    Storybook --> CI["CI visual/accessibility checks (ADR-016)"]
+    Storybook --> VercelDeploy["Storybook Vercel Deployment"]
+    ComponentLibrary --> Testing["Vitest + RTL Suites (ADR-015)"]
+```

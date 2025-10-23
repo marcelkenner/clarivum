@@ -1,0 +1,16 @@
+```mermaid
+flowchart TD
+    detect([Rotation due])
+    approve{Owner approval?}
+    rotate[Invoke rotation Lambda]
+    validate[Run connection tests]
+    distribute[Sync to Vercel & runtimes]
+    audit[Log audit event]
+    rollback{Validation passed?}
+    revert[Restore previous version]
+    detect --> approve
+    approve -->|Yes| rotate --> validate --> rollback
+    approve -->|No| audit
+    rollback -->|Yes| distribute --> audit
+    rollback -->|No| revert --> audit
+```

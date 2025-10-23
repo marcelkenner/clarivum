@@ -21,6 +21,12 @@ Status: Accepted
 - Secure access using Meilisearch API keys scoped per client type (public search, admin indexing) and rotate quarterly via Secrets Manager (see ADR-007).
 - Emit search telemetry (latency, zero-result rate) through OpenTelemetry spans for observability dashboards.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-009-search-and-discovery-platform/architecture-overview.mmd) — Strapi ingestion, background processing, and Meilisearch consumption paths.
+- [Data Lineage](../diagrams/adr-009-search-and-discovery-platform/data-lineage.mmd) — Index schemas, documents, ranking rules, and sync tracking.
+- [UML Client Components](../diagrams/adr-009-search-and-discovery-platform/uml-clients.mmd) — Indexing and querying collaborators with relevance tuning hooks.
+- [BPMN Reindex Flow](../diagrams/adr-009-search-and-discovery-platform/bpmn-reindex.mmd) — Zero-downtime schema change and validation process.
+
 ## Consequences
 - **Benefits:** Meilisearch delivers out-of-the-box typo tolerance, relevance tuning, and atomic index swaps without operating Elasticsearch or maintaining nodes.
 - **Risks:** Vendor dependency and quota constraints; mitigate with usage alerts and retention of export scripts to migrate to self-hosted Meilisearch if necessary.

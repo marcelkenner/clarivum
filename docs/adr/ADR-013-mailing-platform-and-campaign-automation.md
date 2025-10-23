@@ -21,6 +21,12 @@ Status: Accepted
 - Manage deployments using Docker Compose locally and Terraform-driven pipelines in CI; use rolling updates to minimize downtime.
 - Enforce GDPR compliance: store consent proofs, enable audience exports/deletions via automated scripts, and host backups within EU S3 buckets.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-013-mailing-platform-and-campaign-automation/architecture-overview.mmd) — Supabase/Flagsmith integrations with Listmonk on ECS and SES delivery.
+- [Data Lineage](../diagrams/adr-013-mailing-platform-and-campaign-automation/data-lineage.mmd) — Subscriber, consent, campaign, and event relationships.
+- [UML Service Layer](../diagrams/adr-013-mailing-platform-and-campaign-automation/uml-services.mmd) — Coordinator, audience sync, webhook, and template collaborators.
+- [BPMN Campaign Flow](../diagrams/adr-013-mailing-platform-and-campaign-automation/bpmn-campaign.mmd) — Planning, approval, execution, and feedback loop.
+
 ## Consequences
 - **Benefits:** Full ownership of mailing lists, flexible segmentation, and cost savings compared to SaaS while aligning with existing AWS tooling.
 - **Trade-offs:** Requires maintaining the Listmonk service (upgrades, monitoring). Mitigate with automated health checks, alerts, and quarterly patch schedules.

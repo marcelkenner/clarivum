@@ -1,0 +1,20 @@
+```mermaid
+erDiagram
+    ICON_TOKEN {
+        string name
+        int size_px
+        string weight
+        string usage
+    }
+    ICON_USAGE {
+        string component
+        string token_name
+        string accessibility_note
+    }
+    LINT_RULE {
+        string rule_id
+        string description
+    }
+    ICON_TOKEN ||--o{ ICON_USAGE : applied_by
+    LINT_RULE ||--o{ ICON_USAGE : enforces
+```

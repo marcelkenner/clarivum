@@ -25,6 +25,12 @@ Status: Accepted
   - Emit recommendation events (impression, click, convert) aligned with ADR-008.
   - Monitor zero-result rate via Search Operations Runbook.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-025-recommendations-and-merchandising/architecture-overview.mmd) — Data sources feeding the recommendation engine, caching, and delivery endpoints.
+- [Data Lineage](../diagrams/adr-025-recommendations-and-merchandising/data-lineage.mmd) — Collections, signals, outcomes, recommendations, and telemetry events.
+- [UML Components](../diagrams/adr-025-recommendations-and-merchandising/uml-components.mmd) — Engine, repositories, signal aggregators, affiliate enrichers, and telemetry managers.
+- [BPMN Serving Flow](../diagrams/adr-025-recommendations-and-merchandising/bpmn-serving.mmd) — Request handling, scoring, fallbacks, enrichment, and telemetry.
+
 ## Consequences
 - **Benefits:** Unified merchandising logic, consistent personalization, easier experimentation.
 - **Trade-offs:** Complexity increases as data sources grow; must guard against stale personalization.

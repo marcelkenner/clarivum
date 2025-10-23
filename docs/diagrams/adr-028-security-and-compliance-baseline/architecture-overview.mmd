@@ -1,0 +1,13 @@
+```mermaid
+flowchart LR
+    Auth0["Auth0 + GitHub SSO"] --> AccessControl["Access Control Policies"]
+    AccessControl --> Applications["Applications & Services"]
+    SecretsManager["AWS Secrets Manager"] --> Applications
+    SupabaseRLS["Supabase RLS / Encryption"] --> Applications
+    Observability["OpenTelemetry + Grafana"] --> IncidentResponse["Incident Response Runbook"]
+    VulnerabilityMgmt["Dependency Scanners (npm audit/Snyk)"] --> SecurityDashboard["Security Dashboard"]
+    PrivacyControls["Klaro CMP + RoPA"] --> ComplianceRecords["Compliance Records Repository"]
+    Applications --> Observability
+    SecurityDashboard --> IncidentResponse
+    ComplianceRecords --> IncidentResponse
+```

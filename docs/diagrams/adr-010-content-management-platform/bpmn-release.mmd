@@ -1,0 +1,13 @@
+```mermaid
+flowchart TD
+    draft([Draft content])
+    review{Medical/legal review?}
+    schedule[Schedule publish date]
+    approve{Editor-in-chief approval?}
+    publish[Publish via Strapi]
+    revalidate[Trigger ISR + search webhooks]
+    monitor[Monitor analytics & errors]
+    draft --> review --> schedule --> approve
+    approve -->|Approved| publish --> revalidate --> monitor
+    approve -->|Changes requested| draft
+```

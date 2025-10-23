@@ -1,0 +1,24 @@
+```mermaid
+erDiagram
+    AUTH0_USER ||--o{ SESSION : issues
+    AUTH0_USER {
+        string user_id
+        string email
+        string roles
+    }
+    SESSION {
+        string session_id
+        datetime expires_at
+        string refresh_token
+    }
+    AUTH0_ROLE ||--o{ AUTH0_USER : assigns
+    AUTH0_ROLE {
+        string name
+        string description
+    }
+    SUPABASE_ROLE ||--o{ SESSION : maps_to
+    SUPABASE_ROLE {
+        string role_name
+        string rls_policy
+    }
+```

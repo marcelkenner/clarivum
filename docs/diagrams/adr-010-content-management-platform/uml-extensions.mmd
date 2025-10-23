@@ -1,0 +1,24 @@
+```mermaid
+classDiagram
+    class StrapiDeployManager {
+        +validateSchema()
+        +promoteToProd()
+    }
+    class SchemaMigration {
+        +generate()
+        +apply()
+        +rollback()
+    }
+    class PluginBuilder {
+        +buildAdmin()
+        +bundleAssets()
+    }
+    class WebhookDispatcher {
+        +emitRevalidate()
+        +emitSearchRefresh()
+        +emitAnalytics()
+    }
+    StrapiDeployManager --> SchemaMigration
+    StrapiDeployManager --> PluginBuilder
+    StrapiDeployManager --> WebhookDispatcher
+```

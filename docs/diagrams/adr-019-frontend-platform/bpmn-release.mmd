@@ -1,0 +1,11 @@
+```mermaid
+flowchart TD
+    backlog([Feature ready])
+    scaffold[Scaffold ViewModel/Manager modules]
+    implement[Implement UI + data wiring]
+    test[Run Vitest + Playwright]
+    review{Design + code review}
+    deploy[Deploy via Vercel preview]
+    monitor[Monitor performance budgets]
+    backlog --> scaffold --> implement --> test --> review --> deploy --> monitor
+```

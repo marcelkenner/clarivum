@@ -1,0 +1,15 @@
+```mermaid
+flowchart TD
+    start([SLO evaluation])
+    breach{Error budget burn > threshold?}
+    notify[Send alert via Grafana]
+    route{PagerDuty auto-assigns?}
+    ack[On-call acknowledges]
+    mitigate[Investigate + Mitigate]
+    review[Post-incident review]
+    start --> breach
+    breach -->|Yes| notify --> route
+    breach -->|No| review
+    route -->|Yes| ack --> mitigate --> review
+    route -->|No| escalate[Escalate in PagerDuty] --> ack
+```

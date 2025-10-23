@@ -1,0 +1,12 @@
+```mermaid
+flowchart LR
+    Browser["BrowserEventClient (posthog-js)"] --> PostHogIngest["PostHog Ingestion API"]
+    Server["ServerEventDispatcher"] --> PostHogIngest
+    Jobs["Background Jobs"] --> PostHogIngest
+    Consent["Consent / Flagsmith"] --> Browser
+    PostHogIngest --> PostHogApp["PostHog Dashboards & Alerts"]
+    PostHogApp --> SlackAlerts["Slack Funnel Alerts"]
+    PostHogIngest --> WarehouseSync["PostHog Warehouse Sync"]
+    WarehouseSync --> SupabaseWarehouse["Supabase Analytics Schema"]
+    SupabaseWarehouse --> FinanceReports["Finance & Reporting"]
+```

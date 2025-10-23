@@ -1,0 +1,15 @@
+```mermaid
+flowchart TD
+    submit([Submit PR])
+    trigger[Trigger GitHub Actions]
+    runVitest[Run Vitest suite]
+    runPlaywright[Run Playwright smoke]
+    aggregate[Collect reports & artifacts]
+    gate{All checks passing?}
+    merge[Merge to main]
+    fix[Address failures]
+    submit --> trigger --> runVitest --> aggregate
+    trigger --> runPlaywright --> aggregate --> gate
+    gate -->|Yes| merge
+    gate -->|No| fix --> submit
+```

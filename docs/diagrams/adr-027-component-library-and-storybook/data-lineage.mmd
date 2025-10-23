@@ -1,0 +1,26 @@
+```mermaid
+erDiagram
+    COMPONENT {
+        string name
+        string category
+        string status
+    }
+    STORY {
+        string component_name
+        string story_name
+        string scenario
+    }
+    TEST {
+        string component_name
+        string test_name
+        string type
+    }
+    DEPLOYMENT {
+        string version
+        datetime published_at
+        string url
+    }
+    COMPONENT ||--o{ STORY : documented_by
+    COMPONENT ||--o{ TEST : verified_by
+    COMPONENT ||--o{ DEPLOYMENT : published_in
+```

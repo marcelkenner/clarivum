@@ -1,0 +1,9 @@
+```mermaid
+flowchart LR
+    ViewModel["Feature ViewModels"] --> NotificationManager["NotificationManager"]
+    NotificationManager --> ToastCoordinator["ToastNotificationCoordinator"]
+    ToastCoordinator --> SonnerToaster["<Toaster /> (Sonner)"]
+    SonnerToaster --> UI["Toast UI Layer"]
+    ToastCoordinator --> DismissStorage["Local storage dismissals"]
+    ToastCoordinator --> Telemetry["Telemetry Events (OTel)"]
+```

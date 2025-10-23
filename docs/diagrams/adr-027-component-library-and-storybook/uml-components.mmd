@@ -1,0 +1,22 @@
+```mermaid
+classDiagram
+    class ComponentViewModel {
+        +buildProps(state)
+        +registerStory(meta)
+    }
+    class ComponentManager {
+        +fetchData()
+        +composeHandlers()
+    }
+    class StorybookDocPage {
+        +renderOverview()
+        +renderUsageGuidelines()
+    }
+    class ComponentTestSuite {
+        +renderComponent()
+        +assertAccessibility()
+    }
+    ComponentViewModel --> ComponentManager
+    ComponentViewModel --> StorybookDocPage
+    ComponentViewModel --> ComponentTestSuite
+```

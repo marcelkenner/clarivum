@@ -1,0 +1,28 @@
+```mermaid
+erDiagram
+    COUPON {
+        string code
+        string partner
+        datetime expires_at
+        boolean stackable
+    }
+    CLICK_LOG {
+        string coupon_code
+        string tracking_url
+        datetime clicked_at
+    }
+    REDEMPTION {
+        string coupon_code
+        string transaction_id
+        datetime redeemed_at
+        string status
+    }
+    ALERT {
+        string coupon_code
+        string alert_type
+        datetime generated_at
+    }
+    COUPON ||--o{ CLICK_LOG : generates
+    COUPON ||--o{ REDEMPTION : results_in
+    COUPON ||--o{ ALERT : monitored_by
+```

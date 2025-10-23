@@ -24,6 +24,12 @@ Status: Accepted
   - Track success metrics (CTR, redemption) via PostHog and OpenTelemetry.
   - Alert on expiring high-value coupons via Slack automation.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-026-coupons-and-affiliate-incentives/architecture-overview.mmd) — Coupon ingestion, storage, APIs, and consumer integrations.
+- [Data Lineage](../diagrams/adr-026-coupons-and-affiliate-incentives/data-lineage.mmd) — Coupon metadata, click logs, redemptions, and alerts.
+- [UML Components](../diagrams/adr-026-coupons-and-affiliate-incentives/uml-components.mmd) — Ingestion manager, repository, compliance, telemetry, and alert services.
+- [BPMN Lifecycle](../diagrams/adr-026-coupons-and-affiliate-incentives/bpmn-lifecycle.mmd) — Coupon creation, publication, monitoring, and retirement workflow.
+
 ## Consequences
 - **Benefits:** Centralized coupon governance, consistent partner tracking, easy integration into UI.
 - **Trade-offs:** Requires ongoing data hygiene; dependencies on partner feeds.

@@ -1,0 +1,22 @@
+```mermaid
+classDiagram
+    class EdgeResponseCache {
+        +get(key, fetcher)
+        +set(key, value, ttl)
+    }
+    class RateLimiterManager {
+        +consume(key, policy)
+        +remaining(key)
+    }
+    class DistributedLockCoordinator {
+        +acquire(key, ttl)
+        +release(key)
+    }
+    class UpstashClient {
+        +pipeline(commands)
+        +restFetch(endpoint)
+    }
+    EdgeResponseCache --> UpstashClient
+    RateLimiterManager --> UpstashClient
+    DistributedLockCoordinator --> UpstashClient
+```

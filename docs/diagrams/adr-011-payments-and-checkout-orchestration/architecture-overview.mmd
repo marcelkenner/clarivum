@@ -1,0 +1,12 @@
+```mermaid
+flowchart LR
+    CheckoutUI["Checkout ViewModel"] --> PaymentsCoordinator["PaymentsCoordinator Service"]
+    PaymentsCoordinator --> Stripe["Stripe Payment Element"]
+    PaymentsCoordinator --> PayU["PayU Hosted Payments"]
+    PaymentsCoordinator --> P24["Przelewy24 Hosted Flow"]
+    Stripe --> Webhooks["Vercel Edge Webhooks"]
+    PayU --> Webhooks
+    P24 --> Webhooks
+    Webhooks --> SupabaseLedger["Supabase Payment Ledger"]
+    SupabaseLedger --> FulfillmentJobs["Fulfillment Background Jobs"]
+```

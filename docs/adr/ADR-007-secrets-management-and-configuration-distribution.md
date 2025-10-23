@@ -23,6 +23,12 @@ Status: Accepted
 - Maintain a lightweight configuration overlay repository (`infra/config/`) with checked-in non-sensitive defaults and schema definitions; validate via CI to catch missing secrets before deploy.
 - Log secret access events to CloudTrail with alerts piped into Grafana Loki for anomaly detection.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-007-secrets-management-and-configuration-distribution/architecture-overview.mmd) — Secrets Manager integration with runtimes, CI, and monitoring.
+- [Data Lineage](../diagrams/adr-007-secrets-management-and-configuration-distribution/data-lineage.mmd) — Secret metadata, rotation handlers, and access audits.
+- [UML Automation Components](../diagrams/adr-007-secrets-management-and-configuration-distribution/uml-automation.mmd) — Sync and rotation classes coordinating AWS APIs.
+- [BPMN Rotation Workflow](../diagrams/adr-007-secrets-management-and-configuration-distribution/bpmn-rotation.mmd) — Approval, rotation, distribution, and remediation steps.
+
 ## Consequences
 - **Benefits:** Centralized governance, audit trails, and automated rotation reduce leakage risk while keeping operational friction low.
 - **Trade-offs:** Requires managing IAM and rotation Lambdas; mitigated by Terraform modules and runbook documentation.

@@ -1,0 +1,9 @@
+```mermaid
+flowchart LR
+    PhosphorPkg["@phosphor-icons/react"] --> IconLibrary["Clarivum Icon Library"]
+    IconLibrary --> DesignTokens["Design Tokens (size, color)"]
+    DesignTokens --> Components["UI Components / ViewModels"]
+    IconLibrary --> SSRAdapter["SSR Import Adapter"]
+    Components --> UI["Rendered UI"]
+    LintRules["ESLint Rules"] --> Components
+```

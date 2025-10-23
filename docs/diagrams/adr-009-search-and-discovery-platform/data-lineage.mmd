@@ -1,0 +1,28 @@
+```mermaid
+erDiagram
+    INDEX {
+        string name
+        string locale
+        string primary_key
+    }
+    DOCUMENT {
+        string document_id
+        string locale
+        string type
+        datetime updated_at
+    }
+    RANKING_RULE {
+        string index_name
+        string rule
+        int priority
+    }
+    SYNC_STATE {
+        string document_id
+        string index_name
+        datetime last_synced_at
+        string checksum
+    }
+    INDEX ||--o{ DOCUMENT : stores
+    INDEX ||--o{ RANKING_RULE : configured_by
+    DOCUMENT ||--o{ SYNC_STATE : tracked_by
+```

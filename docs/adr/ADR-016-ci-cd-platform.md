@@ -27,6 +27,12 @@ Status: Accepted
   - Emit workflow metrics to Grafana via GitHub Actions export; alert on failure rate or runtime regressions.
   - Log deployment metadata to PostHog for analytics correlations.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-016-ci-cd-platform/architecture-overview.mmd) — GitHub Actions workflows, integration checks, and deployment targets.
+- [Data Lineage](../diagrams/adr-016-ci-cd-platform/data-lineage.mmd) — Workflow runs, check results, and deployment records.
+- [UML Automation Components](../diagrams/adr-016-ci-cd-platform/uml-automation.mmd) — Coordinator, job runner, secret provider, and notification publisher.
+- [BPMN Release Flow](../diagrams/adr-016-ci-cd-platform/bpmn-release.mmd) — Pull request gating through production deployment and monitoring.
+
 ## Consequences
 - **Benefits:** Consistent automation across teams, transparent gating, native integration with GitHub reviews and Vercel previews.
 - **Trade-offs:** Runner minutes increase; mitigate with caching, matrix pruning, and nightly cleanups.

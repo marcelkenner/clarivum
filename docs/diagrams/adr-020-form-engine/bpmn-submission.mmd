@@ -1,0 +1,17 @@
+```mermaid
+flowchart TD
+    start([User edits form])
+    validate[Run Zod validation]
+    valid{Valid?}
+    enrich[Call FormManager submit]
+    serverAction[Execute ServerAction]
+    success{Server success?}
+    telemetry[Emit telemetry event]
+    showErrors[Display validation errors]
+    fallback[Show error toast + fallback path]
+    start --> validate --> valid
+    valid -->|Yes| enrich --> serverAction --> success
+    valid -->|No| showErrors --> telemetry
+    success -->|Yes| telemetry
+    success -->|No| fallback --> telemetry
+```

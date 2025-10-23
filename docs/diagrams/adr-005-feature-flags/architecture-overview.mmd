@@ -1,0 +1,10 @@
+```mermaid
+flowchart LR
+    Editors["Product & Marketing"] --> FlagsmithUI["Flagsmith Control Plane"]
+    FlagsmithUI --> FlagsmithAPI["Flagsmith API (EU)"]
+    NextApp["Next.js SSR / Client"] --> FlagsmithAPI
+    NextApp --> Cache["Edge/Memory cache (200ms fallback)"]
+    FlagsmithAPI --> AuditLogs["Audit logs to Grafana Loki"]
+    Cache --> Observability["Feature usage metrics"]
+    FlagsmithAPI --> ConfigExport["Nightly config export"]
+```

@@ -14,9 +14,15 @@ Status: Proposed
   - Self-host the loader script and configuration JSON within Clarivum’s assets to keep data inside EU infrastructure.
   - Configure consent categories (`essential`, `analytics`, `marketing`, `personalization`) mapped to Flagsmith traits so services (PostHog, Sonner notifications, marketing pixels) respect user preferences.
   - Localize consent copy via Strapi-managed strings and Klaro’s translation hooks (Polish + English initial rollout).
-  - Persist consent decisions in browser storage (Klaro default) and emit a server-side event (`consent.updated`) for audit logs stored in Supabase.
-  - Expose a global “Manage cookies” entry point via Klaro’s modal API, anchored in the footer and legal pages.
+- Persist consent decisions in browser storage (Klaro default) and emit a server-side event (`consent.updated`) for audit logs stored in Supabase.
+- Expose a global “Manage cookies” entry point via Klaro’s modal API, anchored in the footer and legal pages.
 - Integrate Klaro initialization into the Next.js client entry point with lazy loading; default to blocking non-essential scripts until Klaro resolves consent.
+
+## Diagrams
+- [Architecture Overview](../diagrams/adr-014-cookie-consent-and-preference-management/architecture-overview.mmd) — Klaro loader, consent storage, Flagsmith trait sync, and audit logging.
+- [Data Lineage](../diagrams/adr-014-cookie-consent-and-preference-management/data-lineage.mmd) — Consent events, categories, and Supabase audit records.
+- [UML Components](../diagrams/adr-014-cookie-consent-and-preference-management/uml-components.mmd) — Initialization, consent state, trait synchronization, and auditing classes.
+- [BPMN Consent Lifecycle](../diagrams/adr-014-cookie-consent-and-preference-management/bpmn-consent.mmd) — Capture, persist, manage, and update flow for consent preferences.
 
 ## Consequences
 - **Benefits:** Mature OSS CMP with configurable UI, GDPR-compliant workflows, and minimal engineering lift versus bespoke build.

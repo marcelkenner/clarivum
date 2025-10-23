@@ -1,0 +1,11 @@
+```mermaid
+flowchart LR
+    StrapiCollections["Strapi Curated Collections"] --> RecommendationEngine["Recommendation Engine"]
+    BehavioralSignals["PostHog Behavioral Signals"] --> RecommendationEngine
+    DiagnosticsOutcomes["Diagnostics Outcomes (ADR-021)"] --> RecommendationEngine
+    Coupons["Coupon Service (ADR-026)"] --> RecommendationEngine
+    RecommendationEngine --> Cache["Edge Cache (ADR-006)"]
+    Cache --> ApiEndpoints["Next.js Route Handlers / API"]
+    ApiEndpoints --> ViewModels["Frontend ViewModels"]
+    RecommendationEngine --> Telemetry["Impression/Click Telemetry"]
+```

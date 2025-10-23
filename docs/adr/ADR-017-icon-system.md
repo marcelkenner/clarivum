@@ -46,6 +46,12 @@ Status: Accepted
   - Enforce named imports to maintain tree-shaking; disallow namespace imports in lint rules.
   - Icons inherit tokens for dark mode automatically; no additional variants needed.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-017-icon-system/architecture-overview.mmd) — Phosphor package integration with design tokens and SSR adapters.
+- [Data Lineage](../diagrams/adr-017-icon-system/data-lineage.mmd) — Icon tokens, usage references, and lint rule enforcement.
+- [UML Components](../diagrams/adr-017-icon-system/uml-components.mmd) — Registry, presenter, view model, and accessibility helpers.
+- [BPMN Governance Flow](../diagrams/adr-017-icon-system/bpmn-governance.mmd) — Review and rollout steps for new icon usage.
+
 ## Consequences
 - **Benefits:** Multiple weights enable premium emphasis without asset duplication; open-source licensing avoids recurring costs; React package is SSR-safe and matches App Router expectations.
 - **Trade-offs:** Slightly larger bundle compared to single-weight libraries; mitigate with named imports, optimized package imports, and lint automation.

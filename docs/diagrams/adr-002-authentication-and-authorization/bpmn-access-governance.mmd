@@ -1,0 +1,13 @@
+```mermaid
+flowchart LR
+    start([Access request])
+    review{Role required?}
+    approve[Grant Auth0 role]
+    sync[Sync claims to Supabase]
+    notify[Notify requester]
+    revoke[Deactivate + revoke sessions]
+    start --> review
+    review -->|Approved| approve --> sync --> notify
+    review -->|Denied| notify
+    notify --> revoke
+```

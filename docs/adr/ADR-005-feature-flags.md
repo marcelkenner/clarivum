@@ -16,6 +16,12 @@ Status: Accepted
 - Store flag metadata (ownership, rollout plan, expiry date) in `flagsmith` tags; expose them via documentation automation (`npm run flags:report` to be added).
 - Wire Flagsmith audit logs to Grafana Loki for compliance and change tracking.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-005-feature-flags/architecture-overview.mmd) — Flagsmith control plane, SDK, caching, and observability integration.
+- [Data Lineage](../diagrams/adr-005-feature-flags/data-lineage.mmd) — Flag definitions, variants, audits, and cached states.
+- [UML SDK Components](../diagrams/adr-005-feature-flags/uml-sdk.mmd) — Client abstractions managing fetch, caching, and audit publishing.
+- [BPMN Flag Lifecycle](../diagrams/adr-005-feature-flags/bpmn-flag-lifecycle.mmd) — Governance flow from flag proposal through sunsetting.
+
 ## Consequences
 - **Benefits:** Hosted solution with role-based access, audit trails, and native SDKs. Enables phased rollouts and marketing-controlled toggles without deploys.
 - **Risks:** SaaS dependency; risk mitigated by exporting flag configs nightly and keeping a migration path to open-source Unleash if costs or features become limiting.

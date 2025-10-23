@@ -21,6 +21,12 @@ Status: Accepted
 - Bundle custom admin extensions (e.g., medical review tools) as Strapi plugins stored in `cms/plugins/`, built into the admin panel during `yarn build` (Context7 notes on admin build pipeline).
 - Manage secrets via AWS Secrets Manager sync (ADR-007); Strapi Cloud environment variables pull from centralized store during deployment.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-010-content-management-platform/architecture-overview.mmd) — Managed Strapi environments, integrations, and backup flows.
+- [Data Lineage](../diagrams/adr-010-content-management-platform/data-lineage.mmd) — Core content types, localization relationships, and asset associations.
+- [UML Extensions](../diagrams/adr-010-content-management-platform/uml-extensions.mmd) — Deployment, migration, plugin, and webhook components.
+- [BPMN Release Workflow](../diagrams/adr-010-content-management-platform/bpmn-release.mmd) — Editorial path from drafting to publish and validation.
+
 ## Consequences
 - **Benefits:** Managed Strapi reduces ops toil, delivers editorial UX, and keeps schemas/versioning under engineer control while meeting localization and workflow needs.
 - **Trade-offs:** Strapi Cloud introduces license cost and limited infra customization; mitigated by periodic cost reviews and fallback playbook for self-hosting if required.

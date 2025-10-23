@@ -1,0 +1,26 @@
+```mermaid
+classDiagram
+    class RecommendationEngine {
+        +generateRecommendations(request)
+        +applyFallbacks()
+    }
+    class CollectionRepository {
+        +fetchCollections(criteria)
+    }
+    class SignalAggregator {
+        +loadSignals(profileId)
+        +scoreItems(signals)
+    }
+    class AffiliateEnricher {
+        +attachLinks(items)
+        +applyCoupons(items)
+    }
+    class TelemetryManager {
+        +recordImpression(items)
+        +recordClick(item)
+    }
+    RecommendationEngine --> CollectionRepository
+    RecommendationEngine --> SignalAggregator
+    RecommendationEngine --> AffiliateEnricher
+    RecommendationEngine --> TelemetryManager
+```

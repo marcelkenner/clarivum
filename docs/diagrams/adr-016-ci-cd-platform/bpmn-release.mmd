@@ -1,0 +1,16 @@
+```mermaid
+flowchart TD
+    pr([Open pull request])
+    runChecks[Run required checks]
+    results{Checks successful?}
+    requestReview[Code review + approvals]
+    merge{Approvals complete?}
+    mergeMain[Merge to main]
+    deploy[Trigger production deploy]
+    monitor[Monitor metrics & alerts]
+    pr --> runChecks --> results
+    results -->|Yes| requestReview --> merge
+    results -->|No| pr
+    merge -->|Yes| mergeMain --> deploy --> monitor
+    merge -->|No| requestReview
+```

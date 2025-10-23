@@ -1,0 +1,10 @@
+```mermaid
+flowchart LR
+    Strapi["Strapi CMS Webhooks"] --> Queue["Ingestion Queue"]
+    Queue --> Transformer["@clarivum/search-manager"]
+    Transformer --> Meilisearch["Meilisearch Cloud (EU)"]
+    Transformer --> SchemaRepo["Schema & Ranking Rules (Git)"]
+    NextApp["Next.js SearchViewModel"] --> Meilisearch
+    Diagnostics["Diagnostics Tools"] --> Meilisearch
+    Meilisearch --> Observability["OTel search telemetry"]
+```

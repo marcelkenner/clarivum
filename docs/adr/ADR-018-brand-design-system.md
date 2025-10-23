@@ -29,6 +29,12 @@ Status: Accepted
   - Any deviations or evolutions require updates to both the PRD and this ADR.
   - Tokens must be implemented in Tailwind/custom CSS vars and synced to Storybook once components exist.
 
+## Diagrams
+- [Architecture Overview](../diagrams/adr-018-brand-design-system/architecture-overview.mmd) — Flow from brand guidelines to tokens, Storybook, and product components.
+- [Data Lineage](../diagrams/adr-018-brand-design-system/data-lineage.mmd) — Color, typography, spacing tokens and their component bindings.
+- [UML Components](../diagrams/adr-018-brand-design-system/uml-components.mmd) — Registries, theme providers, documentation sync, and review boards.
+- [BPMN Governance Flow](../diagrams/adr-018-brand-design-system/bpmn-governance.mmd) — Change proposal, approval, implementation, and communication steps.
+
 ## Consequences
 - **Benefits:** Shared vocabulary and enforceable rules prevent UI drift, streamline component build-out, and align brand/marketing with product delivery.
 - **Trade-offs:** Adds upfront governance overhead; teams must maintain tokens and documentation whenever visual decisions change.
