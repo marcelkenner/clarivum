@@ -1,5 +1,7 @@
 # Feature Requirements — Fuel Tool: Profil Sportowy Makro
 
+> **Canonical references:** Build on `docs/adr/ADR-022-tools-and-calculators-platform.md` for tool architecture and `docs/adr/ADR-019-frontend-platform.md` for delivery patterns.
+
 > Product owner: Fuel PM  
 > Science reviewer: Sports Nutrition Lead  
 > UX owner: Experience Design Lead  

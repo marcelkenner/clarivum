@@ -1,5 +1,7 @@
 # Feature Requirements — Fuel Tool: Kalkulator Alkohol — Kalorie & BAC
 
+> **Canonical references:** Build on `docs/adr/ADR-022-tools-and-calculators-platform.md` for tool architecture and `docs/adr/ADR-019-frontend-platform.md` for delivery patterns.
+
 > Product owner: Fuel PM  
 > Science reviewer: Registered Dietitian  
 > Compliance reviewer: Legal & Claims Lead  

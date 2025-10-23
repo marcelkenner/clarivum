@@ -1,0 +1,45 @@
+```mermaid
+classDiagram
+    class RequestSecurityCoordinator {
+        +evaluate(request): SecurityDecision
+        -countryManager: CountryAccessManager
+        -botManager: BotMitigationManager
+        -formManager: FormHygieneManager
+        -telemetry: ObservabilityEmitter
+    }
+
+    class CountryAccessManager {
+        +evaluate(request): CountryDecision
+        -policyProvider: CountryPolicyProvider
+    }
+
+    class BotMitigationManager {
+        +score(request): BotScore
+        -signalCollectors: BotSignalCollector[]
+        -rateLimiter: RateLimiterClient
+    }
+
+    class FormHygieneManager {
+        +validate(request): FormDecision
+        -honeypotRegistry: HoneypotRegistry
+        -blueprintResolver: FormBlueprintResolver
+    }
+
+    class SecurityDecision {
+        +verdict: Verdict
+        +reasons: String[]
+        +telemetryContext: Map<String,String>
+    }
+
+    class ObservabilityEmitter {
+        +emit(decision): void
+    }
+
+    RequestSecurityCoordinator --> CountryAccessManager
+    RequestSecurityCoordinator --> BotMitigationManager
+    RequestSecurityCoordinator --> FormHygieneManager
+    RequestSecurityCoordinator --> ObservabilityEmitter
+    CountryAccessManager --> SecurityDecision
+    BotMitigationManager --> SecurityDecision
+    FormHygieneManager --> SecurityDecision
+```

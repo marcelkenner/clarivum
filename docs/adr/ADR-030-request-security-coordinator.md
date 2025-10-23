@@ -3,6 +3,7 @@ Date: 2025-10-23
 Status: Proposed
 
 ## Context
+- Product scope and functional requirements are defined in `docs/PRDs/requierments/security/traffic-protection.md`; this ADR captures the architectural response.
 - Stakeholders requested hardening against bots, spam, and malicious traffic from sanctioned or high-risk geographies (e.g., China, Russia, Iran, Iraq, etc.).
 - Existing security baseline (ADR-028) mandates protective controls but lacks a concrete implementation path for request-level enforcement.
 - Next.js 15 removes direct geo/IP access on `NextRequest`; Vercel recommends `@vercel/functions` helpers for geolocation (reference via Context7).
@@ -20,8 +21,10 @@ Status: Proposed
 - Guard rollout via Flagsmith feature flags and document operational procedures in a dedicated runbook.
 
 ## Diagrams
-- Sequence diagram outlining middleware flow and decision handoff → `docs/diagrams/request-security/request-security-sequence.puml` (to be authored alongside implementation).
-- Configuration model diagram showing managers and configuration sources → `docs/diagrams/request-security/request-security-components.puml`.
+- [Architecture Overview](../diagrams/adr-030-request-security-coordinator/architecture-overview.mmd) — Request flow from edge middleware through coordinators and managers.
+- [Data Lineage](../diagrams/adr-030-request-security-coordinator/data-lineage.mmd) — Signals received, decision outcomes, and telemetry exports.
+- [UML Components](../diagrams/adr-030-request-security-coordinator/uml-components.mmd) — Coordinator, managers, configuration adapters, and observability emitters.
+- [BPMN Rollout Flow](../diagrams/adr-030-request-security-coordinator/bpmn-rollout.mmd) — Policy authoring, testing, approval, and deployment orchestration.
 
 ## Consequences
 - **Positive:** Centralizes access policies, reduces spam, and provides auditable decisions per request.

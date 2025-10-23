@@ -1,0 +1,18 @@
+```mermaid
+flowchart LR
+    A[Policy Drafted\nSecurity Champion] --> B[Peer Review\nSecurity Guild]
+    B --> C{Approval?}
+    C -- No --> A
+    C -- Yes --> D[Configure Policies\nconfig/security/*.json]
+    D --> E[Deploy to Preview\nFlagsmith gated]
+    E --> F[QA Simulation\nmalicious traffic suite]
+    F --> G{QA Passes?}
+    G -- No --> D
+    G -- Yes --> H[Enable Feature Flag\nstaged rollout]
+    H --> I[Monitor Telemetry\nDiagnostics dashboards]
+    I --> J{Anomalies?}
+    J -- Yes --> K[Rollback via Flag]
+    K --> L[Post-mortem & Adjust Policy]
+    L --> D
+    J -- No --> M[Close Change Request\nUpdate Runbook]
+```

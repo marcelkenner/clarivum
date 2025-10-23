@@ -1,3 +1,5 @@
+> **Canonical references:** Follow `docs/adr/ADR-018-brand-design-system.md` for brand system and `docs/adr/ADR-019-frontend-platform.md` for delivery patterns.
+
 These wireframes standardize trust pages and high‑traffic utilities so engineering/design can implement quickly with **stable UX patterns** (TOC, breadcrumbs, sticky actions, WCAG AA), while keeping copy minimal and compliant pending legal/editorial review.
 
 ---

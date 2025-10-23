@@ -15,6 +15,7 @@ updated_at: 2025-10-24
 links:
   - docs/PRDs/requierments/analytics/feature-requirements.md
   - docs/adr/ADR-029-plausible-analytics-platform.md
+  - docs/adr/ADR-008-product-analytics-platform.md
   - docs/runbooks/analytics-qa.md
 context7:
   - /plausible/docs

@@ -1,0 +1,14 @@
+```mermaid
+graph LR
+    EdgeRequest["Edge Request\n(Next.js Middleware)"] --> Coordinator["RequestSecurityCoordinator"]
+    Coordinator --> CountryManager["CountryAccessManager"]
+    Coordinator --> BotManager["BotMitigationManager"]
+    Coordinator --> FormManager["FormHygieneManager"]
+    CountryManager --> PolicyStore["ConfigAdapter\n(config/security/*.json)"]
+    BotManager --> BotSignals["SignalCollectors\n(User agent, headers, BotID)"]
+    BotManager --> RateLimiter["RateLimiterClient\n(ADR-006)"]
+    FormManager --> FormBlueprint["FormBlueprintRegistry\n(ADR-020)"]
+    Coordinator --> Decision["SecurityDecision\n(allow | challenge | block)"]
+    Decision --> Response["Edge Response\n(rewrite | allow | reject)"]
+    Coordinator --> Telemetry["ObservabilityEmitter\n(ADR-021 diagnostics)"]
+```

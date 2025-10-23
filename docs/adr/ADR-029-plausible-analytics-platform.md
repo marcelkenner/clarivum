@@ -4,6 +4,7 @@ Status: Accepted
 Supersedes: ADR-008-product-analytics-platform.md
 
 ## Context
+- Product scope is anchored in `docs/PRDs/requierments/analytics/feature-requirements.md`; keep PRD and ADR aligned as instrumentation evolves.
 - Leadership mandated a privacy-first analytics strategy with zero tolerance for GA4, Google Tag Manager, Segment, or any alternative vendors.
 - Marketing and product teams still require near-real-time funnel visibility (≤5 minutes lag) across homepage, diagnostics, tools, ecommerce, and lifecycle flows.
 - The prior PostHog decision (ADR-008) introduced vendor lock-in concerns and heavier SDK overhead than desired for Core Web Vitals budgets.

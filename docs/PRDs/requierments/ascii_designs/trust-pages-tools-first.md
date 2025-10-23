@@ -1,3 +1,5 @@
+> **Canonical references:** Follow `docs/adr/ADR-018-brand-design-system.md` for brand system and `docs/adr/ADR-019-frontend-platform.md` for delivery patterns.
+
 ## Forward look — Tools‑first refit (GLOBAL PATTERN + PER‑PAGE ASCII)
 
 ### Global component (used on all pages)

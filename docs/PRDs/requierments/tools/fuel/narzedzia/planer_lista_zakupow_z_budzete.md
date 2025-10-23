@@ -1,5 +1,7 @@
 # Feature Requirements — Fuel Tool: Planer + Lista Zakupów z Budżetem
 
+> **Canonical references:** Build on `docs/adr/ADR-022-tools-and-calculators-platform.md` for tool architecture and `docs/adr/ADR-019-frontend-platform.md` for delivery patterns.
+
 > Product owner: Fuel PM  
 > UX owner: Experience Design Lead  
 > Ops reviewer: Grocery Partnerships Lead  

@@ -1,5 +1,7 @@
 # Feature Requirements — Habits Tool: Indeks Regularności Snu
 
+> **Canonical references:** Build on `docs/adr/ADR-022-tools-and-calculators-platform.md` for tool architecture and `docs/adr/ADR-019-frontend-platform.md` for delivery patterns.
+
 > Product owner: Habits PM  
 > Behavioural science reviewer: Sleep Research Lead  
 > Data reviewer: Analytics Lead  

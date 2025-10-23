@@ -1,5 +1,7 @@
 # Feature Requirements — Habits Tool: Raport Tygodniowy Zdrowia
 
+> **Canonical references:** Build on `docs/adr/ADR-022-tools-and-calculators-platform.md` for tool architecture and `docs/adr/ADR-019-frontend-platform.md` for delivery patterns.
+
 > Product owner: Habits PM  
 > Data reviewer: Analytics Lead  
 > Compliance reviewer: Legal & Claims Lead  

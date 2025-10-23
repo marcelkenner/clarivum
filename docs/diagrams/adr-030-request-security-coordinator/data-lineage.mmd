@@ -1,0 +1,18 @@
+```mermaid
+flowchart TB
+    subgraph Inputs
+        UA["User Agent"] --> Signals
+        Headers["Request Headers"] --> Signals
+        Geo["Geolocation (Vercel geolocation/ipAddress)"] --> Signals
+        Honeypot["Honeypot Field Values"] --> Signals
+    end
+
+    Signals["Signal Aggregator"] --> Normalized["Normalize & Score"]
+    Normalized --> DecisionRecord["Decision Record"]
+    DecisionRecord --> Telemetry["Telemetry Events\n(diagnostics platform)"]
+    DecisionRecord --> AuditLog["Audit Log Store\n(request-security decisions)"]
+    Normalized --> Outcome["Allow / Soft Block / Hard Block"]
+    Outcome --> Response["Edge Response Handler"]
+    Telemetry --> Monitoring["Monitoring Dashboards"]
+    AuditLog --> Review["Security Review Workflow"]
+```
