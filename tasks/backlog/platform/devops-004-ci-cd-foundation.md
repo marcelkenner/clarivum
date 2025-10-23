@@ -16,6 +16,7 @@ links:
   - docs/PRDs/first_steps.md#8
   - docs/runbooks/deployment.md
   - docs/role-guides/devops.md
+  - docs/adr/ADR-016-ci-cd-platform.md
 context7:
   - /websites/github_en_actions
   - /vercel/next.js

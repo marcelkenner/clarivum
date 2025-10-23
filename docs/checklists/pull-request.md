@@ -7,6 +7,7 @@ Use this checklist before requesting review. It covers quality, testing, observa
 - [ ] Scope is smallest reasonable slice; feature remains behind a Flagsmith flag if incomplete.
 - [ ] ADR impact assessed. New or changed architectural decisions captured via new ADR or ADR update.
 - [ ] Documentation updated (`docs/`, product copy, changelog) or explicitly noted as not needed.
+- [ ] Diagrams created or refreshed per `docs/policies/diagramming-policy.md` (architecture, data, UML, BPMN).
 
 ## Testing
 

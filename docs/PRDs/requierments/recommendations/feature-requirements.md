@@ -1,5 +1,7 @@
 # Feature Requirements — Recommendations & Affiliate Picks
 
+> **Canonical decision:** `docs/adr/ADR-025-recommendations-and-merchandising.md` defines the merchandising and personalization architecture.
+
 ## Objective
 - Deliver curated recommendation hubs (`/polecenia/` + vertical-specific pages) that guide users toward trusted products and services aligned with Clarivum’s brand pillars.
 - Generate affiliate revenue while maintaining editorial integrity and transparency.
@@ -58,4 +60,3 @@
 - Determine cadence for re-review (quarterly vs monthly) and responsible roles.
 - Clarify whether user reviews/comments will be supported in future.
 - Assume affiliate data returns via manual reports initially; automation backlog item.
-

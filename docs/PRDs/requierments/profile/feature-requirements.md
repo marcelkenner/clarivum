@@ -1,5 +1,7 @@
 # Feature Requirements — Customer Profile & Account Center
 
+> **Canonical decision:** `docs/adr/ADR-023-account-center.md` describes the architecture and integrations for the profile experience.
+
 ## Objective
 - Provide a unified account area where authenticated users manage personal data, purchases, diagnostic results, newsletter preferences, and subscriptions.
 - Serve as the self-service hub reducing support load while reinforcing Clarivum’s trusted relationship with customers.
@@ -61,4 +63,3 @@
 - Need design decision on navigation pattern (tabs vs sidebar).
 - Determine whether profile will host messaging inbox or rely on email only.
 - Assume feature will extend to mobile app in future—API contracts should anticipate cross-platform use.
-

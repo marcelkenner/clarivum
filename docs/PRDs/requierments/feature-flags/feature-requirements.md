@@ -1,5 +1,7 @@
 # Feature Requirements — Feature Flags & Experimentation (Flagsmith)
 
+> **Canonical decision:** `docs/adr/ADR-005-feature-flags.md` governs the flagging strategy and tooling.
+
 ## Objective
 - Manage progressive delivery, controlled rollouts, and lightweight experiments across Clarivum experiences using Flagsmith.
 - Empower product and marketing to test messaging or reveal gated features without additional deployments.
@@ -58,4 +60,3 @@
 - Need to confirm whether marketing requires self-serve segment creation or if engineering will manage.
 - Determine long-term plan for experimentation analysis (Flagsmith vs PostHog integration).
 - Assume serverless runtime limits (Vercel Edge) will be considered later; evaluate edge SDK readiness before adoption.
-

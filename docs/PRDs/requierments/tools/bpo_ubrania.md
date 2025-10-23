@@ -1,3 +1,7 @@
+# Tool Specification — BPO Ubrania (Fabric-Bleach Risk Aid)
+
+> **Canonical decision:** Implement using the shared tooling platform in `docs/adr/ADR-022-tools-and-calculators-platform.md`.
+
 Below is an **A–Z requirements spec** for **/skin/narzedzia/bpo-ubrania/** — *BPO Fabric‑Bleach Risk Aid*. It covers **functional** and **non‑functional** requirements so an engineer can implement it end‑to‑end (UI + API) with high confidence.
 
 > **Consistency note:** The algorithm you provided (weights for BPO %, fabric, color, dry‑down, contact) sums to **12** for the illustrated case (5% BPO, cotton, dark, 15 min dry‑down, 480 min contact). The sample output shows **9**. This spec treats the algorithm as the source of truth; examples below are corrected accordingly.

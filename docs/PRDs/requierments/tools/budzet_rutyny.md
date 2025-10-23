@@ -1,3 +1,7 @@
+# Tool Specification — Budżet Rutyny (Routine Budget Calculator)
+
+> **Canonical decision:** Implement using the shared tooling platform in `docs/adr/ADR-022-tools-and-calculators-platform.md`.
+
 Below is an **A–Z** specification for **/skin/narzedzia/budzet‑rutyny/** (Routine Budget Calculator). It combines **functional** and **non‑functional** requirements so engineering, QA, and design can implement and ship the tool end‑to‑end.
 
 > **Important numeric note:** The sample output in your prompt for “Gentle Cleanser” does **not** match the given algorithm (30‑day month model). Using the algorithm as written (see Section **G**), the cleanser should produce `months_to_empty ≈ 1.67` and `cost_per_month ≈ 8.99`. This spec adopts the algorithm exactly; please update fixtures accordingly.
@@ -573,4 +577,3 @@ for (const p of products) {
   const excluded = insufficient || infinite;
 
   // accumulate total on unrounded values before rounding at end
-

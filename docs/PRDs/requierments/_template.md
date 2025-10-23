@@ -1,5 +1,7 @@
 # Feature Requirements — {{Feature Name}}
 
+> Capture the product outcomes here. Record implementation decisions, schemas, or platform selections in the corresponding ADR and link to it from this document (e.g., `docs/adr/ADR-019-frontend-platform.md`).
+
 ## Objective
 - Why this feature exists and how it supports the Clarivum pillars.
 
@@ -40,4 +42,3 @@
 
 ## Open Questions & Assumptions
 - Decisions or validations still outstanding.
-

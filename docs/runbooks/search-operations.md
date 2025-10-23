@@ -47,7 +47,7 @@ Use index swaps to achieve zero downtime while applying schema migrations (per C
 2. **Prototype factors:** Adjust ranking rules (typo tolerance, word proximity) locally; record changes in `SearchRelevanceConfig`.
 3. **A/B in staging:** Run manual evaluation with curated query list; gather editorial feedback.
 4. **Promote:** Update production config via feature flag and monitor for 24 hours.
-5. **Document:** Log adjustments in `docs/analytics_events.md` and append summary to this runbook's changelog section.
+5. **Document:** Log adjustments in ADR-008’s event catalogue and append summary to this runbook's changelog section.
 
 ## Drift or outage response
 1. **Trigger condition:** Count mismatch >0.5%, ingestion backlog > 200, or Meilisearch availability alert.

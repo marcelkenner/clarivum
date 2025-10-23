@@ -1,5 +1,7 @@
 # Feature Requirements — Testing Stack (Vitest, Testing Library, Playwright)
 
+> **Canonical decision:** `docs/adr/ADR-015-testing-strategy.md` defines the tooling and enforcement for this stack.
+
 ## Objective
 - Establish an automated testing strategy using Vitest for unit/integration tests, Testing Library for React component behavior, and Playwright for end-to-end coverage of critical funnels.
 - Provide confidence in rapid releases while enforcing Clarivum’s quality guardrails.
@@ -59,4 +61,3 @@
 - Need to decide on visual regression tooling (Playwright trace viewer vs Chromatic).
 - Determine budget for Playwright cloud parallel runs vs self-hosted workers.
 - Assume we will adopt contract testing for APIs later; backlog item to evaluate Pact or similar.
-

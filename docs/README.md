@@ -6,9 +6,11 @@ Clarivum’s pre-code documentation gathers all technical, operational, and gove
 - **docs/architecture.md** – C4-style context and container overview for the Clarivum platform.
 - **docs/adr/** – Architecture Decision Records. ADR-001…005 are accepted decisions; `_template.md` is the authoring scaffold for future ADRs.
 - **docs/runbooks/** – Step-by-step operational guides (deployment, incident response, FinOps review).
-- **docs/policies/** – Error budget policy and security baseline commitments.
+- **docs/policies/** – Error budget policy, repository governance, work intake workflow, and security baseline commitments.
+- **docs/policies/diagramming-policy.md** – Mandatory diagram types, storage locations, and review gates for every feature or decision.
 - **docs/checklists/** – Pull request checklist aligning with testing and security guardrails from the PTRD.
 - **docs/role-guides/** – Discipline-specific handbooks for frontend, backend, architecture, DevOps, and QA teams (start with `role-guides/README.md`).
+- **docs/diagrams/** – Canonical architecture, data, UML, and BPMN diagrams for approved features and decisions.
 - **tasks/README.md** – Task board structure with status/discipline lanes and authoring rules.
 - **tasks/status-summary.md** – Auto-generated digest of active tasks by status and area (`npm run tasks:summary`).
 
@@ -17,6 +19,14 @@ Clarivum’s pre-code documentation gathers all technical, operational, and gove
 1. **Review cadence:** Reconfirm ADRs and runbooks during the monthly reliability review (Section 12 of the PTRD). Flag superseded decisions with a follow-up ADR.
 2. **Change policy:** Updates to any document in `docs/` require a pull request with at least one reviewer from product and one from engineering.
 3. **Source of truth:** If a process or decision differs from what is written here, fix the docs immediately—do not allow drift.
+
+## Documentation layering
+
+- **PRDs** define desired outcomes and user value; avoid embedding implementation specifics here.
+- **ADRs** are the canonical record for technology decisions and schemas—link to them from supporting docs instead of duplicating content.
+- **Runbooks** describe how to operate the chosen solution; reference the relevant ADR for context.
+- When adding new topics, ensure exactly one ADR owns the decision and point other documents at it rather than creating parallel sources.
+- **Workflow enforcement:** Follow `docs/policies/work-intake-workflow.md` so every task traces back to an approved PRD and ADR, with runbooks updated before completion.
 
 ## Snapshot of agreed non-functional targets
 

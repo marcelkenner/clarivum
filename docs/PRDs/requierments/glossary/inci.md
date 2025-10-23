@@ -1,4 +1,6 @@
-INCI normalization & tokenization
+# INCI Normalization & Tokenization
+
+> **Canonical decision:** Follow `docs/adr/ADR-010-content-management-platform.md` for content storage and governance.
 
 normalize_inci(text: string) → list[str]
 

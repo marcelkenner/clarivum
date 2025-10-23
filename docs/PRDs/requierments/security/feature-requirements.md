@@ -1,5 +1,7 @@
 # Feature Requirements — Security & Trust
 
+> **Canonical decisions:** `docs/adr/ADR-028-security-and-compliance-baseline.md` defines the security posture; `docs/adr/ADR-007-secrets-management-and-configuration-distribution.md` covers secret rotation.
+
 ## Objective
 - Establish security controls that protect user data, uphold brand trust, and satisfy the guardrails defined in the PTRD (`first_steps.md`).
 - Embed secure-by-default practices across infrastructure, product, and operations.
@@ -61,4 +63,3 @@
 - Need clarity on target compliance frameworks (ISO 27001 vs SOC 2) for future roadmap.
 - Determine ownership model (internal security champion vs external partner).
 - Assume observability stack will include logging and alerting capable of supporting security use cases; confirm tooling selection.
-

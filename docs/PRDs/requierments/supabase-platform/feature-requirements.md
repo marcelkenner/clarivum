@@ -1,5 +1,7 @@
 # Feature Requirements — Supabase Platform (Postgres & Storage)
 
+> **Canonical decisions:** `docs/adr/ADR-001-primary-cloud-and-database.md` defines the Supabase tenancy; see also `docs/adr/ADR-023-account-center.md` and `docs/adr/ADR-024-ebooks-and-digital-products.md` for domain-specific integrations.
+
 ## Objective
 - Deliver a reliable data backbone using Supabase Postgres 16 and Storage to persist Clarivum’s structured content, user profiles, entitlements, and assets.
 - Provide secure, low-latency access patterns for Next.js, Strapi integrations, and future services while honoring GDPR residency requirements.
@@ -60,4 +62,3 @@
 - Need to determine preference between Drizzle ORM vs Supabase SQL migrations; placeholder uses SQL migration scripts.
 - Decide on warehousing strategy (Supabase vs external BigQuery) for long-term analytics storage.
 - Assume Supabase Edge Functions may be leveraged later for webhooks; evaluate when required.
-

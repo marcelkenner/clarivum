@@ -21,4 +21,4 @@ tasks/
     …
 ```
 
-Each task is a Markdown file named `<prefix>-<sequence>-<slug>.md` (e.g., `fe-001-bootstrap-vitest.md`). Prefixes hint at discipline (`fe`, `be`, `plat`, `qa`, `biz`, `ops`, `shared`). See `tasks/AGENTS.md` for the full authoring checklist.
+Each task is a Markdown file named `<prefix>-<sequence>-<slug>.md` (e.g., `fe-001-bootstrap-vitest.md`). Prefixes hint at discipline (`fe`, `be`, `plat`, `qa`, `biz`, `ops`, `shared`). Every task must link to an approved PRD and accepted ADR per `docs/policies/work-intake-workflow.md`. See `tasks/AGENTS.md` for the full authoring checklist.

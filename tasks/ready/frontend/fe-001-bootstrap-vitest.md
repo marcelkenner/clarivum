@@ -12,8 +12,10 @@ updated_at: 2025-10-21
 links:
   - AGENTS.md
   - docs/PRDs/first_steps.md#8
+  - docs/PRDs/requierments/testing-stack/feature-requirements.md
   - docs/role-guides/frontend.md
   - docs/role-guides/backend.md
+  - docs/adr/ADR-015-testing-strategy.md
 context7:
   - /vitest/cli
   - /vercel/next.js

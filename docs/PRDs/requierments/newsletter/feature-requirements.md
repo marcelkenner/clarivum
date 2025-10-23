@@ -1,5 +1,7 @@
 # Feature Requirements — Newsletter & Lifecycle Capture
 
+> **Canonical decision:** `docs/adr/ADR-013-mailing-platform-and-campaign-automation.md` governs lifecycle messaging tooling.
+
 ## Objective
 - Operate Clarivum’s newsletter capture and lifecycle messaging program, turning visitors into segmented subscribers aligned with vertical interests.
 - Ensure compliance with consent regulations while delivering high-quality nurture sequences.
@@ -58,4 +60,3 @@
 - Need selection of marketing automation tool and associated API capabilities.
 - Decide on multilingual strategy for newsletter content.
 - Assume newsletter will feature cross-promo modules for tools and coupons; requires design alignment.
-

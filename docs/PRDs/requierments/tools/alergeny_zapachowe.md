@@ -1,3 +1,7 @@
+# Tool Specification — Alergeny Zapachowe (Fragrance Allergen Checker)
+
+> **Canonical decision:** Implement using the shared tooling platform in `docs/adr/ADR-022-tools-and-calculators-platform.md`.
+
 Below is an end‑to‑end (A → Z) specification you can hand to engineering to implement **/skin/narzedzia/alergeny-zapachowe/** — *Fragrance Allergen Checker*. It covers functional + non‑functional requirements, data structures, API contracts, algorithmic details, i18n text, examples, test vectors, and acceptance criteria.
 
 ---

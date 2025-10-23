@@ -8,6 +8,7 @@ This directory holds the Clarivum task board (backlog → ready → in-progress 
 - Each status folder contains discipline lanes (`frontend`, `backend`, `platform`, `qa`, `business`, `shared`).
 - Task files use Markdown with YAML front matter at the top.
 - Naming convention: `<prefix>-<sequence>-<slug>.md` (e.g., `fe-001-bootstrap-vitest.md`). Suggested prefixes: `fe`, `be`, `plat`, `qa`, `biz`, `ops`, `shared`.
+- Do not create a task until the governing PRD is approved and the related ADR is accepted (see `docs/policies/work-intake-workflow.md`).
 
 ## Front matter schema
 
@@ -31,6 +32,8 @@ tags: [<keyword>, ...]
 ---
 ```
 
+- `links` entries must include at least one PRD (`docs/PRDs/...`) and one ADR (`docs/adr/...`) governing the work.
+
 ## Body requirements
 
 - `## Summary` — one paragraph describing the outcome/user value.
@@ -41,7 +44,7 @@ tags: [<keyword>, ...]
 
 ## Workflow
 
-1. Add new tasks in the appropriate status/area with full metadata and checklists.
+1. Add new tasks in the appropriate status/area with full metadata and checklists once PRD + ADR prerequisites are met.
 2. Move files between folders via pull request when status changes (update `status`, `updated_at`, and notes).
 3. Use `npm run lint:tasks` to validate files; CI will fail if schema or structure is incorrect.
 4. Run `npm run tasks:summary` to regenerate `tasks/status-summary.md` before sharing updates.

@@ -1,3 +1,7 @@
+# Tool Specification — Timer Reaplikacji (SPF Reapplication Timer)
+
+> **Canonical decision:** Implement using the shared tooling platform in `docs/adr/ADR-022-tools-and-calculators-platform.md`.
+
 Below is an **A–Z requirements specification** for **/skin/narzedzia/timer-reaplikacji — SPF Reapplication Timer**. It blends **functional** and **non‑functional** requirements, with concrete schemas, rules, and acceptance criteria so your team can implement it end‑to‑end.
 
 ---

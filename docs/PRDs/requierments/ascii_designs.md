@@ -1,3 +1,7 @@
+# ASCII Designs & Narrative Concepts
+
+> **Canonical decisions:** Follow the brand system in `docs/adr/ADR-018-brand-design-system.md` and the frontend platform in `docs/adr/ADR-019-frontend-platform.md`.
+
 A tools‑first homepage proves value in ≤20 s, builds **mental availability** (jasne kody pionów) and **physical availability** (głęboki dostęp do narzędzi), while the optional capture respects autonomy—users stay, explore, i wracają.
 
 ---

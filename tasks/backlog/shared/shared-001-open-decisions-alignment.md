@@ -9,7 +9,7 @@ collaborators: []
 effort: medium
 created_at: 2025-10-21
 updated_at: 2025-10-21
-links: [docs/PRDs/first_steps.md, docs/PRDs/clarivum_brand.md, docs/PRDs/technology-stack-catalog.md]
+links: [docs/PRDs/first_steps.md, docs/PRDs/clarivum_brand.md, docs/PRDs/technology-stack-catalog.md, docs/adr/ADR-005-feature-flags.md]
 context7: [/vercel/next.js, /supabase/supabase]
 tags: [decision-log, governance, roadmap]
 ---

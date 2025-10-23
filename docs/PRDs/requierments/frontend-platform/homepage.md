@@ -1,3 +1,7 @@
+# Frontend Platform — Homepage ASCII Specification
+
+> **Canonical decisions:** Follow `docs/adr/ADR-019-frontend-platform.md` for implementation patterns and `docs/adr/ADR-018-brand-design-system.md` for visual rules.
+
 A tools‑first homepage proves value in ≤20 s, builds **mental availability** (jasne kody pionów) and **physical availability** (głęboki dostęp do narzędzi), while the optional capture respects autonomy—users stay, explore, i wracają.
 
 ---

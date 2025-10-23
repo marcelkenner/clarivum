@@ -11,6 +11,7 @@ created_at: 2025-10-21
 updated_at: 2025-10-21
 links:
   - docs/adr/ADR-005-feature-flags.md
+  - docs/PRDs/requierments/feature-flags/feature-requirements.md
   - docs/role-guides/devops.md
   - docs/runbooks/deployment.md
 context7:

@@ -1,3 +1,7 @@
+# Tool Specification — Interakcje Składników (Actives Interaction Checker)
+
+> **Canonical decision:** Implement using the shared tooling platform in `docs/adr/ADR-022-tools-and-calculators-platform.md`.
+
 Below is a complete **A–Z requirements** spec for the **Actives Interaction Checker** at
 `/skin/narzedzia/interakcje-skladnikow/`.
 

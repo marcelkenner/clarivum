@@ -1,5 +1,7 @@
 # Feature Requirements — Analytics & Insights
 
+> **Canonical reference:** Implementation decisions, event schemas, and operational guardrails live in `docs/adr/ADR-008-product-analytics-platform.md`. This PRD captures product outcomes only—update the ADR whenever analytics behaviour changes.
+
 ## Objective
 - Provide reliable instrumentation and reporting that reveal funnel performance for home, vertical hubs, tools, ebooks, and subscriptions.
 - Deploy PostHog as the primary analytics platform to validate product decisions outlined in `clarivum_brand.md` and `first_steps.md` without additional engineering work.
@@ -18,7 +20,7 @@
 - Keep instrumentation composable so new tools or ebooks can inherit baseline events automatically.
 
 ## Functional Requirements
-- FR1 — Capture page view, scroll depth, CTA interactions, email sign-ups, tool launches, ebook downloads/purchases, coupon clicks, and subscription events with consistent event schemas.
+- FR1 — Capture page view, scroll depth, CTA interactions, email sign-ups, tool launches, ebook downloads/purchases, coupon clicks, and subscription events with consistent event schemas. The canonical event definitions and property lists reside in ADR-008.
 - FR2 — Provide dashboard modules for funnels: home → vertical hub → CTA; blog category → tool; ebook detail → checkout; coupon list → outbound click.
 - FR3 — Support cohorting by acquisition channel, persona quiz outcome, and vertical preference gathered through diagnostics.
 - FR4 — Expose daily anomaly detection (e.g., >20% drop in conversions) via automated alerts to Slack/email.
@@ -51,7 +53,7 @@
 - Consent banner live with analytics-specific callouts.
 - Event tracking plans reviewed with marketing; QA in staging validates payloads and PostHog ingestion.
 - Dashboards seeded with baseline visualizations and shared with stakeholders.
-- Incident playbook documented for data gaps or PostHog outages.
+- Incident playbook documented for data gaps or PostHog outages (see `docs/runbooks/analytics-qa.md` for QA and triage steps).
 
 ## Open Questions & Assumptions
 - Need confirmation on deployment model (self-hosted PostHog vs managed cloud) and associated infra budget.

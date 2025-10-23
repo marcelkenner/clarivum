@@ -1,5 +1,7 @@
 # Feature Requirements — Authentication & Login
 
+> **Canonical decision:** `docs/adr/ADR-002-authentication-and-authorization.md` defines the identity provider and session model supporting this PRD.
+
 ## Objective
 - Provide a secure, low-friction authentication flow that unlocks personalized experiences (saved diagnostics, ebook library, subscriptions, gated coupons).
 - Balance trust and conversion by supporting progressive profiling and social/e-mail login options.
@@ -60,4 +62,3 @@
 - Need final decision on identity provider and whether to self-host or use SaaS.
 - Determine passkey support timeline and device coverage expectations.
 - Assume same auth stack will serve future mobile apps; confirm API contract requirements early.
-

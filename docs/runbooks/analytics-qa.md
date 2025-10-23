@@ -1,8 +1,8 @@
 # Analytics QA Runbook
 
 ## Scope & objectives
-- Validate product analytics instrumentation across web, server, and background jobs per ADR-008 before release.
-- Maintain parity between `@clarivum/analytics` schema, `docs/analytics_events.md`, and PostHog project configuration.
+- Validate product analytics instrumentation across web, server, and background jobs per ADR-008 before release. ADR-008 also holds the canonical event catalogue—use it as the single source of truth when validating payloads.
+- Maintain parity between `@clarivum/analytics` schema, ADR-008’s event catalogue, and PostHog project configuration.
 - Ensure privacy compliance (consent, data minimization) while preserving funnel fidelity.
 
 ## Roles & tooling
@@ -16,7 +16,7 @@
 
 ## Release checklist (pre-merge)
 1. **Schema review:**
-   - Confirm new events appended to `docs/analytics_events.md` with owner, purpose, property definitions.
+   - Confirm new events appended to ADR-008’s event catalogue with owner, purpose, property definitions.
    - Run `npm run analytics:schema-validate` to ensure TypeScript types match event dictionary.
 2. **Consent gating:**
    - Verify Flagsmith gating logic; simulate `marketing_consent = false` to ensure BrowserEventClient blocks emit.

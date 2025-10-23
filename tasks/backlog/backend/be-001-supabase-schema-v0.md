@@ -11,6 +11,7 @@ created_at: 2025-10-21
 updated_at: 2025-10-21
 links:
   - docs/PRDs/first_steps.md#4
+  - docs/PRDs/requierments/supabase-platform/feature-requirements.md
   - docs/architecture.md
   - docs/adr/ADR-001-primary-cloud-and-database.md
 context7:

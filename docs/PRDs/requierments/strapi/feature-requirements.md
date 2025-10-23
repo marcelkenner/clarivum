@@ -1,5 +1,7 @@
 # Feature Requirements — Strapi Content Platform
 
+> **Canonical decision:** `docs/adr/ADR-010-content-management-platform.md` defines the Strapi architecture and governance model.
+
 ## Objective
 - Configure Strapi as the single source of truth for marketing and content assets powering Clarivum’s IA (homepage, vertical hubs, blog, ebooks, tools, coupons, recommendations).
 - Enable non-technical teams to publish updates quickly while preserving structured data for developers.
@@ -59,4 +61,3 @@
 - Need decision on hosting (self-managed vs Strapi Cloud) and deployment pipeline.
 - Determine localization tooling (manual vs integrated translation provider).
 - Assume Strapi will manage taxonomy for both blog and ecommerce content; confirm no conflicting systems.
-

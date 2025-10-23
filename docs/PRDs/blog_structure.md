@@ -1,4 +1,6 @@
-## Blog = **Category‑First** (clusters, CTAs, sample posts)
+# Blog = **Category‑First** (clusters, CTAs, sample posts)
+
+> **Canonical decisions:** Align with `docs/adr/ADR-010-content-management-platform.md` for CMS workflows and `docs/adr/ADR-025-recommendations-and-merchandising.md` for merchandising integrations.
 
 > Each category hub includes: hero + “Co zyskuję” + featured 3–5 posts + “Narzędzie tygodnia” + Primary e‑book CTA + Secondary upsell + email capture.
 > 

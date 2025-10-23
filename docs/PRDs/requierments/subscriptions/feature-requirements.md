@@ -1,5 +1,7 @@
 # Feature Requirements — Subscriptions & Memberships
 
+> **Canonical decision:** See `docs/adr/ADR-011-payments-and-checkout-orchestration.md` for the platform architecture governing subscriptions.
+
 ## Objective
 - Operate Clarivum’s subscription offerings, providing recurring value (exclusive content, tools, discounts) while ensuring seamless billing and retention workflows.
 - Align subscription experiences with vertical funnels and account capabilities.
@@ -60,4 +62,3 @@
 - Need decision on trial strategy (length, limitations) and upgrade incentives.
 - Determine handling of corporate/team subscriptions and seat management (future).
 - Assume integration with existing ebook checkout; confirm technical approach.
-

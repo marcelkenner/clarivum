@@ -11,6 +11,7 @@ created_at: 2025-10-21
 updated_at: 2025-10-21
 links:
   - docs/adr/ADR-004-observability-stack.md
+  - docs/PRDs/requierments/observability/feature-requirements.md
   - docs/architecture.md
   - docs/role-guides/backend.md
   - docs/role-guides/devops.md

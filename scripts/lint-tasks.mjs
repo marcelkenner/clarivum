@@ -159,10 +159,27 @@ function validateMetadata(data, relPath, errors, warnings, seenIds) {
     if (data.links.length === 0) {
       warnings.push(`${relPath}: links array is empty`);
     }
+    let hasPrdLink = false;
+    let hasAdrLink = false;
     for (const link of data.links) {
       if (typeof link !== "string" || link.trim() === "") {
         errors.push(`${relPath}: links must contain non-empty strings`);
+        continue;
       }
+      const normalizedLink = link.trim();
+      const lowerLink = normalizedLink.toLowerCase();
+      if (lowerLink.startsWith("docs/prds/")) {
+        hasPrdLink = true;
+      }
+      if (lowerLink.startsWith("docs/adr/")) {
+        hasAdrLink = true;
+      }
+    }
+    if (!hasPrdLink) {
+      errors.push(`${relPath}: links must include at least one PRD reference (docs/PRDs/...)`);
+    }
+    if (!hasAdrLink) {
+      errors.push(`${relPath}: links must include at least one ADR reference (docs/adr/...)`);
     }
   } else {
     errors.push(`${relPath}: links must be an array`);

@@ -1,5 +1,7 @@
 # Clarivum Strapi Requirements — Blog
 
+> **Canonical decision:** `docs/adr/ADR-010-content-management-platform.md` governs the Strapi platform used in this specification.
+
 This specification defines the Strapi (v5) content model, workflows, and integration contracts for Clarivum's blog experience. It translates the editorial blueprint in `docs/PRDs/blog_structure.md` into implementation-ready requirements; treat this document as the authoritative source for CMS configuration.
 
 ---

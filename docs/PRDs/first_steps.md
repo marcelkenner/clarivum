@@ -1,3 +1,5 @@
+> **Canonical decisions:** This PTRD is implemented through the ADR suite (`docs/adr/ADR-001-…ADR-028`). Link new sections to the relevant ADRs before promoting work to tasks, per `docs/policies/work-intake-workflow.md`.
+
 ---
 
 # Pre‑Project Technical Readiness Document (PTRD)

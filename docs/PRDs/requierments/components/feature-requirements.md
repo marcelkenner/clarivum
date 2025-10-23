@@ -1,5 +1,7 @@
 # Feature Requirements — UI Component Library
 
+> **Canonical decisions:** Adhere to `docs/adr/ADR-027-component-library-and-storybook.md`, the brand system (`docs/adr/ADR-018-brand-design-system.md`), and icon guidelines (`docs/adr/ADR-017-icon-system.md`).
+
 ## Objective
 - Deliver a reusable, design-system-aligned component library that embodies Clarivum’s brand guidelines and supports rapid assembly of pages across verticals.
 - Reduce duplicate UI code by centralizing patterns for CTAs, cards, forms, and navigation.
@@ -57,4 +59,3 @@
 - Need confirmation on motion library (Framer Motion vs CSS only) to finalize dependencies.
 - Determine if components should ship as internal npm package or via shared workspace directory.
 - Assume icon set will be delivered by design; requires asset handoff schedule.
-

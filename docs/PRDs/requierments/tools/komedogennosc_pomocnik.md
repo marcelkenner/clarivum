@@ -1,3 +1,7 @@
+# Tool Specification — Komedogenność Pomocnik
+
+> **Canonical decision:** Implement using the shared tooling platform in `docs/adr/ADR-022-tools-and-calculators-platform.md`.
+
 Below is an **A–Z** specification of **functional and non‑functional requirements** for the **Comedogenicity Helper** located at
 `/skin/narzedzia/komedogennosc-pomocnik/` (Polish UI path; ASCII-only slug for URLs).
 

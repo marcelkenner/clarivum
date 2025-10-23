@@ -1,5 +1,7 @@
 # Feature Requirements — Brand Homepage
 
+> **Canonical decisions:** Apply the brand system (`docs/adr/ADR-018-brand-design-system.md`) and frontend platform architecture (`docs/adr/ADR-019-frontend-platform.md`) when implementing this page.
+
 ## Objective
 - Craft the `/` brand hub that introduces Clarivum, anchors the three verticals, and guides visitors toward priority funnels (ebooks, tools, newsletter).
 - Serve as the highest-performing landing experience for both organic and paid traffic, reflecting the brand strategy in `clarivum_brand.md`.
@@ -60,4 +62,3 @@
 - Confirm hero CTA priority (ebook vs diagnostic) with growth team.
 - Determine need for localized versions (language toggle).
 - Assume testimonials supplied with consent forms; legal confirmation pending.
-

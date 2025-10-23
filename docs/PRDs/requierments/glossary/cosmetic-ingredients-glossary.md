@@ -1,5 +1,7 @@
 # Cosmetic Ingredient Glossary Requirements
 
+> **Canonical decision:** Content modeling and delivery follow `docs/adr/ADR-010-content-management-platform.md`.
+
 **Effective:** 2025-02-14  
 **Doc owner:** Product Experience · Clarivum Skin  
 **Related artifacts:** docs/PRDs/clarivum_brand.md, docs/PRDs/brand_design_system.md
@@ -104,4 +106,3 @@
 - Translation workflow: decide on sequencing for Polish/English parity and whether external localization vendors are involved.  
 - Regulatory compliance depth: clarify responsibility for maintaining region-specific concentration thresholds.  
 - Long-term storage: determine if we need archival for deprecated ingredients or if soft delete suffices.
-

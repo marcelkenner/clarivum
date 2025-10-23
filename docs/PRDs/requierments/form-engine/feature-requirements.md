@@ -1,5 +1,7 @@
 # Feature Requirements — Form Engine & Validation (React Hook Form + Zod)
 
+> **Canonical decision:** `docs/adr/ADR-020-form-engine.md` governs the chosen libraries and architecture.
+
 ## Objective
 - Standardize form handling across Clarivum using React Hook Form for state management and Zod for schema validation, ensuring accessible, high-conversion experiences for diagnostics, newsletter capture, checkout, and account flows.
 
@@ -59,4 +61,3 @@
 - Need decision on multi-language handling strategy (one schema per locale vs dynamic messages).
 - Determine if we require HIPAA-like consent flows for future medical partnerships.
 - Assume future mobile apps will reuse same schemas; plan deliverable as shared package.
-

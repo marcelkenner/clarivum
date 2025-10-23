@@ -1,5 +1,7 @@
 # Feature Requirements — Frontend Platform (Next.js, React, Tailwind, TypeScript)
 
+> **Canonical decision:** `docs/adr/ADR-019-frontend-platform.md` defines the architecture, composition rules, and performance guardrails for this platform.
+
 ## Objective
 - Provide a resilient, high-performance frontend foundation using Next.js 15, React 19, Tailwind CSS 4, and TypeScript 5 that supports Clarivum’s modular IA and funnels.
 - Enable rapid iteration with component reuse, server-side rendering, and hybrid static generation while maintaining accessibility and SEO.
@@ -60,4 +62,3 @@
 - Need decision on localization framework (next-intl vs custom); placeholder assumed.
 - Determine polyfill/load strategy for legacy browsers (support baseline to be defined).
 - Assume Vercel Edge Middleware will be introduced later for personalization; plan providers accordingly.
-

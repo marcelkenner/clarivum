@@ -1,3 +1,7 @@
+# Tool Specification — Pilling Check
+
+> **Canonical decision:** Implement using the shared tooling platform in `docs/adr/ADR-022-tools-and-calculators-platform.md`.
+
 Below is a complete **A–Z requirements spec** (functional + non‑functional) for **`/skin/narzedzia/pilling-check` — Pilling Risk Estimator** that engineers can implement directly. It includes API contract, dictionaries, heuristics, scoring logic, acceptance tests, observability, and rollout.
 
 ---

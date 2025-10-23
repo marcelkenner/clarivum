@@ -15,6 +15,8 @@ links:
   - docs/PRDs/first_configuration.md
   - docs/PRDs/clarivum_brand.md
   - docs/architecture.md
+  - docs/PRDs/requierments/frontend-platform/feature-requirements.md
+  - docs/adr/ADR-001-primary-cloud-and-database.md
 context7:
   - /vercel/next.js
 tags:

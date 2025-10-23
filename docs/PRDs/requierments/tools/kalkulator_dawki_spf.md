@@ -1,3 +1,7 @@
+# Tool Specification — Kalkulator Dawki SPF
+
+> **Canonical decision:** Implement using the shared tooling platform in `docs/adr/ADR-022-tools-and-calculators-platform.md`.
+
 Below is a complete **A–Z specification** of functional & non‑functional requirements to implement **/skin/narzedzia/kalkulator-dawki-spf/** (Sunscreen Amount Calculator). It is written to be implementation‑ready and unambiguous.
 
 ---

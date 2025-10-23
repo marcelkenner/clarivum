@@ -12,9 +12,10 @@ effort: large
 created_at: 2025-10-15
 updated_at: 2025-10-21
 links:
+  - docs/PRDs/first_steps.md
   - docs/README.md
   - docs/role-guides/
-  - docs/adr/
+  - docs/adr/ADR-001-primary-cloud-and-database.md
   - scripts/ensure-agents.mjs
 context7:
   - /vercel/next.js

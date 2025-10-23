@@ -1,5 +1,7 @@
 # Feature Requirements — Tools & Calculators
 
+> **Canonical decisions:** `docs/adr/ADR-022-tools-and-calculators-platform.md` defines the platform; reuse patterns from `docs/adr/ADR-019-frontend-platform.md` and `docs/adr/ADR-020-form-engine.md`.
+
 ## Objective
 - Build and maintain the interactive tools catalog (`/narzedzia/` and vertical-specific tool hubs) that help users apply Clarivum guidance to daily routines.
 - Drive engagement and lead capture by offering high-quality calculators, planners, and checklists.
@@ -59,4 +61,3 @@
 - Determine list of MVP tools per vertical and prioritization.
 - Clarify whether any API licenses are needed (e.g., weather data for UV index).
 - Assume shared component patterns will cover most tool UI; escalate if bespoke interactions required.
-

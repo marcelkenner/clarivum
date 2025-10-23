@@ -1,3 +1,7 @@
+# Clarivum Brand Architecture
+
+> **Canonical decision:** Refer to `docs/adr/ADR-018-brand-design-system.md` for the authoritative brand system.
+
 **Brand architecture (branded house):**
 
 - **Clarivum Skin** — *Topicals & appearance comfort* (cosmetic focus, Poland‑first).

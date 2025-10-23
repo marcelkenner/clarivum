@@ -1,5 +1,7 @@
 # Feature Requirements — Coupons & Deals Hub
 
+> **Canonical decision:** `docs/adr/ADR-026-coupons-and-affiliate-incentives.md` governs coupon ingestion, tracking, and compliance.
+
 ## Objective
 - Centralize all partner discounts, launch offers, and bundles under `/kody-rabatowe/` while reinforcing trust with transparent disclosures.
 - Support cross-vertical filtering so visitors quickly locate relevant deals for Skin, Fuel, or Habits.
@@ -57,4 +59,3 @@
 - Need decision on SSR vs client-side filtering to balance SEO with interactivity.
 - Clarify whether partner-conversion feedback will be integrated via API or manual reporting.
 - Assume coupon and recommendation taxonomies are shared; requires final taxonomy alignment meeting.
-

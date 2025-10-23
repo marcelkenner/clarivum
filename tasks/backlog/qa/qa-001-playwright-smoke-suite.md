@@ -13,6 +13,7 @@ links:
   - docs/PRDs/first_steps.md#8
   - docs/runbooks/deployment.md
   - docs/PRDs/clarivum_brand.md
+  - docs/adr/ADR-015-testing-strategy.md
 context7:
   - /microsoft/playwright
   - /vercel/next.js

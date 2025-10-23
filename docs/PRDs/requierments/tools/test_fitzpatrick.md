@@ -1,3 +1,7 @@
+# Tool Specification — Test Fitzpatrick
+
+> **Canonical decisions:** Follow `docs/adr/ADR-022-tools-and-calculators-platform.md` for the tooling shell and `docs/adr/ADR-021-diagnostics-platform.md` for quiz/scoring patterns.
+
 Below is a complete **A–Z functional and non‑functional requirements** package for **/skin/narzedzia/test-fitzpatrick/** (Fitzpatrick Skin Type Quiz). It’s implementation‑ready and organized so engineers, designers, QA, and compliance can work in parallel.
 
 ---
@@ -499,4 +503,3 @@ components:
 * Keep a single **source of truth** for question IDs and option scores shared by client and server (e.g., generated TypeScript types from the JSON schema).
 * Provide a tiny “shadow scorer” in the client so results can be computed locally and displayed even if the POST fails; the POST then becomes optional/for analytics only (with consent).
 * Use semantic HTML for radios; avoid custom role hacks to keep a11y simple.
-

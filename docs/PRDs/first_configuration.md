@@ -1,3 +1,7 @@
+# First Configuration Workflow
+
+> **Canonical decisions:** Follow `docs/adr/ADR-019-frontend-platform.md` for frontend architecture, `docs/adr/ADR-016-ci-cd-platform.md` for automation, and `docs/adr/ADR-001-primary-cloud-and-database.md` for environment provisioning.
+
 Below is a **copy‑paste‑ready starter** for a Next.js (App Router) project on **Vercel** that mirrors your Clarivum IA and sitemap strategy (global index + per‑vertical sitemaps; redirects from old blog paths; Category‑First URLs under `/skin`, `/fuel`, `/habits`). I’m using **TypeScript** and the **App Router**.
 
 ---

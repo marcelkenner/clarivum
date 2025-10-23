@@ -1,5 +1,7 @@
 # Feature Requirements — Legal & Compliance Surfaces
 
+> **Canonical decisions:** `docs/adr/ADR-028-security-and-compliance-baseline.md` sets the security posture; `docs/adr/ADR-014-cookie-consent-and-preference-management.md` governs consent tooling.
+
 ## Objective
 - Centralize mandatory legal content (privacy, terms, disclaimers) and ensure consistent disclosure across all Clarivum experiences.
 - Support rapid updates as regulatory requirements evolve without requiring code changes.
@@ -59,4 +61,3 @@
 - Need to determine whether HIPAA or other sector-specific rules apply; currently assumed out of scope.
 - Clarify integration with Flagsmith or feature flags for regional messaging.
 - Confirm where legal archives should reside (in CMS vs external document repository).
-

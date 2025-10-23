@@ -1,3 +1,7 @@
+# Tool Specification — Planer Eksfoliacji (Exfoliation Planner)
+
+> **Canonical decision:** Implement using the shared tooling platform in `docs/adr/ADR-022-tools-and-calculators-platform.md`.
+
 Below is a **complete A–Z specification** (functional + non‑functional) for **/skin/narzedzia/planer‑eksfoliacji — Exfoliation Frequency Planner** so engineering can implement it end‑to‑end.
 
 ---

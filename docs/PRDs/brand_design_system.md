@@ -1,5 +1,7 @@
 # Clarivum Brand Design System v1.0 — **A to Z**
 
+> **Canonical decision:** See `docs/adr/ADR-018-brand-design-system.md` for the accepted brand foundations. This PRD captures extended guidance, examples, and rationale.
+
 > Brand promise: knowledge‑forward wellness that is premium, serene, and trustworthy.
 > 
 > 
@@ -110,11 +112,16 @@
 
 ## F) Iconography
 
-- **Style:** outline, uniform stroke, rounded caps/joins, circular holds.
-- **Stroke:** **2.0 px** at 24 px artboard (scale proportionally).
-- **Corners:** ≤12° interior curvature; avoid interior angles <60°.
-- **Negative space:** ≥1.5× stroke inside containers.
-- **Fills:** none, except micro dots or the gold ring in hero marks.
+> See ADR-017 for the canonical icon decision and implementation guardrails.
+
+- **Library:** Phosphor (`@phosphor-icons/react`) — outline + duotone weights.
+- **Style:** rounded caps/joins, minimal negative space, premium restraint.
+- **Stroke:** **1.5–1.75 px** at 24 px artboard; scale proportionally with size tokens (16/20/24/32 px).
+- **Weights:** Regular for core UI, Duotone for premium emphasis (hero tiles, editorial modules); avoid mixing weights in the same control.
+- **Color:** `currentColor`. Default monochrome (Ink/Jade); apply pillar accents only on hover/active or vertical-specific hero modules.
+- **Spacing:** Maintain ≥1.5× stroke interior negative space; avoid crammed icon+text pairings.
+- **States:** Hover = subtle opacity/tint shift; active = filled/duotone weight; focus = visible outline per accessibility spec.
+- **Do not:** add drop shadows, gradients, or extraneous outlines; avoid namespace imports to preserve tree-shaking.
 
 ---
 

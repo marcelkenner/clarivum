@@ -1,5 +1,7 @@
 # Feature Requirements — Observability Stack (OpenTelemetry + Grafana OSS)
 
+> **Canonical decision:** `docs/adr/ADR-004-observability-stack.md` defines the observability platform and integrations.
+
 ## Objective
 - Instrument Clarivum services with OpenTelemetry and route telemetry to the Grafana observability stack (Tempo, Loki, Prometheus) to monitor user journeys, infrastructure, and business SLOs.
 - Provide actionable dashboards and alerts tied to error budget policy and compliance needs.
@@ -59,4 +61,3 @@
 - Evaluate need for distributed tracing on edge functions (pending usage).
 - Decide whether to self-host collectors or rely on Grafana Cloud agents.
 - Assume PostHog ingestion will provide complementary product analytics; ensure no duplicate instrumentation.
-

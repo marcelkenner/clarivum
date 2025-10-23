@@ -8,6 +8,8 @@ Status: Proposed | Accepted | Superseded by ADR-00Y
 ## Decision
 <What we will do. The concrete choice, including scope boundaries.>
 
+## Diagrams
+<Links to architecture, data, UML, and BPMN diagrams stored under docs/diagrams/. Highlight what each diagram illustrates.>
+
 ## Consequences
 <Trade-offs, risks, follow-ups, migrations, rollbacks.>
-

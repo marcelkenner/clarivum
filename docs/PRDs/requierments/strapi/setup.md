@@ -1,5 +1,7 @@
 # Clarivum Strapi Requirements — Platform Setup
 
+> **Canonical decision:** `docs/adr/ADR-010-content-management-platform.md` governs onboarding, hosting, and integrations for Strapi.
+
 This document sets the authoritative requirements for provisioning, configuring, and operating the Clarivum Strapi v5 platform across environments. It complements the content-model specs (`basic_pages.md`, `blog.md`, tools PRDs) and must be satisfied before editors ingest production content.
 
 ---

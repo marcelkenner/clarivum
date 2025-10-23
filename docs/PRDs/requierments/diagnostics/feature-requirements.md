@@ -1,5 +1,7 @@
 # Feature Requirements — Diagnostics & Quiz Flows
 
+> **Canonical decision:** See `docs/adr/ADR-021-diagnostics-platform.md` for the diagnostics architecture and data contracts.
+
 ## Objective
 - Deliver interactive diagnostics that guide visitors from high-level questions to tailored CTAs (ebooks, tools, recommendations) for each vertical.
 - Capture segmentation signals to personalize subsequent experiences across the site and lifecycle communications.
@@ -58,4 +60,3 @@
 - Need confirmation on where diagnostics will live in IA (standalone routes vs embedded modals).
 - Determine CRM integration approach (webhooks vs nightly batch).
 - Assume diagnostics share design components with forms library; requires design validation.
-

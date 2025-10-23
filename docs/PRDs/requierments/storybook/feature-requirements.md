@@ -1,5 +1,7 @@
 # Feature Requirements — Storybook Design System Workbench
 
+> **Canonical decision:** `docs/adr/ADR-027-component-library-and-storybook.md` defines the Storybook and component governance model.
+
 ## Objective
 - Provide a Storybook workspace documenting Clarivum’s component library, design tokens, and interaction patterns, enabling designers, engineers, and content stakeholders to collaborate and review UI changes in isolation.
 
@@ -58,4 +60,3 @@
 - Decide on hosting (Chromatic vs Vercel preview) and access controls.
 - Determine schedule for design QA sessions using Storybook (e.g., weekly review).
 - Assume we will expand Storybook to document content snippets (copy blocks) later; plan taxonomy accordingly.
-

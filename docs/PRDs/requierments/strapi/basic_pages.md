@@ -1,5 +1,7 @@
 # Clarivum Strapi Requirements — Basic Pages
 
+> **Canonical decision:** `docs/adr/ADR-010-content-management-platform.md` governs Strapi usage for these pages.
+
 This document defines the authoritative Strapi (v5) requirements for Clarivum's foundational, non-interactive pages. It supersedes all template language; every item here is tailored to Clarivum's brand architecture (Skin, Fuel, Habits) and Next.js 15 frontend.
 
 ---

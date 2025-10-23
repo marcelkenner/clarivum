@@ -18,7 +18,10 @@ Agents editing the `docs/` tree should follow this guidance to keep Clarivum’s
 - Keep documentation in Markdown with ASCII characters unless a PRD already includes localized content (e.g., Polish terms).
 - Reference sources explicitly (PTRD sections, ADR IDs, runbooks) so humans can trace changes.
 - When updating a policy or runbook, cross-link related documents (deployment, incident response, cost review).
-- Maintain checklists and tables for quick scanning; avoid duplicating content across docs—link instead.
+- Maintain checklists and tables for quick scanning; avoid duplicating content across docs—link instead. Each topic must have a single ADR as its source of truth, with PRDs and runbooks pointing to it.
+- Enforce the sequencing defined in `docs/policies/work-intake-workflow.md` whenever you add or update documentation.
+- Validate diagram coverage with `npm run lint:diagrams` before opening a PR; the linter blocks merges when ADRs lack required artifacts.
+- Run `npm run lint:docs` before submitting doc changes to confirm PRDs ↔ ADRs ↔ tasks remain connected.
 
 ## Key documents & triggers
 

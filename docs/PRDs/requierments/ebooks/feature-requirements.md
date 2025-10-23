@@ -1,5 +1,7 @@
 # Feature Requirements — Ebooks Catalog & Distribution
 
+> **Canonical decision:** See `docs/adr/ADR-024-ebooks-and-digital-products.md` for the delivery and entitlement architecture.
+
 ## Objective
 - Operate the global ebooks hub (`/ebooks/`) and vertical-specific catalogs that convert visitors into leads and customers through high-utility digital products.
 - Provide a purchase and delivery experience that is trustworthy, fast, and repeatable for future ebook launches.
@@ -59,4 +61,3 @@
 - Decision pending on DRM or watermarking approach.
 - Need clarity on localization roadmap (multi-language distribution).
 - Assume same checkout flow will serve future product types; verify extensibility requirements.
-
