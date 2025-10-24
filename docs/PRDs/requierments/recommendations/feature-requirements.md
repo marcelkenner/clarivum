@@ -24,8 +24,9 @@
 - FR2 — Detailed recommendation pages (e.g., `/skin/polecenia/najlepsze-kremy-spf/`) including top picks, pros/cons, usage tips, CTA to related tools/ebooks, affiliate links.
 - FR3 — Badge system for Clarivum favorites, dermatologist-approved, subscriber-only picks.
 - FR4 — Support comparison tables, ingredient highlights, and caution notes (non-medical disclaimers).
-- FR5 — Integrate analytics tracking for outbound clicks, clicks per product, and conversions when data available.
-- FR6 — Handle inventory updates (out of stock, discontinued) via CMS flags and automated checks.
+- FR5 — Integrate analytics tracking for impressions, outbound clicks, click-through rates, and downstream conversions using the monetization telemetry platform (ADR-033); log immutable events before redirecting users.
+- FR6 — Add fraud safeguards: rate-limit repeat clicks, monitor geo/IP anomalies, and surface alerts/dashboards for partner negotiations.
+- FR7 — Handle inventory updates (out of stock, discontinued) via CMS flags and automated checks.
 
 ## Content & Data Inputs
 - Product entries in Strapi with metadata: brand, product name, category, SKU/links, pricing, availability, highlights, cautionary notes, imagery, affiliate parameters.

@@ -1,0 +1,41 @@
+```mermaid
+flowchart TD
+  subgraph Checkout
+    C[Stripe Checkout Session]
+    P[Purchase Webhook Handler]
+  end
+
+  subgraph Identity
+    A[Auth0 Tenant]
+    S[Supabase Auth Profiles]
+  end
+
+  subgraph Platform
+    E[Entitlement Service]
+    F[Fulfillment Worker]
+    L[Listmonk / Novu]
+    U[Account Center UI]
+    G[Signed URL API]
+  end
+
+  subgraph Storage
+    B[Supabase Storage Bucket\nebooks/&lt;slug&gt;/&lt;version&gt;]
+  end
+
+  C --> P
+  P --> E
+  E -->|create pending profile| S
+  E -->|persist entitlement (pending_claim)| S
+  E --> F
+  F -->|generate signed URLs| B
+  F --> L
+  L -->|fulfillment email| Customer
+  Customer -->|claim link| A
+  A -->|verify magic link| S
+  S -->|mark active profile| E
+  E --> U
+  U -->|request download| G
+  G -->|signed URL| B
+  U -->|resend email| L
+  E -->|analytics events| Plausible
+```

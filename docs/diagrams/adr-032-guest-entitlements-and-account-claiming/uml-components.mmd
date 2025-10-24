@@ -1,0 +1,47 @@
+```mermaid
+classDiagram
+  class EntitlementShelfPage {
+    +loadEntitlements(userId)
+    +handleDownload(entitlementId, format)
+    +handleResend(entitlementId)
+  }
+
+  class EntitlementShelfViewModel {
+    +entitlements: EntitlementCard[]
+    +filters: FilterState
+    +sortOptions: SortState
+    +selectedFilter
+  }
+
+  class EntitlementCard {
+    +title
+    +formats
+    +status
+    +purchaseDate
+    +lastDownloadedAt
+    +download(format)
+    +resendEmail()
+  }
+
+  class EntitlementsApi {
+    +list(userId): EntitlementDto[]
+    +createSignedUrl(entitlementId, format): SignedUrl
+    +triggerResend(entitlementId)
+  }
+
+  class AnalyticsClient {
+    +track(eventName, payload)
+  }
+
+  class SupportLinkService {
+    +buildTicketLink(entitlementId)
+  }
+
+  EntitlementShelfPage --> EntitlementShelfViewModel
+  EntitlementShelfViewModel --> EntitlementCard
+  EntitlementShelfPage --> EntitlementsApi
+  EntitlementShelfPage --> AnalyticsClient
+  EntitlementShelfPage --> SupportLinkService
+  EntitlementsApi --> Supabase
+  EntitlementsApi --> Novu
+```

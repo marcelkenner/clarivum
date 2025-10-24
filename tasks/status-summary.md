@@ -1,6 +1,6 @@
 # Task Status Summary
 
-Generated 2025-10-23 via `npm run tasks:summary`.
+Generated 2025-10-27 via `npm run tasks:summary`.
 
 ## Backlog
 
@@ -15,6 +15,8 @@ Generated 2025-10-23 via `npm run tasks:summary`.
 - `TSK-FE-009` · Establish Form Engine Foundation — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/form-engine/feature-requirements.md))
 - `TSK-FE-010` · Implement Hero UV Widget Experience — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-23 ([link](docs/PRDs/requierments/homepage/feature-requirements.md))
 - `TSK-FE-011` · Integrate NotificationManager with Novu Workflows — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-26 ([link](docs/adr/ADR-012-notification-experience-and-toasts.md))
+- `TSK-FE-017` · Ship Account Center Entitlement Shelf — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-032-guest-entitlements-and-account-claiming.md))
+- `TSK-FE-018` · Integrate Monetization SDK Across Content Surfaces — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-033-advertising-and-affiliate-telemetry.md))
 
 ### Backend
 - `TSK-BE-001` · Model Supabase Schema v0 — Owner: Unassigned; Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md#4))
@@ -42,10 +44,16 @@ Generated 2025-10-23 via `npm run tasks:summary`.
 - `TSK-PLAT-022` · Implement Strapi CI/CD Pipeline — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-26 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-PLAT-023` · Provision Novu Notification Platform — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-26 ([link](docs/adr/ADR-012-notification-experience-and-toasts.md))
 - `TSK-PLAT-024` · Implement Novu CI/CD & Governance — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-26 ([link](docs/adr/ADR-012-notification-experience-and-toasts.md))
+- `TSK-PLAT-041` · Implement Guest Purchase Claim Workflow — Owner: Platform Engineer; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-032-guest-entitlements-and-account-claiming.md))
+- `TSK-PLAT-042` · Launch Fulfillment Orchestrator Guardrails — Owner: Platform Engineer; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-032-guest-entitlements-and-account-claiming.md))
+- `TSK-PLAT-043` · Build Monetization Telemetry Platform — Owner: Platform Engineer; Effort: large; Updated: 2025-10-27 ([link](docs/adr/ADR-033-advertising-and-affiliate-telemetry.md))
 
 ### Qa
 - `TSK-QA-001` · Establish Playwright E2E Smoke Suite — Owner: QA Lead; Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md#8))
 - `TSK-QA-002` · Validate UV Widget Experience & Data Quality — Owner: QA Lead; Effort: small; Updated: 2025-10-23 ([link](docs/PRDs/requierments/tools/widget_indeks_uv.md))
+- `TSK-QA-003` · Ebooks Fulfillment Reliability Guardrails — Owner: QA Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/runbooks/ebooks-fulfillment.md))
+- `TSK-QA-004` · Monetization Telemetry Validation & Synthetic Monitoring — Owner: QA Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-033-advertising-and-affiliate-telemetry.md))
+- `TSK-QA-003` · Ebooks Fulfillment Reliability Guardrails — Owner: QA Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/runbooks/ebooks-fulfillment.md))
 
 ### Shared
 - `TSK-SHARED-001` · Consolidate Outstanding Clarivum Decisions — Owner: Product (TBD); Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md))

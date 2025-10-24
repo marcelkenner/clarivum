@@ -42,6 +42,7 @@ Use this runbook whenever an operational issue threatens Clarivum’s SLOs, secu
 - **Monitoring:** Grafana dashboards (`Clarivum/Platform-SLO`, `Clarivum/Auth`, `Clarivum/Jobs`).
 - **Logs:** Grafana Loki → query presets saved as `Incident triage`.
 - **Tracing:** Grafana Tempo search for trace IDs from failing requests.
+- **Operations hub:** `/ops` overview for incident banners, module health, audit log access, and deep links into native consoles (Strapi, Listmonk, Stripe, Grafana).
 - **CI/CD:** GitHub Actions overview for recent deployments.
 - **Feature flags:** Flagsmith admin UI (production environment).
 
@@ -52,3 +53,6 @@ Use this runbook whenever an operational issue threatens Clarivum’s SLOs, secu
 - For third-party outages (Auth0, Vercel, Supabase), open support tickets immediately and link them in the incident doc.
 
 Review this runbook quarterly during the reliability review. Update contacts, tooling links, and severity guidance as the platform evolves.
+
+## Change log
+- **2025-10-24:** Added Operations Hub reference to tooling checklist.

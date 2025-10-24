@@ -1,0 +1,22 @@
+```mermaid
+sequenceDiagram
+  participant User
+  participant Client as Monetization SDK
+  participant Edge as Click Redirect Service
+  participant DB as Supabase Logs
+  participant Plausible
+  participant Partner as Affiliate Partner
+
+  User->>Client: Clicks affiliate CTA
+  Client->>Edge: GET /go/partner/slug/eventId (signed params)
+  Edge->>DB: Insert click_event (status=pending_forward)
+  Edge->>Plausible: Send event `AffiliateLinkClicked` (if consented)
+  Edge->>Partner: HTTP 302 redirect with UTM + affiliate params
+  Partner-->>User: Landing page
+  Edge->>DB: Update click_event (status=forwarded, http_status=302)
+  alt Failure
+    Edge-->>User: Clarivum fallback page with retry CTA
+    Edge->>DB: Update click_event (status=failed, error_code)
+    Edge->>Ops: Alert Slack/PagerDuty
+  end
+```

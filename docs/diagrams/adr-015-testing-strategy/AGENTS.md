@@ -10,6 +10,7 @@
 - `data-lineage.mmd`: Keep test artifacts, reports, and trace storage across Vitest and Playwright accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `uml-modules.mmd`: Keep helper classes that provision fixtures, feature flags, and environment setup accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `bpmn-ci.mmd`: Keep pull request validation workflow from submission through merge accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `test-layer-sequence.mmd`: Keep the developer ↔ QA hand-off sequence updated with current notification and metrics touch points.
 
 ## Contribution Workflow
 - Reflect any diagram change in `docs/adr/ADR-015-testing-strategy.md` or add cross-links explaining why the diagram evolved.

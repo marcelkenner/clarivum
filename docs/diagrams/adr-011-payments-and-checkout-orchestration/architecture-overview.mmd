@@ -13,4 +13,6 @@ flowchart LR
     Stripe --> Webhooks
     Webhooks --> SupabaseLedger["Supabase Payment Ledger"]
     SupabaseLedger --> FulfillmentJobs["Fulfillment Background Jobs"]
+    Webhooks --> OpsHub["Clarivum Ops Hub (Commerce)"]
+    SupabaseLedger --> OpsHub
 ```

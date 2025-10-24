@@ -7,6 +7,7 @@ This runbook converts escaped defects or incidents into lasting guardrails withi
 - Incident or escaped bug has been stabilized (hotfix / rollback applied).
 - Primary owner and secondary scribe identified.
 - Relevant dashboards, alerts, and logs accessible.
+- Clarivum Operations Hub `/ops` reachable for cross-system status (incident banner, guardrail checklist, audit log).
 
 ## Step-by-Step
 
@@ -62,3 +63,6 @@ Follow-up check (date):
 - Orientation guide: `docs/role-guides/continuous-improvement.md`.
 - Finland working time flexibility: https://tem.fi/en/working-hours
 - Sisu concept primer: https://en.wikipedia.org/wiki/Sisu
+
+## Change log
+- **2025-10-24:** Added Operations Hub prerequisite to preconditions.

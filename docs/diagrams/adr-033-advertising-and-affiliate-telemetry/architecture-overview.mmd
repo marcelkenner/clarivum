@@ -1,0 +1,42 @@
+```mermaid
+flowchart TD
+  subgraph Client
+    U[User Browser]
+    MonetizationSDK[@clarivum/analytics Monetization SDK]
+  end
+
+  subgraph Edge
+    I[Impression Service<br/>/api/monetization/impression]
+    R[Click Redirect Service<br/>/go/:partner/:slug/:eventId]
+  end
+
+  subgraph Platform
+    Q[Queue / Background Worker]
+    F[Fraud Detection Worker]
+    RPT[Reconciliation Pipeline]
+    DB[(Supabase Monetization Schemas)]
+    PLA[Plausible Proxy]
+    OBS[Grafana/Loki Metrics]
+  end
+
+  subgraph Partner
+    AFF[Affiliate Networks]
+    ADS[Ad Servers / Sponsors]
+  end
+
+  U -->|view placement| MonetizationSDK
+  MonetizationSDK -->|impression payload| I
+  MonetizationSDK -->|click redirect| R
+  I --> DB
+  I --> OBS
+  R --> DB
+  R --> PLA
+  R -->|HTTP 302| AFF
+  Q --> DB
+  F --> DB
+  F --> OBS
+  RPT --> DB
+  RPT --> OBS
+  AFF -->|conversion reports| RPT
+  ADS -->|impression/click reports| RPT
+```

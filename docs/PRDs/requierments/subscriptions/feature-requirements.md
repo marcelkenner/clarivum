@@ -57,6 +57,7 @@
 - Adhere to consumer protection regulations (clear cancellation, refunds, renewal notifications) orchestrated through Novu workflows with audit trails.
 - Store payment and personal data securely; rely on processor for sensitive details.
 - Implement role-based permissions for internal staff to manage subscriptions (support vs finance vs admin).
+- Surface subscription health, webhooks, and manual controls in the Clarivum Operations Hub `/ops` commerce module for consolidated auditing (ADR-031).
 
 ## Launch Readiness Checklist
 - Pricing strategy and plan benefits finalized with stakeholders.

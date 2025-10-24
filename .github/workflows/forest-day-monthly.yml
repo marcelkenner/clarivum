@@ -1,0 +1,22 @@
+name: Forest Day Scheduler
+on:
+  schedule:
+    - cron: "0 9 1 * *"
+  workflow_dispatch:
+jobs:
+  plan-forest-day:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const month = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Forest Day - ${month}`,
+              labels: ['forest-day','type:refactor'],
+              body: "- Pick one or two debts to delete or simplify\n- Update a runbook\n- Share a 15 minute learning (recorded)\n- Merge at least one delete or simplify PR"
+            });

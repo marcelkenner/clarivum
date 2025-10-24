@@ -6,7 +6,7 @@ Clarivum operates two distinct messaging platforms. This runbook explains when t
 - **Novu (self-hosted):** Event-driven notification hub integrated with the application (`docs/adr/ADR-012-notification-experience-and-toasts.md`). Delivers in-app inbox messages, transactional emails/SMS, and Sonner toasts with per-event telemetry.
 - **Listmonk (self-hosted):** Campaign automation engine for newsletters and lifecycle journeys (`docs/adr/ADR-013-mailing-platform-and-campaign-automation.md`). Optimized for audience segmentation, drip sequences, and marketing content distributed via Amazon SES.
 
-Both platforms are deployed on AWS ECS but serve different communication needs. Avoid mixing responsibilities to maintain clear unsubscribe pathways, consent handling, and operational ownership.
+Both platforms are deployed on AWS ECS but serve different communication needs. Avoid mixing responsibilities to maintain clear unsubscribe pathways, consent handling, and operational ownership. The Clarivum Operations Hub (Communications module) surfaces campaign status, SES quotas, and alert banners with deep links into Listmonk and SES so operators can review outcomes before diving into the native consoles.
 
 ## Decision Checklist
 1. **Trigger type**
@@ -54,3 +54,6 @@ Both platforms are deployed on AWS ECS but serve different communication needs. 
 ## Related Runbooks
 - `docs/runbooks/notifications.md` — Novu + Sonner operations.
 - `docs/runbooks/mailing-operations.md` — Listmonk campaign management.
+
+## Change log
+- **2025-10-24:** Noted Operations Hub communications module as part of platform overview.

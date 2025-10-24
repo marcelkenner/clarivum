@@ -1,9 +1,9 @@
 # Technology Stack Catalog
-Last Updated: 2025-10-23
+Last Updated: 2025-10-24
 
 Clarivum relies on a curated mix of open source projects, managed platforms, and vendor services to satisfy functional requirements while staying compliant with EU residency, privacy, and performance guardrails. This catalog inventories every adopted or planned tool so teams can align roadmaps, runbooks, and procurement. Update this file whenever we introduce, retire, or materially change a dependency.
 
-> **Canonical decisions:** See `docs/adr/ADR-001-primary-cloud-and-database.md`, `docs/adr/ADR-002-authentication-and-authorization.md`, `docs/adr/ADR-003-background-jobs-and-queues.md`, `docs/adr/ADR-004-observability-stack.md`, `docs/adr/ADR-005-feature-flags.md`, `docs/adr/ADR-007-secrets-management-and-configuration-distribution.md`, `docs/adr/ADR-009-search-and-discovery-platform.md`, `docs/adr/ADR-011-payments-and-checkout-orchestration.md`, `docs/adr/ADR-013-mailing-platform-and-campaign-automation.md`, `docs/adr/ADR-016-ci-cd-platform.md`, `docs/adr/ADR-019-frontend-platform.md`, and `docs/adr/ADR-028-security-and-compliance-baseline.md` for the authoritative technology choices.
+> **Canonical decisions:** See `docs/adr/ADR-001-primary-cloud-and-database.md`, `docs/adr/ADR-002-authentication-and-authorization.md`, `docs/adr/ADR-003-background-jobs-and-queues.md`, `docs/adr/ADR-004-observability-stack.md`, `docs/adr/ADR-005-feature-flags.md`, `docs/adr/ADR-007-secrets-management-and-configuration-distribution.md`, `docs/adr/ADR-009-search-and-discovery-platform.md`, `docs/adr/ADR-011-payments-and-checkout-orchestration.md`, `docs/adr/ADR-013-mailing-platform-and-campaign-automation.md`, `docs/adr/ADR-016-ci-cd-platform.md`, `docs/adr/ADR-019-frontend-platform.md`, `docs/adr/ADR-028-security-and-compliance-baseline.md`, and `docs/adr/ADR-031-admin-operations-hub.md` for the authoritative technology choices.
 
 ## Selection principles
 - **Mission alignment:** Supports modular funnels described across `docs/PRDs/first_steps.md` and `docs/PRDs/clarivum_brand.md`.
@@ -59,6 +59,9 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 - **Vitest + Testing Library (MIT)** – Unit and component testing harness.
 - **Playwright (Apache 2.0)** – Cross-browser E2E automation for primary funnels.
 - **Lighthouse CI (Apache 2.0)** – Performance regression checks within CI pipelines. Implementation tracked in `tasks/backlog/frontend/fe-015-lighthouse-ci-automation.md` (TSK-FE-015).
+
+### Internal operations & governance
+- **Clarivum Operations Hub (Next.js `/ops`)** – Unified internal console aggregating Supabase, Strapi, Listmonk, Grafana, Stripe, PayU, Przelewy24, Plausible, and GitHub signals. Guided by ADR-031 and `docs/PRDs/requierments/operations-hub/feature-requirements.md`; implementation sequenced via `tasks/backlog/platform/plat-038-ops-hub-foundation.md`, `plat-039`, `plat-040`, and `tasks/backlog/frontend/fe-016-ops-hub-interface.md`.
 
 ### Payments & revenue operations
 - **Stripe (Commercial)** – Global card payments, subscriptions, and taxes (ADR-011, `docs/runbooks/payments-operations.md`).

@@ -13,16 +13,18 @@ Status: Accepted
 - API & delivery:
   - Provide server actions returning filtered coupon lists by persona, vertical, diagnostics outcome.
   - Expose copy-to-clipboard + outbound click handlers instrumented per ADR-029.
-- Partner compliance:
-  - Log clicks with required UTM/affiliate parameters.
+- Partner compliance & telemetry:
+  - Log every outbound click with required UTM/affiliate parameters and an immutable event ID stored in Supabase (`affiliate_click_events`), including timestamp, referrer context, campaign, and hashed user identifier (when consented).
+  - Validate outbound URLs against approved partner allowlists; block or flag unexpected domains for review.
+  - Run fraud detection rules (e.g., >3 clicks per session on same partner, geo mismatches) and alert the partnerships team via Slack + Kaizen issue automation.
   - Store disclosure copy per partner; enforce rendering per FTC guidelines.
 - Integration points:
   - Recommendations engine (ADR-025) requests coupon overlays.
   - Subscriptions checkout applies valid codes through Stripe/PayU (ADR-011).
   - Feature flags (ADR-005) enable staged rollouts or partner exclusives.
 - Observability:
-  - Track success metrics (CTR, redemption) via Plausible Analytics and OpenTelemetry.
-  - Alert on expiring high-value coupons via Slack automation.
+  - Track success metrics (CTR, redemption, revenue-per-click) via Plausible Analytics, Supabase exports, and OpenTelemetry traces that tie click events to downstream conversions.
+  - Alert on expiring high-value coupons and anomalous click behaviour (spikes/drops >20% vs 7-day baseline, suspected click inflation) via Slack automation and PagerDuty when thresholds breached.
 
 ## Diagrams
 - [Architecture Overview](../diagrams/adr-026-coupons-and-affiliate-incentives/architecture-overview.mmd) — Coupon ingestion, storage, APIs, and consumer integrations.

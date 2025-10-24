@@ -1,0 +1,26 @@
+name: PR Hygiene
+on:
+  pull_request:
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Compute net lines changed
+        id: size
+        run: |
+          ADDED=$(git diff --numstat origin/${{ github.base_ref }}...HEAD | awk '{a+=$1} END {print a+0}')
+          DELETED=$(git diff --numstat origin/${{ github.base_ref }}...HEAD | awk '{d+=$2} END {print d+0}')
+          echo "net=$((ADDED+DELETED))" >> $GITHUB_OUTPUT
+      - name: Warn if large
+        if: steps.size.outputs.net > 300
+        run: echo "::warning::PR is large (net ${{ steps.size.outputs.net }} lines). Prefer <300."
+      - name: Require docs when src changes
+        run: |
+          if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '^src/'; then
+            if ! git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E 'docs/|README|runbook|tasks/'; then
+              echo "::error::Code changed without docs or tasks update." && exit 1
+            fi
+          fi

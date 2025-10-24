@@ -11,6 +11,11 @@
 - **Finance partner:** Finance lead (reconciliation + reporting).
 - **Escalation matrix:** Platform lead → CTO → Finance director.
 
+## Tooling
+- Clarivum Operations Hub (Commerce module) for consolidated webhook health, wallet availability, refund triggers, and one-click deep links into Stripe, PayU, and Przelewy24 dashboards.
+- Stripe, PayU, Przelewy24 dashboards for provider-specific configuration and settlement exports.
+- Grafana dashboards (`Payments SLO`, `Wallet Health`) embedded in `/ops`.
+
 ## Environments & credentials
 - **Secrets:** Stored in AWS Secrets Manager per ADR-007; rotated quarterly.
 - **Stripe:** Dashboard access for operations; API keys mapped to `STRIPE_SECRET_KEY` env vars. Payment Element usage per `/stripe/stripe-js` docs (ensure advanced fraud signals meet PSD2).
@@ -67,7 +72,7 @@
 6. **Observability:** Tag wallet transactions (`payment_method_details[wallet]`) and surface metrics in payments dashboards; update reconciliation scripts to include wallet metadata.
 
 ## Operational run cadence
-- **Daily:** Check webhook failure dashboard; retry via `PaymentsCoordinator.retryFailedWebhooks(provider)`.
+- **Daily:** Review the Commerce module in `/ops` to confirm webhook health, wallet availability, and SES/Listmonk cross-status before checking provider dashboards. Retry failures via `PaymentsCoordinator.retryFailedWebhooks(provider)` or the Operations Hub action buttons (feature-flagged), and use the provided quick links to jump into Stripe/PayU/P24 consoles when deeper investigation is needed.
 - **Weekly:** Reconcile payouts vs Supabase ledger (see next section).
 - **Monthly:** Refresh provider credentials list, review fraud trends, audit feature flag toggles (`payments_provider_override`).
 
@@ -87,7 +92,7 @@
 
 ## Incident response
 1. **Detection:** Alert sources include provider webhooks errors, latency SLA breaches, or failed payouts.
-2. **Containment:** Use feature flag to pivot all traffic to Stripe (`payments_force_stripe=true`) if local providers degraded.
+2. **Containment:** Use feature flag to pivot all traffic to Stripe (`payments_force_stripe=true`) if local providers degraded; Commerce module highlights toggles and current status.
 3. **Diagnosis checklist:**
    - Stripe: Check Dashboard status, inspect `confirmPayment` errors for SCA issues.
    - PayU: Review BLIK error codes (e.g., `AUTH_CODE_EXPIRED`) per Context7 table; retry with fresh code.
@@ -102,5 +107,6 @@
 - Store only provider IDs and status in Supabase; never persist raw PAN/BLIK codes.
 
 ## Change log
+- **2025-10-24:** Documented Operations Hub tooling and daily cadence updates.
 - **2025-10-27:** Added Apple Pay / Google Pay wallet onboarding steps and cross-references to TSK-PLAT-032/033.
 - **2025-10-23:** Initial runbook covering provider onboarding, reconciliation, refunds, and incident handling.

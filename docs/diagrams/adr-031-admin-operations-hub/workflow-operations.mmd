@@ -1,0 +1,24 @@
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Alert as Grafana Alert
+    participant COH as Ops Hub
+    participant Operator as Ops Operator
+    participant Proxy as Ops Proxy
+    participant Supabase as Supabase
+    participant Vendor as Vendor API
+
+    Alert->>COH: POST alert webhook
+    COH->>Operator: Display incident banner & Slack ping
+    Operator->>COH: Open incident detail
+    COH->>Proxy: Fetch incident context (metrics, tasks)
+    Proxy->>Supabase: Query incidents + sisu notes
+    Proxy-->>COH: Return consolidated context
+    Operator->>COH: Trigger remediation (e.g., retry webhook)
+    COH->>Proxy: Execute remediation action
+    Proxy->>Vendor: Call API with scoped credentials
+    Vendor-->>Proxy: Acknowledge action
+    Proxy->>Supabase: Insert ops_audit entry
+    COH->>Operator: Confirm success & prompt follow-up
+    COH->>Supabase: Link Kaizen/Sisu references
+```

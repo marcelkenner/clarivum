@@ -1,0 +1,43 @@
+name: Board & Docs Audit
+on:
+  schedule:
+    - cron: "30 6 * * 1"
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm install --ignore-scripts
+      - name: Lint tasks
+        run: npm run lint:tasks
+      - name: Lint docs (if available)
+        run: |
+          if npm run | grep -q ' lint:docs'; then
+            npm run lint:docs
+          else
+            echo "Skipping docs lint; script not defined."
+          fi
+      - name: Lint diagrams (if available)
+        run: |
+          if npm run | grep -q ' lint:diagrams'; then
+            npm run lint:diagrams
+          else
+            echo "Skipping diagrams lint; script not defined."
+          fi
+      - name: Generate task summary (if available)
+        run: |
+          if npm run | grep -q ' tasks:summary'; then
+            npm run tasks:summary
+          else
+            echo "Skipping task summary; script not defined."
+          fi
+      - name: Ensure task summary committed
+        run: git diff --exit-code || (echo "::warning::Task summary drift detected. Please commit regenerated summary." && exit 1)

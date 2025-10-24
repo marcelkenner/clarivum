@@ -10,8 +10,8 @@ collaborators:
   - QA Lead
   - Finance Partner
 effort: small
-created_at: 2025-10-27
-updated_at: 2025-10-27
+created_at: 2025-10-24
+updated_at: 2025-10-24
 links:
   - docs/PRDs/requierments/subscriptions/feature-requirements.md
   - docs/PRDs/requierments/ebooks/feature-requirements.md

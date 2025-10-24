@@ -1,0 +1,12 @@
+```mermaid
+flowchart TD
+  start([Start of Day]) --> ingest[Ingest partner reports]
+  ingest --> aggregate[Aggregate local impression/click data]
+  aggregate --> compare{Within tolerance?}
+  compare -- Yes --> publish[Publish daily metrics]
+  publish --> end([Done])
+  compare -- No --> investigate[Open discrepancy ticket]
+  investigate --> alert[Notify platform + finance]
+  alert --> remediate[Run remediation playbook]
+  remediate --> publish
+```

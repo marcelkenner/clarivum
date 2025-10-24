@@ -65,6 +65,7 @@ const config = [
             "**/*.test.{ts,tsx,js,jsx}",
             "scripts/**",
             "tests/**",
+            "playwright/**",
           ],
           packageDir: __dirname,
         },

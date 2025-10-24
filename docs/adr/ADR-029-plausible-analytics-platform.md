@@ -51,6 +51,10 @@ Update this table whenever instrumentation changes. Any new event must include r
 | `HabitsQuizCompleted`      | Diagnostics flow completes on `/habits/diagnose` | `vertical`, `result_segment`, `time_to_complete`, `question_version`, `ab_test` | Plausible               |
 | `LeadSubmitSucceeded`      | Supabase lead insert + CRM handoff succeeds       | `vertical`, `offer_slug`, `form_variant`, `flagsmith_flag`, `crm_destination` | Plausible               |
 | `PreviewDeploymentViewed`  | Internal QA opens preview URL                     | `branch_name`, `vercel_url`, `build_id`, `feature_flags_enabled`             | Plausible               |
+| `AdPlacementViewed`        | Monetization SDK records eligible ad impression   | `placement_id`, `vertical`, `article_slug`, `consent_state`, `flag_variant`  | Plausible + Supabase    |
+| `AdPlacementClicked`       | User clicks ad module                             | `placement_id`, `partner_id`, `article_slug`, `cta_variant`, `session_hash`  | Plausible + Supabase    |
+| `AffiliateLinkClicked`     | Monetization redirect logs outbound affiliate click | `partner_id`, `placement_id`, `article_slug`, `utm_campaign`, `session_hash` | Plausible + Supabase    |
+| `AffiliateLinkRedirected`  | Redirect service confirms partner handoff         | `partner_id`, `event_id`, `http_status`, `retry_count`, `consent_state`      | Supabase (warehouse)    |
 
 ### Maintenance checklist
 - Review the catalogue during sprint planning with analytics and product; log changes in `docs/runbooks/analytics-qa.md`.
@@ -69,6 +73,7 @@ Create and maintain the following dashboards (or saved reports) inside Plausible
 | **Subscription & Checkout Health** | Is subscription checkout healthy across steps? | Checkout step events, `LeadSubmitSucceeded` (with `offer_slug` subscriptions), payment success/failure goals | Segment by payment provider, device, feature flag (`flag_variant`) | Real-time notification on spike in failures (>5 per 10 min) |
 | **Retention & Engagement Roll-up** | How often do returning members engage tools/content? | Returning visitors %, average sessions per user, key event sequences, daily active metrics from Supabase export (merged via custom dimensions) | Filter by cohort (Flagsmith traits), subscription status | Monthly review; no automated alert unless DAU drops >10% WoW |
 | **Consent & Compliance** | Are consent states respected and consistent? | `analytics_opt_in` goal, event counts gated vs ungated, script load events from `PlausibleScriptManager`, comparison against Flagsmith traits | Filter by locale, consent status, device | Alert on any increase in ungated events (>0.5% of total) |
+| **Monetization & Affiliate Integrity** | Do affiliate links/ads deliver expected revenue without fraud? | `AdPlacementViewed`, `AdPlacementClicked`, `AffiliateLinkClicked`, RPM, partner revenue imports, fraud flags | Segment by partner, placement, article, consent state | Alert when CTR deviates ±20% from 7-day mean, or when partner revenue mismatch >2% |
 
 Dashboards must be shared with view-only permissions for marketing/product, embedded into the internal Notion workspace, and referenced in the analytics QA checklist. Update dashboard configurations whenever event properties or consent rules change.
 

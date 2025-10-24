@@ -1,0 +1,37 @@
+```mermaid
+flowchart LR
+  subgraph Source
+    A[Browser Events<br/>(Impressions, Clicks)]
+    B[Partner Reports<br/>(revenue, conversions)]
+  end
+
+  subgraph Processing
+    C[Edge Logging<br/>(Supabase)]
+    D[Background Workers<br/>(fraud, reconciliation)]
+    E[Plausible Goals]
+  end
+
+  subgraph Storage
+    F[(Supabase monetization_impressions)]
+    G[(Supabase affiliate_click_events)]
+    H[(Supabase monetization_reconciliation)]
+  end
+
+  subgraph Analytics
+    I[Plausible Dashboards]
+    J[Finance Reports / Looker]
+    K[Fraud Alerts / Slack]
+  end
+
+  A --> C
+  C --> F
+  C --> G
+  C --> E
+  E --> I
+  B --> D
+  D --> H
+  F --> J
+  G --> J
+  H --> J
+  D --> K
+```

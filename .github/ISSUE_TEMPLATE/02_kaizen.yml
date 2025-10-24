@@ -1,0 +1,28 @@
+name: "Kaizen Minute"
+description: Daily slowdown to smallest guardrail
+labels: ["type:kaizen", "good-first-guardrail"]
+body:
+  - type: input
+    id: slowdown
+    attributes:
+      label: Todays slowdown
+      placeholder: "One sentence"
+    validations:
+      required: true
+  - type: input
+    id: fix
+    attributes:
+      label: Smallest fix (<=60m)
+      placeholder: "Test/script/check/limit/alert"
+    validations:
+      required: true
+  - type: input
+    id: owner
+    attributes:
+      label: Owner
+    validations:
+      required: true
+  - type: input
+    id: verify
+    attributes:
+      label: How we will know it worked

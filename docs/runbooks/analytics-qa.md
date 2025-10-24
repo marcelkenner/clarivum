@@ -13,6 +13,8 @@
   - `@clarivum/analytics` package (`PlausibleScriptManager`, `PlausibleEventDispatcher`).
   - Supabase warehouse sync (nightly export).
   - QA automation (Playwright analytics harness), OpenTelemetry logs.
+  - Monetization synthetic scripts (`npm run monetization:synthetic`) and Supabase click/impression queries.
+  - Clarivum Operations Hub overview widget (flow/quality metrics) with deep links into Grafana panels and Kaizen guardrail tasks for quick regression checks.
 
 ## Release checklist (pre-merge)
 1. **Schema review:**
@@ -27,8 +29,11 @@
    - Execute Playwright QA suite `npm run qa:analytics -- --scenario funnel_checkout`.
    - Inspect recorded events in Plausible debug view (temporary QA namespace `qa-session-<date>`).
    - Validate property casing and data types (strings vs numbers).
-5. **Alert wiring:**
-   - Ensure new funnel dashboards include >20% drop detectors with Slack channel `#clarivum-insights`.
+5. **Monetization validation:**
+   - Trigger `npm run monetization:synthetic` to generate impression + click; confirm `AdPlacementViewed`, `AdPlacementClicked`, and `AffiliateLinkClicked` events appear in Plausible QA namespace and Supabase tables.
+   - Verify redirect service logs (`affiliate_click_events`) capture hashed session, placement, partner IDs, and HTTP status `302`.
+6. **Alert wiring:**
+   - Ensure new funnel and monetization dashboards include >20% drop detectors and revenue mismatch alerts with Slack channel `#clarivum-insights`.
 6. **Documentation:**
    - Update runbook changelog and add release notes to analytics PR template.
    - Confirm required Plausible dashboards from ADR-029 (homepage funnel, diagnostics, tools, revenue, checkout, retention, consent) reflect the latest schema and filters.
@@ -37,7 +42,7 @@
 1. Monitor Plausible live view for 30 minutes; confirm events hitting correct environment.
 2. Review Grafana dashboard for ingestion latency (<5 min SLO).
 3. Trigger sample GDPR deletion request to confirm Plausible API hook removes user record.
-4. Validate Supabase nightly sync (spot check aggregated table).
+4. Validate Supabase nightly sync (spot check aggregated table) and ensure monetization reconciliation job produces entries without discrepancies.
 
 ## Data quality triage workflow
 1. **Detection sources:** Dashboard anomalies, alert triggers, QA bug reports.
@@ -59,4 +64,6 @@
 - **Quarterly:** Refresh SDK versions, re-run performance budget tests, validate warehouse sync configuration.
 
 ## Change log
+- **2025-10-27:** Added monetization synthetic checks and redirect validation to release checklist.
+- **2025-10-24:** Added Operations Hub widget reference to tooling list.
 - **2025-10-23:** Initial analytics QA runbook defining release checklist, verification flow, and compliance maintenance.

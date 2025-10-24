@@ -1,0 +1,23 @@
+name: "Guardrail"
+description: Prevention change linked to a bug or slowdown
+labels: ["type:guardrail"]
+body:
+  - type: input
+    id: source
+    attributes:
+      label: Links
+      placeholder: "Bug/Kaizen/PR links"
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type
+      options:
+        - "test"
+        - "static-check"
+        - "limit/quota"
+        - "alert/monitor"
+        - "script"
+    validations:
+      required: true

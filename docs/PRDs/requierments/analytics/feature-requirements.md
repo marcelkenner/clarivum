@@ -20,10 +20,10 @@
 - Keep instrumentation composable so new tools or ebooks can inherit baseline events automatically.
 
 ## Functional Requirements
-- FR1 — Capture page view, scroll depth, CTA interactions, email sign-ups, tool launches, ebook downloads/purchases, coupon clicks, and subscription events with consistent event schemas. The canonical event definitions and property lists reside in ADR-029.
-- FR2 — Provide dashboard modules for funnels: home → vertical hub → CTA; blog category → tool; ebook detail → checkout; coupon list → outbound click.
+- FR1 — Capture page view, scroll depth, CTA interactions, email sign-ups, tool launches, ebook downloads/purchases, coupon clicks, affiliate link clicks, ad impressions/clicks, and subscription events with consistent event schemas. The canonical event definitions and property lists reside in ADR-029.
+- FR2 — Provide dashboard modules for funnels: home → vertical hub → CTA; blog category → tool; ebook detail → checkout; coupon list → outbound click; blog article → affiliate/ad engagement.
 - FR3 — Support cohorting by acquisition channel, persona quiz outcome, and vertical preference gathered through diagnostics.
-- FR4 — Expose daily anomaly detection (e.g., >20% drop in conversions) via automated alerts to Slack/email.
+- FR4 — Expose daily anomaly detection (e.g., >20% drop in conversions, >2% discrepancy between partner-reported revenue and internal click logs) via automated alerts to Slack/email.
 - FR5 — Allow exporting aggregated data (CSV/JSON) while masking PII unless user has Data Analyst role.
 - FR6 — Maintain instrumentation version history and change logs tied to ADRs when schemas change.
 
@@ -38,6 +38,7 @@
 
 ## Analytics & KPIs
 - KPIs: ebook lead conversion %, tool completion rate, newsletter sign-up rate per vertical, subscription activation and retention, coupon CTR, diagnostic completion.
+- Monetization KPIs: affiliate click-through rate, revenue per thousand impressions (RPM) for ad placements, partner revenue gap %, fraudulent click detection rate.
 - Instrumentation checklist: verify event payloads in the dev environment, ensure consent flags attached, publish dictionary in shared analytics repo.
 - Plausible dashboards (must-have, align with ADR-029):
   - **Acquisition & Homepage Funnel:** monitor diagnostic starts, tool launches, and engagement speed (<20 s) segmented by campaign and pillar.
@@ -47,6 +48,7 @@
   - **Subscription & Checkout Health:** expose checkout step conversions, payment outcomes, and provider/device variance.
   - **Retention & Engagement Roll-up:** surface returning-visitor behavior, sessions per user, and cohort comparisons using Supabase exports.
   - **Consent & Compliance:** reconcile analytics opt-ins, script loads, and Flagsmith consent traits to keep leakage under 0.5%.
+  - **Monetization & Affiliate Integrity:** monitor impressions, clicks, RPM, partner revenue variance, and fraud flags across affiliate links and ad placements.
 
 ## Non-Functional Requirements
 - Client bundles must lazy-load analytics to preserve LCP ≤ 2.5 s (per `first_steps.md` web performance guardrails).

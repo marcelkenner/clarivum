@@ -10,7 +10,12 @@
 - **Owner:** Lifecycle Marketing Manager.
 - **Engineering liaison:** Platform engineer (rotates monthly).
 - **Compliance contact:** Legal/Privacy officer.
-- **Tooling:** Listmonk admin, AWS ECS/Fargate console, Amazon SES dashboard, Grafana mailing dashboard, Context7 `/knadh/listmonk` docs (SMTP config, imports, maintenance).
+- **Tooling:** Clarivum Operations Hub (Communications module), Listmonk admin, AWS ECS/Fargate console, Amazon SES dashboard, Grafana mailing dashboard, Context7 `/knadh/listmonk` docs (SMTP config, imports, maintenance).
+
+## Operations Hub integration
+- Start day by reviewing the Communications module in `/ops`; confirm Listmonk campaign status, SES quota health, and Kaizen guardrail checklist.
+- Trigger retry or resend actions from the hub when feature flags permit; destructive actions are double-confirmed and logged to `ops_audit`.
+- Use provided deep links when deeper changes require entering the Listmonk or SES consoles.
 
 ## Infrastructure overview
 - **Runtime:** Listmonk Docker image deployed on ECS Fargate (eu-central-1).
@@ -75,4 +80,5 @@
 - Review suppression list monthly; remove bounced addresses from marketing journeys.
 
 ## Change log
+- **2025-10-24:** Added Operations Hub integration guidance and updated tooling list.
 - **2025-10-23:** Initial runbook outlining deployment, campaign workflow, and incident response for Listmonk operations.

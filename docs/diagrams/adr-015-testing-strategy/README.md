@@ -11,3 +11,4 @@ These diagrams outline the layered testing strategy spanning Vitest, Playwright,
 - `data-lineage.mmd` — Test artifacts, reports, and trace storage across Vitest and Playwright.
 - `uml-modules.mmd` — Helper classes that provision fixtures, feature flags, and environment setup.
 - `bpmn-ci.mmd` — Pull request validation workflow from submission through merge.
+- `test-layer-sequence.mmd` — Sequence of developer, QA, and metrics hand-offs during suite execution.

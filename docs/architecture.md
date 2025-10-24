@@ -9,6 +9,7 @@ This document captures the current system context and high-level architecture de
 | Public visitors             | Consume marketing, education, and funnel experiences delivered via the Clarivum web application. |
 | Logged-in members           | Access gated assets (ebooks, tools) and manage preferences via secure sessions.                   |
 | Content & marketing editors | Curate content, upload assets, and trigger publishing workflows through the Strapi admin console. |
+| Internal operators          | Triage incidents, manage communications, and execute guardrails via the Clarivum Operations Hub (`/ops`). |
 | Third-party services        | Email/SMS providers (for lead magnets), analytics (Plausible Analytics – exclusive), and payment gateway (Stripe) |
 
 Clarivum itself is the branded digital experience that surfaces verticalized content (Skin, Fuel, Habits) and orchestrates lead capture, diagnostics, and educational flows. It must remain compliant with EU privacy rules (Poland-first launch) and meet the SLOs defined in the PTRD.
@@ -27,6 +28,7 @@ Clarivum itself is the branded digital experience that surfaces verticalized con
 │  - API Routes for BFF endpoints           │
 │  - ISR/SSG for content-heavy pages        │
 │  - OTel SDK instrumentation               │
+│  - Internal `/ops` module (Clarivum Ops Hub)|
 └─────────────┬──────────────┬──────────────┘
               │              │
               │              │ Background job dispatch (idempotent JSON payloads)
@@ -93,6 +95,7 @@ Operational tooling:
 
 - **Feature flag service:** Flagsmith SaaS (via SDK in the Next.js app).
 - **Analytics platform:** Plausible Analytics (privacy-first SaaS, sole analytics provider; proxied via Vercel per ADR-029).
+- **Operations hub:** Internal `/ops` console aggregating Strapi, Listmonk, payments, incidents, and metrics per ADR-031 (`docs/PRDs/requierments/operations-hub/feature-requirements.md`) with deep-link navigation into the authoritative native consoles.
 - **CDN & caching:** Vercel’s global edge cache + Upstash Redis (plan) for application-level caching and rate limiting.
 - **Secrets management:** Vercel Environments + AWS Secrets Manager (mirrored via Terraform) with rotation policy.
 - **Primary data platform:** Supabase Postgres & Storage (ADR-001) provisioned via Terraform with PITR, RLS, and access policies enforced by Supabase Dashboard + GitOps.
@@ -103,8 +106,9 @@ Operational tooling:
 2. **Lead capture & entitlements:** Web forms post to `/api/leads`. The BFF persists leads, entitlements, and mission progress directly in Supabase Postgres, enqueues enrichment via SQS, and hands off to Lambda workers that push to the CRM and email providers.
 3. **Background processing:** Lambda handlers implement idempotent jobs (content snapshotting, email fulfillment, sitemap regeneration) that read/write Supabase and invoke Strapi webhooks as needed. Dead-letter queues capture poison messages; retries use exponential backoff capped at 15 minutes.
 4. **Notification delivery:** ViewModels invoke `NotificationManager`, which renders Sonner toasts locally, reads subscriber preferences from Supabase, and triggers Novu workflows for inbox/email/SMS delivery. Novu stores channel receipts for audit.
-5. **Observability:** All HTTP handlers and workers emit traces, metrics, and logs via OTel exporters. Golden signals (latency, error rate, saturation, traffic) feed SLO dashboards. Alerts route to the #clarivum-oncall channel.
-6. **Security & privacy:** Supabase Row Level Security protects member data; policies enforce tenant isolation across profiles, diagnostics, and entitlements. MFA is mandatory for admin accounts through Auth0 (see ADR-002). PII stored at rest uses Postgres column-level AES-GCM encryption via pgcrypto; Strapi data snapshots replicate into Supabase following ADR-010 controls.
+5. **Operations hub aggregation:** Internal `/ops` modules consume Supabase, Strapi, Listmonk, Grafana, Stripe/PayU/P24, and GitHub APIs via server-side proxy handlers, presenting consolidated dashboards and controlled actions. All operator activity is logged to the Supabase `ops_audit` table.
+6. **Observability:** All HTTP handlers and workers emit traces, metrics, and logs via OTel exporters. Golden signals (latency, error rate, saturation, traffic) feed SLO dashboards surfaced both in Grafana and the Operations Hub overview. Alerts route to the #clarivum-oncall channel.
+7. **Security & privacy:** Supabase Row Level Security protects member data; policies enforce tenant isolation across profiles, diagnostics, and entitlements. MFA is mandatory for admin accounts through Auth0 (see ADR-002); Operations Hub RBAC builds on the same roles. PII stored at rest uses Postgres column-level AES-GCM encryption via pgcrypto; Strapi data snapshots replicate into Supabase following ADR-010 controls.
 
 ## Deployment topology
 

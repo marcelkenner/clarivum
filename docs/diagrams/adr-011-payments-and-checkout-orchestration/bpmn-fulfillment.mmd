@@ -12,11 +12,12 @@ flowchart TD
     updateLedger[Update Supabase ledger]
     deliver[Fulfill order / activate subscription]
     reconcile[Run reconciliation job]
+    opsReview[Ops Hub review / audit actions]
     start --> select --> route
     route -->|Stripe| stripePath
     stripePath -->|Yes| processWallets --> webhook
     stripePath -->|No| processStripe --> webhook
     route -->|PayU| processPayu --> webhook
     route -->|P24| processP24 --> webhook
-    webhook --> updateLedger --> deliver --> reconcile
+    webhook --> updateLedger --> deliver --> reconcile --> opsReview
 ```

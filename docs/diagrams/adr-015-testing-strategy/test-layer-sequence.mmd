@@ -1,0 +1,18 @@
+```mermaid
+sequenceDiagram
+    participant Dev as Developer
+    participant Vitest as Vitest Suite
+    participant Playwright as Playwright Smoke
+    participant QA as QA Guild
+    participant Metrics as Metrics Pipeline
+
+    Dev->>Vitest: npm run test
+    Vitest-->>Dev: Pass/Fail + coverage
+    Dev->>Playwright: npm run test:e2e -- --project smoke
+    Playwright-->>Dev: Smoke results + traces
+    Playwright-->>QA: Notify flakes or failures
+    Dev->>Metrics: Publish coverage + runtime
+    QA->>Metrics: Annotate flake rate
+    Metrics-->>Dev: Daily dashboard updates
+    Metrics-->>QA: Share reliability trends
+```

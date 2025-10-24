@@ -28,7 +28,15 @@ erDiagram
         string direction
         datetime posted_at
     }
+    OPS_AUDIT {
+        uuid id
+        string actor
+        string action
+        string intent_id
+        datetime recorded_at
+    }
     PAYMENT_INTENT ||--o{ PROVIDER_CHARGE : results_in
     PROVIDER_CHARGE ||--o{ REFUND : may_have
     PAYMENT_INTENT ||--o{ LEDGER_ENTRY : recorded_as
+    LEDGER_ENTRY ||--o{ OPS_AUDIT : referenced_by
 ```

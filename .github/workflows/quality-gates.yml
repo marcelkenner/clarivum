@@ -1,0 +1,74 @@
+name: Quality Gates
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm install --ignore-scripts
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      - name: Lint code
+        run: npm run lint:code
+      - name: Lint tasks
+        run: npm run lint:tasks
+      - name: Lint docs (if available)
+        run: |
+          if npm run | grep -q ' lint:docs'; then
+            npm run lint:docs
+          else
+            echo "Skipping docs lint; script not defined."
+          fi
+      - name: Lint diagrams (if available)
+        run: |
+          if npm run | grep -q ' lint:diagrams'; then
+            npm run lint:diagrams
+          else
+            echo "Skipping diagram lint; script not defined."
+          fi
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Format check
+        run: npm run format:check
+      - name: Run Vitest (if available)
+        run: |
+          if npm run | grep -q '^  test'; then
+            npm run test
+          else
+            echo "Skipping Vitest suite; script not defined."
+          fi
+      - name: Run Playwright smoke (if available)
+        run: |
+          if npm run | grep -q ' test:e2e:smoke'; then
+            npm run test:e2e:smoke
+          elif npm run | grep -q ' test:e2e'; then
+            npm run test:e2e -- --project smoke
+          else
+            echo "Skipping Playwright suite; script not defined."
+          fi
+      - name: Conventional commits (if available)
+        run: |
+          if npm run | grep -q ' lint:commits'; then
+            npm run lint:commits
+          else
+            echo "Skipping commit lint; script not defined."
+          fi
+      - name: Upload Playwright report (if present)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            playwright-results
+            blob-report
+          if-no-files-found: ignore

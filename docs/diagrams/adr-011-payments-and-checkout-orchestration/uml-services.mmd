@@ -25,10 +25,20 @@ classDiagram
         +updateLedger()
         +triggerFulfillment()
     }
+    class OpsHubPaymentsModule {
+        +displayHealth()
+        +retryWebhook(provider, id)
+        +requestRefund(intentId)
+        +logAudit(action)
+    }
     CheckoutCoordinator --> StripePaymentManager
     CheckoutCoordinator --> PayuPaymentManager
     CheckoutCoordinator --> P24PaymentManager
     WebhookProcessor --> StripePaymentManager
     WebhookProcessor --> PayuPaymentManager
     WebhookProcessor --> P24PaymentManager
+    OpsHubPaymentsModule --> WebhookProcessor
+    OpsHubPaymentsModule --> StripePaymentManager
+    OpsHubPaymentsModule --> PayuPaymentManager
+    OpsHubPaymentsModule --> P24PaymentManager
 ```

@@ -1,0 +1,14 @@
+```mermaid
+flowchart LR
+  Stripe[Stripe Checkout Event] --> Queue[Purchase Event Queue]
+  Queue --> Orchestrator[Fulfillment Orchestrator]
+  Orchestrator --> EntitlementsTable[Supabase Table<br/>monetization_entitlements]
+  Orchestrator --> PendingProfiles[Supabase pending_profiles]
+  Orchestrator --> Storage[Supabase Storage Objects]
+  Orchestrator --> EmailLogs[Listmonk / Novu Logs]
+  Orchestrator --> Analytics[Plausible Events]
+  PendingProfiles --> AccountCenter
+  EntitlementsTable --> AccountCenter[Account Center Shelf API]
+  AccountCenter --> Downloads[Signed URLs]
+  EmailLogs --> SupportTools[Support Console]
+```

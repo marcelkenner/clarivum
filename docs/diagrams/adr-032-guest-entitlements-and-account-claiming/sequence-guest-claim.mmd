@@ -1,0 +1,29 @@
+```mermaid
+sequenceDiagram
+  participant User
+  participant Checkout as Stripe Checkout
+  participant Webhook as Purchase Webhook
+  participant Entitlements as Entitlement Service
+  participant Storage as Supabase Storage
+  participant Mailer as Listmonk/Novu
+  participant Auth as Auth0
+  participant Account as Account Center UI
+
+  User->>Checkout: Complete payment (email provided)
+  Checkout->>Webhook: payment.succeeded webhook
+  Webhook->>Entitlements: createEntitlement(email, product)
+  Entitlements->>Entitlements: upsert pending profile
+  Entitlements->>Storage: request signed URLs
+  Entitlements->>Mailer: send fulfillment email(download links)
+  Mailer-->>User: Email with temporary links + claim CTA
+  User->>Auth: Click claim link (magic link flow)
+  Auth->>Entitlements: verify token, attach Auth0 user ID
+  Entitlements->>Entitlements: update profile status=active
+  Entitlements->>Mailer: send confirmation + library reminder
+  Account->>Entitlements: listEntitlements(userId)
+  Entitlements-->>Account: entitlement shelf data
+  Account->>Entitlements: request download(productId)
+  Entitlements->>Storage: generate fresh signed URL
+  Entitlements-->>Account: signed URL response
+  Account-->>User: Provide download link, show last accessed timestamp
+```

@@ -1,0 +1,17 @@
+```mermaid
+flowchart TD
+  start([Guest Purchase Complete]) --> enqueue[Enqueue fulfillment job]
+  enqueue --> entitlement[Persist pending entitlement]
+  entitlement --> email[Send fulfillment email]
+  email --> status{Email delivered?}
+  status -- No --> retry[Retry & alert lifecycle]
+  retry --> email
+  status -- Yes --> claim[User clicks claim link]
+  claim --> verify[Auth0 verifies magic link]
+  verify --> attach[Attach Auth0 user to profile]
+  attach --> activate[Set profile status = active]
+  activate --> notify[Send confirmation + library reminder]
+  notify --> shelf[Surface entitlement in Account Center]
+  shelf --> download[Generate download on request]
+  download --> end([Claim completed])
+```

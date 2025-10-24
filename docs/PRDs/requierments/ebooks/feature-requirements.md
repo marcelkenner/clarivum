@@ -25,8 +25,11 @@
 - FR2 — Provide ebook detail pages with preview module, CTA, bonus items, FAQ, testimonials, and related products.
 - FR3 — Support free lead magnets and paid products with shared checkout flow; handle discount codes and coupons, including wallet payments (Apple Pay, Google Pay) via Stripe Payment Element and Przelewy24 redundancy tracked in `tasks/backlog/platform/plat-032-google-pay-wallet.md` and `tasks/backlog/platform/plat-033-apple-pay-wallet.md`.
 - FR4 — Trigger fulfillment emails with download links, include instructions for different devices, and offer resend/self-service access via profile.
-- FR5 — Surface bundle recommendations based on Strapi metadata and user profile.
-- FR6 — Expose inventory endpoints for marketing automations and on-site widgets (e.g., homepage CTA).
+- FR5 — Support guest checkout by storing entitlements against pending profiles, sending claim instructions, and issuing short-lived download links immediately after purchase.
+- FR6 — Provide account-claim flows that upgrade pending profiles via Auth0 magic links (password fallback) while keeping entitlements accessible through emailed links.
+- FR7 — Surface bundle recommendations based on Strapi metadata and user profile.
+- FR8 — Expose inventory endpoints for marketing automations and on-site widgets (e.g., homepage CTA).
+- FR9 — Guarantee purchase-to-fulfillment reliability: durable orchestrator, idempotent retries, and customer-facing status updates when processing is delayed.
 
 ## Content & Data Inputs
 - Ebook metadata: title, slug, summary, outcomes, format, file assets, pricing, CTA copy, testimonials, sample pages in Strapi.
@@ -50,6 +53,8 @@
 - Provide clear terms of use and refund policy; link to legal disclaimers (non-medical guidance).
 - Ensure VAT/tax calculation compliance per region (liaise with finance/legal).
 - Limit access to purchased ebooks to the authenticated buyer; support data deletion requests.
+- Maintain audit trails for pending profiles, claim attempts, and entitlement downloads to support DSAR and fraud investigations.
+- Fulfillment orchestrator must be idempotent, durable, and alert if a purchase remains unfulfilled (no receipt, no entitlement, no email) beyond five minutes.
 
 ## DRM & Watermarking
 - Skip heavy DRM to preserve user experience; instead apply personalized watermarking (buyer name + order ID) on PDF exports via PDF generation pipeline.
@@ -59,10 +64,12 @@
 ## Launch Readiness Checklist
 - Content QA (copy, assets, links) complete per ebook.
 - Checkout tested across devices; fulfilment emails deliver correctly.
+- Guest checkout and claim flow validated end-to-end (pending profile creation, fulfillment email, claim CTA, reminder cadence).
 - Analytics events validated; dashboards for sales and conversion set up.
 - `docs/runbooks/ebooks-fulfillment.md` reviewed with support, lifecycle marketing, and finance.
-- Customer support macros created for ebook access issues.
+- Customer support macros created for ebook access issues, account claiming, and entitlement reconciliation.
 
 ## Open Questions & Assumptions
 - Need clarity on localization roadmap (multi-language distribution).
+- Confirm magic-link deliverability for regions with strict email filtering; determine SMS fallback if necessary.
 - Assume same checkout flow will serve future product types; verify extensibility requirements.

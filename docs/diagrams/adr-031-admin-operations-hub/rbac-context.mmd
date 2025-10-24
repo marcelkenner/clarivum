@@ -1,0 +1,46 @@
+```mermaid
+flowchart LR
+    subgraph Roles
+        Viewer["ops_viewer"]
+        Editor["ops_editor"]
+        Admin["ops_admin"]
+        Finance["ops_finance (subset)"]
+    end
+
+    subgraph Modules
+        Overview["Overview Dashboard"]
+        Content["Content & Publishing"]
+        Comms["Communications"]
+        Commerce["Commerce & Billing"]
+        Support["Support Console"]
+        Audit["Audit Feed"]
+    end
+
+    Viewer --> Overview
+    Viewer --> Audit
+
+    Editor --> Overview
+    Editor --> Content
+    Editor --> Comms
+    Editor --> Support
+    Editor --> Audit
+
+    Admin --> Overview
+    Admin --> Content
+    Admin --> Comms
+    Admin --> Commerce
+    Admin --> Support
+    Admin --> Audit
+
+    Finance --> Commerce
+    Finance --> Audit
+
+    classDef viewOnly fill:#E0F0FF,stroke:#004B8D;
+    classDef limited fill:#FBE4D5,stroke:#B85C00;
+    classDef admin fill:#FAD6E7,stroke:#B3005D;
+
+    class Viewer viewOnly
+    class Editor limited
+    class Admin admin
+    class Finance limited
+```

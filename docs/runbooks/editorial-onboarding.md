@@ -8,7 +8,7 @@
 ## Roles & prerequisites
 - **Owner:** Editorial Operations Manager.
 - **Coordinators:** `EditorialAccessCoordinator` (provisions Strapi/Supabase), `ContentWorkflowManager` (training), `SearchIntegrationManager` (webhook verification).
-- **Systems touched:** Self-hosted Strapi admin (`/websites/strapi_io_cms` Users & Permissions), Flagsmith, Supabase, Linear (content backlog), Notion (style guides).
+- **Systems touched:** Clarivum Operations Hub (Content module), self-hosted Strapi admin (`/websites/strapi_io_cms` Users & Permissions), Flagsmith, Supabase, Linear (content backlog), Notion (style guides).
 - **Preconditions:** New hire record in HRIS, contract signed, email account activated, DPA acknowledged.
 
 ## Day -5: Access preparation
@@ -23,7 +23,7 @@
 
 ## Day 0: Systems walkthrough (60 minutes)
 1. **Orientation call:** Cover brand voice (`docs/PRDs/clarivum_brand.md`), legal guidelines.
-2. **Strapi tour:** Demonstrate Draft & Publish workflow, explain locales, medical review stage.
+2. **Strapi tour:** Demonstrate Draft & Publish workflow, explain locales, medical review stage, and show how the Operations Hub surfaces pending approvals, webhook health, and quick links back into the Strapi admin entry.
 3. **Search integration:** Show how publishing triggers `SearchIngestionManager` webhooks; highlight runbook for drift if preview missing.
 4. **Tool stack overview:** Notion editorial calendar, Linear ticket templates, Slack channels (`#clarivum-editorial`, `#clarivum-dev`).
 
@@ -62,4 +62,5 @@
 4. Archive authored content attribution if required (Notion log).
 
 ## Change log
+- **2025-10-24:** Added Operations Hub touchpoints to systems walkthrough.
 - **2025-10-23:** Initial onboarding runbook covering RBAC provisioning, training milestones, and compliance checkpoints.

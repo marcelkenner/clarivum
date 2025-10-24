@@ -239,6 +239,8 @@
 - **“Start” diagnostics** (one per vertical) segment visitors → personalized CTAs (ebook, tool, or recommendation list).
 - **In‑article CTAs**: top, mid, and end; swap by pillar (e.g., SPF calculator on SPF content).
 - **Affiliate integrity**: place **/jak-zarabiamy/** in footer and reference it contextually on `/polecenia/` pages.
+  - Every affiliate block and ad placement must wire into the monetization telemetry platform (ADR-033) with impression + click logging before redirecting to partners.
+  - CTR, RPM, and partner variance dashboards (Plausible + Supabase) reviewed weekly; discrepancies >2% escalate to finance/partnerships.
 
 ### 4) E‑E‑A‑T / YMYL safeguards
 

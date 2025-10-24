@@ -1,0 +1,41 @@
+```mermaid
+classDiagram
+  class ImpressionService {
+    +recordImpression(payload)
+  }
+  class ClickRedirectService {
+    +createSignedUrl(params)
+    +logClick(event)
+  }
+  class FraudDetectionWorker {
+    +scanAnomalies()
+    +publishAlert()
+  }
+  class ReconciliationPipeline {
+    +importPartnerReport()
+    +compareAgainstEvents()
+    +emitDiscrepancy()
+  }
+  class MonetizationRepository {
+    +insertImpression()
+    +insertClick()
+    +updateStatus()
+    +fetchAggregates()
+  }
+  class AnalyticsClient {
+    +dispatchGoal(eventName, payload)
+  }
+  class AlertPublisher {
+    +notifySlack(channel, payload)
+  }
+
+  ImpressionService --> MonetizationRepository
+  ImpressionService --> AnalyticsClient
+  ClickRedirectService --> MonetizationRepository
+  ClickRedirectService --> AnalyticsClient
+  ClickRedirectService --> AlertPublisher
+  FraudDetectionWorker --> MonetizationRepository
+  FraudDetectionWorker --> AlertPublisher
+  ReconciliationPipeline --> MonetizationRepository
+  ReconciliationPipeline --> AlertPublisher
+```

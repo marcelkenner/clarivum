@@ -23,11 +23,12 @@
 ## Functional Requirements
 - FR1 — Profile overview dashboard summarizing key actions: resume last tool, access ebook library, manage subscription, view coupons.
 - FR2 — Editable personal information (name, email, preferred language), privacy settings, and marketing consent.
-- FR3 — Library module listing purchased ebooks with download links, update history, and support contact.
+- FR3 — Entitlement shelf listing purchased ebooks with format badges, last download timestamp, reminders, and contextual claim-prompts when entitlements exist for pending profiles.
 - FR4 — Diagnostics history with ability to retake or update outcomes; highlight recommended next steps.
 - FR5 — Subscription management (plan details, renewal date, pause/cancel, payment method) with integration to subscription service.
 - FR6 — Activity log for security (recent logins, device management) and option to sign out sessions.
 - FR7 — Data export and deletion request workflows in compliance with legal requirements.
+- FR8 — Account-claim utilities: allow users to link purchases made with other emails via secure verification, surface pending entitlements, and guide them through ownership validation.
 
 ## Content & Data Inputs
 - Profile data sourced from auth/user service.

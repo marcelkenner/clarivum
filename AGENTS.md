@@ -40,15 +40,21 @@ Agents should ensure the following structure exists (add missing items via PR):
     forest-day-monthly.yml
     sisu-on-bug.yml
 docs/
+  PRDs/
+    requierments/
+      operations-hub/
   role-guides/
     continuous-improvement.md
   runbooks/
     sisu-debugging.md
+    ops-hub.md
   playbooks/
     kaizen-minute.md
     metsa-cadence.md
 sisu-log/                   # append-only incident notes (markdown files)
 metrics/                    # JSON snapshots produced by scheduled jobs
+docs/diagrams/
+  adr-031-admin-operations-hub/
 AGENTS.md                   # this file
 ```
 
@@ -66,6 +72,9 @@ Each feature area must include its own `AGENTS.md` describing local build/test/l
 - Run validation suite: `npm run validate` (lint + typecheck + format check)
 - Lint code only: `npm run lint:code`
 - Type-check only: `npm run typecheck`
+- Run unit/component tests: `npm run test`
+- Run Playwright smoke tests: `npm run test:e2e:smoke`
+- Install Playwright browsers locally: `npm run playwright:install`
 - Regenerate agent scaffolding: `npm run ensure:agents`
 - Tasks summary: `npm run tasks:summary`
 
@@ -82,6 +91,10 @@ Run from the repo root unless stated otherwise:
 - Task lint only: `npm run lint:tasks`
 - Docs lint (if defined): `npm run lint:docs`
 - Diagram lint (if defined): `npm run lint:diagrams`
+- Unit & integration tests: `npm run test`
+- Coverage report: `npm run test:coverage`
+- Playwright smoke suite: `npm run test:e2e:smoke`
+- Playwright regression suite: `npm run test:e2e:regression`
 - Format source: `npm run format`
 - Ensure agent files exist: `npm run ensure:agents`
 
@@ -153,6 +166,7 @@ Block one Forest Day per month (no meetings). On that day: delete or simplify at
 Drop the following templates under `.github/ISSUE_TEMPLATE/` (adapted for ASCII friendliness).
 
 `01_bug.yml`
+
 ```yaml
 name: "Bug"
 description: Report a defect that needs Sisu Debugging
@@ -160,15 +174,15 @@ labels: ["type:bug", "needs:sisu"]
 body:
   - type: textarea
     id: impact
-    attributes: {label: Impact, description: "User/system impact and scope"}
-    validations: {required: true}
+    attributes: { label: Impact, description: "User/system impact and scope" }
+    validations: { required: true }
   - type: textarea
     id: repro
-    attributes: {label: Reproduction, description: "Steps, logs, commit range"}
-    validations: {required: true}
+    attributes: { label: Reproduction, description: "Steps, logs, commit range" }
+    validations: { required: true }
   - type: textarea
     id: suspected
-    attributes: {label: Suspected cause, description: "What broke and why it escaped?"}
+    attributes: { label: Suspected cause, description: "What broke and why it escaped?" }
   - type: checkboxes
     id: guardrail
     attributes:
@@ -179,6 +193,7 @@ body:
 ```
 
 `02_kaizen.yml`
+
 ```yaml
 name: "Kaizen Minute"
 description: Daily slowdown to smallest guardrail
@@ -186,22 +201,23 @@ labels: ["type:kaizen", "good-first-guardrail"]
 body:
   - type: input
     id: slowdown
-    attributes: {label: Todays slowdown, placeholder: "One sentence"}
-    validations: {required: true}
+    attributes: { label: Todays slowdown, placeholder: "One sentence" }
+    validations: { required: true }
   - type: input
     id: fix
-    attributes: {label: Smallest fix (<=60m), placeholder: "Test/script/check/limit/alert"}
-    validations: {required: true}
+    attributes: { label: Smallest fix (<=60m), placeholder: "Test/script/check/limit/alert" }
+    validations: { required: true }
   - type: input
     id: owner
-    attributes: {label: Owner}
-    validations: {required: true}
+    attributes: { label: Owner }
+    validations: { required: true }
   - type: input
     id: verify
-    attributes: {label: How we will know it worked}
+    attributes: { label: How we will know it worked }
 ```
 
 `03_guardrail.yml`
+
 ```yaml
 name: "Guardrail"
 description: Prevention change linked to a bug or slowdown
@@ -209,17 +225,18 @@ labels: ["type:guardrail"]
 body:
   - type: input
     id: source
-    attributes: {label: Links, placeholder: "Bug/Kaizen/PR links"}
-    validations: {required: true}
+    attributes: { label: Links, placeholder: "Bug/Kaizen/PR links" }
+    validations: { required: true }
   - type: dropdown
     id: kind
     attributes:
       label: Type
       options: ["test", "static-check", "limit/quota", "alert/monitor", "script"]
-    validations: {required: true}
+    validations: { required: true }
 ```
 
 `04_forest_day.yml`
+
 ```yaml
 name: "Forest Day Task"
 description: Once-a-month structural improvement
@@ -227,31 +244,36 @@ labels: ["forest-day", "type:refactor"]
 body:
   - type: textarea
     id: task
-    attributes: {label: Target, description: "What we will delete, simplify, or harden"}
-    validations: {required: true}
+    attributes: { label: Target, description: "What we will delete, simplify, or harden" }
+    validations: { required: true }
   - type: input
     id: success
-    attributes: {label: Success check, placeholder: "Metric or test proving success"}
+    attributes: { label: Success check, placeholder: "Metric or test proving success" }
 ```
 
 Pull request template `.github/PULL_REQUEST_TEMPLATE.md`
+
 ```md
 ## Summary
+
 <!-- what and why -->
 
 ## Checklist
+
 - [ ] Lint and tests pass locally (`npm run validate`)
 - [ ] Docs or runbook updated (link)
 - [ ] Small PR (<300 net lines) or justified below
 - [ ] If bug fix: Sisu note added and guardrail PR linked
 
 ## Links
+
 Issue(s): #
 Sisu note (if bug): #
 Guardrail: #
 ```
 
 `CODEOWNERS`
+
 ```
 # Require at least one owner review per area
 /src/app/ @frontend-team
@@ -271,9 +293,9 @@ Update owner handles to match actual GitHub teams.
 name: CI
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
   push:
-    branches: [ main ]
+    branches: [main]
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -403,9 +425,11 @@ Adjust these workflows as actual automation is put in place (e.g., using `npm ru
 ## 10) Playbooks and documentation upkeep
 
 - `docs/runbooks/sisu-debugging.md`: maintain the Sisu steps, bottleneck catalog, and guardrail examples.
+- `docs/runbooks/ops-hub.md`: keep the Clarivum Operations Hub procedures, alerts, and access reviews current with ADR-031.
 - `docs/role-guides/continuous-improvement.md`: keep the daily, weekly, monthly cadence aligned with this file.
 - `docs/playbooks/kaizen-minute.md`: store the daily form, examples under 60 minutes, and scoreboard. Create this file if missing.
 - `docs/playbooks/metsa-cadence.md`: define seasonal boards, entry/exit criteria, and sample tasks. Create if missing.
+- `docs/PRDs/requierments/operations-hub/feature-requirements.md` + `docs/adr/ADR-031-admin-operations-hub.md`: update whenever we expand `/ops` modules or change integrations; refresh diagrams under `docs/diagrams/adr-031-admin-operations-hub/`.
 - All documentation changes must cite source ADRs, PRDs, or tasks and be cross-checked via Context7.
 
 ---
@@ -471,13 +495,15 @@ Tasks live under `tasks/` following the YAML schema in `tasks/AGENTS.md`. Always
 ## 16) Quickstart checklists
 
 New PR:
+
 - [ ] Under 300 net lines or justification provided
 - [ ] Tests or guardrails added/updated
 - [ ] Docs/runbook/task updated
-- [ ] Labels set (type:*)
+- [ ] Labels set (type:\*)
 - [ ] Issue, Sisu note (if bug), and guardrail links included
 
 Forest Day:
+
 - [ ] Deleted or simplified at least one thorny area
 - [ ] Updated one runbook
 - [ ] Shared a recorded 15 minute learning

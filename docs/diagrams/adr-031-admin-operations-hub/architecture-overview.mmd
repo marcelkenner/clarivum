@@ -1,0 +1,43 @@
+```mermaid
+flowchart LR
+    subgraph Auth0["Auth0 (RBAC, MFA)"]
+    end
+
+    subgraph COH["Clarivum Operations Hub (Next.js /ops)"]
+        direction TB
+        UI["Ops UI (React)"]
+        Proxy["API Proxy Layer (Next.js Route Handlers)"]
+        Audit["Supabase ops_audit"]
+        Flags["Flagsmith Feature Gates"]
+    end
+
+    subgraph DataSources["Core Systems"]
+        Strapi["Strapi CMS API"]
+        Supabase["Supabase (Profiles, Incidents, Tasks)"]
+        Listmonk["Listmonk API"]
+        SES["Amazon SES Metrics"]
+        Novu["Novu Workflows"]
+        Stripe["Stripe API"]
+        PayU["PayU API"]
+        P24["Przelewy24 API"]
+        Plausible["Plausible API"]
+        Grafana["Grafana Cloud API"]
+        Github["GitHub Issues (Kaizen, Guardrails)"]
+    end
+
+    Auth0 -->|OIDC tokens| COH
+    COH -->|read/write| Audit
+    Flags --> UI
+    UI --> Proxy
+    Proxy --> Strapi
+    Proxy --> Supabase
+    Proxy --> Listmonk
+    Proxy --> SES
+    Proxy --> Novu
+    Proxy --> Stripe
+    Proxy --> PayU
+    Proxy --> P24
+    Proxy --> Plausible
+    Proxy --> Grafana
+    Proxy --> Github
+```

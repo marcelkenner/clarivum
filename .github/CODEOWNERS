@@ -1,0 +1,4 @@
+# Require at least one owner review per area
+/src/app/ @clarivum/frontend-team
+/src/config/ @clarivum/platform-team
+/tasks/ @clarivum/product-team

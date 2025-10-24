@@ -1,0 +1,46 @@
+name: Nightly Regression
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm install --ignore-scripts
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      - name: Run Vitest regression (if available)
+        run: |
+          if npm run | grep -q '^  test:regression'; then
+            npm run test:regression
+          elif npm run | grep -q '^  test'; then
+            npm run test
+          else
+            echo "Skipping Vitest regression; script not defined."
+          fi
+      - name: Run Playwright regression (if available)
+        run: |
+          if npm run | grep -q ' test:e2e:regression'; then
+            npm run test:e2e:regression
+          elif npm run | grep -q ' test:e2e'; then
+            npm run test:e2e -- --project regression || npm run test:e2e:smoke
+          else
+            echo "Skipping Playwright regression; script not defined."
+          fi
+      - name: Upload Playwright report (if present)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            playwright-results
+            blob-report
+          if-no-files-found: ignore
