@@ -1,5 +1,6 @@
 # Icon System Diagrams · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-017-icon-system.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with Brand Design System before changing scope, integration points, or lifecycle assumptions documented here.

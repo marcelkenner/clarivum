@@ -1,5 +1,6 @@
 # docs/PRDs/requierments/profile · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 ## Scope
 - Defines the account center experience: personal data, ebook library, diagnostics history, subscription management, and privacy controls.
 - Coordinates self-service capabilities that reduce support workload while reinforcing trust.

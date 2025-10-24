@@ -1,5 +1,6 @@
 # Product Analytics Platform Diagrams · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 ## Directory Purpose
 - Archive historical diagrams from `docs/adr/ADR-008-product-analytics-platform.md`; ADR-029 is now the canonical decision log for product analytics.
 - Partner with Growth Analytics before referencing these assets externally; ensure new work aligns with Plausible architecture in ADR-029.

@@ -1,5 +1,6 @@
 # App Router · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 The `src/app/` directory houses Next.js route segments, layouts, metadata, and server actions. Treat each route as a thin composition layer that wires ViewModels, Managers, and Coordinators into presentation components.
 
 ## Routing and file layout

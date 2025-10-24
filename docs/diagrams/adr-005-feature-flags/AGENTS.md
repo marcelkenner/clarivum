@@ -1,5 +1,6 @@
 # Feature Flag & Experimentation Platform Diagrams · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-005-feature-flags.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with Product Engineering before changing scope, integration points, or lifecycle assumptions documented here.

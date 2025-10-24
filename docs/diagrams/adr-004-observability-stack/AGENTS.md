@@ -1,5 +1,6 @@
 # Observability Stack & Telemetry Standard Diagrams · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-004-observability-stack.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with Reliability Engineering before changing scope, integration points, or lifecycle assumptions documented here.

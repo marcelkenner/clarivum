@@ -1,5 +1,6 @@
 # docs/PRDs/requierments/coupons · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 ## Scope
 - Governs the coupons and deals hub, including filtering rules, gating, and affiliate disclosures.
 - Ensures coupon metadata in Strapi maps cleanly into Next.js experiences and analytics funnels.

@@ -1,5 +1,6 @@
 # Sprint Plans · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 The `tasks/sprints/` directory captures forward-looking sprint plans. These files summarize scope, goals, and ownership; the canonical source of task status remains the main task board (`tasks/backlog`, `tasks/ready`, `tasks/in-progress`, `tasks/blocked`, `tasks/done`).
 
 ## Usage

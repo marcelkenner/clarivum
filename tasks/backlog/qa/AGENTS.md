@@ -1,5 +1,6 @@
 # Backlog · QA Lane · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 Use this lane for quality initiatives that need scoping—test strategy revisions, tooling research, or risk assessments.
 
 ## Intake Notes

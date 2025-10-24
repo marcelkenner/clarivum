@@ -1,5 +1,6 @@
 # Tasks · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 This directory holds the Clarivum task board (backlog → ready → in-progress → blocked → done). Maintain it diligently so everyone has accurate visibility.
 
 ## Structure

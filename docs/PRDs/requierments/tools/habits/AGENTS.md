@@ -1,5 +1,6 @@
 # docs/PRDs/requierments/tools/habits · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 ## Scope
 - Habit, sleep, stress, and environment tools underpinning `/habits/` funnels and retention loops.
 - Defines behavioural science framing, measurement protocols, and guardrails before UI or engineering begins.

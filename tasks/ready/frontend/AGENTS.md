@@ -1,5 +1,6 @@
 # Ready · Frontend Lane · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 Tasks here have final designs, acceptance criteria, and dependencies resolved; they are waiting for a developer to pick them up.
 
 ## Deliverables in Hand

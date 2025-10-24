@@ -1,5 +1,6 @@
 # Ebooks & Digital Products Platform Diagrams · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-024-ebooks-and-digital-products.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with Growth Monetization before changing scope, integration points, or lifecycle assumptions documented here.

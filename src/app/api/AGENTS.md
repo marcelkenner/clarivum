@@ -1,5 +1,6 @@
 # API Routes · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 The `src/app/api/` directory contains Next.js App Router route handlers and server actions. Treat everything here as the backend-for-frontend (BFF) boundary that coordinates Clarivum’s UI with Supabase, Strapi, and the AWS job tier.
 
 ## Scope and structure

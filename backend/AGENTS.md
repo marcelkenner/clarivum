@@ -1,5 +1,6 @@
 # Backend · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 This directory captures backend practices for Clarivum’s BFF layer, asynchronous jobs, and shared server-side utilities. Keep it aligned with `docs/role-guides/backend.md`, ADR-001, ADR-002, ADR-003, and ADR-004.
 
 ## Scope and structure

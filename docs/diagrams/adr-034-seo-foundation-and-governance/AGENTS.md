@@ -1,5 +1,6 @@
 # ADR-034 Diagrams · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 Maintain lightweight Mermaid diagrams that illustrate the SEO platform decisions from ADR-034. Update these files whenever the metadata pipeline, governance flow, or monitoring stack changes. Keep diagrams ASCII-only and ensure they render with the mermaid CLI used in CI.
 
 ## Files

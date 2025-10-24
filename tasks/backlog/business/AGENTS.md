@@ -1,5 +1,6 @@
 # Backlog · Business Lane · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 Use this lane for commercial experiments, pricing initiatives, and stakeholder alignment items that are not yet actionable.
 
 ## Intake Checklist

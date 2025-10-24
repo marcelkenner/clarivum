@@ -1,5 +1,6 @@
 # tests · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 Vitest powers Clarivum’s unit & component suite. Tests live under this directory so we can co-locate helpers that cut across feature areas.
 
 ## Commands

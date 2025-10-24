@@ -1,5 +1,6 @@
 # Ready · Shared Lane · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 These cross-disciplinary items have owners, approvals, and dependencies synchronized. They are ready to start with coordinated staffing.
 
 ## Prepared Inputs

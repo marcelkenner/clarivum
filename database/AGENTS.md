@@ -1,5 +1,6 @@
 # Database & Storage · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 Clarivum’s data layer runs on Supabase Postgres 16 with Supabase Storage for media assets. Follow this guide when changing schemas, RLS, seeds, or storage policies. Coordinate efforts with ADR-001, ADR-002, ADR-003, ADR-006, and the backend guide.
 
 ## Tooling and prerequisites

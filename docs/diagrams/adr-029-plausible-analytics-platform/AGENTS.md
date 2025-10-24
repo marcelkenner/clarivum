@@ -1,5 +1,6 @@
 # Plausible Analytics Platform Diagrams · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 ## Directory Purpose
 - Visualize the Plausible-first analytics architecture defined in `docs/adr/ADR-029-plausible-analytics-platform.md`.
 - Ensure diagrams stay synchronized with runbooks (`docs/runbooks/analytics-qa.md`, `docs/runbooks/cookie-consent-operations.md`) and the event catalogue.

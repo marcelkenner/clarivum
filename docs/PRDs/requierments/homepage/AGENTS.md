@@ -1,5 +1,6 @@
 # docs/PRDs/requierments/homepage · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 ## Scope
 - Describes the `/` experience, including hero storytelling, vertical entry points, and newsletter/tool highlights.
 - Ensures homepage modules respect brand pillars and feed priority funnels (ebooks, diagnostics, subscriptions).

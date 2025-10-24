@@ -1,5 +1,6 @@
 # Background Jobs & Queues Diagrams · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-003-background-jobs-and-queues.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with Platform Operations before changing scope, integration points, or lifecycle assumptions documented here.

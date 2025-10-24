@@ -1,5 +1,6 @@
 # docs/PRDs/requierments/tools · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 ## Scope
 - Defines interactive tools and calculators (`/narzedzia/` and vertical hubs) that drive engagement, lead capture, and upsell paths.
 - Covers tool taxonomy, UX patterns, saved states, exports, and supporting CTAs.

@@ -1,5 +1,6 @@
 # Ready · QA Lane · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 Quality initiatives here are fully scoped and can enter execution immediately.
 
 ## Inputs in Place

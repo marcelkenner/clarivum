@@ -1,5 +1,6 @@
 # docs/PRDs/requierments/tools/fuel · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 ## Scope
 - Nutrition pillar tools supporting `/fuel/` funnels (diagnostics, planners, converters, shopping aids).
 - Shaping product requirements, calculations, and UX rules before design or engineering begins.

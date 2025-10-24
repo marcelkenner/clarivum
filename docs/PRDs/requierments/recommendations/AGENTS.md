@@ -1,5 +1,6 @@
 # docs/PRDs/requierments/recommendations · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 ## Scope
 - Covers recommendation hubs and editorial product picks, including filtering, disclosures, and affiliate instrumentation.
 - Aligns recommendations with coupons, ebooks, and diagnostics-driven personalization.

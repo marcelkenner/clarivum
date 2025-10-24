@@ -1,5 +1,6 @@
 # Diagrams · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 This directory stores the canonical diagrams that accompany Clarivum features and decisions. Keep it tidy so reviewers and operators can trace system changes quickly.
 
 ## Structure

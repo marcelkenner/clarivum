@@ -1,5 +1,6 @@
 # Ready · Business Lane · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 These initiatives have stakeholder approval and a clear go-to-market plan. They are waiting on resourcing to execute.
 
 ## Must-Haves

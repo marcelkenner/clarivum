@@ -1,5 +1,6 @@
 # Backlog · Platform Lane · AGENTS Guide
 
+**Context7:** Always resolve framework or library questions via Context7 (`context7__resolve-library-id` followed by `context7__get-library-docs`).
 Capture infrastructure, developer-experience, and tooling concepts here until scope, risk, and sequencing are clear.
 
 ## Intake Expectations
