@@ -1,9 +1,21 @@
 # tests · AGENTS Guide
 
-This directory does not yet have tailored agent guidance. Use these defaults until you add project-specific notes.
+Vitest powers Clarivum’s unit & component suite. Tests live under this directory so we can co-locate helpers that cut across feature areas.
 
-- Keep changes aligned with the PTRD (`docs/PRDs/first_steps.md`) and relevant ADRs.
-- Run `npm run ensure:agents` after restructuring to keep agent docs in sync.
-- Follow coding standards from the root `AGENTS.md`.
-- Always resolve library and framework questions via Context7 (`context7__resolve-library-id` + `context7__get-library-docs`).
-- Update this file with localized best practices as soon as the directory gains dedicated responsibilities.
+## Commands
+
+- Run the full suite: `npm run test`
+- Watch mode while developing: `npm run test:watch`
+- Coverage output: `npm run test:coverage` (writes reports to `coverage/`)
+
+## Conventions
+
+- Mirror source structure (e.g., `tests/app/**` for Next.js components, `tests/config/**` for runtime utilities).
+- Use `vi.mock` inside tests for framework-specific modules such as `next/image`; add shared mocks to `tests/setupTests.ts`.
+- Prefer Testing Library for component assertions and isolate pure utilities with direct function tests.
+
+## Guardrails
+
+- Keep sample fixtures minimal and deterministic; anything stateful belongs in Playwright smoke/regression suites.
+- Update related docs (`AGENTS.md`, role guides) when introducing new helpers or patterns.
+- Run `npm run lint:tasks` after touching task files to keep statuses and metadata consistent.

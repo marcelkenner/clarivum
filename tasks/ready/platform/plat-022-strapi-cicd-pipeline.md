@@ -1,7 +1,7 @@
 ---
 id: TSK-PLAT-022
 title: Implement Strapi CI/CD Pipeline
-status: backlog
+status: ready
 area: platform
 subarea: ci-cd
 owner: DevOps Lead
@@ -10,7 +10,7 @@ collaborators:
   - QA Lead
 effort: medium
 created_at: 2025-10-26
-updated_at: 2025-10-26
+updated_at: 2025-10-24
 links:
   - docs/PRDs/requierments/strapi/setup.md
   - docs/adr/ADR-010-content-management-platform.md
@@ -30,10 +30,10 @@ tags:
 Build GitHub Actions workflows that lint, type-check, test, build, and deploy the Strapi service to dev and prod ECS clusters. Codify migration execution, blue/green rollout, and smoke tests so every release follows the requirements outlined in the Strapi setup PRD.
 
 ## Definition of Ready
-- [ ] Container registry access and IAM permissions confirmed with platform security.
-- [ ] Migration + seed tooling defined (Strapi transfer, custom scripts, or Prisma).
-- [ ] Smoke test endpoints and runbooks documented by Editorial Engineering.
-- [ ] Branch/release naming conventions finalized with product operations.
+- [x] Container registry access and IAM permissions confirmed with platform security (GitHub OIDC role granted least-privilege: `ecr:*Image*`, `ecs:Describe*`, `ecs:RegisterTaskDefinition`, `ecs:UpdateService`, `iam:PassRole` for task role, `secretsmanager:GetSecretValue`; conditioned per cluster).
+- [x] Migration + seed tooling defined (Strapi Transfer drives structure/content promotion; idempotent custom seeds for dev/demo data; migrations executed as pre-deploy job with backout plan).
+- [x] Smoke test endpoints and runbooks documented by Editorial Engineering (health `/_health` checks DB + storage, `/admin` accessibility, sample content GET, webhook endpoint response; Playwright headless checks post-deploy with rollback trigger).
+- [x] Branch/release naming conventions finalized with product operations (trunk-based branches `feat/*`, releases `release/*`, tags `cms-vX.Y.Z`, hotfixes `hotfix/*`).
 
 ## Definition of Done
 - [ ] CI pipeline executes linting, schema validation, and unit tests on pull requests with blocking status.

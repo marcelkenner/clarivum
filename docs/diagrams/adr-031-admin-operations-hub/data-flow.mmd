@@ -1,3 +1,4 @@
+```mermaid
 %% Operations Hub data flow
 flowchart LR
   Strapi[(Strapi)] -->|Webhooks| OpsIngest[Ops Hub Ingest]
@@ -10,3 +11,4 @@ flowchart LR
   Proxy --> Audit
   UI --> DeepLinks[Vendor Console Deep Links]
   Audit --> Analytics[Grafana/Analytics]
+```

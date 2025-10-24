@@ -19,10 +19,10 @@ Status: Accepted
 - Reference implementation documented in PRD `docs/PRDs/seo-foundation.md`; tasks TSK-SEO-001/002 orchestrate execution.
 
 ## Diagrams
-- [Architecture Diagram](../diagrams/adr-034-seo-foundation/architecture-overview.mmd) — container view of Next.js metadata and structured data components alongside external services.
-- [Data Pipeline Diagram](../diagrams/adr-034-seo-foundation/metadata-pipeline.mmd) — sequence tracing CMS content through metadata factory, schema modules, and CI guardrails.
-- [UML Component Diagram](../diagrams/adr-034-seo-foundation/uml-components.mmd) — component relationships across metadata, structured data, sitemap, robots, and monitoring services.
-- [BPMN Governance Workflow](../diagrams/adr-034-seo-foundation/bpmn-governance.mmd) — governance cadence from content brief through monitoring and guardrail follow-up.
+- [Architecture Diagram](../diagrams/adr-034-seo-foundation-and-governance/architecture-overview.mmd) — container view of Next.js metadata and structured data components alongside external services.
+- [Data Pipeline Diagram](../diagrams/adr-034-seo-foundation-and-governance/metadata-pipeline.mmd) — sequence tracing CMS content through metadata factory, schema modules, and CI guardrails.
+- [UML Component Diagram](../diagrams/adr-034-seo-foundation-and-governance/uml-components.mmd) — component relationships across metadata, structured data, sitemap, robots, and monitoring services.
+- [BPMN Governance Workflow](../diagrams/adr-034-seo-foundation-and-governance/bpmn-governance.mmd) — governance cadence from content brief through monitoring and guardrail follow-up.
 
 ## Consequences
 - **Positive:** Consistent metadata and structured data increase ranking stability, reduce manual QA churn, and make Core Web Vitals guardrails auditable. Automation reduces regression risk and clarifies ownership between engineering and content.

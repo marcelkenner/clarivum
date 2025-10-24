@@ -1,3 +1,4 @@
+```mermaid
 %% BPMN-style operations workflow
 flowchart LR
   Start([Incident Alert]) --> Triage{Triage in Ops Hub}
@@ -10,3 +11,4 @@ flowchart LR
   Verify -->|Follow-up needed| Tasks[Create Kaizen Task]
   Tasks --> Close
   Close --> Audit[Log in ops_audit]
+```

@@ -2,6 +2,8 @@
 
 Clarivum's frontend lives under `src/` using the Next.js App Router. Treat every addition as a reusable module that respects the ViewModel, Manager, and Coordinator separation.
 
+Backend/server guidance lives in `backend/AGENTS.md` and `src/app/api/AGENTS.md`. Database and storage conventions live in `database/AGENTS.md`. Keep every frontend change coordinated with those guides so contracts, caching, and guardrails stay aligned.
+
 ## Architectural roles
 
 - **View components** render UI only. They delegate to a ViewModel for state, actions, and derived data. Do not read from services, `process.env`, or `fetch` inside views.

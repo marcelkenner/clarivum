@@ -1,3 +1,4 @@
+```mermaid
 %% Metadata and structured data pipeline
 sequenceDiagram
   participant Editor
@@ -15,3 +16,4 @@ sequenceDiagram
   Schema-->>Build: Return structured data payloads
   Build->>Validator: Trigger lint checks (metadata/schema coverage)
   Validator-->>Build: Pass/fail results (block merge if failing)
+```

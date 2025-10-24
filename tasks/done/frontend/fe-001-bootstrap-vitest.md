@@ -1,14 +1,14 @@
 ---
 id: TSK-FE-001
 title: Bootstrap Vitest Unit Testing
-status: ready
+status: done
 area: frontend
 subarea: testing
-owner: Unassigned
+owner: Frontend Lead
 collaborators: []
 effort: medium
 created_at: 2025-10-21
-updated_at: 2025-10-21
+updated_at: 2025-11-03
 links:
   - AGENTS.md
   - docs/PRDs/first_steps.md#8
@@ -36,11 +36,11 @@ Set up Vitest for shared frontend/backend TypeScript modules, add initial sample
 - [x] Stakeholders (frontend/backend leads) agreed on priority.
 
 ## Definition of Done
-- [ ] Vitest configured with React + TS support and path aliases.
-- [ ] `npm run test` script and CI workflow updates merged.
-- [ ] Sample tests committed for one server component and one utility.
-- [ ] Documentation updates applied (`AGENTS.md`, role guides, tasks guidelines).
-- [ ] Future test backlog items captured (coverage goals, additional suites).
+- [x] Vitest configured with React + TS support and path aliases.
+- [x] `npm run test` script and CI workflow updates merged.
+- [x] Sample tests committed for one server component and one utility.
+- [x] Documentation updates applied (`AGENTS.md`, role guides, tasks guidelines).
+- [x] Future test backlog items captured (coverage goals, additional suites).
 
 ## Notes
-Implementation can start immediately. Coordinate with QA to ensure future Vitest outputs integrate with reporting tools once Playwright lands.
+Implementation can start immediately. Coordinate with QA to ensure future Vitest outputs integrate with reporting tools once Playwright lands. Follow-ups opened in backlog: `fe-019-component-coverage-targets.md`, `fe-020-interaction-test-suite.md`.

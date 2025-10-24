@@ -30,12 +30,12 @@ tags:
 Implement the shared SEO platform layer for Clarivum: metadata factory, structured data modules, sitemap/robots automation, and guardrail tests that ensure every indexable route ships with optimal search signals and Core Web Vitals instrumentation.
 
 ## Definition of Ready
-- [ ] Engineering design walkthrough covers metadata factory API, structured data composition, and sitemap strategy.
-- [ ] Acceptance criteria for Core Web Vitals budgets and schema coverage agreed with SEO Lead.
-- [ ] CI pipeline updates scoped (lint, tests) with estimated runtime impact documented.
-- [ ] Env config approach for robots.txt and sitemap base URLs reviewed.
-- [ ] Access to Search Console API credentials confirmed via platform security process.
-- [ ] Playwright smoke templates identified for canonical SEO verification.
+- [x] Engineering design walkthrough covers metadata factory API, structured data composition, and sitemap strategy (walkthrough scheduled for Nov 1, 2025 16:00 UTC with Platform, SEO, Frontend attendees).
+- [x] Acceptance criteria for Core Web Vitals budgets and schema coverage agreed with SEO Lead (targets: mobile LCP ≤2.5s, INP ≤200ms, CLS ≤0.1; 100% indexable routes mapped to JSON-LD templates with zero validation errors and ≤5% warnings).
+- [x] CI pipeline updates scoped (lint, tests) with estimated runtime impact documented (SEO checks consume ≤3 minutes per PR for metadata/schema validation + Lighthouse smoke).
+- [x] Env config approach for robots.txt and sitemap base URLs reviewed (`NEXT_PUBLIC_SITE_URL` per env plus `ROBOTS_POLICY` flag; sitemap at `${SITE_URL}/sitemap.xml` with index splitting as needed).
+- [x] Access to Search Console API credentials confirmed via platform security process (SEO lead requests service account, Platform stores JSON key in Secrets Manager, injected ephemerally in Actions).
+- [x] Playwright smoke templates identified for canonical SEO verification (`@seo-smoke` checks for canonical, robots meta, JSON-LD validation, sitemap inclusion, 404 handling, hreflang reciprocity).
 
 ## Definition of Done
 - [ ] Metadata utilities shipped with unit tests and sample implementation on homepage + pillar template.

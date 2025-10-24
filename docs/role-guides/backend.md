@@ -31,7 +31,7 @@ Clarivum’s backend work focuses on the BFF layer inside Next.js, Supabase data
    - Update `docs/runbooks/deployment.md` if new jobs need deployment steps.
 5. **Observability & testing**  
    - Add OTel spans/metrics for every new API or job.  
-   - Until automated tests land, provide thorough manual test notes in PRs; plan to add Vitest/contract tests soon.  
+   - Cover shared TypeScript utilities with Vitest (`npm run test`) and document gaps that still need contract or integration tests.  
    - Monitor Grafana dashboards after merging; note anomalies in #clarivum-backend.
 
 ## Performance & reliability guardrails

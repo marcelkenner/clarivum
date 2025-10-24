@@ -1,7 +1,7 @@
 ---
 id: TSK-PLAT-021
 title: Establish Strapi Data Foundation
-status: backlog
+status: ready
 area: platform
 subarea: data-platform
 owner: DevOps Lead
@@ -10,7 +10,7 @@ collaborators:
   - Security Lead
 effort: medium
 created_at: 2025-10-26
-updated_at: 2025-10-26
+updated_at: 2025-10-24
 links:
   - docs/PRDs/requierments/strapi/setup.md
   - docs/adr/ADR-010-content-management-platform.md
@@ -30,10 +30,10 @@ tags:
 Provision managed PostgreSQL 15 (RDS) and S3 storage for Strapi across dev and prod with backup, retention, and lifecycle policies aligned to ADR-010. Configure encryption, replication, and access controls so the CMS meets GDPR residency, recovery, and audit requirements.
 
 ## Definition of Ready
-- [ ] Retention/RPO/RTO targets confirmed with compliance owner.
-- [ ] Storage classification documented for media assets and database snapshots.
-- [ ] Networking ingress/egress requirements validated with platform security.
-- [ ] Secrets distribution strategy for database credentials reviewed with Terraform owners.
+- [x] Retention/RPO/RTO targets confirmed with compliance owner (nightly full backups + 15 min PITR retained 35 days; RPO ≤15 min, RTO ≤60 min with quarterly restore drill).
+- [x] Storage classification documented for media assets and database snapshots (public assets via CloudFront-backed S3 with SSE-KMS; private assets in separate bucket with signed URLs; DB snapshots encrypted and access scoped; lifecycle transitions after 180 days).
+- [x] Networking ingress/egress requirements validated with platform security (ALB ingress to ECS only, `/admin` optional allowlist/VPN; egress limited to RDS, S3 VPC endpoint, SMTP; ALB WAF adds SQLi/XSS protection and rate limiting).
+- [x] Secrets distribution strategy for database credentials reviewed with Terraform owners (Terraform manages secret names in Secrets Manager; values injected securely during apply; ECS task role reads at boot; no plaintext in state; quarterly rotation).
 
 ## Definition of Done
 - [ ] RDS instances created with parameter groups, PITR, automated snapshots, and monitoring.

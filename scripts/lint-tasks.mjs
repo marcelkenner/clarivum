@@ -82,6 +82,9 @@ async function collectTaskFiles(dir) {
   for (const entry of entries) {
     const entryPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
+      if (entry.name === "sprints") {
+        continue;
+      }
       out.push(...(await collectTaskFiles(entryPath)));
       continue;
     }

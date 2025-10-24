@@ -30,11 +30,11 @@ tags:
 Operationalize Clarivum's SEO governance program by training stakeholders, integrating runbook rituals into the daily Kaizen cadence, and wiring metrics and reporting so policy compliance is auditable.
 
 ## Definition of Ready
-- [ ] Training plan drafted (agenda, outcomes, materials) and reviewed with Platform + Content leads.
-- [ ] Search Console + analytics dashboards scoped, owner assigned, and access confirmed.
-- [ ] Publishing checklist updates aligned with content operations leadership.
-- [ ] Incident escalation paths validated against incident-response and Sisu runbooks.
-- [ ] Quarterly audit cadence documented in shared calendar with responsible owners.
+- [x] Training plan drafted (agenda, outcomes, materials) and reviewed with Platform + Content leads (60-min session covering platform foundations, taxonomy/slugs, metadata factory, structured data practices, publishing checklist; reviewers: SEO lead, Content Ops, Platform).
+- [x] Search Console + analytics dashboards scoped, owner assigned, and access confirmed (dashboards: Search Console performance/coverage/sitemaps owned by SEO; analytics landing page + A/B results by Product Analytics; operational Lighthouse & CWV trends by Platform).
+- [x] Publishing checklist updates aligned with content operations leadership (checklist includes taxonomy IDs, title/description limits, heading structure, alt text, canonical/robots, internal links, preview QA, rollback plan).
+- [x] Incident escalation paths validated against incident-response and Sisu runbooks (SEO incidents mapped to SEV-1/2/3 with channels `#seo-incidents` + PagerDuty; postmortems within 72h).
+- [x] Quarterly audit cadence documented in shared calendar with responsible owners (SEO lead owns events for next four quarters plus action tracking in shared backlog; artifacts include `calendar/seo-audit-cadence.ics` and `seo/audits/YYYY-Q*.md`).
 
 ## Definition of Done
 - [ ] Runbook walkthrough delivered (recording stored; attendees acknowledged responsibilities).

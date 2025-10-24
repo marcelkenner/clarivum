@@ -23,7 +23,8 @@ Welcome to Clarivum’s web experience. This guide captures the conventions, too
 4. **Flags & rollout**  
    - Wrap unfinished features behind Flagsmith flags. Document owner + sunset date in the PR.
 5. **Validation**  
-   - Run `npm run lint` and manual smoke checks for the flows touched.  
+   - Run `npm run validate` plus `npm run test` (Vitest) before opening a PR.  
+   - Capture component-level gaps as follow-up tasks and surface coverage deltas in the PR description.  
    - Update the PR checklist and mention any docs/runbooks modified.
 
 ## Accessibility & localization
