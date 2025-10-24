@@ -1,0 +1,27 @@
+%% UML component view for Operations Hub
+classDiagram
+  class OpsHubUI {
+    +renderOverview()
+    +renderModule(moduleId)
+  }
+  class ProxyService {
+    +fetchMetrics()
+    +invokeAction()
+  }
+  class AuthGateway {
+    +validateRole(role)
+    +issueSession()
+  }
+  class AuditLogger {
+    +recordEvent(event)
+  }
+  class VendorAdapter {
+    +pullData()
+    +pushAction()
+  }
+
+  OpsHubUI --> ProxyService
+  ProxyService --> VendorAdapter
+  ProxyService --> AuditLogger
+  OpsHubUI --> AuthGateway
+  AuthGateway --> ProxyService

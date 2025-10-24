@@ -1,0 +1,8 @@
+%% Search Console ingestion data flow
+flowchart LR
+  Scheduler[Nightly Scheduler] --> Fetch[Search Console API Fetch]
+  Fetch --> Parser[Normalize Metrics]
+  Parser --> Storage[Write metrics/flow.json]
+  Parser --> Alerts[Threshold Check]
+  Alerts --> Tasks[Create/Update Kaizen Guardrail Task]
+  Storage --> Dashboards[Plausible / Internal Dashboards]

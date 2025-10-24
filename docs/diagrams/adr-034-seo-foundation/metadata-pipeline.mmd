@@ -1,0 +1,17 @@
+%% Metadata and structured data pipeline
+sequenceDiagram
+  participant Editor
+  participant CMS as Strapi CMS
+  participant Build as Next.js Route Handler
+  participant Factory as Metadata Factory
+  participant Schema as Schema Module
+  participant Validator as CI Guardrails
+
+  Editor->>CMS: Publish content with SEO brief
+  CMS-->>Build: Provide content payload via API
+  Build->>Factory: Request metadata defaults
+  Factory-->>Build: Return title, description, canonical, robots
+  Build->>Schema: Request JSON-LD fragments
+  Schema-->>Build: Return structured data payloads
+  Build->>Validator: Trigger lint checks (metadata/schema coverage)
+  Validator-->>Build: Pass/fail results (block merge if failing)

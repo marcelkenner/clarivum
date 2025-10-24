@@ -1,0 +1,30 @@
+%% SEO platform architecture overview
+flowchart TD
+  subgraph WebApp[Next.js 15 App]
+    Router[Route Segment]
+    MetadataFactory[Metadata Factory]
+    SchemaModule[Structured Data Modules]
+  end
+
+  subgraph PlatformServices[Platform Services]
+    CMSAPI[Strapi API]
+    Flagsmith[Flagsmith]
+    MetricsPipeline[Plausible & Metrics JSON]
+  end
+
+  subgraph Monitoring[Monitoring]
+    WebVitals[Web Vitals SDK]
+    SearchConsole[Search Console API]
+  end
+
+  Router --> MetadataFactory
+  Router --> SchemaModule
+  MetadataFactory --> CMSAPI
+  SchemaModule --> CMSAPI
+  MetadataFactory --> Flagsmith
+  SchemaModule --> Flagsmith
+  MetadataFactory --> WebVitals
+  SchemaModule --> WebVitals
+  WebVitals --> MetricsPipeline
+  SearchConsole --> MetricsPipeline
+  CMSAPI --> SearchConsole

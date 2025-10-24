@@ -1,0 +1,12 @@
+%% BPMN-style operations workflow
+flowchart LR
+  Start([Incident Alert]) --> Triage{Triage in Ops Hub}
+  Triage -->|Auto-resolvable| Action[Execute Guardrail Action]
+  Triage -->|Needs escalation| Escalate[Notify On-call]
+  Action --> Verify{Verify Outcome}
+  Escalate --> Approve[Manager Approval]
+  Approve --> Action
+  Verify -->|Success| Close([Close Incident])
+  Verify -->|Follow-up needed| Tasks[Create Kaizen Task]
+  Tasks --> Close
+  Close --> Audit[Log in ops_audit]

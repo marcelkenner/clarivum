@@ -1,0 +1,13 @@
+%% BPMN governance workflow for SEO operations
+flowchart LR
+  Start([Content Brief Ready]) --> Checklist[Run SEO Publishing Checklist]
+  Checklist --> Review{Preview Review}
+  Review -->|Approved| Deploy[Deploy Route]
+  Review -->|Changes requested| Iterate[Update Content/Metadata]
+  Iterate --> Checklist
+  Deploy --> Monitor[Monitor Core Web Vitals]
+  Monitor --> Metrics{Threshold Breach?}
+  Metrics -->|No| Done([Complete])
+  Metrics -->|Yes| Guardrail[Create Guardrail Task]
+  Guardrail --> Runbook[Follow SEO Runbook]
+  Runbook --> Done

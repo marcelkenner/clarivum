@@ -1,0 +1,12 @@
+%% Operations Hub data flow
+flowchart LR
+  Strapi[(Strapi)] -->|Webhooks| OpsIngest[Ops Hub Ingest]
+  Listmonk[(Listmonk)] --> OpsIngest
+  Stripe[(Stripe)] --> OpsIngest
+  Supabase[(Supabase)] --> OpsIngest
+  OpsIngest --> Proxy[Ops Proxy Services]
+  Proxy --> UI[Ops Hub UI]
+  UI --> Audit[Supabase ops_audit]
+  Proxy --> Audit
+  UI --> DeepLinks[Vendor Console Deep Links]
+  Audit --> Analytics[Grafana/Analytics]

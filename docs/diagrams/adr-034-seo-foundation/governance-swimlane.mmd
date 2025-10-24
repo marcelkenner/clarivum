@@ -1,0 +1,26 @@
+%% Governance swimlane highlighting responsibilities
+flowchart LR
+  subgraph Platform[Frontend Platform]
+    PlatformA[Maintain metadata/structured data libraries]
+    PlatformB[Extend CI guardrails]
+  end
+  subgraph SEOLead[SEO Lead]
+    SEOA[Monitor Search Console]
+    SEOB[Approve publishing checklist]
+  end
+  subgraph ContentOps[Content Operations]
+    ContentA[Apply SEO brief template]
+    ContentB[Review previews before publish]
+  end
+  subgraph Analytics[Analytics & Data]
+    AnalyticsA[Ingest metrics to JSON]
+    AnalyticsB[Alert on threshold breaches]
+  end
+
+  PlatformA --> PlatformB
+  PlatformB --> AnalyticsA
+  SEOA --> SEOB
+  SEOB --> ContentA
+  ContentA --> ContentB
+  AnalyticsA --> AnalyticsB
+  AnalyticsB --> SEOA

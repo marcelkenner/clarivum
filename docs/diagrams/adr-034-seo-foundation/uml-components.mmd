@@ -1,0 +1,29 @@
+%% UML component diagram for SEO platform
+classDiagram
+  class MetadataFactory {
+    +buildMeta(route, content)
+    +applyCanonical()
+  }
+  class StructuredDataBuilder {
+    +article()
+    +faq()
+    +product()
+  }
+  class SitemapService {
+    +generate()
+    +register()
+  }
+  class RobotsController {
+    +allowProd()
+    +disallowNonProd()
+  }
+  class MonitoringBridge {
+    +reportCoreWebVitals()
+    +ingestSearchConsole()
+  }
+
+  MetadataFactory --> StructuredDataBuilder
+  MetadataFactory --> MonitoringBridge
+  StructuredDataBuilder --> MonitoringBridge
+  SitemapService --> MonitoringBridge
+  RobotsController --> MonitoringBridge

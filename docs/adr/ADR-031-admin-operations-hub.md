@@ -25,10 +25,10 @@ Status: Proposed
 - Update PRD stack with `docs/PRDs/requierments/operations-hub/feature-requirements.md` capturing user journeys, requirements, and acceptance criteria.
 
 ## Diagrams
-- `docs/diagrams/adr-031-admin-operations-hub/architecture-overview.mmd` — container view showing COH data sources (Strapi, Supabase, Listmonk, Grafana, Stripe, Plausible) and Auth0/Vercel integration.
-- `docs/diagrams/adr-031-admin-operations-hub/workflow-operations.mmd` — BPMN sequence covering Incident-to-Resolution using the hub (alert intake → triage → action → audit).
-- `docs/diagrams/adr-031-admin-operations-hub/rbac-context.mmd` — RBAC swimlane clarifying which roles can view/act across modules and how approvals are enforced.
-- `docs/diagrams/adr-031-admin-operations-hub/dependency-matrix.mmd` — service interaction matrix highlighting upstream/downstream dependencies and failure blast radius.
+- [Architecture Diagram](../diagrams/adr-031-admin-operations-hub/architecture-overview.mmd) — container view showing COH data sources (Strapi, Supabase, Listmonk, Grafana, Stripe, Plausible) and Auth0/Vercel integration.
+- [Data Flow Diagram](../diagrams/adr-031-admin-operations-hub/data-flow.mmd) — illustrates how operational data moves between vendor APIs, Supabase, and the Operations Hub UI.
+- [UML Component Diagram](../diagrams/adr-031-admin-operations-hub/uml-components.mmd) — component relationships for proxy services, RBAC gateways, and module boundaries.
+- [BPMN Operations Workflow](../diagrams/adr-031-admin-operations-hub/bpmn-operations.mmd) — incident-to-resolution process highlighting approvals, deep links, and audit logging.
 
 ## Consequences
 - Benefits: reduced tool-switching, faster Sisu guardrail execution, centralized auditing, and consistent RBAC enforcement via Auth0 & Supabase.
