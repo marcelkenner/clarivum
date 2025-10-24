@@ -3,7 +3,9 @@ flowchart TD
     start([Initiate checkout])
     select[Collect payment details]
     route{Select provider}
-    processStripe[Stripe confirm]
+    stripePath{Stripe wallet available?}
+    processWallets[Stripe wallet (Apple / Google)]
+    processStripe[Stripe card confirm]
     processPayu[PayU redirect/BLIK]
     processP24[Przelewy24 hosted form]
     webhook[Receive webhook]
@@ -11,7 +13,9 @@ flowchart TD
     deliver[Fulfill order / activate subscription]
     reconcile[Run reconciliation job]
     start --> select --> route
-    route -->|Stripe| processStripe --> webhook
+    route -->|Stripe| stripePath
+    stripePath -->|Yes| processWallets --> webhook
+    stripePath -->|No| processStripe --> webhook
     route -->|PayU| processPayu --> webhook
     route -->|P24| processP24 --> webhook
     webhook --> updateLedger --> deliver --> reconcile

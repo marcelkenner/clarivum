@@ -28,6 +28,7 @@
 ## Functional Requirements
 - FR1 — Subscription landing page with plan comparison, benefits table, testimonials, and FAQ.
 - FR2 — Checkout flow supporting trials, coupon codes, and upsell to annual plans.
+- FR2a — Wallet checkout (Apple Pay, Google Pay) enabled through Stripe Payment Element with Przelewy24 fallback per ADR-011; implementation coordinated via `tasks/backlog/platform/plat-032-google-pay-wallet.md` and `tasks/backlog/platform/plat-033-apple-pay-wallet.md`.
 - FR3 — Account management: view plan details, billing history, upcoming invoices, upgrade/downgrade, pause/cancel, reactivate.
 - FR4 — Access control to subscriber-only content (ebooks, recommendations, coupons, tools) integrated with auth/profile.
 - FR5 — Automated lifecycle messaging (welcome, renewal reminders, churn saves) triggered via newsletter system.
@@ -41,7 +42,7 @@
 
 ## Integrations & Dependencies
 - Internal: authentication, profile, ebooks, recommendations, coupons, analytics, component library.
-- External: payment processor (Stripe Billing or equivalent), accounting integration for revenue recognition, tax calculation service.
+- External: payment processor (Stripe Billing or equivalent) including wallets (Apple Pay, Google Pay) and local method partners (PayU, Przelewy24); accounting integration for revenue recognition; tax calculation service.
 
 ## Analytics & KPIs
 - Monitor conversion (trial → paid), churn (voluntary/involuntary), MRR, ARPU, plan mix, subscriber engagement with gated content.

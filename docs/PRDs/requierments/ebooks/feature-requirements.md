@@ -23,7 +23,7 @@
 ## Functional Requirements
 - FR1 — Deliver `/ebooks/` hub with filters by vertical, topic, skill level, and format (single vs bundle).
 - FR2 — Provide ebook detail pages with preview module, CTA, bonus items, FAQ, testimonials, and related products.
-- FR3 — Support free lead magnets and paid products with shared checkout flow; handle discount codes and coupons.
+- FR3 — Support free lead magnets and paid products with shared checkout flow; handle discount codes and coupons, including wallet payments (Apple Pay, Google Pay) via Stripe Payment Element and Przelewy24 redundancy tracked in `tasks/backlog/platform/plat-032-google-pay-wallet.md` and `tasks/backlog/platform/plat-033-apple-pay-wallet.md`.
 - FR4 — Trigger fulfillment emails with download links, include instructions for different devices, and offer resend/self-service access via profile.
 - FR5 — Surface bundle recommendations based on Strapi metadata and user profile.
 - FR6 — Expose inventory endpoints for marketing automations and on-site widgets (e.g., homepage CTA).
@@ -35,7 +35,7 @@
 
 ## Integrations & Dependencies
 - Internal: checkout/payment service, profile service for access management, analytics, coupon engine, subscription manager.
-- External: payment processor (Stripe or equivalent), digital delivery (e.g., secure CDN or Document fulfillment provider).
+- External: payment processor (Stripe or equivalent) with wallets and local methods (PayU, Przelewy24), digital delivery (e.g., secure CDN or Document fulfillment provider).
 
 ## Analytics & KPIs
 - Track views → downloads → purchases, average order value, bundle attach rate, refund rate, file download completion.

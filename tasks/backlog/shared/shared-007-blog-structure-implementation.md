@@ -14,6 +14,9 @@ created_at: 2025-10-24
 updated_at: 2025-10-24
 links:
   - docs/PRDs/blog_structure.md
+  - docs/PRDs/requierments/blog-content/fuel/fuel-articles.md
+  - docs/PRDs/requierments/blog-content/habits/habits-articles.md
+  - docs/PRDs/requierments/blog-content/skin/skin-articles.md
   - docs/PRDs/requierments/frontend-platform/homepage.md
   - docs/adr/ADR-010-content-management-platform.md
   - docs/adr/ADR-019-frontend-platform.md

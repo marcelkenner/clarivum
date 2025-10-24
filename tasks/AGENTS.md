@@ -49,5 +49,6 @@ tags: [<keyword>, ...]
 3. Use `npm run lint:tasks` to validate files; CI will fail if schema or structure is incorrect.
 4. Run `npm run tasks:summary` to regenerate `tasks/status-summary.md` before sharing updates.
 5. Archive completed work under `done/<area>/` with outcomes captured.
+6. Reflect the daily Kaizen Minute and Sisu Review outputs in tasks: capture guardrail work as tiny tasks or checklist items, note owners/due dates, and reference Slack threads (`#kaizen-minute`, `#sisu-log`) plus the matching `sisu-log/` markdown entry in the `links` or `notes` sections so improvements stay auditable.
 
 Keep this board current so planning, delivery, and retrospectives stay effortless.

@@ -34,6 +34,7 @@ Deliver the membership infrastructure that powers subscription checkout, entitle
 - [ ] Align Supabase schema for entitlements with backend team.
 - [ ] Review legal and compliance dependencies (taxes, invoices, GDPR) per PRD.
 - [ ] Sequence checkout UX updates with frontend owners.
+- [ ] Coordinate wallet enablement scope with `TSK-PLAT-032` and `TSK-PLAT-033` to ensure Apple Pay / Google Pay readiness aligns with subscription launch.
 
 ## Definition of Done
 - [ ] Checkout flows implemented with Stripe + PayU integrations, including edge cases and retries.

@@ -1,35 +1,42 @@
 # Frontend · AGENTS Guide
 
-Clarivum’s frontend lives under `src/` using the Next.js App Router. Follow this guide when working on application code.
+Clarivum's frontend lives under `src/` using the Next.js App Router. Treat every addition as a reusable module that respects the ViewModel, Manager, and Coordinator separation.
 
-## Structure & routing
+## Architectural roles
 
-- Directory layout follows App Router conventions: route segments under `src/app/`.
-- Use server components by default; introduce client components only when interactivity requires it.
-- Maintain vertical taxonomy alignment with `docs/PRDs/clarivum_brand.md` and the sitemap in `first_configuration.md`. Route names and slugs must match those docs.
+- **View components** render UI only. They delegate to a ViewModel for state, actions, and derived data. Do not read from services, `process.env`, or `fetch` inside views.
+- **ViewModels** expose typed methods and readonly state. They compose Managers via dependency injection and never import React. Keep each ViewModel in its own file/class.
+- **Managers** hold business rules, data access, and side effects. They coordinate with repositories, APIs, or feature-flag clients while remaining UI-agnostic.
+- **Coordinators** control navigation flow and high-level state transitions across ViewModels. Use them to encapsulate routing logic or multi-step wizards.
+- Prefer composition and protocol-like interfaces over inheritance. Every new capability belongs in a dedicated class under `src/app/<feature>/viewmodels`, `.../managers`, or `.../coordinators`.
 
-## Styling & UI
+## Structure and routing
 
-- Styling uses Tailwind CSS 4. Prefer utility classes; extract components into shared files if patterns repeat.
-- Follow brand colors and CTA patterns defined in `docs/PRDs/clarivum_brand.md` and `brand_design_system.md`.
+- Keep route segments under `src/app/` and mirror taxonomy from `docs/PRDs/clarivum_brand.md` and `first_configuration.md`.
+- Shared UI should live under `src/components/` (or feature `components/`) with one component per file under 200 lines.
+- Client components are opt-in; default to server components. When client-side state is required, wrap it in a thin component that still consumes a ViewModel instance.
+- Do not grow files past 400 lines. Break large features into subfolders (`view`, `viewmodel`, `manager`, `coordinator`, `ui`) as soon as they approach 200 lines per class.
 
-## Data & integrations
+## Styling and accessibility
 
-- Until Supabase data access is implemented, prefer typed placeholder data with clear TODOs referencing the relevant ADR or task.
-- When integrating APIs or background jobs, ensure contracts align with ADR-001 (Supabase), ADR-003 (queues), and ADR-004 (observability).
-- Consult Context7 for Next.js/React/Tailwind best practices before adopting new APIs.
+- Rely on Tailwind CSS 4 utility classes. Promote repeated patterns into composable class factories or dedicated components.
+- Enforce accessibility up front: semantic HTML, ARIA roles, focus management, and keyboard flows. ViewModels should expose methods that simplify a11y (e.g., `toggleAnnouncement()` rather than DOM mutations).
+- Align with brand tokens from `docs/PRDs/clarivum_brand.md` and `brand_design_system.md`; fetch updates via Context7 before introducing new utilities.
 
-## Telemetry
+## Data, telemetry, and guardrails
 
-- Instrument meaningful spans and metrics per ADR-004. Even for UI-only changes, ensure logging/analytics hooks remain intact.
-- Surface Core Web Vitals issues and keep p95/p99 targets from `docs/README.md` in mind (p95 < 300 ms, p99 < 800 ms).
+- Managers wrap all network access. Stub or inject them in tests to keep ViewModels deterministic.
+- Surface analytics, OTel spans, and Core Web Vitals metrics through Managers so they can be swapped or tested. Keep p95 < 300 ms and p99 < 800 ms as per `docs/README.md`.
+- Follow the Sisu Debugging and Kaizen rituals: every meaningful frontend change must ship with at least one guardrail (test, lint rule, script, or alert) and log the improvement in `#kaizen-minute` / `#sisu-log`.
+- For placeholder data, create typed fixtures inside `__fixtures__/` and reference the governing task/ADR in a TODO comment.
 
-## Developer checklist
+## Workflow checklist
 
-- [ ] Update or create components in TypeScript with strict typing.
-- [ ] Add accessibility attributes (semantic tags, `aria` labels) for new UI.
-- [ ] Run `npm run lint` before submitting changes.
-- [ ] Update docs if routes or user flows change (e.g., sitemap or runbooks).
-- [ ] Verify any new library usage against Context7 documentation.
+- [ ] Define or update ViewModel/Manager/Coordinator classes for new flows; inject dependencies via constructors.
+- [ ] Keep functions under 30 lines and classes under 200 lines; split once they trend above those thresholds.
+- [ ] Add automated guardrails (unit test, lint rule, or monitoring hook) before merging.
+- [ ] Run `npm run lint`, `npm run typecheck`, and all relevant scripts; resolve warnings to zero.
+- [ ] Update documentation (PRD, runbook, guide) and tasks with links back to Kaizen entries.
+- [ ] Validate new library usage by calling `context7__resolve-library-id` → `context7__get-library-docs` before adoption.
 
-Add new section(s) to this guide if additional tooling or architectural layers are introduced under `src/`.
+Extend this guide whenever new tooling or architectural layers appear under `src/`.

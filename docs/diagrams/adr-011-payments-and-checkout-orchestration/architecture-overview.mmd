@@ -4,9 +4,13 @@ flowchart LR
     PaymentsCoordinator --> Stripe["Stripe Payment Element"]
     PaymentsCoordinator --> PayU["PayU Hosted Payments"]
     PaymentsCoordinator --> P24["Przelewy24 Hosted Flow"]
-    Stripe --> Webhooks["Vercel Edge Webhooks"]
+    Stripe --> ApplePay["Apple Pay Wallet"]
+    Stripe --> GooglePay["Google Pay Wallet"]
+    ApplePay --> Webhooks["Vercel Edge Webhooks"]
+    GooglePay --> Webhooks
     PayU --> Webhooks
     P24 --> Webhooks
+    Stripe --> Webhooks
     Webhooks --> SupabaseLedger["Supabase Payment Ledger"]
     SupabaseLedger --> FulfillmentJobs["Fulfillment Background Jobs"]
 ```

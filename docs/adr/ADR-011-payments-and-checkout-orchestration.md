@@ -11,7 +11,7 @@ Status: Accepted
 
 ## Decision
 - Establish a dual-provider strategy:
-  - **Stripe** remains the primary processor for cards, wallets, and subscriptions using the Payment Element flow (`stripe-samples/accept-a-payment` guidance via Context7) to consolidate PCI-sensitive UI inside Stripe Elements.
+- **Stripe** remains the primary processor for cards, wallets, and subscriptions using the Payment Element flow (`stripe-samples/accept-a-payment` guidance via Context7) to consolidate PCI-sensitive UI inside Stripe Elements, including wallet support for Apple Pay and Google Pay once domain and merchant verification is completed (tracked in `tasks/backlog/platform/plat-032-google-pay-wallet.md` and `tasks/backlog/platform/plat-033-apple-pay-wallet.md`).
   - **PayU** serves as the aggregator for Polish local methods (BLIK, pay-by-link, deferred payments) leveraging documented BLIK integrations (`developers_payu_com-europe-docs` references to `payMethods` types `PBL` and `BLIK_AUTHORIZATION_CODE`).
   - **Przelewy24** provides redundant pay-by-link coverage and Google Pay fallback per the REST integration docs (Context7 `/developers_przelewy24_pl` transaction registration and hosted form snippets).
 - Build a `PaymentsCoordinator` service that abstracts provider routing:

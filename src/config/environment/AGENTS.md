@@ -1,7 +1,8 @@
 # Environment Configuration · AGENTS Guide
 
-Environment management code lives here. Treat the environment as a first-class dependency so other layers can remain agnostic about deployment topology.
+Environment management code lives here. Treat the environment as a first-class dependency so other layers can stay agnostic about deployment topology.
 
-- Use `Environment` to represent a concrete deployment (`dev`, `prod`) and gate logic through its methods rather than ad-hoc string checks.
-- `EnvironmentManager` is the single entry point for resolving the active environment from `process.env`. Inject alternatives in tests when needed.
-- Keep additional adapters (flags, analytics, APIs) environment-agnostic by accepting an `Environment` instance instead of reading globals.
+- Model each deployment (`dev`, `preview`, `prod`, etc.) as an `Environment` class with explicit capabilities (e.g., `supportsPreviewFeatures()`).
+- `EnvironmentManager` is the only class that reads raw variables. Validate inputs eagerly, emit descriptive errors, and expose typed getters. Provide test doubles via dependency injection.
+- Downstream adapters (feature flags, analytics, payments) must accept an `Environment` instance and remain oblivious to `process.env`.
+- Add unit tests for every new branch or capability and log the guardrail in `#kaizen-minute`. Link the Sisu Debugging entry if the change comes from an incident.

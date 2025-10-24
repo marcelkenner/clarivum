@@ -9,5 +9,6 @@ Each guide helps a specific discipline ramp quickly on Clarivum. Start here, the
 - `qa.md` – Testing strategy, tooling, and CI guardrails.
 - `business-analyst.md` – Senior Business/System Analyst playbook covering flows, copy, and documentation sources.
 - `planning.md` – Intake, slicing, and cross-functional task workflow guidance.
+- `continuous-improvement.md` – Kaizen/Sisu cadence (daily 6+1, Forest Days, seasonal focus, metrics, guardrail rituals).
 
 If a workflow is missing or unclear, open an issue titled `[Docs] <topic>` or drop a note in `#clarivum-dev` (Slack) so we can add it quickly.

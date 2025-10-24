@@ -9,6 +9,8 @@ Agents editing the `docs/` tree should follow this guidance to keep Clarivum’s
 - `docs/architecture.md` mirrors the current C4 view; update it whenever components, data flows, or SLO alignments change.
 - Architecture decisions live in `docs/adr/`. New decisions require a dedicated ADR using `_template.md`; superseded ones must link forward/backward.
 - Role-specific playbooks live in `docs/role-guides/`; update those when process changes affect a discipline.
+- The continuous improvement cadence and vocabulary reside in `docs/role-guides/continuous-improvement.md`; keep it paired with the root `AGENTS.md` guidance and the `docs/runbooks/sisu-debugging.md` playbook.
+- Ritual playbooks live in `docs/playbooks/` (`kaizen-minute.md`, `metsa-cadence.md`); update them whenever the cadence or metrics change.
 - **Use Context7 for any library or platform references** so documentation cites current guidance.
 - Point to `tasks/README.md` whenever documentation work generates actionable follow-ups and keep `tasks/status-summary.md` updated for stakeholders.
 - Reference `docs/role-guides/planning.md` when introducing new workflows or ceremonies.
@@ -22,6 +24,7 @@ Agents editing the `docs/` tree should follow this guidance to keep Clarivum’s
 - Enforce the sequencing defined in `docs/policies/work-intake-workflow.md` whenever you add or update documentation.
 - Validate diagram coverage with `npm run lint:diagrams` before opening a PR; the linter blocks merges when ADRs lack required artifacts.
 - Run `npm run lint:docs` before submitting doc changes to confirm PRDs ↔ ADRs ↔ tasks remain connected.
+- Update Kaizen/Sisu artifacts together: the playbook (`docs/role-guides/continuous-improvement.md`), Sisu Debugging runbook, `tasks/status-summary.md`, and Slack channels `#kaizen-minute` / `#sisu-log` must stay in sync when cadence or metrics change.
 
 ## Key documents & triggers
 

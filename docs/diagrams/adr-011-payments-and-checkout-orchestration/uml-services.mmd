@@ -8,6 +8,8 @@ classDiagram
         +createPaymentIntent(data)
         +attachPaymentMethod()
         +confirm()
+        +enableWallets(domains)
+        +tagWalletMetadata(intent)
     }
     class PayuPaymentManager {
         +registerOrder(data)

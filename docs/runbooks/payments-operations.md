@@ -52,6 +52,20 @@
 3. **Signature health:** Automate SHA384 checksum validation inside `P24PaymentManager`.
 4. **Dashboard access:** Finance partner monitors settlement batches.
 
+### Wallets (Apple Pay & Google Pay via Stripe Payment Element)
+1. **Enable payment methods:** Toggle Apple Pay and Google Pay in Stripe Dashboard → Payment Methods; ensure wallet capability matches country/currency strategy (`TSK-PLAT-032`, `TSK-PLAT-033`).
+2. **Domain verification:** Upload the `apple-developer-merchantid-domain-association` file to Vercel for each storefront domain; verify in Stripe and Apple Developer account. For Google Pay, confirm domain is registered in Stripe and Przelewy24 per redundancy plan.
+3. **Certificates & merchant IDs:** Generate Apple Pay Merchant ID and Payment Processing certificate (valid 2 years). Store private keys securely in Secrets Manager; document rotation reminders.
+4. **Client integration:** Expose wallet buttons through Stripe Payment Element configuration:
+   ```typescript
+   const stripe = await getStripeClient();
+   const options = {appearance, paymentMethodOrder: ["apple_pay", "google_pay", "card"]};
+   const elements = stripe.elements(options);
+   ```
+   Confirm fallback to standard card entry when wallets unavailable.
+5. **Testing:** Execute sandbox flows—Apple Pay via Safari developer tools (iOS simulator) and Google Pay via Chrome test environment. Capture payment intent IDs for audit trail.
+6. **Observability:** Tag wallet transactions (`payment_method_details[wallet]`) and surface metrics in payments dashboards; update reconciliation scripts to include wallet metadata.
+
 ## Operational run cadence
 - **Daily:** Check webhook failure dashboard; retry via `PaymentsCoordinator.retryFailedWebhooks(provider)`.
 - **Weekly:** Reconcile payouts vs Supabase ledger (see next section).
@@ -88,4 +102,5 @@
 - Store only provider IDs and status in Supabase; never persist raw PAN/BLIK codes.
 
 ## Change log
+- **2025-10-27:** Added Apple Pay / Google Pay wallet onboarding steps and cross-references to TSK-PLAT-032/033.
 - **2025-10-23:** Initial runbook covering provider onboarding, reconciliation, refunds, and incident handling.

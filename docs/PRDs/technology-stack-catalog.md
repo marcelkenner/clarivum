@@ -38,8 +38,8 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 
 ### Content, messaging & engagement
 - **Strapi v5 (MIT)** – Headless CMS for editorial workflows (ADR-010).
-- **Listmonk (AGPLv3 self-hosted)** – Lifecycle mailing engine deployed on AWS ECS Fargate (ADR-013, `docs/runbooks/mailing-operations.md`).
-- **Amazon SES (Commercial)** – Outbound SMTP provider backing Listmonk campaigns and transactional messaging.
+- **Listmonk (AGPLv3 self-hosted)** – Lifecycle mailing engine deployed on AWS ECS Fargate (ADR-013, `docs/runbooks/mailing-operations.md`). Implementation tracked in `tasks/backlog/platform/plat-029-listmonk-infrastructure.md` (TSK-PLAT-029).
+- **Amazon SES (Commercial)** – Outbound SMTP provider backing Listmonk campaigns and transactional messaging. Implementation tracked in `tasks/backlog/platform/plat-030-amazon-ses-tenancy.md` (TSK-PLAT-030).
 - **Novu (MIT self-hosted)** – Multi-channel notification orchestration (in-app inbox, email, SMS) integrated via `NotificationManager` (ADR-012); deployed on AWS ECS with Terraform-managed secrets.
 - See `docs/runbooks/communication-channel-selection.md` for when to route messages through Novu versus Listmonk.
 
@@ -58,12 +58,14 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 - **Grafana OSS Stack (AGPL/Apache mix)** – Loki, Tempo, Prometheus dashboards for reliability KPIs. Implementation tracked in `tasks/backlog/platform/plat-017-grafana-observability-stack.md` (TSK-PLAT-017).
 - **Vitest + Testing Library (MIT)** – Unit and component testing harness.
 - **Playwright (Apache 2.0)** – Cross-browser E2E automation for primary funnels.
-- **Lighthouse CI (Apache 2.0)** – Performance regression checks within CI pipelines.
+- **Lighthouse CI (Apache 2.0)** – Performance regression checks within CI pipelines. Implementation tracked in `tasks/backlog/frontend/fe-015-lighthouse-ci-automation.md` (TSK-FE-015).
 
 ### Payments & revenue operations
 - **Stripe (Commercial)** – Global card payments, subscriptions, and taxes (ADR-011, `docs/runbooks/payments-operations.md`).
 - **PayU (Commercial)** – Polish local payment methods including BLIK (ADR-011).
-- **Przelewy24 (Commercial)** – Redundant pay-by-link and Google Pay flows (ADR-011).
+- **Przelewy24 (Commercial)** – Redundant pay-by-link and Google Pay flows (ADR-011). Implementation tracked in `tasks/backlog/platform/plat-031-przelewy24-integration.md` (TSK-PLAT-031).
+- **Google Pay (Stripe + Przelewy24)** – Wallet checkout support delivered via Stripe Payment Element with Przelewy24 fallback. Implementation tracked in `tasks/backlog/platform/plat-032-google-pay-wallet.md` (TSK-PLAT-032).
+- **Apple Pay (Stripe Payment Element)** – Wallet checkout for Safari/iOS customers. Implementation tracked in `tasks/backlog/platform/plat-033-apple-pay-wallet.md` (TSK-PLAT-033).
 
 ### Deployment & infrastructure automation
 - **Vercel (Commercial)** – Primary hosting platform for the Next.js application.
