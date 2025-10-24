@@ -32,6 +32,7 @@ const created = [];
 
 try {
   await ensureAgents(repoRoot);
+  await ensureLightningcssWasmShim();
   if (created.length > 0) {
     console.log(
       `[ensure-agents] Generated AGENTS.md for: ${created
@@ -43,6 +44,40 @@ try {
   console.error("[ensure-agents] Failed to ensure AGENTS.md files.");
   console.error(error);
   process.exitCode = 1;
+}
+
+async function ensureLightningcssWasmShim() {
+  const lightningcssDir = path.join(repoRoot, "node_modules", "lightningcss");
+  const wasmPackage = path.join(repoRoot, "node_modules", "lightningcss-wasm");
+
+  try {
+    const [cssStat, wasmStat] = await Promise.all([
+      fs.stat(lightningcssDir),
+      fs.stat(wasmPackage),
+    ]);
+    if (!cssStat.isDirectory() || !wasmStat.isDirectory()) {
+      return;
+    }
+  } catch {
+    return;
+  }
+
+  const shimDir = path.join(lightningcssDir, "pkg");
+  const shimFile = path.join(shimDir, "index.js");
+  const shimContents = "module.exports = require(\"lightningcss-wasm\");\n";
+
+  await fs.mkdir(shimDir, { recursive: true });
+
+  try {
+    const existing = await fs.readFile(shimFile, "utf8");
+    if (existing === shimContents) {
+      return;
+    }
+  } catch {
+    // File missing – create it below.
+  }
+
+  await fs.writeFile(shimFile, shimContents, "utf8");
 }
 
 async function ensureAgents(directory) {
