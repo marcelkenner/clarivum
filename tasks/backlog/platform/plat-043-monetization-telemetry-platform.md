@@ -57,6 +57,8 @@ Deliver the edge services, background workers, and reconciliation tooling that c
 - [ ] Metrics/dashboards live (Grafana, Plausible, Looker) with CTR, RPM, and revenue variance tracking.
 - [ ] Synthetic monitors and Playwright tests validate redirect pipeline end-to-end.
 - [ ] Runbooks (`docs/runbooks/affiliate-ad-ops.md`, `docs/runbooks/analytics-qa.md`) updated with operational steps.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Work Plan
 - [ ] **Schema & Infrastructure** — Implement Supabase migrations, secrets, and edge deployment scaffolding.

@@ -46,3 +46,5 @@ Wire the Ops Hub proxy layer to Strapi, Supabase, Listmonk, SES, Novu, Stripe, P
 - [ ] Grafana panels embedded with signed requests; Plausible and GitHub data surfaced where required.
 - [ ] Comprehensive tests (unit + integration) plus recorded fixtures for sandbox interactions.
 - [ ] Documentation updates: PRD references checked, runbook sections for troubleshooting each integration added.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

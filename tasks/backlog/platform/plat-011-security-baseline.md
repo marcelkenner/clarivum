@@ -41,3 +41,5 @@ Implement the controls, monitoring, and processes outlined in the security PRD a
 - [ ] Vulnerability management workflow documented and active.
 - [ ] DPIA/RoPA artifacts updated; legal notified of completion.
 - [ ] Follow-up improvements logged with owners and timelines.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

@@ -42,3 +42,5 @@ Create the shared Clarivum component library with brand-aligned tokens, accessib
 - [ ] Analytics hooks + feature flag integration available for downstream use.
 - [ ] Storybook stories published with usage guidelines and design references.
 - [ ] Follow-up backlog captured for additional components and variant support.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

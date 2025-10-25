@@ -43,3 +43,5 @@ Add Przelewy24 as a first-class Clarivum payment option, covering contract onboa
 - [ ] Webhook handlers deployed with idempotency, signature validation, and alerting for failure scenarios.
 - [ ] Finance reporting and reconciliation exports validated end-to-end.
 - [ ] Support documentation and incident response playbooks updated; follow-up items logged for optimizations or new payment methods.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

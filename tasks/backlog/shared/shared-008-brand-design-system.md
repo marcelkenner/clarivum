@@ -41,3 +41,5 @@ Translate the Clarivum brand system into consumable design tokens, documentation
 - [ ] Brand review workflow established with tooling for QA (checklists, templates).
 - [ ] Documentation refreshed across PRDs, ADRs, and marketing collateral.
 - [ ] Follow-up tasks created for future iterations (v1.1 accents, motion updates).
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

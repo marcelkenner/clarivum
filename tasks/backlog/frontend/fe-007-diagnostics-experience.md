@@ -41,3 +41,5 @@ Deliver the reusable diagnostics flow, question rendering, and scoring visuals s
 - [ ] Accessibility, localization, and performance checks completed.
 - [ ] Documentation updated (PRD notes, Storybook, runbooks).
 - [ ] Backlog populated for future quizzes and optimizations.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

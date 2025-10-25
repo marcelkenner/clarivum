@@ -39,7 +39,7 @@ tags: [<keyword>, ...]
 
 - `## Summary` — one paragraph describing the outcome/user value.
 - `## Definition of Ready` — checklist aligned with stakeholders.
-- `## Definition of Done` — checklist covering tests, docs, sign-offs.
+- `## Definition of Done` — checklist covering tests, docs, sign-offs. Include an explicit acceptance criterion that all relevant README.md, AGENTS.md, and ADR documents are reviewed and updated.
 - Optional: `## Notes`, `## Risks`, `## Follow-ups`.
 - Keep checklists actionable and reference source documents.
 

@@ -35,6 +35,8 @@ Introduce an interaction-focused Vitest suite that covers client components and 
 - [ ] `npm run test:interaction` (or similar) wired into CI `ci.yml`.
 - [ ] Documentation updated (`tests/AGENTS.md`, relevant role guides) to outline when to use the suite.
 - [ ] Follow-up tasks created for remaining flows not covered by the initial interaction specs.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Notes
 - Coordinate with QA-001 (Playwright smoke) to avoid duplicate coverage.

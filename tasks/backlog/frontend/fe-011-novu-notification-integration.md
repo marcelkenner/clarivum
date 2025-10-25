@@ -39,3 +39,5 @@ Extend the React notification layer so `NotificationManager` dispatches Sonner t
 - [ ] Telemetry events (`notification.triggered`, `notification.delivered`) captured and visualized in dashboards.
 - [ ] Storybook stories demonstrate usage patterns; documentation updated in `docs/design-system/notifications.md`.
 - [ ] Follow-up tickets filed for additional channel logic (SMS, in-app inbox UI) or localization needs.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

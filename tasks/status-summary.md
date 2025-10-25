@@ -73,10 +73,16 @@ Generated 2025-10-25 via `npm run tasks:summary`.
 - `sprint-01` · Sprint 01 Plan — Owner: Unassigned; Effort: unspecified; Updated: 2025-10-24 ([link](docs/PRDs/first_steps.md))
 - `sprint-02` · Sprint 02 Plan — Owner: Unassigned; Effort: unspecified; Updated: 2025-10-24 ([link](docs/PRDs/requierments/frontend-platform/feature-requirements.md))
 - `sprint-03` · Sprint 03 Plan — Owner: Unassigned; Effort: unspecified; Updated: 2025-10-24 ([link](docs/PRDs/requierments/strapi/setup.md))
+- `sprint-04` · Sprint 04 Plan — Owner: Unassigned; Effort: unspecified; Updated: 2025-10-27 ([link](docs/AGENTS.md))
+- `sprint-05` · Sprint 05 Plan — Owner: Unassigned; Effort: unspecified; Updated: 2025-10-27 ([link](docs/PRDs/requierments/operations-hub/feature-requirements.md))
+- `sprint-06` · Sprint 06 Plan — Owner: Unassigned; Effort: unspecified; Updated: 2025-10-27 ([link](docs/PRDs/requierments/subscriptions/feature-requirements.md))
+- `sprint-07` · Sprint 07 Plan — Owner: Unassigned; Effort: unspecified; Updated: 2025-10-27 ([link](docs/adr/ADR-012-notification-experience-and-toasts.md))
+- `sprint-08` · Sprint 08 Plan — Owner: Unassigned; Effort: unspecified; Updated: 2025-10-27 ([link](docs/adr/ADR-033-advertising-and-affiliate-telemetry.md))
+- `sprint-09` · Sprint 09 Plan — Owner: Unassigned; Effort: unspecified; Updated: 2025-10-27 ([link](docs/PRDs/requierments/homepage/feature-requirements.md))
 - `TSK-SHARED-001` · Consolidate Outstanding Clarivum Decisions — Owner: Product (TBD); Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md))
 - `TSK-SHARED-002` · Finalize Pre-Project Technical Readiness Document — Owner: Program Lead; Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md))
 - `TSK-SHARED-004` · Launch Newsletter & Lifecycle Capture Program — Owner: Lifecycle Marketing Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/newsletter/feature-requirements.md))
-- `TSK-SHARED-005` · Publish Cosmetic Ingredients Glossary — Owner: Content Strategist; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/glossary/cosmetic-ingredients-glossary.md))
+- `TSK-SHARED-005` · Publish Cosmetic Ingredients Glossary — Owner: Content Strategist; Effort: medium; Updated: 2025-10-25 ([link](docs/PRDs/requierments/glossary/cosmetic-ingredients-glossary.md))
 - `TSK-SHARED-006` · Deliver Legal & Compliance Surfaces — Owner: Legal Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/legal/feature-requirements.md))
 - `TSK-SHARED-007` · Implement Blog Information Architecture — Owner: Content Strategist; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/blog_structure.md))
 - `TSK-SHARED-008` · Operationalize Brand Design System v1.0 — Owner: Design Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/brand_design_system.md))
@@ -106,8 +112,7 @@ Generated 2025-10-25 via `npm run tasks:summary`.
 
 ## In Progress
 
-### Platform
-- `TSK-PLAT-003` · Implement OpenTelemetry Baseline — Owner: Observability Champion; Effort: medium; Updated: 2025-10-25 ([link](docs/adr/ADR-004-observability-stack.md))
+_No tasks._
 
 ## Blocked
 
@@ -119,6 +124,7 @@ _No tasks._
 - `TSK-FE-001` · Bootstrap Vitest Unit Testing — Owner: Frontend Lead; Effort: medium; Updated: 2025-11-03 ([link](AGENTS.md))
 
 ### Platform
+- `TSK-PLAT-003` · Implement OpenTelemetry Baseline — Owner: Observability Champion; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-004-observability-stack.md))
 - `TSK-PLAT-044` · Integrate Testing Suites into CI Pipeline — Owner: Platform Tech Lead; Effort: medium; Updated: 2025-10-25 ([link](docs/adr/ADR-015-testing-strategy.md))
 
 ### Business

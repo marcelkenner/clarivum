@@ -41,3 +41,5 @@ Implement the end-to-end ebook delivery flow—catalog metadata, purchase gating
 - [ ] Signed URL delivery with configurable TTL and watermarking verified.
 - [ ] Lifecycle notifications and profile access paths operational.
 - [ ] Documentation updated (PRD notes, runbooks, support SOP).
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

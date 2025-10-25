@@ -41,3 +41,5 @@ Create reusable form primitives, schema validation, telemetry, and accessibility
 - [ ] Telemetry hooks integrated with Plausible Analytics (ADR-029) + OpenTelemetry.
 - [ ] Storybook stories and usage guidelines published.
 - [ ] Backlog tasks added for additional field types and advanced cases.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

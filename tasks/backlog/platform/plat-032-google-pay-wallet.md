@@ -43,3 +43,5 @@ Activate Google Pay via Stripe’s Payment Element and Przelewy24 redundancy so 
 - [ ] Webhooks and ledger entries capture wallet-specific metadata; finance reconciliation updated.
 - [ ] Documentation (`docs/runbooks/payments-operations.md`) updated with maintenance steps and troubleshooting; support playbooks notified.
 - [ ] Follow-up tasks filed for expanded locale support or wallet-specific promotions.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

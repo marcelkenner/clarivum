@@ -20,6 +20,14 @@ Status: Accepted
   - Alert thresholds tie back to the error budget policy (50/75/100% burn).
 - Instrument front-end Real User Monitoring (RUM) via Vercel Analytics + custom OTel Web SDK to capture Core Web Vitals segmented by vertical.
 
+## Implementation Notes (2025-10-26)
+
+- The Next.js runtime entrypoints `instrumentation.ts` and `instrumentation.node.ts` delegate to `observability/node-sdk.ts`, which bootstraps a single `NodeSDK` instance with OTLP exporters for traces, metrics, and logs. Services must extend these helpers instead of instantiating their own SDKs to keep resource attributes (`service.name`, `deployment.environment`, `clarivum.vertical`, `clarivum.surface`) consistent.
+- `observability/config.ts` centralizes every telemetry environment variable (Grafana OTLP endpoints, sampler ratios, export intervals, credentials). Any new knob belongs here so we can document it once and fan it out to the server, workers, and proxy layers.
+- Browser/RUM coverage is handled by `instrumentation.client.ts`, which wires `DocumentLoadInstrumentation` and `FetchInstrumentation` into a `WebTracerProvider`. Spans are exported to `/api/observability/v1/traces`, a server-side proxy that enriches headers and forwards payloads to Grafana Tempo without exposing credentials.
+- Required environment variables: `GRAFANA_OTLP_USERNAME` + `GRAFANA_OTLP_PASSWORD` (or `GRAFANA_OTLP_BASIC_AUTH`), `OTEL_EXPORTER_OTLP_ENDPOINT` (overridable per signal), `OTEL_TRACE_RATIO`, `OTEL_METRIC_EXPORT_INTERVAL`, `NEXT_PUBLIC_OTEL_SERVICE_NAME`, and `NEXT_PUBLIC_OTEL_PROXY_URL`. These defaults live in `observability/config.ts` and must be overridden per environment during deployment.
+- Background workers (Lambda, queue consumers) share the same helpers—wrapping handlers with the `withTelemetry` template ensures span context, log correlation, and queue-depth metrics flow into Grafana with identical labels.
+
 ## Diagrams
 - [Architecture Overview](../diagrams/adr-004-observability-stack/architecture-overview.mmd) — Unified telemetry pipeline feeding Grafana Cloud Tempo, Prometheus, and Loki.
 - [Data Lineage](../diagrams/adr-004-observability-stack/data-lineage.mmd) — Structure of spans, metrics, and log events with cross-correlation points.

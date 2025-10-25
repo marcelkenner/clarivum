@@ -40,4 +40,5 @@ Stand up the Auth0 tenant, applications, and role mappings required for Clarivum
 - [ ] Secrets distributed via AWS Secrets Manager and CI pipelines; sample `.env.example` updated.
 - [ ] Login flows smoke-tested end-to-end with Next.js dev build and Strapi admin.
 - [ ] Runbooks updated with escalation contacts and incident handling for Auth0 outages.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
 

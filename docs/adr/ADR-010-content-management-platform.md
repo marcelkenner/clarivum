@@ -19,6 +19,9 @@ Status: Accepted
   - Model content types/components according to the Strapi blog requirements, enforcing Draft & Publish, localization, and workflow stages.
   - Expose read-only REST & GraphQL endpoints with API tokens scoped by environment; integrate rate limiting (ADR-006) to shield from abuse.
   - Webhooks trigger Next.js revalidation, Meilisearch indexing (ADR-009), and lifecycle analytics.
+- Encode glossary ↔ product catalog alignment:
+  - Treat the Product Catalog (managed by Merch Ops) as canonical for SKUs/slugs and hydrate ingredient associations into the glossary via a dedicated component.
+  - Run the `ProductIngredientSync` Supabase job every 15 minutes (plus on-demand webhooks) to transform catalog ingredient tokens, call `normalize_inci`, and upsert Strapi references in both directions (Product → Ingredient, Ingredient → “Products with &lt;ingredient&gt;” view). Editors receive read-only views of the association list; requests for changes funnel through the catalog backlog.
 - Bundle custom admin extensions (e.g., medical review tools) as Strapi plugins stored in `cms/plugins/`, built into the admin panel during `yarn build`.
 - Manage secrets via AWS Secrets Manager (ADR-007) injected at runtime through ECS task definitions and CI pipelines.
 
@@ -36,3 +39,4 @@ Status: Accepted
   - Document editorial onboarding and role permissions in `docs/role-guides/editorial.md`.
   - Implement automated schema diffs to surface breaking changes during PR review.
   - Establish SLA for webhook processing and add alerting for failed revalidation/indexing jobs.
+- **Catalog alignment:** Glossary SLOs now depend on `ProductIngredientSync`; add dashboards for sync freshness and include catalog owners in on-call escalations when association coverage drops below target.

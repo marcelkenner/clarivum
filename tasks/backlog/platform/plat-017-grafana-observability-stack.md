@@ -41,3 +41,5 @@ Deploy the Grafana Tempo, Loki, and Prometheus stack (managed or self-hosted), c
 - [ ] Core dashboards (Web Vitals, API latency, subscription funnel) published and shared.
 - [ ] Alert policies created and tested with simulated incidents; `docs/runbooks/observability-operations.md` updated and shared with on-call engineers.
 - [ ] Follow-up items filed for synthetic monitoring and cost optimization.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

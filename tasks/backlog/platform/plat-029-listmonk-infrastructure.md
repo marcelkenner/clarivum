@@ -44,3 +44,5 @@ Deploy Listmonk as a hardened AWS ECS service with PostgreSQL storage, network i
 - [ ] Health checks, HTTPS termination, logging, and dashboards configured; runbooks updated with deployment and recovery procedures.
 - [ ] Listmonk admin initialized with RBAC, SMTP connectivity verified (via SES task), and smoke-tested newsletter + automation flows.
 - [ ] Follow-up tasks filed for advanced analytics integrations or localization requirements discovered during rollout.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

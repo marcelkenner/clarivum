@@ -59,6 +59,8 @@ Design and implement the Account Center entitlement shelf with downloadable card
 - [ ] Documentation updated in `docs/runbooks/account-claiming.md` (screenshots, helper text) and release notes prepared.
 - [ ] Lighthouse accessibility and performance scores ≥90 for shelf route in staging.
 - [ ] Translations or pseudo-localization tested for dynamic strings (if localization toggled on).
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Work Plan
 - [ ] **Data Layer** — Implement server action to fetch entitlements, normalize status, and hydrate view model.

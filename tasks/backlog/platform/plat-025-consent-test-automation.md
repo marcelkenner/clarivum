@@ -38,3 +38,5 @@ Implement automated checks that verify Klaro consent states block non-essential 
 - [ ] Flagsmith trait updates asserted and logged in tests.
 - [ ] CI pipeline step fails when consent script fails to load or tests regress.
 - [ ] Results documented in `docs/runbooks/cookie-consent-operations.md` and shared with QA/analytics.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

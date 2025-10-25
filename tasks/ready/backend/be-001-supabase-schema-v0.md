@@ -38,6 +38,8 @@ Establish the initial Supabase (Postgres) schema, migrations, and indexing plan 
 - [ ] ADR addendum or new ADR summarizing trade-offs and future considerations.
 - [ ] Seed/fixture script committed for CI and local testing.
 - [ ] Documentation updates merged (`docs/architecture.md`, relevant runbooks).
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Notes
 Prereqs are locked; coordinate implementation sequencing with DevOps (Terraform task) to ensure infra alignment.

@@ -58,6 +58,8 @@ Build the backend and automation required to support guest ebook purchases that 
 - [ ] Runbooks updated (`docs/runbooks/ebooks-fulfillment.md`, `docs/runbooks/account-claiming.md`) and support tooling exposes resend claim action.
 - [ ] Metrics and alerts emit claim conversion funnel data; dashboards updated in `metrics/flow.json` or similar.
 - [ ] `npm run ebooks:claim-smoke` added/updated to validate end-to-end guest purchase → claim → shelf hydration.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Work Plan
 - [ ] **Schema** — Apply Supabase migration adding `pending_claim_token`, `status`, timestamps, history table.

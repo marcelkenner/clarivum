@@ -57,6 +57,8 @@ Implement a durable fulfillment orchestrator, monitoring, and reconciliation too
 - [ ] Daily reconciliation script compares Stripe payments, Supabase entitlements, and email receipts; discrepancies auto-create Kaizen issue.
 - [ ] End-to-end smoke test (`npm run ebooks:fulfillment-smoke`) validates successful payment results in receipt email + shelf visibility within SLA.
 - [ ] Documentation updated (ADR-032 consequences, runbook guardrails) and support team trained.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Work Plan
 - [ ] **Model & Migration** — Create Supabase tables for jobs and events; enforce unique payment intent constraint.

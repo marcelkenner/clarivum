@@ -41,3 +41,5 @@ Provision Flagsmith projects for dev and prod, define environment defaults, and 
 - [ ] SDK credentials stored securely and injected into dev and prod builds through CI.
 - [ ] Sample feature flag wired into Next.js dev environment behind guard to validate evaluation paths.
 - [ ] Follow-up backlog items captured for experimentation dashboards or additional tooling.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

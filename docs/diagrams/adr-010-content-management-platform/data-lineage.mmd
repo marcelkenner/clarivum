@@ -31,4 +31,24 @@ erDiagram
     DIAGNOSTIC_COPY ||--o{ LOCALIZATION : supports
     ARTICLE ||--o{ ASSET : embeds
     EBOOK ||--o{ ASSET : bundles
+    GLOSSARY_ENTRY {
+        uuid id
+        string slug
+        string inci_name
+        int product_count
+    }
+    PRODUCT {
+        uuid id
+        string sku
+        string slug
+        string status
+    }
+    PRODUCT_INGREDIENT {
+        uuid id
+        string product_sku
+        string ingredient_slug
+        datetime last_synced_at
+    }
+    PRODUCT ||--o{ PRODUCT_INGREDIENT : contains
+    GLOSSARY_ENTRY ||--o{ PRODUCT_INGREDIENT : links
 ```

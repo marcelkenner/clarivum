@@ -41,6 +41,8 @@ Create the Next.js App Router folder structure, dynamic segments, and placeholde
 - [ ] Shared layouts, metadata files, and sitemap/robots handlers scaffolded with TODO markers for future content.
 - [ ] Documentation in `docs/architecture.md` updated with routing diagram and extension points.
 - [ ] Follow-up tasks logged for content loaders, navigation data sources, and individual vertical UI work.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Notes
 Keep each file under 200 lines by splitting responsibilities into view models, managers, and coordinators from the outset to match Clarivum’s modular design principles.

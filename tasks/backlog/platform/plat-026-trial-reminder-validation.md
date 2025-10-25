@@ -39,3 +39,5 @@ Configure automated and manual tests that ensure 14-day trials trigger reminder 
 - [ ] Monitoring/alerting added for missing reminders (e.g., Novu workflow failures).
 - [ ] Support and lifecycle teams briefed; documentation updated with escalation steps.
 - [ ] Checklist item in subscription PRD marked as satisfied with test evidence linked.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

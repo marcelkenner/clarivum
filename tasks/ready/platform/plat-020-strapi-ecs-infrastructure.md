@@ -42,3 +42,5 @@ Build Terraform-managed AWS infrastructure for Strapi v5, including ECS services
 - [ ] CloudWatch log groups, metrics, and alarms created; alerts wired to incident response channel.
 - [ ] Deployment runbook updated with rollout/rollback procedures and health-check endpoints.
 - [ ] Follow-up tasks logged for cost optimization or multi-region resiliency if needed.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

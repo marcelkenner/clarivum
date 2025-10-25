@@ -44,3 +44,5 @@ Implement the shared SEO platform layer for Clarivum: metadata factory, structur
 - [ ] `npm run validate` extended to fail when metadata or schema requirements missing on indexable routes.
 - [ ] Core Web Vitals telemetry streamed to Plausible/custom endpoint; regression thresholds documented.
 - [ ] Documentation updated (README snippets) and knowledge share recorded; follow-up tickets logged for additional schema types.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

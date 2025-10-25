@@ -42,3 +42,5 @@ Implement a GitHub Actions workflow that opens the monthly Forest Day task with 
 - [ ] Documentation (`docs/playbooks/metsa-cadence.md`, `docs/AGENTS.md`) updated with trigger behavior and recovery steps.
 - [ ] Notifications configured (e.g., Slack message or GitHub mention) when the issue opens.
 - [ ] Follow-up backlog captured for enhancements such as automated assignee rotation or retrospective summaries.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

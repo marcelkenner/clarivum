@@ -44,3 +44,5 @@ Deliver the ingestion, governance, and presentation workflow for coupons and aff
 - [ ] Analytics (Plausible per ADR-029) capture impressions, clicks, redemptions.
 - [ ] `docs/runbooks/mission-moderation.md`, `docs/runbooks/feature-flags-operations.md`, and `docs/runbooks/background-jobs.md` updated with operating procedures and escalation steps.
 - [ ] Follow-up tasks filed for automation or partner-specific enhancements.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

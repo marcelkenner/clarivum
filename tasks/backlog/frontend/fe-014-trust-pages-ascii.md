@@ -44,3 +44,5 @@ Translate the ASCII blueprints for the homepage and trust utilities into product
 - [ ] Performance checks conducted (Core Web Vitals, image budgets) and documented.
 - [ ] Analytics, feature flags, and experiment hooks wired per PRD requirements.
 - [ ] Documentation updated with component usage guidance and future iterations logged.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

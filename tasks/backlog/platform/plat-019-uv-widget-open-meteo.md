@@ -43,3 +43,5 @@ Create the `/api/tools/uv-widget` service pipeline that calls Open-Meteo, applie
 - [ ] Feature flag + configuration toggles documented and covered with unit/integration tests.
 - [ ] `docs/runbooks/tools-platform-operations.md` updated with failure modes and manual failover steps.
 - [ ] DataDog monitors live for error rate, latency, and fallback percentage.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

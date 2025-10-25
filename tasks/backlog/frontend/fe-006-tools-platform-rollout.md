@@ -53,3 +53,5 @@ Implement the shared tools platform along with the initial calculator portfolio 
 - [ ] Server integrations (Supabase, external APIs) operational where required.
 - [ ] Documentation updated (PRDs annotated, runbooks, Storybook stories).
 - [ ] Backlog captured for iterative improvements and future tool ideas.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

@@ -40,4 +40,5 @@ Create Upstash Redis instances, secrets, and observability hooks that power Clar
 - [ ] Cache and rate-limit libraries configured with environment variables and smoke-tested in dev.
 - [ ] Grafana dashboards populated with key metrics; runbook updated with provisioning notes.
 - [ ] Follow-up backlog tasks opened for cache warmers or advanced invalidation automation.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
 

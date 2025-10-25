@@ -40,4 +40,5 @@ Stand up Meilisearch Cloud projects, baseline indexes, and ingestion pipelines s
 - [ ] Webhooks or ingestion jobs wired to refresh indexes on publish and unpublish events.
 - [ ] Search operations runbook updated with tenant specifics and swap procedures.
 - [ ] Follow-up tasks captured for advanced analytics, personalization, or A/B testing needs.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
 

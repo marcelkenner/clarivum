@@ -43,3 +43,5 @@ Create scheduled scripts and storage that populate `metrics/flow.json`, `metrics
 - [ ] `metrics/README.md` updated with calculation logic, sources, and troubleshooting procedures.
 - [ ] Downstream dashboards or docs wired to consume the new metrics, with stakeholders briefed.
 - [ ] Follow-up tasks filed for advanced visualizations or additional KPIs requested during rollout.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

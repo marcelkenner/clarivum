@@ -42,3 +42,5 @@ Build GitHub Actions workflows that lint, type-check, test, build, and deploy th
 - [ ] Secrets pulled from AWS Secrets Manager during deployment; no plaintext secrets committed.
 - [ ] Monitoring hooks emit deployment events to observability stack; rollback guidance added to deployment runbook.
 - [ ] Follow-up tasks logged for canary rollouts, load testing, or test suite expansion.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

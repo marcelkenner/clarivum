@@ -41,6 +41,8 @@ Create and configure the Terraform codebase that provisions Vercel, Supabase, AW
 - [ ] CI workflow validating format/plan merged.
 - [ ] Deployment runbook and platform role guide updated with IaC usage instructions.
 - [ ] Knowledge-transfer walkthrough scheduled/recorded for engineers.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Notes
 Ready to move forward once repo structure and resource inventory decisions are documented. Coordinate with cost review owner to set tagging/budgeting conventions.

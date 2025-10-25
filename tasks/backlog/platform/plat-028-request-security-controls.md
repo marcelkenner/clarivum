@@ -45,3 +45,5 @@ Implement centralized request security middleware that enforces country access c
 - [ ] Honeypot integration verified across all active forms; spam rate reduced ≥90% vs baseline.
 - [ ] Country block and override workflows documented; runbook tested in staging.
 - [ ] Follow-up tasks logged for vendor evaluation or advanced detection needs.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

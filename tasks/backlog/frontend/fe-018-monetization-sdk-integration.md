@@ -57,6 +57,8 @@ Embed the monetization telemetry SDK across blogs, recommendation modules, coupo
 - [ ] Accessibility audit passes (keyboard focus, ARIA labels, disclosure text).
 - [ ] Documentation updates: `docs/runbooks/affiliate-ad-ops.md` (screenshots) and release notes for marketing/support.
 - [ ] Monitoring dashboards show real traffic from staging smoke tests.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Work Plan
 - [ ] **SDK Wiring** — Integrate `@clarivum/analytics` monetization helpers, add hooks for impression/click dispatch.

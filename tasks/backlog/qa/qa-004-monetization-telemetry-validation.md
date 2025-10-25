@@ -49,6 +49,8 @@ Deliver automated tests and monitors that guarantee ad and affiliate placements 
 - [ ] QA release checklist updated to include monetization instrumentation sign-off.
 - [ ] Documentation added to `docs/runbooks/analytics-qa.md` and QA handbook summarizing steps.
 - [ ] Synthetic monitor dashboards shared with partnerships and ops teams.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Work Plan
 - [ ] Author Playwright helpers to parse Plausible debug API and Supabase logs for recent events.

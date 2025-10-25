@@ -41,3 +41,5 @@ Build the service layer that combines Strapi curation, behavioral signals, and d
 - [ ] Dashboards & alerts configured for impression/click/conversion performance.
 - [ ] Documentation updated (PRD links, runbooks, experimentation guide).
 - [ ] Follow-up experiments and ML roadmap captured as tasks.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

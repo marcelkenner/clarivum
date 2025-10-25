@@ -49,3 +49,5 @@ Configure Strapi v5, content models, workflows, and integrations so editors can 
 - [ ] SSO, RBAC, security middleware (CSP/CORS), and audit logging configured per requirements.
 - [ ] Backup + restore automation tested and logged; editorial workflow documented with training session scheduled.
 - [ ] Follow-up tasks logged for observability, autoscaling, advanced content types, or automation gaps.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

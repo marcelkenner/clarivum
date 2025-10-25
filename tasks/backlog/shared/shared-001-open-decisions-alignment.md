@@ -26,6 +26,8 @@ Collect every open question surfaced across the Clarivum PRDs, requirements, ADR
 - [ ] Decision backlog documented (e.g., worksheet or Notion) with owners, due dates, and next steps per item.
 - [ ] Outcomes logged in corresponding artifacts (requirements docs, ADR updates, runbooks) or follow-up tasks created.
 - [ ] Communication sent to stakeholders summarizing resolved items and highlighting any escalations or blockers.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Notes
 ### Platform & Engineering Decisions

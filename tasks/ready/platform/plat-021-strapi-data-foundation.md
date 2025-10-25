@@ -42,3 +42,5 @@ Provision managed PostgreSQL 15 (RDS) and S3 storage for Strapi across dev and p
 - [ ] IAM policies scoped to ECS tasks, CI, and backup automation without wildcard access.
 - [ ] Backup & restore drill executed; results logged in incident response runbook.
 - [ ] Follow-up tasks logged for cost review, cross-region replication, or data masking if needed.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

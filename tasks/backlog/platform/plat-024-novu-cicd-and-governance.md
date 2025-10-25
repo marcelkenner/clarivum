@@ -41,3 +41,5 @@ Create GitHub Actions workflows and governance standards for Novu workflows, sub
 - [ ] Automated smoke test validates inbox/email delivery against seeded accounts post-deploy.
 - [ ] Change management policy documented covering approvals, rollback, and audit logging.
 - [ ] Follow-up tasks logged for canary rollouts, load testing, or analytics enhancements.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

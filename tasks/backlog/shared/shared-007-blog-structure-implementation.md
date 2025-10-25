@@ -45,3 +45,5 @@ Stand up the category-first blog taxonomy, templates, and CTA strategy so Clariv
 - [ ] Analytics + SEO instrumentation validated (sitemaps, structured data, Plausible).
 - [ ] Documentation updated (PRD notes, brand guidelines, component stories).
 - [ ] Backlog tasks filed for localization and future category expansions.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

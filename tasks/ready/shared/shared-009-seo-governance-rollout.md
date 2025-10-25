@@ -42,3 +42,5 @@ Operationalize Clarivum's SEO governance program by training stakeholders, integ
 - [ ] Metrics ingestion (Search Console -> metrics/*.json) live with alert thresholds defined and shared.
 - [ ] Policy sign-off captured from Platform, Content Ops, Marketing leadership; acknowledgements logged in tasks record.
 - [ ] Forest Day + Kaizen workflows reference new guardrails and follow-up tasks created for remaining gaps.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

@@ -33,6 +33,8 @@ Document and enforce Vitest coverage targets for Clarivum’s shared UI modules 
 - [ ] GitHub issue template or checklist updated so PRs capture coverage deltas automatically.
 - [ ] Backlog follow-ups opened for any component group below agreed thresholds.
 - [ ] QA + frontend signoff recorded in `#clarivum-dev`.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Notes
 - Coordinate with QA-005 (metrics pipeline) so reporting stays consistent.

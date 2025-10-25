@@ -40,3 +40,5 @@ Configure Storybook for the Clarivum component library with addons, accessibilit
 - [ ] Storybook deployed (preview link) and linked in documentation.
 - [ ] Contribution guidelines and lint checks enforced in CI.
 - [ ] Backlog created for visual regression tooling and advanced documentation.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

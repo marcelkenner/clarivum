@@ -44,3 +44,5 @@ Bootstrap the `/ops` namespace inside the Next.js app, enforce Auth0-based RBAC,
 - [ ] Feature flag scaffolding in place; default modules hidden until integration tasks complete.
 - [ ] Observability (OTel spans + Grafana metrics) and alert baseline configured for the new namespace.
 - [ ] Runbook `docs/runbooks/ops-hub.md` updated with access/rollback notes from implementation.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

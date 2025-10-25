@@ -44,3 +44,5 @@ Implement tracing, metrics, logging, alerting, and compliance hooks for the Ops 
 - [ ] Access review automation created (monthly GitHub Action posting to `#clarivum-ops` and logging to audit trail).
 - [ ] Metrics JSON files updated (flow, quality, sustainability) to include Ops Hub KPIs; documentation refreshed.
 - [ ] Runbook expanded with observability dashboards, alert response expectations, and audit export instructions.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

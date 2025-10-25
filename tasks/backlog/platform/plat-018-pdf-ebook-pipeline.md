@@ -41,3 +41,5 @@ Deliver the server-side services, storage integration, and accessibility checks 
 - [ ] Automated accessibility checks configured (PDF/UA smoke tests, ACE for EPUB) plus manual spot-check playbook.
 - [ ] Observability instrumentation added (timings, success/failure counts) with alerts on prolonged runtimes or errors.
 - [ ] Documentation updated (`docs/runbooks/background-jobs.md`, `docs/runbooks/ebooks-fulfillment.md`, developer guide) and hand-off completed with marketing/content stakeholders.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

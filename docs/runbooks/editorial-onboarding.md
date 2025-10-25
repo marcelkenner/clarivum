@@ -45,6 +45,13 @@
 3. **Publish simulation:** Trainee walks through go-live, signals `#clarivum-editorial`, monitors ISR revalidation (check Vercel deploy logs).
 4. **Post-mortem:** Document learnings, add to `docs/role-guides/editorial.md`.
 
+## Glossary + Product Catalog alignment (Week 1)
+1. **Meet catalog owners:** During the first week, introduce the new editor to the Product Catalog owner (Merch Ops) and review how SKUs/slugs are curated plus where ingredient lists live (`product_catalog_vw`). Capture ownership + contact info in the onboarding doc.
+2. **Walk through ProductIngredientSync:** Demonstrate how the Supabase job populates the glossary `product_associations` component. Show how to confirm last sync timestamp inside Strapi and in the Observability dashboard (`ProductIngredientSync freshness` panel).
+3. **Hands-on check:** Assign trainee to audit one ingredient entry. They must (a) verify the INCI list matches catalog data, (b) confirm each association links to a valid SKU, and (c) render the preview to ensure the “Products with &lt;ingredient&gt;” section surfaces expected CTAs.
+4. **Escalation path:** If a product is missing or a SKU should be removed, editors log a ticket in the catalog backlog instead of editing the association field directly. Mentor reviews first submission to ensure message includes SKU, ingredient slug, and requested change.
+5. **Weekly cadence reminder:** Add the catalog-alignment touchpoint (15 min) to the editor’s calendar so they continue reconciling coverage metrics with the product team after onboarding.
+
 ## Tool-specific notes
 - **Strapi roles:** Use admin panel to adjust permissions; default `Authenticated`/`Public` roles remain untouched to protect API access.
 - **Media library:** Editors receive upload rights; contractors restricted to existing assets (configure under Users & Permissions → Roles).
@@ -62,5 +69,6 @@
 4. Archive authored content attribution if required (Notion log).
 
 ## Change log
+- **2025-10-25:** Added glossary/product catalog alignment ritual with ProductIngredientSync walkthrough and escalation path.
 - **2025-10-24:** Added Operations Hub touchpoints to systems walkthrough.
 - **2025-10-23:** Initial onboarding runbook covering RBAC provisioning, training milestones, and compliance checkpoints.

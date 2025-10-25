@@ -50,6 +50,8 @@ Create automated and manual QA guardrails that ensure every successful payment t
 - [ ] Documentation added to `docs/runbooks/ebooks-fulfillment.md` / QA playbook referencing guardrails.
 - [ ] Metrics dashboard includes QA synthetic results and is linked in runbook.
 - [ ] Tests documented in `tasks/AGENTS.md` with commands for local execution.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Work Plan
 - [ ] Build Playwright helpers for purchasing test SKU, polling mailbox API, and verifying entitlements API.

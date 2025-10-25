@@ -42,3 +42,5 @@ Add automation that blocks bug-labelled pull requests unless they reference a Si
 - [ ] Docs (`docs/runbooks/sisu-debugging.md`, `docs/AGENTS.md`) updated with enforcement behavior and remediation steps.
 - [ ] Alerting wired (e.g., Slack or GitHub notifications) when the workflow fails or cannot parse a PR.
 - [ ] Follow-up task opened for extending guardrail validation (e.g., verifying linked guardrail PR status).
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

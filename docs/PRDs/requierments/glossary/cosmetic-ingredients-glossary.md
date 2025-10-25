@@ -39,15 +39,24 @@
 - **Taxonomy:** multi-select categories (function, texture, origin, concern pairing) mapped to Clarivum Skin pillar taxonomy.  
 - **Status flags:** publication state (draft/reviewed/published), compliance approval timestamp, reviewer attribution.  
 - **Narratives:** short description (≤ 280 characters), deep dive (rich text), usage guidance, known sensitivities, pairing recommendations, and contraindication notes.  
+- **Product associations:** structured list of SKUs/slugs for every Clarivum product that contains the ingredient to power the “Products with &lt;ingredient&gt;” callout and keep product copy in sync.  
 - **Regulatory metadata:** region coverage (EU, US, etc.), max concentration guidance ranges, banned/flagged jurisdictions.  
 - **Media hooks:** optional icon, molecular illustration, and reference links (scientific papers or brand guidance).  
 - **Localization:** content fields must accept language codes to support future Polish/English parity without reworking the data model.  
 - **Versioning:** maintain changelog entries (timestamp, author, change summary) for auditability; expose latest update date in UI.
 
+## Product Association & Catalog Sync
+
+- **Source of truth:** `Product Catalog` (maintained by Product Experience + Merch Ops) remains canonical for SKU/slugs, hero copy, and purchase links. Glossary entries store read-only references to catalog entries rather than free-text SKUs.  
+- **Schema contract:** add a `product_associations` component that captures `{ catalog_sku, product_slug, variant, surface_label, last_synced_at, cta_href }` plus an automatically calculated `evidence_note` (why the ingredient appears in the formula). Associations persist as a join table so multiple products can reference the same ingredient and vice versa.  
+- **Synchronization:** a Supabase cron (`ProductIngredientSync`, 15 min cadence) ingests `product_catalog_vw` (SKU → ingredient tokens) curated by merch/product owners, normalizes the ingredient list via `normalize_inci`, and updates the Strapi glossary entry through the Admin API. Editors cannot override this field manually; they request fixes via the catalog backlog.  
+- **Handshake:** Product Catalog owners confirm every ingredient mapping when they publish or retire a SKU. Glossary owners log completed sync reviews during the Kaizen Minute to maintain a traceable cadence.  
+- **Rendering rules:** the “Products with &lt;ingredient&gt;” module surfaces up to six products sorted by flagship priority, then recency, then alphabetical. When no products match, render the empty state with a CTA to browse routines rather than leaving the section blank.
+
 ## UX & Interaction Requirements
 
 - Standalone glossary screen with alphabetic index, search, filters, and entry cards summarizing top-level fields.  
-- Detail page layout separating quick facts (INCI, common names, function, usage) from deeper narrative content and references.  
+- Detail page layout separating quick facts (INCI, common names, function, usage) from deeper narrative content, reasons for inclusion, and references, followed by a “Products with &lt;ingredient&gt;” section that lists every linked product with primary CTA targets.  
 - Inline hover/tap micro-card component embeddable in articles and CTAs; respect mobile touch targets and accessible focus states.  
 - Surface cross-links for related ingredients, recommended routines, and PRD-defined flagship downloads to boost engagement.  
 - Provide empty states for new categories and search results, echoing brand tone from docs/PRDs/clarivum_brand.md.  
@@ -90,7 +99,8 @@
 - Instrument search queries, filter selections, entry views, inline hover usage, and CTA clicks.  
 - Monitor glossary page conversion to flagship downloads outlined in docs/PRDs/clarivum_brand.md.  
 - Establish alert thresholds: search error rate < 0.5%, API latency p95 < 250 ms, failed publish jobs escalated within one hour.  
-- Dashboards must segment metrics by device category and locale to inform iteration.
+- Dashboards must segment metrics by device category and locale to inform iteration.  
+- Track product association coverage: percent of published ingredients with ≥1 product mapping, sync failure counts (from `ProductIngredientSync`), and stale associations (`last_synced_at > 7 days`). Surface these metrics in the glossary cockpit so Catalog + Editorial see gaps.
 
 ## Operational Guidelines
 
@@ -98,6 +108,7 @@
 - Maintain contributor workflow: draft → SME review → compliance approval → publish with audit trail stored in source of truth.  
 - Provide editor sandbox environment mirroring production data schema for safe previews.  
 - Document runbook for incident response when glossary data becomes stale or inaccurate (tie into docs/runbooks/incident-response.md).  
+- Maintain a weekly sync with Product Catalog owners: reconcile ingredient coverage reports, confirm upcoming SKU launches/removals, and ensure catalog diffs ship before editors schedule glossary promotions.
 - Update tasks board (tasks/README.md process) whenever glossary changes require engineering follow-up or new feature work.
 
 ## Open Questions & Risks

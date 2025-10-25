@@ -42,3 +42,5 @@ Deliver the hero UV widget UI and ViewModel so visitors immediately see their UV
 - [ ] UI meets WCAG 2.2 AA (focus states, announcements, color contrast).
 - [ ] Storybook scenario and screenshot tests added for high/low UV states.
 - [ ] Playbook entry created for content editors on updating Strapi copy.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

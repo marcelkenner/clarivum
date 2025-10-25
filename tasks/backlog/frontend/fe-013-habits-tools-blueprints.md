@@ -65,3 +65,5 @@ Build the Habits vertical tool suite using the shared tool shell, computation ma
 - [ ] Analytics events validated in Plausible; legacy PostHog hooks removed and documented.
 - [ ] User education content, disclaimers, and follow-up CTAs wired via CMS where specified.
 - [ ] Future enhancements and research follow-ups logged for subsequent iterations.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

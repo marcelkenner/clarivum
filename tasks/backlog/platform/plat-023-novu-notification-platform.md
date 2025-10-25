@@ -41,3 +41,5 @@ Deploy a self-hosted Novu stack on AWS ECS Fargate with MongoDB and Redis backen
 - [ ] Health checks, HTTPS termination, and private networking validated in dev and prod.
 - [ ] CloudWatch dashboards/alerts created for API latency, worker queue depth, and resource utilization.
 - [ ] Runbook updated with deployment, scaling, and recovery steps; follow-up tasks logged for cost optimization or multi-region resiliency.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

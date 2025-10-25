@@ -39,3 +39,5 @@ Embed personalized watermarking (buyer name + order ID) into generated PDF ebook
 - [ ] Ebooks fulfillment flow verifies watermark before sending download links.
 - [ ] QA tests confirm watermark appears consistently and respects localization typography.
 - [ ] Documentation updated in PRD and `docs/runbooks/ebooks-fulfillment.md`; support receives SOP.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

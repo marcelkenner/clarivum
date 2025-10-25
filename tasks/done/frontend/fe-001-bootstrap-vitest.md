@@ -41,6 +41,8 @@ Set up Vitest for shared frontend/backend TypeScript modules, add initial sample
 - [x] Sample tests committed for one server component and one utility.
 - [x] Documentation updates applied (`AGENTS.md`, role guides, tasks guidelines).
 - [x] Future test backlog items captured (coverage goals, additional suites).
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Notes
 Implementation can start immediately. Coordinate with QA to ensure future Vitest outputs integrate with reporting tools once Playwright lands. Follow-ups opened in backlog: `fe-019-component-coverage-targets.md`, `fe-020-interaction-test-suite.md`.

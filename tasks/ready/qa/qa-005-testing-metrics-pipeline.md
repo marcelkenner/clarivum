@@ -38,6 +38,8 @@ Export Vitest coverage and Playwright flake-rate metrics into the `metrics/cover
 - [ ] CI workflow publishes metrics artifacts and retains them for 30 days.
 - [ ] QA and platform sign off in `#clarivum-dev`; dashboards updated to read new fields.
 - [ ] `docs/QA/testing-strategy.md` and `docs/runbooks/testing-stack.md` updated with data freshness expectations.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Notes
 If additional storage is required, coordinate with the metrics pipeline owners before shipping.

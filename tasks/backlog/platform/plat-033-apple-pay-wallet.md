@@ -43,3 +43,5 @@ Provision Apple Pay through Stripe’s Payment Element, including domain verific
 - [ ] Webhooks, entitlements, and ledger entries updated to flag Apple Pay transactions for reporting.
 - [ ] `docs/runbooks/payments-operations.md` augmented with Apple Pay maintenance procedures; support resources briefed.
 - [ ] Follow-up backlog items logged for localization, express checkout experimentation, or wallet-specific offers.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

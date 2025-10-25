@@ -42,3 +42,5 @@ Wire Lighthouse CI into GitHub Actions so every deploy enforces the homepage per
 - [ ] Reports published (HTML/JSON) and retention strategy documented; trend dashboards accessible to stakeholders.
 - [ ] Playbook for handling regressions added to `docs/runbooks/deployment.md` with escalation steps.
 - [ ] Follow-up backlog items logged for expanded URL coverage or experiment-specific budgets.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

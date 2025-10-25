@@ -41,3 +41,5 @@ Deliver the newsletter capture flow, double opt-in, segmentation, and automation
 - [ ] Data synchronization (Supabase + analytics) verified end-to-end.
 - [ ] Runbooks and onboarding docs updated; training session completed.
 - [ ] Backlog created for experimentation and ongoing content contributions.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

@@ -69,3 +69,5 @@ Deliver reusable blueprints for all Clarivum Fuel calculators and planners so ev
 - [ ] Plausible analytics events instrumented and QA’d; PostHog code paths removed.
 - [ ] Documentation updated in PRDs with any implementation nuances or deviations.
 - [ ] Follow-up tickets created for future enhancements, experiments, or API integrations.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

@@ -41,6 +41,8 @@ Complete every section of the PTRD so the team has measurable outcomes, guardrai
 - [ ] Go/no-go criteria recorded with explicit sign-off from product, engineering, QA, and marketing.
 - [ ] Follow-up tasks logged for any deferred decisions or open risks.
 - [ ] `docs/architecture.md` and relevant ADRs updated to reference finalized PTRD statements.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Notes
 This task unlocks downstream engineering and infrastructure work; do not move to `ready/` until every section has a named owner and review date.

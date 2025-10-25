@@ -39,6 +39,8 @@ Introduce Playwright-based smoke coverage for Clarivum’s critical funnels (hom
 - [ ] CI workflow triggers tests on PR previews and dev deploys with results surfaced in Slack/dashboard.
 - [ ] Documentation updated in `docs/role-guides/qa.md` and deployment runbook.
 - [ ] Follow-up tasks created for broader regression coverage.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Notes
 Move to `ready/` once environments and data resets are finalized. Coordinate with frontend team on selectors/data hooks to keep tests resilient.

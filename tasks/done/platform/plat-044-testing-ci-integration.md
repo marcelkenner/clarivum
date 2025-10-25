@@ -41,6 +41,8 @@ Extend GitHub Actions so `npm run test` (Vitest) and `npm run test:e2e -- --proj
 - [x] Branch protection rules updated to require new checks.
 - [x] Runbooks (`docs/runbooks/testing-stack.md`, `docs/runbooks/deployment.md`) and QA guide reflect the CI flow.
 - [x] Metrics pipeline captures duration + pass/fail counts for the new jobs.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Notes
 - GitHub Actions job name to require in branch protection: **Validate, test, and smoke**.

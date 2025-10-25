@@ -43,3 +43,5 @@ Deliver the tools-first Clarivum homepage with hero, CTA funnels, diagnostic tea
 - [ ] Core Web Vitals measured (LCP, INP, CLS) and within targets.
 - [ ] Content editors trained on Strapi slots and fallback behavior.
 - [ ] Launch checklist completed with QA sign-off and documentation updates.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

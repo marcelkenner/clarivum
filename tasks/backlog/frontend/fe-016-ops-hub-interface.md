@@ -45,3 +45,5 @@ Deliver the `/ops` user interface with responsive layouts, role-aware navigation
 - [ ] Dark/light themes and locale toggles implemented; color tokens validated against WCAG.
 - [ ] Storybook stories (or internal equivalent) created for reusable components, and visual regression checks captured.
 - [ ] Documentation: add usage notes to design system PRD, reference in Ops Hub runbook, and update component inventory.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

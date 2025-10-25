@@ -41,6 +41,8 @@ Bootstrap the Clarivum repository with a complete documentation, governance, and
 - [ ] `scripts/ensure-agents.mjs` generates AGENTS files automatically for new directories.
 - [ ] Task board scaffolding and role-specific guides available.
 - [ ] Stakeholders confirmed “golden project” experience; follow-up improvements documented in task backlog.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Outcomes
 - Baseline governance solidified; repository ready for cross-functional work.

@@ -36,6 +36,8 @@ Build a scheduled script/job that detects Flagsmith entries past their `sunset_d
 - [ ] Documentation updated in deployment runbook and platform role guide.
 - [ ] Monitoring dashboard widget tracks stale flag counts over time.
 - [ ] Retro notes captured for improving flag hygiene process.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Notes
 Align with release captain on scheduling to avoid noisy alert windows. Consider caching flag metadata to minimize API usage.

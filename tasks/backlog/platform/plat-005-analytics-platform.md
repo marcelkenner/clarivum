@@ -42,3 +42,5 @@ Stand up the managed Plausible Analytics EU project, shared analytics toolkit, a
 - [ ] CI and Playwright smoke flows emit analytics and pass QA checklist.
 - [ ] Slack/Flagsmith alerts wired for anomaly detection; dashboards shared with stakeholders.
 - [ ] Documentation updates merged (runbook changelog, architecture references, PRD notes).
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

@@ -41,3 +41,5 @@ Implement streamlined, secure login and registration flows (email, passkey, magi
 - [ ] Analytics events emitted for conversions, plus observability traces for errors.
 - [ ] Documentation updated (PRD annotations, runbooks, support playbooks).
 - [ ] Backlog tasks added for future enhancements (social login, progressive profiling).
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

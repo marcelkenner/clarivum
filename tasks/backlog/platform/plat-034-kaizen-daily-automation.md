@@ -42,3 +42,5 @@ Ship a GitHub Actions workflow that opens the daily Kaizen Minute issue on weekd
 - [ ] Slack or alternative notification configured so owners see creation confirmation each weekday.
 - [ ] Runbooks (`docs/runbooks/deployment.md`) and platform status summary updated to describe automation.
 - [ ] Follow-up tasks logged for multi-timezone support or guardrail enhancements.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

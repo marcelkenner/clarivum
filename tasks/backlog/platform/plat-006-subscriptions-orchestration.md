@@ -42,3 +42,5 @@ Deliver the membership infrastructure that powers subscription checkout, entitle
 - [ ] Renewal, cancellation, and dunning automations configured and tested.
 - [ ] Analytics + observability instrumentation shipped (conversion, churn, errors).
 - [ ] Runbooks updated with support playbooks and rollback strategy.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

@@ -44,3 +44,5 @@ Move Clarivum out of the Amazon SES sandbox, provision EU-region sending identit
 - [ ] Sending quotas, suppression list policies, and encryption settings configured; runbooks updated accordingly.
 - [ ] Secrets rotated and distributed to Listmonk, Next.js, and automation services without plaintext exposure.
 - [ ] Deliverability smoke tests executed (seed inboxes, complaint injection) and results logged with follow-up actions.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

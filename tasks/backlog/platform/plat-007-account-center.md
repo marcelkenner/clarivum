@@ -41,3 +41,5 @@ Deliver the authenticated account center with entitlements, diagnostics history,
 - [ ] Data export/deletion requests automated and documented.
 - [ ] Analytics + observability wired for key events and error paths.
 - [ ] Runbooks and PRDs updated with rollout notes and support instructions.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

@@ -41,3 +41,5 @@ Implement policy surfaces (privacy, terms, disclosures), consent flows, and esca
 - [ ] Incident response + compliance runbooks updated.
 - [ ] Training/communication session completed for support and marketing teams.
 - [ ] Follow-up tasks logged for regional expansions or policy updates.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

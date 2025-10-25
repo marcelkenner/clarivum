@@ -40,3 +40,5 @@ Plan and execute automated + manual coverage for the UV widget, ensuring data ac
 - [ ] Axe accessibility scans and manual screen reader checks completed.
 - [ ] Analytics events verified in staging with consent variations.
 - [ ] QA report delivered with sign-off + follow-up issues logged in tracker.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

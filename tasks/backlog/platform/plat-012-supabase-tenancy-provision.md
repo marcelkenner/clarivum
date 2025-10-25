@@ -41,3 +41,5 @@ Provision Supabase projects for dev and prod, configure storage buckets, and dis
 - [ ] Baseline Terraform configuration merged and applied; `docs/runbooks/supabase-operations.md` updated with provisioning details.
 - [ ] Connectivity validated from Next.js dev environment and Strapi webhooks using limited-scope keys.
 - [ ] Follow-up tickets logged for schema migration automation and monitoring dashboards.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+

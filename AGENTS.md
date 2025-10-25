@@ -80,6 +80,13 @@ Each feature area must include its own `AGENTS.md` describing local build/test/l
 
 If a package-level override uses pnpm/turbo/vitest, map to the local scripts or create npm equivalents. Document any deviations in the package-level `AGENTS.md`.
 
+Observability instrumentation guardrails (TSK-PLAT-003):
+
+- Treat `observability/config.ts` as the single source of truth for OTLP endpoints, resource attributes, and sampling knobs; update it instead of sprinkling `process.env.*` lookups across the app.
+- `instrumentation.ts`/`instrumentation.node.ts` spin up the shared OpenTelemetry `NodeSDK` via `observability/node-sdk.ts`—extend those helpers rather than importing `@opentelemetry/*` directly in feature code.
+- RUM spans live in `instrumentation.client.ts` and must always be proxied through `/api/observability/v1/traces`; never expose Grafana secrets or OTLP hosts to the browser.
+- Changes to telemetry env vars (`GRAFANA_OTLP_USERNAME`/`PASSWORD`/`BASIC_AUTH`, `OTEL_TRACE_RATIO`, `OTEL_EXPORTER_OTLP_*`, `NEXT_PUBLIC_OTEL_PROXY_URL`) require synchronized updates to `docs/runbooks/observability-operations.md` and ADR-004 so on-call engineers can redeploy safely.
+
 ---
 
 ## 3) Build and test commands (agents must run)

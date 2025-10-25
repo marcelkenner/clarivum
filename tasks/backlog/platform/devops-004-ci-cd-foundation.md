@@ -42,6 +42,8 @@ Deliver an initial GitHub Actions pipeline that enforces linting, type checks, u
 - [ ] Failing tests or lint rule violations block merges; branch protection updated to require reviews + status checks + conventional commit linting.
 - [ ] CI documentation added to `docs/runbooks/deployment.md` and devops role guide.
 - [ ] Monitoring for pipeline health (e.g., workflow duration, failure alerts) configured.
+- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
 
 ## Notes
 Coordinate with QA once Playwright smoke suite (TSK-QA-001) is automation-ready so it can slot into the pipeline without regressions.
