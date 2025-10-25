@@ -35,9 +35,11 @@ Tag tests with `@smoke`, `@regression`, or `@accessibility` to support selective
 > Tip: Use `.env.test` for secrets and feature-flag overrides. Never commit real credentials.
 
 ## CI Workflow
-- PR validation runs `npm run validate`, `npm run test`, and `npm run test:e2e -- --project smoke`.
-- Nightly regression runs full Playwright matrix via `cron` (see `docs/diagrams/adr-015-testing-strategy/bpmn-ci.mmd`).
-- Failing tests block merges by branch protection; owners must either fix quickly or create a `type:guardrail` task.
+- PR validation (`.github/workflows/ci.yml`, job “Validate, test, and smoke”) runs sequential steps: `npm run lint`, `npm run typecheck`, `npm run format:check`, `npm run test -- --coverage`, and `npm run test:e2e:smoke`.
+- The job uploads three artifacts: `vitest-coverage` (HTML + JSON), `playwright-report` (HTML report + traces in `blob-report`), and `ci-metrics` (duration + pass/fail JSON for downstream dashboards). Keep at least 14 days of coverage/smoke artifacts and 30 days of metrics history.
+- When Playwright smoke fails, the workflow posts a PR comment with the run link and notifies `#clarivum-platform` via the `SLACK_WEBHOOK_CI` secret before failing the job.
+- Nightly regression runs full Playwright matrix via `cron` (see `docs/diagrams/adr-015-testing-strategy/bpmn-ci.mmd`); hook its metrics into the same schema when available.
+- Branch protection must require the single job check so merges cannot bypass lint/type/test guardrails. Owners must either fix failures immediately or open a `type:guardrail` task with a Kaizen/Kanban entry.
 - Collaboration hand-offs between developers, QA, and metrics are mapped in `docs/diagrams/adr-015-testing-strategy/test-layer-sequence.mmd`.
 
 ## Coverage Expectations
@@ -52,9 +54,9 @@ Tag tests with `@smoke`, `@regression`, or `@accessibility` to support selective
 - Escalate chronic flakes or missing coverage to the `#sisu-log` channel and file a `type:guardrail` issue.
 
 ## Metrics & Reporting
-- Coverage reports (c8) export to `metrics/coverage.json`.
-- CI pipeline records lead time and pass/fail counts for `metrics/quality.json`.
-- Track Playwright runtime to stay under 15 minutes; rotate suites if thresholds slip.
+- Coverage reports (c8) export to `metrics/coverage.json`; leverage the `vitest-coverage` artifact to backfill if a run fails before commit.
+- CI pipeline records lead time and pass/fail counts via the `ci-metrics` artifact (per-run JSON). Feed that data into `metrics/quality.json` when aggregating.
+- Track Playwright runtime to stay under 12 minutes on PRs and 30 minutes on regression; throttle retries or shard when thresholds slip.
 
 ## Change Management Checklist
 - [ ] Update ADR-015 if tooling decisions change materially.

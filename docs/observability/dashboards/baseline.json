@@ -1,0 +1,129 @@
+{
+  "title": "Clarivum Golden Signals",
+  "uid": "clarivum-golden-signals",
+  "tags": ["core-kpis", "error-budget"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "30s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "environment",
+        "type": "query",
+        "datasource": "clarivum-prometheus",
+        "query": "label_values(deployment_environment)",
+        "current": {
+          "text": "prod",
+          "value": "prod"
+        }
+      },
+      {
+        "name": "service",
+        "type": "query",
+        "datasource": "clarivum-prometheus",
+        "query": "label_values(service_name)",
+        "current": {
+          "text": "clarivum-web",
+          "value": "clarivum-web"
+        }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "HTTP Latency (p95)",
+      "type": "timeseries",
+      "datasource": "clarivum-prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 350},
+              {"color": "red", "value": 500}
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(http_server_request_latency_bucket{deployment_environment=\"$environment\",service_name=\"$service\"}[5m])) by (le)) * 1000",
+          "legendFormat": "p95",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Error Rate",
+      "type": "timeseries",
+      "datasource": "clarivum-prometheus",
+      "targets": [
+        {
+          "expr": "sum(rate(http_server_request_errors_total{deployment_environment=\"$environment\",service_name=\"$service\"}[5m])) / sum(rate(http_server_request_duration_count{deployment_environment=\"$environment\",service_name=\"$service\"}[5m]))",
+          "legendFormat": "error %",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 0.01},
+              {"color": "red", "value": 0.02}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "title": "Saturation (Lambda Concurrency)",
+      "type": "timeseries",
+      "datasource": "clarivum-prometheus",
+      "targets": [
+        {
+          "expr": "avg(aws_lambda_concurrent_executions_max{function_name=~\"clarivum-.*\",deployment_environment=\"$environment\"})",
+          "legendFormat": "{{function_name}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Business Events - Completed Diagnostics",
+      "type": "stat",
+      "datasource": "clarivum-tempo",
+      "targets": [
+        {
+          "queryType": "traceql",
+          "query": "from clarivum span.where(name=\"diagnostic.completed\" and attr.clarivum.vertical=\"$service\" and attr.deployment.environment=\"$environment\").count()",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Frontend Core Web Vitals",
+      "type": "table",
+      "datasource": "clarivum-loki",
+      "targets": [
+        {
+          "expr": "{service_name=\"clarivum-web\",metric=\"web_vitals\"} | json | deployment_environment=\"$environment\"",
+          "refId": "A"
+        }
+      ]
+    }
+  ]
+}

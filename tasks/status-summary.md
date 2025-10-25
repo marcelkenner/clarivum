@@ -1,25 +1,27 @@
 # Task Status Summary
 
-Generated 2025-10-27 via `npm run tasks:summary`.
+Generated 2025-10-25 via `npm run tasks:summary`.
 
 ## Backlog
 
 ### Frontend
-- `TSK-FE-002` · Scaffold App Router Information Architecture — Owner: Frontend Lead; Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_configuration.md))
 - `TSK-FE-003` · Build Component Library Foundations — Owner: Frontend Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/components/feature-requirements.md))
 - `TSK-FE-004` · Stand Up Storybook Workbench — Owner: Frontend Engineer; Effort: small; Updated: 2025-10-24 ([link](docs/PRDs/requierments/storybook/feature-requirements.md))
-- `TSK-FE-005` · Build Tools-First Homepage MVP — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/homepage/feature-requirements.md))
 - `TSK-FE-006` · Roll Out Tools & Calculators Platform — Owner: Frontend Engineer; Effort: large; Updated: 2025-10-24 ([link](docs/PRDs/requierments/tools/feature-requirements.md))
 - `TSK-FE-007` · Launch Diagnostics & Quiz Experience — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/diagnostics/feature-requirements.md))
 - `TSK-FE-008` · Deliver Authentication & Login Experience — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/login/feature-requirements.md))
 - `TSK-FE-009` · Establish Form Engine Foundation — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/form-engine/feature-requirements.md))
 - `TSK-FE-010` · Implement Hero UV Widget Experience — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-23 ([link](docs/PRDs/requierments/homepage/feature-requirements.md))
 - `TSK-FE-011` · Integrate NotificationManager with Novu Workflows — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-26 ([link](docs/adr/ADR-012-notification-experience-and-toasts.md))
+- `TSK-FE-012` · Implement Fuel Tool Blueprints — Owner: Frontend Engineer (Fuel Pod); Effort: medium; Updated: 2025-02-16 ([link](docs/PRDs/requierments/tools/fuel/narzedzia/analiza_etykiety.md))
+- `TSK-FE-013` · Implement Habits Tool Blueprints — Owner: Frontend Engineer (Habits Pod); Effort: medium; Updated: 2025-02-16 ([link](docs/PRDs/requierments/tools/habits/narzedzia/alkohol_a_sen_symulator.md))
+- `TSK-FE-014` · Finalize Trust Page ASCII Blueprints — Owner: Frontend Designer-Developer; Effort: small; Updated: 2025-02-16 ([link](docs/PRDs/requierments/ascii_designs.md))
+- `TSK-FE-015` · Automate Lighthouse CI Performance Gates — Owner: Frontend Engineer; Effort: small; Updated: 2025-10-24 ([link](docs/PRDs/requierments/homepage/feature-requirements.md))
+- `TSK-FE-016` · Design & Build Operations Hub Interface — Owner: Frontend Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/operations-hub/feature-requirements.md))
 - `TSK-FE-017` · Ship Account Center Entitlement Shelf — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-032-guest-entitlements-and-account-claiming.md))
 - `TSK-FE-018` · Integrate Monetization SDK Across Content Surfaces — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-033-advertising-and-affiliate-telemetry.md))
-
-### Backend
-- `TSK-BE-001` · Model Supabase Schema v0 — Owner: Unassigned; Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md#4))
+- `TSK-FE-019` · Maintain Component Coverage Targets — Owner: Frontend Lead; Effort: small; Updated: 2025-11-03 ([link](docs/PRDs/first_steps.md#8))
+- `TSK-FE-020` · Add Client Interaction Test Suite — Owner: Frontend Lead; Effort: medium; Updated: 2025-11-03 ([link](docs/PRDs/first_steps.md#8))
 
 ### Platform
 - `TSK-PLAT-001` · Establish Terraform Infrastructure Repository — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md))
@@ -39,11 +41,24 @@ Generated 2025-10-27 via `npm run tasks:summary`.
 - `TSK-PLAT-017` · Establish Grafana Observability Stack — Owner: SRE Lead; Effort: medium; Updated: 2025-10-25 ([link](docs/PRDs/requierments/observability/feature-requirements.md))
 - `TSK-PLAT-018` · Implement PDF & EPUB Generation Pipeline — Owner: Platform Engineer; Effort: medium; Updated: 2025-10-25 ([link](docs/PRDs/requierments/pdf-converter/requirements.md))
 - `TSK-PLAT-019` · Build Open-Meteo UV Widget Service Layer — Owner: Platform Engineer; Effort: medium; Updated: 2025-10-23 ([link](docs/PRDs/requierments/tools/widget_indeks_uv.md))
-- `TSK-PLAT-020` · Provision Strapi ECS Infrastructure — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-26 ([link](docs/PRDs/requierments/strapi/setup.md))
-- `TSK-PLAT-021` · Establish Strapi Data Foundation — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-26 ([link](docs/PRDs/requierments/strapi/setup.md))
-- `TSK-PLAT-022` · Implement Strapi CI/CD Pipeline — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-26 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-PLAT-023` · Provision Novu Notification Platform — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-26 ([link](docs/adr/ADR-012-notification-experience-and-toasts.md))
-- `TSK-PLAT-024` · Implement Novu CI/CD & Governance — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-26 ([link](docs/adr/ADR-012-notification-experience-and-toasts.md))
+- `TSK-PLAT-024` · Implement Novu CI/CD & Governance — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-26 ([link](docs/PRDs/requierments/subscriptions/feature-requirements.md))
+- `TSK-PLAT-025` · Automate Consent Enforcement Tests — Owner: QA Lead; Effort: small; Updated: 2025-10-26 ([link](docs/adr/ADR-014-cookie-consent-and-preference-management.md))
+- `TSK-PLAT-026` · Validate Subscription Trial Reminder Flow — Owner: QA Lead; Effort: small; Updated: 2025-10-26 ([link](docs/PRDs/requierments/subscriptions/feature-requirements.md))
+- `TSK-PLAT-027` · Implement Personalized Ebook Watermarking — Owner: Platform Engineer; Effort: medium; Updated: 2025-10-26 ([link](docs/PRDs/requierments/ebooks/feature-requirements.md))
+- `TSK-PLAT-028` · Deploy Request Security Controls — Owner: Security Champion; Effort: medium; Updated: 2025-10-23 ([link](docs/PRDs/requierments/security/traffic-protection.md))
+- `TSK-PLAT-029` · Provision Listmonk Messaging Infrastructure — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/newsletter/feature-requirements.md))
+- `TSK-PLAT-030` · Configure Amazon SES Tenancy & Deliverability Guardrails — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/newsletter/feature-requirements.md))
+- `TSK-PLAT-031` · Integrate Przelewy24 Payment Rail — Owner: Revenue Engineering Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/subscriptions/feature-requirements.md))
+- `TSK-PLAT-032` · Enable Google Pay Wallet Support — Owner: Revenue Engineering Lead; Effort: small; Updated: 2025-10-24 ([link](docs/PRDs/requierments/subscriptions/feature-requirements.md))
+- `TSK-PLAT-033` · Enable Apple Pay Wallet Support — Owner: Revenue Engineering Lead; Effort: small; Updated: 2025-10-24 ([link](docs/PRDs/requierments/subscriptions/feature-requirements.md))
+- `TSK-PLAT-034` · Automate Kaizen Daily Issue Ritual — Owner: DevOps Lead; Effort: small; Updated: 2025-10-24 ([link](docs/PRDs/requierments/observability/feature-requirements.md))
+- `TSK-PLAT-035` · Enforce Sisu Guardrail Checks on Bug Fix PRs — Owner: DevOps Lead; Effort: small; Updated: 2025-10-24 ([link](docs/PRDs/requierments/testing-stack/feature-requirements.md))
+- `TSK-PLAT-036` · Schedule Monthly Forest Day Automation — Owner: DevOps Lead; Effort: tiny; Updated: 2025-10-24 ([link](docs/PRDs/requierments/observability/feature-requirements.md))
+- `TSK-PLAT-037` · Automate Engineering Flow & Quality Metrics Snapshots — Owner: Analytics Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/analytics/feature-requirements.md))
+- `TSK-PLAT-038` · Stand Up Clarivum Operations Hub Foundation — Owner: Platform Tech Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/operations-hub/feature-requirements.md))
+- `TSK-PLAT-039` · Integrate Core Systems into Operations Hub — Owner: Platform Integration Lead; Effort: large; Updated: 2025-10-24 ([link](docs/PRDs/requierments/operations-hub/feature-requirements.md))
+- `TSK-PLAT-040` · Instrument Operations Hub Observability & Compliance — Owner: SRE Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/operations-hub/feature-requirements.md))
 - `TSK-PLAT-041` · Implement Guest Purchase Claim Workflow — Owner: Platform Engineer; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-032-guest-entitlements-and-account-claiming.md))
 - `TSK-PLAT-042` · Launch Fulfillment Orchestrator Guardrails — Owner: Platform Engineer; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-032-guest-entitlements-and-account-claiming.md))
 - `TSK-PLAT-043` · Build Monetization Telemetry Platform — Owner: Platform Engineer; Effort: large; Updated: 2025-10-27 ([link](docs/adr/ADR-033-advertising-and-affiliate-telemetry.md))
@@ -52,13 +67,14 @@ Generated 2025-10-27 via `npm run tasks:summary`.
 - `TSK-QA-001` · Establish Playwright E2E Smoke Suite — Owner: QA Lead; Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md#8))
 - `TSK-QA-002` · Validate UV Widget Experience & Data Quality — Owner: QA Lead; Effort: small; Updated: 2025-10-23 ([link](docs/PRDs/requierments/tools/widget_indeks_uv.md))
 - `TSK-QA-003` · Ebooks Fulfillment Reliability Guardrails — Owner: QA Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/runbooks/ebooks-fulfillment.md))
-- `TSK-QA-004` · Monetization Telemetry Validation & Synthetic Monitoring — Owner: QA Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-033-advertising-and-affiliate-telemetry.md))
-- `TSK-QA-003` · Ebooks Fulfillment Reliability Guardrails — Owner: QA Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/runbooks/ebooks-fulfillment.md))
+- `TSK-QA-004` · Monetization Telemetry Validation & Synthetic Monitoring — Owner: QA Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/PRDs/requierments/analytics/feature-requirements.md))
 
 ### Shared
+- `sprint-01` · Sprint 01 Plan — Owner: Unassigned; Effort: unspecified; Updated: 2025-10-24 ([link](docs/PRDs/first_steps.md))
+- `sprint-02` · Sprint 02 Plan — Owner: Unassigned; Effort: unspecified; Updated: 2025-10-24 ([link](docs/PRDs/requierments/frontend-platform/feature-requirements.md))
+- `sprint-03` · Sprint 03 Plan — Owner: Unassigned; Effort: unspecified; Updated: 2025-10-24 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-SHARED-001` · Consolidate Outstanding Clarivum Decisions — Owner: Product (TBD); Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md))
 - `TSK-SHARED-002` · Finalize Pre-Project Technical Readiness Document — Owner: Program Lead; Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md))
-- `TSK-SHARED-003` · Roll Out Strapi Content Platform — Owner: Content Platform Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/strapi/feature-requirements.md))
 - `TSK-SHARED-004` · Launch Newsletter & Lifecycle Capture Program — Owner: Lifecycle Marketing Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/newsletter/feature-requirements.md))
 - `TSK-SHARED-005` · Publish Cosmetic Ingredients Glossary — Owner: Content Strategist; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/glossary/cosmetic-ingredients-glossary.md))
 - `TSK-SHARED-006` · Deliver Legal & Compliance Surfaces — Owner: Legal Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/legal/feature-requirements.md))
@@ -68,21 +84,42 @@ Generated 2025-10-27 via `npm run tasks:summary`.
 ## Ready
 
 ### Frontend
-- `TSK-FE-001` · Bootstrap Vitest Unit Testing — Owner: Unassigned; Effort: medium; Updated: 2025-10-21 ([link](AGENTS.md))
+- `TSK-FE-002` · Scaffold App Router Information Architecture — Owner: Frontend Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/first_configuration.md))
+- `TSK-FE-005` · Build Tools-First Homepage MVP — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/homepage/feature-requirements.md))
+
+### Backend
+- `TSK-BE-001` · Model Supabase Schema v0 — Owner: Unassigned; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/first_steps.md#4))
 
 ### Platform
 - `TSK-PLAT-002` · Automate Stale Feature Flag Detection — Owner: Platform Engineer; Effort: small; Updated: 2025-10-21 ([link](docs/adr/ADR-005-feature-flags.md))
-- `TSK-PLAT-003` · Implement OpenTelemetry Baseline — Owner: Observability Champion; Effort: medium; Updated: 2025-10-21 ([link](docs/adr/ADR-004-observability-stack.md))
+- `TSK-PLAT-020` · Provision Strapi ECS Infrastructure — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/strapi/setup.md))
+- `TSK-PLAT-021` · Establish Strapi Data Foundation — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/strapi/setup.md))
+- `TSK-PLAT-022` · Implement Strapi CI/CD Pipeline — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/strapi/setup.md))
+- `TSK-SEO-001` · Ship SEO Platform Foundation — Owner: Frontend Platform Lead; Effort: large; Updated: 2025-10-24 ([link](docs/PRDs/seo-foundation.md))
+
+### Qa
+- `TSK-QA-005` · Wire Testing Coverage & Flake Metrics — Owner: QA Lead; Effort: small; Updated: 2025-10-24 ([link](docs/PRDs/requierments/testing-stack/feature-requirements.md))
+
+### Shared
+- `TSK-SEO-002` · Roll Out SEO Governance & Operations — Owner: SEO Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/seo-foundation.md))
+- `TSK-SHARED-003` · Roll Out Strapi Content Platform — Owner: Content Platform Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/strapi/feature-requirements.md))
 
 ## In Progress
 
-_No tasks._
+### Platform
+- `TSK-PLAT-003` · Implement OpenTelemetry Baseline — Owner: Observability Champion; Effort: medium; Updated: 2025-10-25 ([link](docs/adr/ADR-004-observability-stack.md))
 
 ## Blocked
 
 _No tasks._
 
 ## Done
+
+### Frontend
+- `TSK-FE-001` · Bootstrap Vitest Unit Testing — Owner: Frontend Lead; Effort: medium; Updated: 2025-11-03 ([link](AGENTS.md))
+
+### Platform
+- `TSK-PLAT-044` · Integrate Testing Suites into CI Pipeline — Owner: Platform Tech Lead; Effort: medium; Updated: 2025-10-25 ([link](docs/adr/ADR-015-testing-strategy.md))
 
 ### Business
 - `TSK-BIZ-000` · Documentation & Governance Foundation — Owner: Repository Bootstrap Team; Effort: large; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md))

@@ -11,9 +11,11 @@ This runbook defines the process for promoting changes from trunk to production 
 
 ## CI/CD pipeline overview
 
-1. **GitHub Actions (`ci.yml`):**
-   - Lint (`eslint`, `stylelint`), type-check (`tsc`), unit tests (`vitest`), integration tests (`playwright` smoke), OpenTelemetry lint.
-   - Build Next.js artifacts and export static assets.
+1. **GitHub Actions (`ci.yml` – “Validate, test, and smoke” job):**
+   - Installs deps via `npm ci --ignore-scripts`, runs `npm run ensure:agents`, installs Playwright browsers (`PLAYWRIGHT_BROWSERS_PATH=0`).
+   - Executes `npm run lint`, `npm run typecheck`, `npm run format:check`, and `npm run test -- --coverage`.
+   - Runs `npm run test:e2e:smoke`, uploads `vitest-coverage`, `playwright-report`, and `ci-metrics` artifacts, and posts Slack + PR notifications when smoke fails.
+   - The job does not build production artifacts; Vercel handles build/promote after CI passes.
 2. On success, artifacts are promoted to **Vercel preview** and integration smoke tests run against the preview URL.
 3. On manual approval (release captain), the pipeline promotes the build to the persistent **dev** environment:
    - Run database migrations via Supabase CLI.

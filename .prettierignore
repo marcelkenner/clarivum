@@ -8,3 +8,6 @@ package-lock.json
 docs
 tasks
 pre_code_a_to_z.md
+aws
+answers.md
+scripts/ensure-agents.mjs

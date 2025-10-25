@@ -1,0 +1,120 @@
+groups:
+  - name: clarivum-error-budget-policy
+    orgId: 1
+    folder: "Runbooks/Error Budget"
+    interval: 1m
+    rules:
+      - uid: checkout-latency-p95
+        title: "[checkout] p95 latency above 500ms"
+        condition: C
+        annotations:
+          runbook_url: https://github.com/clarivum/docs/policies/error-budget-policy.md
+          pagerduty_service: clarivum-oncall
+        labels:
+          severity: critical
+          type: latency
+        data:
+          - refId: A
+            datasourceUid: clarivum-prometheus
+            relativeTimeRange:
+              from: 300
+              to: 0
+            model:
+              expr: histogram_quantile(0.95, sum(rate(http_server_request_latency_bucket{route=~"/checkout.*",deployment_environment="prod"}[5m])) by (le))
+              legendFormat: checkout-p95
+              refId: A
+          - refId: B
+            datasourceUid: grafana
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0.5
+                    type: gt
+                  query:
+                    params:
+                      - A
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: grafana
+          - refId: C
+            datasourceUid: grafana
+            model:
+              expression: A
+              type: reduce
+              conditions:
+                - evaluator:
+                    params:
+                      - 0.5
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    type: last
+                  type: query
+          - refId: D
+            datasourceUid: grafana
+            model:
+              expression: C
+              type: math
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - D
+                  reducer:
+                    type: last
+                  type: query
+        notifications:
+          - uid: pagerduty-clarivum
+          - uid: slack-clarivum-alerts
+      - uid: error-rate-guardrail
+        title: "[app] error rate above 2%"
+        condition: B
+        annotations:
+          runbook_url: https://github.com/clarivum/docs/runbooks/observability-operations.md
+        labels:
+          severity: high
+          type: error-budget
+        data:
+          - refId: A
+            datasourceUid: clarivum-prometheus
+            relativeTimeRange:
+              from: 900
+              to: 0
+            model:
+              expr: sum(rate(http_server_request_errors_total{deployment_environment="prod"}[5m])) / sum(rate(http_server_request_duration_count{deployment_environment="prod"}[5m]))
+              legendFormat: global-error-rate
+          - refId: B
+            datasourceUid: grafana
+            model:
+              expression: A
+              type: reduce
+              conditions:
+                - evaluator:
+                    params:
+                      - 0.02
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - B
+                  reducer:
+                    type: last
+                  type: query
+        notifications:
+          - uid: pagerduty-clarivum
+          - uid: slack-clarivum-alerts

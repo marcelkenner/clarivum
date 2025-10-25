@@ -23,13 +23,29 @@ This runbook explains how to operate the Vitest, Testing Library, and Playwright
    - Ensure `.env.test` has required keys (Flagsmith, Supabase anon, Stripe test, etc.).
    - Run `npm run ensure:agents` after pulling latest changes.
 2. **Run Sequencing**
-   - Unit/integration first (`npm run test`).
+   - Unit/integration first (`npm run test -- --coverage` locally to mirror CI output).
    - Trigger smoke Playwright (`npm run test:e2e:smoke`).
    - Optional: `npm run test:e2e:regression` locally before releases.
 3. **Artifacts**
-   - Vitest coverage: `coverage/` (HTML + JSON)
-   - Playwright: `playwright-report/`, `blob-report/`
-   - Upload artifacts to GitHub when CI fails for fast triage.
+   - Vitest coverage: `coverage/` (HTML + JSON) uploaded automatically as the `vitest-coverage` artifact in CI.
+   - Playwright artifacts: `playwright-report/`, `playwright-results/`, `blob-report/` → bundled as the `playwright-report` artifact (includes traces).
+   - CI metrics snapshot: `ci-metrics.json` describing durations + pass/fail counts for lint, typecheck, format, Vitest, and Playwright stages.
+   - Download artifacts from the failed GitHub Actions run linked in the automatic PR comment.
+
+## CI Validation Flow (`.github/workflows/ci.yml`)
+- **Trigger:** push & pull_request (main).
+- **Stages / steps:**
+  1. Install dependencies via `npm ci --ignore-scripts`, run `npm run ensure:agents`, and install Playwright browsers with `PLAYWRIGHT_BROWSERS_PATH=0`.
+  2. Run `npm run lint`, `npm run typecheck`, and `npm run format:check` (each step records duration + exit status).
+  3. Run `npm run test -- --coverage` and upload the `vitest-coverage` artifact (HTML + coverage JSON).
+  4. Run `npm run test:e2e:smoke`, upload the `playwright-report` artifact, and generate a `ci-metrics.json` artifact for telemetry ingestion.
+- **Failure handling:**
+  - When the Playwright smoke step fails, CI automatically:
+    - Posts a PR comment linking to the failing run + artifact bundle (`playwright-report`).
+    - Sends a Slack message to `#clarivum-platform` via the `SLACK_WEBHOOK_CI` secret (set in repo secrets by Platform Engineering). Guardrails ensure no Slack step runs if the secret is absent.
+    - Marks the job as failed after artifacts + notifications complete.
+- **Branch protection:** protect `main` on the job name “Validate, test, and smoke” so lint/typecheck/unit/smoke must pass before merge.
+- **Metrics:** the `ci-metrics` artifact powers downstream jobs that enrich `metrics/quality.json`. Each record captures durations (seconds) and pass/fail state for the four critical stages plus Playwright smoke; keep at least 30 days of history per ADR-015 follow-up.
 
 ## Incident Response (Sisu Debugging Alignment)
 1. Stabilize: revert/bypass failing test only if user impact is critical; otherwise fix root cause.

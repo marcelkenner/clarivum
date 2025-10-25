@@ -22,6 +22,8 @@
 - Synthetic monitoring probes configured in Grafana SM.
 - `npm run telemetry:lint` — verifies instrumentation conventions.
 - Loki search helpers: `service_name`, `deployment_environment`, `clarivum_vertical`.
+- Next.js OTLP proxy: `POST /api/observability/v1/traces` forwards browser spans to Grafana with secrets stored server-side.
+- Lambda worker template: `backend/workers/otel-lambda-template.ts` shows the canonical span/metric/log helpers for queue consumers.
 
 ## Daily Operational Checklist
 - [ ] Review Grafana alert summary for overnight incidents; ensure acknowledgements closed.
@@ -75,6 +77,16 @@
 - Ensure PII scrubbing middleware active; audit monthly.
 - Rotate Grafana API keys every 90 days; record in Secrets rotation log.
 - Store incident timelines for 12 months in compliance archive.
+
+## Baseline Instrumentation (2025-10-25)
+- Next.js automatically loads `instrumentation.ts`/`instrumentation.node.ts` to start the shared OpenTelemetry `NodeSDK`, emit resource attributes (service name, deployment environment, clarivum.vertical), and export traces/metrics/logs to Grafana Tempo/Prometheus/Loki via OTLP HTTP.
+- Browser traces are collected via `instrumentation.client.ts` (DocumentLoad + Fetch instrumentation) and relayed through `/api/observability/v1/traces`, so Grafana credentials never reach the client.
+- AWS Lambda + background workers must wrap handlers with `withTelemetry` from `backend/workers/otel-lambda-template.ts` to ensure queue depth metrics and span context are emitted consistently.
+- Environment variables: `GRAFANA_OTLP_USERNAME`, `GRAFANA_OTLP_PASSWORD`, `OTEL_TRACE_RATIO`, `OTEL_EXPORTER_OTLP_ENDPOINT`, and `NEXT_PUBLIC_OTEL_PROXY_URL` must be set per environment; see `docs/observability/dashboards/baseline.json` for expected labels.
+
+## Knowledge Share
+- Session: **2025-10-28 09:00 EET** (`Clarivum Observability Baseline Walkthrough`) — platform + frontend teams; recording stored in `knowledge/2025-10-28-otel-baseline.mp4`.
+- Agenda: demo new dashboards, review PagerDuty alert wiring (`docs/observability/alerts/baseline.yaml`), walkthrough lambda template adoption plan, assign owners for manual span coverage.
 
 ## Escalation Matrix
 - Level 1: On-call SRE / Observability Champion.

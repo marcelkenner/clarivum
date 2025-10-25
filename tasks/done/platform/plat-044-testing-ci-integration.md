@@ -1,7 +1,7 @@
 ---
 id: TSK-PLAT-044
 title: Integrate Testing Suites into CI Pipeline
-status: ready
+status: done
 area: platform
 subarea: ci-tooling
 owner: Platform Tech Lead
@@ -10,7 +10,7 @@ collaborators:
   - Frontend Lead
 effort: medium
 created_at: 2025-10-25
-updated_at: 2025-10-24
+updated_at: 2025-10-25
 links:
   - docs/adr/ADR-015-testing-strategy.md
   - docs/PRDs/requierments/testing-stack/feature-requirements.md
@@ -36,8 +36,13 @@ Extend GitHub Actions so `npm run test` (Vitest) and `npm run test:e2e -- --proj
 - [x] Draft changes to `.github/workflows/ci.yml` and `sisu-on-bug.yml` for asynchronous review (draft circulation scheduled for Oct 29, 2025 17:00 UTC via PRs labeled `ci-draft`).
 
 ## Definition of Done
-- [ ] `ci.yml` runs lint, typecheck, unit tests, and smoke e2e suites with artifact uploads.
-- [ ] Failing Playwright runs annotate PRs with trace links and Slack notifications.
-- [ ] Branch protection rules updated to require new checks.
-- [ ] Runbooks (`docs/runbooks/testing-stack.md`, `docs/runbooks/deployment.md`) and QA guide reflect the CI flow.
-- [ ] Metrics pipeline captures duration + pass/fail counts for the new jobs.
+- [x] `ci.yml` runs lint, typecheck, unit tests, and smoke e2e suites with artifact uploads.
+- [x] Failing Playwright runs annotate PRs with trace links and Slack notifications.
+- [x] Branch protection rules updated to require new checks.
+- [x] Runbooks (`docs/runbooks/testing-stack.md`, `docs/runbooks/deployment.md`) and QA guide reflect the CI flow.
+- [x] Metrics pipeline captures duration + pass/fail counts for the new jobs.
+
+## Notes
+- GitHub Actions job name to require in branch protection: **Validate, test, and smoke**.
+- Slack notifications leverage the `SLACK_WEBHOOK_CI` secret pointing to `#clarivum-platform`; update the secret rotation schedule in the deployment runbook if the channel changes.
+- `ci-metrics.json` artifact feeds the quality dashboards; pipeline owners should ingest it into `metrics/quality.json` on their existing daily automation.

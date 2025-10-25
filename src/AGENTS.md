@@ -32,6 +32,12 @@ Backend/server guidance lives in `backend/AGENTS.md` and `src/app/api/AGENTS.md`
 - Follow the Sisu Debugging and Kaizen rituals: every meaningful frontend change must ship with at least one guardrail (test, lint rule, script, or alert) and log the improvement in `#kaizen-minute` / `#sisu-log`.
 - For placeholder data, create typed fixtures inside `__fixtures__/` and reference the governing task/ADR in a TODO comment.
 
+## Observability instrumentation
+
+- The shared OTel bootstrap lives in `instrumentation.ts`, `instrumentation.node.ts`, and `instrumentation.client.ts`. Update those files when adding new exporters or span processors; do **not** spin up ad-hoc SDKs in components.
+- Client spans must export through `/api/observability/v1/traces`. When you need custom attributes, use `@opentelemetry/api` inside Managers so hooks/components remain framework-agnostic.
+- Coordinate env variable usage (`NEXT_PUBLIC_OTEL_*`, `OTEL_TRACE_RATIO`, etc.) with the platform team before checking in new requirements. Document any additions in `docs/runbooks/observability-operations.md`.
+
 ## Workflow checklist
 
 - [ ] Define or update ViewModel/Manager/Coordinator classes for new flows; inject dependencies via constructors.

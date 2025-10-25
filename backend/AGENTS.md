@@ -29,7 +29,7 @@ This directory captures backend practices for Clarivum’s BFF layer, asynchrono
 ## Background jobs
 
 - Queue work via the shared job library targeting Amazon SQS (ADR-003). Define payload schemas with Zod and include idempotency keys.
-- Lambda handlers should be idempotent, retry-safe, and instrumented. Bump visibility timeouts or concurrency limits via IaC PRs and document the change.
+- Lambda handlers should be idempotent, retry-safe, and instrumented. Use `backend/workers/otel-lambda-template.ts` as the starting point so spans, metrics, and logs follow the Grafana conventions. Bump visibility timeouts or concurrency limits via IaC PRs and document the change.
 - Record new jobs in `docs/runbooks/ops-hub.md` or a dedicated runbook section to support incident response.
 
 ## Review checklist

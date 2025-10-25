@@ -34,6 +34,7 @@ The `src/app/api/` directory contains Next.js App Router route handlers and serv
 - Wrap every handler in OpenTelemetry spans (ADR-004) and emit structured logs with correlation IDs. Record failure metrics that feed the Kaizen scoreboard.
 - Add automated tests (Vitest or integration tests) for new logic. Include fixtures under `__fixtures__/` and run `npm run test` / `npm run validate` before opening a PR.
 - For incidents, append a Sisu note (`sisu-log/`) and land the guardrail within 48 hours as mandated in the root `AGENTS.md`.
+- Browser traces relay through `/api/observability/v1/traces`. When updating that endpoint (or adding similar proxies), keep them slim: authenticate, forward, and return. Never expose Grafana credentials to the client.
 
 ## Review checklist
 

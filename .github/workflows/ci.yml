@@ -1,31 +1,121 @@
 name: CI
+
 on:
   pull_request:
     branches: [main]
   push:
     branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   ci:
+    name: Validate, test, and smoke
     runs-on: ubuntu-latest
+    env:
+      CI: "true"
+      PLAYWRIGHT_BROWSERS_PATH: "0"
+      SLACK_WEBHOOK_PRESENT: ${{ secrets.SLACK_WEBHOOK_CI != '' }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
+
       - name: Install dependencies
-        run: npm install --ignore-scripts
+        run: npm ci --ignore-scripts
+
+      - name: Ensure agent scaffolding
+        run: npm run ensure:agents
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
-      - name: Run validation suite
-        run: npm run validate
-      - name: Lint tasks
-        run: npm run lint:tasks
-      - name: Run unit and integration tests
-        run: npm run test
+
+      - name: Run repository lints
+        id: lint
+        run: |
+          start=$(date +%s)
+          set +e
+          npm run lint
+          status=$?
+          end=$(date +%s)
+          echo "duration=$((end-start))" >> "$GITHUB_OUTPUT"
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          if [ "$status" -ne 0 ]; then
+            exit "$status"
+          fi
+
+      - name: Typecheck
+        id: typecheck
+        run: |
+          start=$(date +%s)
+          set +e
+          npm run typecheck
+          status=$?
+          end=$(date +%s)
+          echo "duration=$((end-start))" >> "$GITHUB_OUTPUT"
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          if [ "$status" -ne 0 ]; then
+            exit "$status"
+          fi
+
+      - name: Check formatting
+        id: format
+        run: |
+          start=$(date +%s)
+          set +e
+          npm run format:check
+          status=$?
+          end=$(date +%s)
+          echo "duration=$((end-start))" >> "$GITHUB_OUTPUT"
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          if [ "$status" -ne 0 ]; then
+            exit "$status"
+          fi
+
+      - name: Run unit tests (Vitest + coverage)
+        id: vitest
+        run: |
+          start=$(date +%s)
+          set +e
+          npm run test -- --coverage
+          status=$?
+          end=$(date +%s)
+          echo "duration=$((end-start))" >> "$GITHUB_OUTPUT"
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          if [ "$status" -ne 0 ]; then
+            exit "$status"
+          fi
+
+      - name: Upload Vitest coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vitest-coverage
+          path: |
+            coverage
+          if-no-files-found: ignore
+          retention-days: 14
+
       - name: Run Playwright smoke tests
-        run: npm run test:e2e:smoke
-      - name: Upload Playwright report (if present)
+        id: smoke
+        run: |
+          start=$(date +%s)
+          set +e
+          npm run test:e2e:smoke
+          status=$?
+          end=$(date +%s)
+          echo "duration=$((end-start))" >> "$GITHUB_OUTPUT"
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -35,3 +125,73 @@ jobs:
             playwright-results
             blob-report
           if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Comment on Playwright failure
+        if: ${{ steps.smoke.outputs.status != '0' && github.event_name == 'pull_request' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = [
+              "❌ **Playwright smoke failed**",
+              "",
+              `- Run: https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              "- Download artifacts named `playwright-report` for traces & HTML report.",
+              "- Re-run locally with `npm run test:e2e:smoke` to reproduce."
+            ].join("\n");
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
+
+      - name: Notify Slack about Playwright failure
+        if: ${{ steps.smoke.outputs.status != '0' && env.SLACK_WEBHOOK_PRESENT == 'true' }}
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          payload: |
+            {
+              "text": ":warning: Playwright smoke failed for `${{ github.workflow }}` run ${{ github.run_id }} (commit `${{ github.sha }}`). Download the `playwright-report` artifact for traces:\nhttps://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_CI }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+      - name: Fail pipeline if Playwright failed
+        if: ${{ steps.smoke.outputs.status != '0' }}
+        run: exit 1
+
+      - name: Write CI metrics snapshot
+        if: always()
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            const stage = (name, duration, status) => ({
+              duration_seconds: Number(duration || 0),
+              status: status === "0" ? "passed" : "failed"
+            });
+            const payload = {
+              generated_at: new Date().toISOString(),
+              run_id: Number(process.env.GITHUB_RUN_ID),
+              sha: process.env.GITHUB_SHA,
+              workflow: process.env.GITHUB_WORKFLOW,
+              stages: {
+                lint: stage("lint", "${{ steps.lint.outputs.duration || '0' }}", "${{ steps.lint.outputs.status || '1' }}"),
+                typecheck: stage("typecheck", "${{ steps.typecheck.outputs.duration || '0' }}", "${{ steps.typecheck.outputs.status || '1' }}"),
+                format: stage("format", "${{ steps.format.outputs.duration || '0' }}", "${{ steps.format.outputs.status || '1' }}"),
+                vitest: stage("vitest", "${{ steps.vitest.outputs.duration || '0' }}", "${{ steps.vitest.outputs.status || '1' }}"),
+                playwright_smoke: stage("playwright_smoke", "${{ steps.smoke.outputs.duration || '0' }}", "${{ steps.smoke.outputs.status || '0' }}")
+              }
+            };
+            fs.writeFileSync("ci-metrics.json", JSON.stringify(payload, null, 2));
+          '
+
+      - name: Upload CI metrics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-metrics
+          path: ci-metrics.json
+          if-no-files-found: ignore
+          retention-days: 30

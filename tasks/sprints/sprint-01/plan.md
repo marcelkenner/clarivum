@@ -22,8 +22,8 @@ links:
 
 | Task | Status Lane | Notes |
 |------|-------------|-------|
-| [`tasks/ready/frontend/fe-001-bootstrap-vitest.md`](../../ready/frontend/fe-001-bootstrap-vitest.md) | Ready → In-progress | Configure Vitest, add sample specs, update docs |
-| [`tasks/ready/platform/plat-044-testing-ci-integration.md`](../../ready/platform/plat-044-testing-ci-integration.md) | Ready → In-progress | Extend CI workflows to run unit + smoke suites |
+| [`tasks/done/frontend/fe-001-bootstrap-vitest.md`](../../done/frontend/fe-001-bootstrap-vitest.md) | Done | Configure Vitest, add sample specs, update docs |
+| [`tasks/done/platform/plat-044-testing-ci-integration.md`](../../done/platform/plat-044-testing-ci-integration.md) | Done | Extend CI workflows to run unit + smoke suites |
 | [`tasks/ready/platform/devops-003-otel-baseline.md`](../../ready/platform/devops-003-otel-baseline.md) | Ready → In-progress | Instrument Next.js app + Lambda workers with OTel |
 | [`tasks/ready/platform/devops-002-stale-flag-monitor.md`](../../ready/platform/devops-002-stale-flag-monitor.md) | Ready → In-progress | Automate Flagsmith stale-flag detection + alerts |
 | [`tasks/ready/qa/qa-005-testing-metrics-pipeline.md`](../../ready/qa/qa-005-testing-metrics-pipeline.md) | Ready → In-progress | Publish coverage/flake metrics into `metrics/*.json` |
