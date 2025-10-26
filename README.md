@@ -38,6 +38,7 @@ CI relies on `npm run validate`; ensure it passes before pushing. Task changes a
 - Policy references: `docs/policies/`.
 - Role and workflow guides: `docs/role-guides/`.
 - Task board: `tasks/` (see `tasks/README.md` + lane-specific `AGENTS.md` guides).
+- Atrament document viewer: visit `/library` locally to search/browse every PRD, ADR, task lane, and Sisu note with the in-app “high quality paper” theme. The `/docs/...`, `/tasks/...`, and `/sisu-log/...` routes render individual files with anchors and metadata.
 
 ## App Router information architecture
 

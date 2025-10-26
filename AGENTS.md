@@ -438,6 +438,7 @@ Adjust these workflows as actual automation is put in place (e.g., using `npm ru
 - `docs/playbooks/kaizen-minute.md`: store the daily form, examples under 60 minutes, and scoreboard. Create this file if missing.
 - `docs/playbooks/metsa-cadence.md`: define seasonal boards, entry/exit criteria, and sample tasks. Create if missing.
 - `docs/PRDs/requierments/operations-hub/feature-requirements.md` + `docs/adr/ADR-031-admin-operations-hub.md`: update whenever we expand `/ops` modules or change integrations; refresh diagrams under `docs/diagrams/adr-031-admin-operations-hub/`.
+- Use `/library` when browsing or demoing documentation—the route renders every PRD/ADR/task/Sisu note with Atrament typography and links through to the source files (`/docs/...`, `/tasks/...`, `/sisu-log/...`).
 - All documentation changes must cite source ADRs, PRDs, or tasks and be cross-checked via Context7.
 
 ---

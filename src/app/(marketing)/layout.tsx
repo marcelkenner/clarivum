@@ -44,6 +44,14 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
                 Blog
               </Link>
             </li>
+            <li>
+              <Link
+                href="/library"
+                className="rounded-full border border-slate-300 px-4 py-1 text-slate-900 transition hover:border-slate-900 hover:bg-slate-900 hover:text-white"
+              >
+                Biblioteka
+              </Link>
+            </li>
           </ul>
         </nav>
       </header>
