@@ -8,12 +8,13 @@ import type { ReactNode } from "react";
 
 interface LayoutProps {
   children: ReactNode;
-  params: { vertical: string };
+  params: Promise<{ vertical: string }>;
 }
 
-export default function VerticalLayout({ children, params }: LayoutProps) {
+export default async function VerticalLayout({ children, params }: LayoutProps) {
+  const resolvedParams = await params;
   const coordinator = createVerticalExperienceCoordinator();
-  const model = coordinator.buildVerticalHub({ vertical: params.vertical });
+  const model = coordinator.buildVerticalHub({ vertical: resolvedParams.vertical });
 
   if (!model) {
     notFound();

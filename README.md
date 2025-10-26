@@ -39,6 +39,13 @@ CI relies on `npm run validate`; ensure it passes before pushing. Task changes a
 - Role and workflow guides: `docs/role-guides/`.
 - Task board: `tasks/` (see `tasks/README.md` + lane-specific `AGENTS.md` guides).
 
+## App Router information architecture
+
+- Route groups live in `src/app/(marketing)` for public funnels and `src/app/[vertical]/[category]/[slug]` for Skin/Fuel/Habits hubs. Entry points should stay under 200 lines and only pass serialized ViewModels into view components.
+- Shared logic sits in `src/app/_vertical-experience/{manager,coordinator,viewmodel,view}`. Pages must construct a coordinator via `createVerticalExperienceCoordinator()` and call the appropriate builder (`buildVerticalHub`, `buildCategoryHub`, `buildArticle`).
+- Metadata/sitemap/RSS surfaces (`src/app/layout.tsx`, `src/app/sitemap*.ts`, `src/app/robots.ts`, `src/app/rss/route.ts`) share the same content map. Whenever the content taxonomy changes, update `src/lib/content-map.ts` and run `npm run validate` to keep type usage in sync.
+- When adding routes, update the nearest `AGENTS.md`, note the sitemap or robots impact, and capture follow-up work in the relevant task lane. Use `npm run lint:code -- src/app/<segment>` while iterating so CI stays green.
+
 Consult these artifacts before altering stack choices. Update or add new ADRs and PRD appendices when decisions change.
 
 ## Deployment

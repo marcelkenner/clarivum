@@ -1,11 +1,19 @@
 ```mermaid
 flowchart LR
-    RouteGroups["Next.js App Router Route Groups"] --> ViewModels["ViewModel Layer"]
-    ViewModels --> Managers["Manager Layer (Business Logic)"]
-    Managers --> Coordinators["Coordinators / Cross-feature orchestration"]
-    Coordinators --> DataSources["Supabase / Strapi / Edge Cache"]
-    ViewModels --> UIComponents["React Components (Server/Client)"]
+    subgraph AppRouter[Next.js App Router]
+        Marketing[("Route Group: (marketing)")]
+        Verticals[("Routes: [vertical]/[category]/[slug]")]
+        Shared["_vertical-experience (coordinator/viewmodel/view)"]
+    end
+    Marketing --> Shared
+    Verticals --> Shared
+    Shared --> ContentLibrary["ContentLibrary (DI ready)"]
+    ContentLibrary --> ContentMap["lib/content-map.ts"]
+    ContentMap --> DataSources["Future data sources (Strapi/Supabase)"]
+    Shared --> UIComponents["React Components"]
     UIComponents --> TailwindTokens["Tailwind 4 Tokens + CSS Vars"]
     UIComponents --> Storybook["Storybook (ADR-027)"]
     UIComponents --> LighthouseCI["Performance Budgets"]
+    ContentMap --> Sitemaps["/sitemap.xml & /sitemaps/*.xml"]
+    ContentMap --> RSS["/rss route"]
 ```

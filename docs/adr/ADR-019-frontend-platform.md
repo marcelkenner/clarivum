@@ -22,6 +22,10 @@ Status: Accepted
   - Each feature exposes a `ViewModel`, `Manager`, and optional `Coordinator` to respect modular design.
   - Shared utilities belong in `/src/shared/` packages consumed via dependency injection.
   - Avoid runtime cross-vertical imports; rely on explicit interfaces.
+- Implementation reference (TSK-FE-002):
+  - Public funnels live under `src/app/(marketing)` while vertical experiences reside in `src/app/[vertical]/[category]/[slug]` with dynamic params and ISR.
+  - `src/app/_vertical-experience/{manager,coordinator,viewmodel,view}` owns the `ContentLibrary`, builder helpers, and presentation components wired by pages.
+  - Sitemaps (`src/app/sitemaps/*.xml`), `robots.ts`, and `/rss` consume the same content map to keep SEO guardrails consistent.
 - Performance guardrails:
   - Leverage Next.js `optimizePackageImports` for heavy libraries (e.g., Phosphor icons per ADR-017).
   - Enforce 2 kB per-route JS budget before hydration; measure via Lighthouse CI.
@@ -43,3 +47,4 @@ Status: Accepted
   - Automate lint rules for banned CSS patterns and cross-vertical imports.
   - Publish a `frontend-platform` handbook under `docs/role-guides/frontend.md`.
   - Review performance budgets quarterly as new dependencies land.
+  - Track future work for Strapi/Supabase loaders via `TSK-FE-021` and document changes in this ADR when ContentLibrary swaps sources.

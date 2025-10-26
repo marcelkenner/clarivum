@@ -42,6 +42,13 @@ Before shipping SEO-impacting changes (`src/app/**`, metadata libraries, CMS sch
 4. Sitemaps regenerated in staging and validated via Search Console inspection tool.
 5. Change log captured in tasks entry with context links to PRD, ADR, and policy.
 
+### App Router guardrails (TSK-FE-002 follow-up)
+
+- Confirm new or updated vertical routes build their ViewModels through `createVerticalExperienceCoordinator()`; if not, block the PR.
+- When taxonomy changes, update `src/lib/content-map.ts`, rerun `npm run lint:code -- "src/app/_vertical-experience"`, and verify `/sitemap.xml`, `/sitemaps/*.xml`, and `/rss` output the new slugs.
+- Add or adjust TODO callouts referencing `docs/PRDs/requierments/ascii_designs.md` so Content Ops knows where copy is pending.
+- Note the sitemap delta and cache-invalidation plan in the PR + Kaizen log; SEO Lead should confirm Search Console reports index the new paths within 24h.
+
 ## 4. Incident response (Sisu Debugging tie-in)
 
 - Label organic traffic drops or indexation failures as `type:bug`; follow Sisu Debugging flow (`docs/runbooks/sisu-debugging.md`).
