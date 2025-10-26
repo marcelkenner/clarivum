@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2025-10-26T11:57:30.847Z",
+  "source": "playwright",
+  "status": "passed",
+  "durationMs": 1848,
+  "project": "smoke",
+  "totals": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0
+  },
+  "flakes": {
+    "count": 0,
+    "rate": 0
+  },
+  "retries": 0,
+  "environment": {
+    "ci": false,
+    "githubRunId": null,
+    "githubSha": null,
+    "workflow": null,
+    "baseURL": "http://127.0.0.1:3310"
+  }
+}

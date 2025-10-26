@@ -19,9 +19,11 @@
 ## Tooling & References
 - Flagsmith dashboard (`https://app.flagsmith.com`) with SSO.
 - `npm run flags:report` — generates owner + sunset inventory for audit.
+- `npm run flags:stale` / `.github/workflows/flags-stale.yml` — queries the Flagsmith Admin API, posts Slack alerts, and files GitHub issues for flags past their `sunset_date`.
 - Grafana Loki dashboard `Feature Flags / Evaluation Health`.
-- CI stale flag job (`.github/workflows/flags-stale.yml`).
+- Metrics snapshot (`metrics/feature-flags/stale-report.json`) powers dashboards + `/ops` widgets.
 - Slack `#clarivum-launchpad` — approvals, freeze notices.
+- Slack `#clarivum-platform` — automation alerts + follow-up coordination.
 
 ## Standard Operating Procedures
 ### 1. Flag Proposal & Creation
@@ -49,11 +51,12 @@
 - Ensure defaults reflect safe/off behavior for high-risk features; review monthly.
 
 ### 5. Stale Flag Audit
-- Weekly on Mondays, owner reviews stale report posted by CI.
-- If `sunset_date` passed:
-  - Option A: remove flag from code within 5 business days.
-  - Option B: update sunset date with justification and new task link.
-- Document action in Flagsmith notes and team channel.
+- Mondays at 09:00 UTC the scheduled workflow (`.github/workflows/flags-stale.yml`) runs `npm run flags:stale`, refreshes `metrics/feature-flags/stale-report.json`, posts a Slack summary to `#clarivum-platform`, and opens `[flags] Sunset overdue · <flag>` GitHub issues (labelled `type:guardrail` + `feature-flags`).
+- On-call platform engineer triages alerts within 24 hours:
+  - Option A: remove/replace the flag in code within 5 business days and close the issue with cleanup PR link.
+  - Option B: update the sunset metadata + linked task, re-run `npm run flags:stale`, and document the justification before closing the issue.
+- Document actions in Flagsmith notes, Slack thread, and the GitHub issue so we can prove audit trails.
+- Rerun `npm run flags:stale` locally when validating fixes (requires `FLAGSMITH_PROJECT_ID` and `FLAGSMITH_API_TOKEN` in the environment).
 
 ## Incident Response
 ### Flagsmith Outage / Elevated Latency
@@ -84,3 +87,6 @@
 ## Maintenance
 - Review runbook quarterly; sync changes with `docs/adr/ADR-005-feature-flags.md`.
 - Update tooling links after Flagsmith UI or workflow changes.
+
+## Retro notes
+- 2025-11-04: Weekly automation added after manual stale-flag audits slipped; keep Slack alerts + auto-filed issues enabled so cleanup stays under the 5-day SLA.

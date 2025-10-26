@@ -18,7 +18,7 @@ This guide equips the DevOps/Platform crew with the processes, tooling, and guar
    - Ensure budgets/alerts (AWS Budgets, Vercel spend) are active; adjust thresholds as traffic grows.
 2. **CI/CD stewardship**
    - Keep GitHub Actions pipelines green and fast; document any changes in `docs/runbooks/deployment.md`.
-   - Verify Flagsmith integration for new flags; add stale-flag checks.
+   - Verify Flagsmith integration for new flags; respond to `flags-stale` workflow alerts within 24 hours and re-run the script after cleanup.
 3. **Infrastructure as Code**
    - Manage Terraform modules for Vercel, Supabase, AWS (SQS/Lambda/Secrets Manager).
    - Review IaC PRs with an architectural lens; update ADRs when infrastructure evolves.
@@ -35,6 +35,7 @@ This guide equips the DevOps/Platform crew with the processes, tooling, and guar
 - OpenTelemetry exporters, Grafana dashboards, PagerDuty for alerts.
 - Context7 queries for infrastructure/provider updates (AWS, Vercel, Supabase release notes).
 - Repo scripts: `npm run lint:tasks` (validate planning docs), `npm run tasks:summary` (generate status digest), `npm run ensure:agents` (documentation hygiene).
+- Feature-flag hygiene: `npm run flags:stale` (local) and `.github/workflows/flags-stale.yml` (scheduled) rely on Flagsmith Admin API tokens + Slack webhooks; ensure secrets stay current.
 
 ## Asking for help
 

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2025-10-26T11:35:16.773Z",
+  "source": "vitest",
+  "commit": null,
+  "totals": {
+    "statements": {
+      "pct": 15.56,
+      "covered": 779,
+      "total": 5004,
+      "skipped": 0
+    },
+    "branches": {
+      "pct": 47.16,
+      "covered": 50,
+      "total": 106,
+      "skipped": 0
+    },
+    "functions": {
+      "pct": 30.61,
+      "covered": 30,
+      "total": 98,
+      "skipped": 0
+    },
+    "lines": {
+      "pct": 15.56,
+      "covered": 779,
+      "total": 5004,
+      "skipped": 0
+    }
+  },
+  "thresholds": {
+    "statements_pct": 70,
+    "branches_pct": 60
+  }
+}

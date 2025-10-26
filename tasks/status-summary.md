@@ -1,6 +1,6 @@
 # Task Status Summary
 
-Generated 2025-10-25 via `npm run tasks:summary`.
+Generated 2025-10-26 via `npm run tasks:summary`.
 
 ## Backlog
 
@@ -103,14 +103,13 @@ Generated 2025-10-25 via `npm run tasks:summary`.
 - `TSK-BE-001` · Model Supabase Schema v0 — Owner: Unassigned; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/first_steps.md#4))
 
 ### Platform
-- `TSK-PLAT-002` · Automate Stale Feature Flag Detection — Owner: Platform Engineer; Effort: small; Updated: 2025-10-21 ([link](docs/adr/ADR-005-feature-flags.md))
 - `TSK-PLAT-020` · Provision Strapi ECS Infrastructure — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-PLAT-021` · Establish Strapi Data Foundation — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-PLAT-022` · Implement Strapi CI/CD Pipeline — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-SEO-001` · Ship SEO Platform Foundation — Owner: Frontend Platform Lead; Effort: large; Updated: 2025-10-24 ([link](docs/PRDs/seo-foundation.md))
 
 ### Qa
-- `TSK-QA-005` · Wire Testing Coverage & Flake Metrics — Owner: QA Lead; Effort: small; Updated: 2025-10-24 ([link](docs/PRDs/requierments/testing-stack/feature-requirements.md))
+- _No tasks._
 
 ### Shared
 - `TSK-SEO-002` · Roll Out SEO Governance & Operations — Owner: SEO Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/seo-foundation.md))
@@ -131,11 +130,15 @@ _No tasks._
 - `TSK-FE-001` · Bootstrap Vitest Unit Testing — Owner: Frontend Lead; Effort: medium; Updated: 2025-11-03 ([link](AGENTS.md))
 
 ### Platform
+- `TSK-PLAT-002` · Automate Stale Feature Flag Detection — Owner: Platform Engineer; Effort: small; Updated: 2025-10-26 ([link](docs/adr/ADR-005-feature-flags.md))
 - `TSK-PLAT-003` · Implement OpenTelemetry Baseline — Owner: Observability Champion; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-004-observability-stack.md))
 - `TSK-PLAT-044` · Integrate Testing Suites into CI Pipeline — Owner: Platform Tech Lead; Effort: medium; Updated: 2025-10-25 ([link](docs/adr/ADR-015-testing-strategy.md))
 
 ### Business
 - `TSK-BIZ-000` · Documentation & Governance Foundation — Owner: Repository Bootstrap Team; Effort: large; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md))
+
+### Qa
+- `TSK-QA-005` · Wire Testing Coverage & Flake Metrics — Owner: QA Lead; Effort: small; Updated: 2025-10-26 ([link](docs/PRDs/requierments/testing-stack/feature-requirements.md))
 
 ---
 

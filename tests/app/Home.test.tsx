@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import { describe, expect, it, vi } from "vitest";
 
+import { createHomeExperienceCoordinator } from "@/app/(marketing)/_home/coordinator/HomeExperienceCoordinator";
 import MarketingHomePage from "@/app/(marketing)/page";
 
 type MockedImageProps = React.ComponentProps<"img"> & { priority?: boolean };
@@ -17,23 +18,28 @@ vi.mock("next/image", () => ({
   },
 }));
 
+const coordinator = createHomeExperienceCoordinator();
+const landingViewModel = coordinator.buildLandingViewModel();
+
 describe("Marketing home page", () => {
   it("renders the Clarivum hero copy", () => {
     render(<MarketingHomePage />);
 
     expect(
-      screen.getByRole("heading", { name: /tools-first guidance that respects your time/i }),
+      screen.getByRole("heading", { name: landingViewModel.hero.headline }),
     ).toBeInTheDocument();
-    expect(screen.getByText(/Kaizen guardrails/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: landingViewModel.hero.secondaryCta.label }),
+    ).toHaveAttribute("href", landingViewModel.hero.secondaryCta.href);
   });
 
   it("surfaces Skin, Fuel, and Habits entry points", () => {
     render(<MarketingHomePage />);
 
-    expect(screen.getByRole("link", { name: /browse the roadmap/i })).toHaveAttribute(
-      "href",
-      "/skin",
-    );
-    expect(screen.getByRole("link", { name: /habits hq/i })).toHaveAttribute("href", "/habits");
+    landingViewModel.verticals.forEach((vertical) => {
+      expect(
+        screen.getByRole("link", { name: vertical.primaryCta.label }),
+      ).toHaveAttribute("href", vertical.primaryCta.href);
+    });
   });
 });

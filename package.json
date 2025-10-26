@@ -16,6 +16,8 @@
     "lint:diagrams": "node scripts/lint-diagrams.mjs",
     "lint:tasks": "node scripts/lint-tasks.mjs",
     "tasks:summary": "node scripts/task-summary.mjs",
+    "metrics:coverage": "node scripts/write-coverage-metrics.mjs",
+    "flags:stale": "node scripts/flags-stale-check.mjs",
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",

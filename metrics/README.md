@@ -2,11 +2,19 @@
 
 This directory stores JSON snapshots produced by scheduled jobs or manual scripts. Each file should focus on the dimensions described in `AGENTS.md` (flow, quality, sustainability, coverage) and include timestamps for traceability.
 
-Example filenames:
+## Canonical files
 
-- `flow-2025-01-10.json`
-- `quality-2025-01-10.json`
+- `coverage.json` — Written by `npm run metrics:coverage` (parses `coverage/coverage-summary.json`) and uploaded in CI as part of the `qa-metrics` artifact.
+- `quality.json` — Produced automatically whenever `npm run test:e2e:*` runs thanks to the custom Playwright reporter at `tests/reporters/qa-metrics-reporter.ts`.
+- `feature-flags/stale-report.json` — Populated by `npm run flags:stale`.
 
-Keep historical files to preserve trend analysis. Do not commit personally identifiable information or secrets.
+Keep historical files (or snapshots per date) to preserve trend analysis. Do not commit personally identifiable information or secrets.
+
+## Refresh workflow
+
+1. Run `npm run test -- --coverage` followed by `npm run metrics:coverage` to update `coverage.json`.
+2. Run `npm run test:e2e:smoke` (or another Playwright project) to refresh `quality.json`. The reporter logs flake counts, retries, and runtime.
+3. Commit updated JSON snapshots alongside any code/doc changes.
+4. CI aggregates the latest files into the `qa-metrics` artifact with a 30-day retention so dashboards can ingest them automatically.
 
 Metrics surfaced in the Clarivum Operations Hub overview should map back to these JSON snapshots; update both the automation scripts and `/ops` widgets together.

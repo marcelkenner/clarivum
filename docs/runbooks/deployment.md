@@ -24,6 +24,10 @@ This runbook defines the process for promoting changes from trunk to production 
    - Release captain (engineering).
    - Product owner for the impacted vertical.
 
+## Scheduled guardrails
+
+- `.github/workflows/flags-stale.yml` (Node 20) runs every Monday at 09:00 UTC and on-demand to execute `npm run flags:stale`. The workflow requires `FLAGSMITH_PROJECT_ID`, `FLAGSMITH_API_TOKEN`, and `SLACK_WEBHOOK_CI` secrets plus the default `GITHUB_TOKEN`. It refreshes `metrics/feature-flags/stale-report.json`, posts to `#clarivum-platform`, and creates `[flags] Sunset overdue` issues so flag cleanup tasks are always tracked.
+
 ## Deployment steps
 
 1. **Kick off release:**

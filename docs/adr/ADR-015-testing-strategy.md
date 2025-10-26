@@ -17,6 +17,10 @@ Status: Accepted
 - Integrate both Vitest and Playwright into GitHub Actions CI:
   - Pull requests must pass `npm run test` (Vitest) and `npm run test:e2e -- --project smoke` on preview deployments.
   - Failures block merges via branch protection rules described in `docs/policies/repository-governance.md`.
+- Persist QA evidence as first-class metrics:
+  - `scripts/write-coverage-metrics.mjs` serializes c8 summaries into `metrics/coverage.json` (statements/branches/lines/functions + thresholds) immediately after Vitest runs.
+  - A custom Playwright reporter writes runtime, retry, and flake stats into `metrics/quality.json` for every smoke/regression execution.
+  - CI uploads both JSON snapshots as the `qa-metrics` artifact (30-day retention) so the Operations Hub and seasonal retros can trend test health without scraping external systems.
 - Standardize configuration:
   - Provide shared helpers under `tests/config/` for environment setup, feature-flag seeding, and Supabase fixtures.
   - Capture secrets via GitHub Actions OIDC + Vercel/Supabase integration; local runs rely on `.env.test`.

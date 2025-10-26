@@ -1,6 +1,11 @@
+import path from "node:path";
+
 import { defineConfig, devices } from "@playwright/test";
 
 const baseURL = process.env["PLAYWRIGHT_BASE_URL"] ?? "http://127.0.0.1:3000";
+const qaMetricsReporter = path.resolve(
+  "./tests/reporters/qa-metrics-reporter.ts"
+);
 
 export default defineConfig({
   testDir: "./playwright",
@@ -9,7 +14,11 @@ export default defineConfig({
     timeout: 5_000,
   },
   fullyParallel: true,
-  reporter: [["list"], ["html", { open: "never" }]],
+  reporter: [
+    ["list"],
+    ["html", { open: "never" }],
+    [qaMetricsReporter, { outputFile: "metrics/quality.json" }],
+  ],
   use: {
     baseURL,
     trace: "on-first-retry",

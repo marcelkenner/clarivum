@@ -1,0 +1,46 @@
+name: Flagsmith Stale Flag Audit
+
+on:
+  schedule:
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  stale-flags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts
+
+      - name: Run stale flag audit
+        env:
+          FLAGSMITH_PROJECT_ID: ${{ secrets.FLAGSMITH_PROJECT_ID }}
+          FLAGSMITH_API_TOKEN: ${{ secrets.FLAGSMITH_API_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_CI }}
+          FLAGSMITH_PROJECT_DASHBOARD_URL: ${{ vars.FLAGSMITH_PROJECT_DASHBOARD_URL }}
+          FLAGS_STALE_OUTPUT_PATH: metrics/feature-flags/stale-report.json
+          FLAGS_STALE_CREATE_ISSUES: "true"
+          FLAGS_STALE_ISSUE_LABELS: "type:guardrail,feature-flags"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run flags:stale
+
+      - name: Upload stale flag snapshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stale-flag-report
+          path: metrics/feature-flags/stale-report.json
+          retention-days: 7

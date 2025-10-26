@@ -12,6 +12,8 @@ Centralized follow-up list for sprint guardrails and CI hygiene. Keep items conc
 6. **Environment secrets:** Populate the Grafana OTLP credentials and `NEXT_PUBLIC_OTEL_PROXY_URL` in each Vercel/Lambda environment so the new exporters can emit telemetry. Track completion per environment in `docs/runbooks/observability-operations.md`.
 7. **Grafana assets:** Import `docs/observability/dashboards/baseline.json` and `docs/observability/alerts/baseline.yaml` into Grafana Cloud, wiring them to PagerDuty (`clarivum-oncall`) and `#clarivum-alerts`, then link the panels in the runbook.
 8. **Manual spans & synthetic follow-up:** Coordinate with feature owners to add manual spans for the critical flows noted in TSK-PLAT-003 notes and open/track the synthetic monitoring guardrail task once owners are assigned.
+9. **Flagsmith automation secrets:** Add the `FLAGSMITH_PROJECT_ID`, `FLAGSMITH_API_TOKEN`, and optional `FLAGSMITH_PROJECT_DASHBOARD_URL` repo secrets/variables so `.github/workflows/flags-stale.yml` can run. Reuse/verify `SLACK_WEBHOOK_CI` for the workflow step. (Source: TSK-PLAT-002 rollout)
+10. **Workflow smoke test:** After wiring the secrets, trigger the “Flagsmith Stale Flag Audit” workflow via the Actions tab (`workflow_dispatch`) to confirm Slack + GitHub issue outputs before relying on the Monday schedule. (Source: TSK-PLAT-002 DoD)
 
 ## Nice-to-haves
 

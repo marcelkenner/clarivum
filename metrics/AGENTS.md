@@ -1,9 +1,9 @@
 # metrics · AGENTS Guide
 
-This directory does not yet have tailored agent guidance. Use these defaults until you add project-specific notes.
+Use these guardrails when working under `metrics/`:
 
-- Keep changes aligned with the PTRD (`docs/PRDs/first_steps.md`) and relevant ADRs.
-- Run `npm run ensure:agents` after restructuring to keep agent docs in sync.
-- Follow coding standards from the root `AGENTS.md`.
-- Always resolve library and framework questions via Context7 (`context7__resolve-library-id` + `context7__get-library-docs`).
-- Update this file with localized best practices as soon as the directory gains dedicated responsibilities.
+- Keep changes aligned with the PTRD (`docs/PRDs/first_steps.md`) and ADR-015 testing strategy.
+- Refresh coverage snapshots via `npm run test -- --coverage && npm run metrics:coverage`.
+- Playwright runs automatically refresh `metrics/quality.json`; use `npm run test:e2e:smoke` locally to verify the reporter output.
+- CI publishes `metrics/coverage.json` and `metrics/quality.json` as the `qa-metrics` artifact (30-day retention). Do not delete those files unless the pipeline changes.
+- Update this guide whenever schema changes or new metric families are introduced.

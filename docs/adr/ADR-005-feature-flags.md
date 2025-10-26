@@ -28,4 +28,4 @@ Status: Accepted
 - **Operational impact:** Introduces runtime dependency on Flagsmith API; implement 200 ms fallback timeout with cached flag values to protect performance budgets.
 - **Follow-ups:**
   - Define flag lifecycle policy (creation, ownership, expiry) in the deployment runbook.
-  - Automate stale flag detection via weekly CI job that alerts when flags exceed their `sunset_date`.
+  - ✅ Automate stale flag detection via weekly CI job (`scripts/flags-stale-check.mjs` + `.github/workflows/flags-stale.yml`) that alerts when flags exceed their `sunset_date`.

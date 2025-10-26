@@ -104,6 +104,7 @@ Run from the repo root unless stated otherwise:
 - Playwright regression suite: `npm run test:e2e:regression`
 - Format source: `npm run format`
 - Ensure agent files exist: `npm run ensure:agents`
+- Run stale flag audit (requires Flagsmith Admin API creds + Slack webhook): `npm run flags:stale`
 
 When new tooling is introduced (e.g., Vitest), extend `package.json` and update this section.
 

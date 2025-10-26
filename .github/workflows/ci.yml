@@ -86,11 +86,20 @@ jobs:
           set +e
           npm run test -- --coverage
           status=$?
+          if [ "$status" -eq 0 ]; then
+            npm run metrics:coverage
+            metrics_status=$?
+          else
+            metrics_status=$status
+          fi
           end=$(date +%s)
           echo "duration=$((end-start))" >> "$GITHUB_OUTPUT"
           echo "status=$status" >> "$GITHUB_OUTPUT"
           if [ "$status" -ne 0 ]; then
             exit "$status"
+          fi
+          if [ "${metrics_status:-0}" -ne 0 ]; then
+            exit "$metrics_status"
           fi
 
       - name: Upload Vitest coverage
@@ -126,6 +135,17 @@ jobs:
             blob-report
           if-no-files-found: ignore
           retention-days: 14
+
+      - name: Upload QA metrics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-metrics
+          path: |
+            metrics/coverage.json
+            metrics/quality.json
+          if-no-files-found: ignore
+          retention-days: 30
 
       - name: Comment on Playwright failure
         if: ${{ steps.smoke.outputs.status != '0' && github.event_name == 'pull_request' }}
