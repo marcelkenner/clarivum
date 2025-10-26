@@ -1,0 +1,31 @@
+```mermaid
+classDiagram
+  class AffiliateProgram {
+    +uuid id
+    +string name
+    +string region
+    +string status
+  }
+  class AffiliateOffer {
+    +uuid id
+    +string slug
+    +datetime start_at
+    +datetime end_at
+    +json tags
+  }
+  class AffiliateDisclosureProfile {
+    +uuid id
+    +string locale
+    +string short_copy
+    +string long_copy
+  }
+  class AffiliateTaxonomyLink {
+    +uuid offer_id
+    +string taxonomy_type
+    +string taxonomy_id
+  }
+
+  AffiliateProgram <|-- AffiliateOffer
+  AffiliateOffer --> AffiliateDisclosureProfile : uses
+  AffiliateOffer --> AffiliateTaxonomyLink : links
+```

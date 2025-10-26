@@ -40,6 +40,7 @@ links:
 - UV widget API delivers cached, localized, observable responses powering the homepage hero with rate limiting + Strapi copy fallbacks.
 - Hero UX meets UX/accessibility/performance criteria, publishes analytics + feature flag toggles, and ties into notification + lifecycle triggers (e.g., high UV campaigns).
 - Fuel & Habits tool blueprints provide reusable shells, localization hooks, analytics events, and computation managers so additional calculators are low effort.
+- Affiliate-first tools (Analiza Etykiety, Smart Zamienniki, Checklista Sypialni, Ocena Ergonomii) render standardized disclosure + CTA components with ADR-033 telemetry, while ebook-first tools (Cel Białko i Błonnik, BMR/TDEE, Macro Split, Meal Planner) expose dynamic `/ebooks/` offers so growth can attribute conversions.
 - Documentation + Storybook entries teach teams how to extend the tool shells; Playwright + Vitest coverage ensures regression safety.
 - Trust surfaces ready for Spring campaigns, with instrumentation piping into Plausible + monetization telemetry from previous sprints.
 

@@ -15,6 +15,11 @@
 - Business: Increase affiliate conversions for sleep products by 15%; boost engagement with digital sunset planner and sleep index by 20%.
 - Experience: 85% completion of checklist; perceived usefulness ≥4.6/5.
 
+### Monetization & Disclosure Hooks
+- Each checklist item that recommends a product must render the affiliate disclosure microcopy, include signed redirect URLs, and log telemetry per ADR-033/ADR-026 so finance can reconcile payouts.
+- Editors curate tiered bundles (free / low-cost / premium) in Strapi; the UI needs to map selections to the correct partner links while preserving fallback editorial advice when inventory is unavailable.
+- Completion summaries should highlight sleep-related ebook CTAs (e.g., bedtime routine guides) and capture click attribution through the analytics schema defined in `docs/PRDs/requierments/analytics/feature-requirements.md`.
+
 ## Primary Users & Segments
 - Adults improving sleep hygiene.
 - Parents adjusting shared bedrooms.

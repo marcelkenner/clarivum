@@ -15,6 +15,11 @@
 - Business: Drive a 15% uplift in macro planning ebook downloads; generate 10% more saved meal plans week-over-week.
 - Experience: 95% of users should finalize a macro split in <90 seconds; completion CSAT ≥4.6/5.
 
+### Ebook Funnel Hooks
+- The live results pane must include a promotional slot for the macro planning ebook bundle, using the same CTA component as BMR/TDEE to keep analytics consistent.
+- When users save macro profiles, store metadata about whether they viewed/clicked the ebook CTA so lifecycle campaigns can nudge non-converters.
+- Provide a toggle to preview sample ebook content (e.g., macro cheat sheets) inside the tool; log previews as `ebook_preview_viewed` events for attribution.
+
 ## Primary Users & Segments
 - Weight management seekers connecting from BMR/TDEE tool.
 - Strength athletes needing higher protein and periodised carbs.

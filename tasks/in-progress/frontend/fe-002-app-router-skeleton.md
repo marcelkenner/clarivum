@@ -1,7 +1,7 @@
 ---
 id: TSK-FE-002
 title: Scaffold App Router Information Architecture
-status: ready
+status: in-progress
 area: frontend
 subarea: routing
 owner: Frontend Lead
@@ -10,7 +10,7 @@ collaborators:
   - UX Lead
 effort: medium
 created_at: 2025-10-21
-updated_at: 2025-10-24
+updated_at: 2025-10-25
 links:
   - docs/PRDs/first_configuration.md
   - docs/PRDs/clarivum_brand.md

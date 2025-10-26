@@ -920,6 +920,21 @@ export async function GET() {
 
 ---
 
+## 10) Dynamic content loaders & caching (TSK-FE-021)
+
+The static `src/lib/content-map.ts` is a staging shim. Production must hydrate from Strapi/Supabase so editors can publish without redeploys.
+
+- **Schema coverage**: Strapi entries must expose the same fields the App Router consumes: homepage hero (eyebrow/headline/subheading/diagnostic list/learning moments), vertical hubs (tagline, accent, CTA group, ordered categories with tool + ebook CTAs + featured posts), category hubs (long-form intro, tool embeds, diagnostic metadata, featured articles), and article shells (body blocks, CTA shelf definitions, SEO metadata, JSON-LD, canonical slug). Provide `updatedAt` timestamps for sitemap/RSS generation and navigation/footer payloads (see Clarivum Brand PRD).
+- **API contract**: deliver REST/GraphQL endpoints (`/content/home`, `/content/verticals/:slug`, `/content/categories/:slug`, `/content/articles/:slug`, `/navigation/global`, `/footer/global`) that return JSON with cache headers (`cache-control: public, max-age=60, stale-while-revalidate=300`) and accept preview tokens for draft sessions.
+- **ContentLibrary DI**: wrap the loader in a provider that implements `fetchVertical`, `fetchCategory`, `fetchArticle`, `fetchNavigation`, `listCategories`, `listArticles`. Unit tests can continue using the static map by injecting the default provider; production wires the Strapi-backed implementation.
+- **Caching & revalidation**: homepage/vertical hubs revalidate every 30 minutes and respond to Strapi webhooks via `/api/revalidate?tag=vertical:<slug>`; category/article routes generate at build but register data cache tags per slug; sitemaps & RSS regenerate daily or on webhook triggers.
+- **Fallback + observability**: if the upstream API fails, fall back to the static map, log OTEL spans (`clarivum.content_loader.fallback=true`), and raise Ops Hub alerts with remediation steps in `docs/runbooks/ops-hub.md`.
+- **Security**: keep admin tokens server-side, leverage the environment manager for `NEXT_PUBLIC_SITE_URL` and preview credentials, and document rotation steps in the Ops runbook.
+
+Track delivery via `tasks/backlog/frontend/fe-021-app-router-content-loaders.md`.
+
+---
+
 ### Want me to turn this into a repo boilerplate?
 
 I can provide a ready‑to‑clone skeleton with these files and placeholder components for the **CTA blocks**, **Tool card**, and simple **MDX support**—just say the word, and I’ll lay down the exact files you can drop into your repo.

@@ -125,3 +125,19 @@ Operational tooling:
 - **Cost:** Budgets and alerts are configured through AWS Budgets and Vercel spend caps; the FinOps runbook defines actions when hitting 50/75/90% of monthly spend.
 
 Revisit this document whenever an ADR is added or an architectural component changes. For diagrams beyond ASCII, store source files (e.g., Structurizr DSL) alongside this doc.
+
+## App Router information architecture (TSK-FE-002)
+
+The Clarivum web app now mirrors the Skin/Fuel/Habits sitemap described in `docs/PRDs/first_configuration.md`. Key highlights:
+
+- **Route groups**: marketing experiences live under `src/app/(marketing)` (home, ebooks, narzedzia, blog). Verticalized flows use dynamic segments in `src/app/[vertical]/[category]/[slug]` so we can add categories without new folders.
+- **Shared shell + DI**: `src/app/_vertical-experience/{manager,coordinator,view,viewmodel}` exposes `ContentLibrary`, coordinators, and typed ViewModels. Route files construct a coordinator per request, resolve params, and pass serializable models into view components.
+- **Placeholders that match ASCII designs**: The new home + hub pages render TODO callouts referencing `docs/PRDs/requierments/ascii_designs.md` so design/content owners know exactly where to inject final copy.
+- **Sitemaps, robots, RSS**: `/sitemap.xml`, `/sitemaps/{skin,fuel,habits}.xml`, `/sitemaps/pages.xml`, `/robots.txt`, and `/rss` are generated via route handlers under `src/app/sitemap*.{ts,tsx}`. Update them alongside `observability/config.ts` whenever telemetry domains change.
+- **Redirect guardrails**: `next.config.ts` encodes the legacy `/blog` URL migrations described in ADR-019 so search traffic lands on the new dynamic routes.
+
+Extension points:
+
+- Swap `ContentLibrary` inputs (currently static map) with Strapi/Supabase loaders once `TSK-SHARED-003` and `TSK-FE-006` ship. The coordinator/manager boundary lets tests inject doubles.
+- Add package-level `AGENTS.md` entries whenever new route groups/components appear so future agents know which commands/tests to run.
+- Update the sitemap helpers whenever we introduce new hubs (ebooks, tools, ops) so Flow/SEO metrics stay accurate.

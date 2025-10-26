@@ -15,6 +15,11 @@
 - Business: Increase affiliate conversions for approved products by 10%; boost newsletter opt-ins via label analysis by 15%.
 - Experience: 80% of scans yield actionable feedback; user NPS for tool ≥45.
 
+### Monetization & Disclosure Hooks
+- Affiliate recommendations shown in swap suggestions must use the standardized commerce card + disclosure component from ADR-033, tagging each impression/click with the monetization telemetry events (`affiliate_link_viewed`, `affiliate_link_clicked`).
+- Editors configure default partner SKUs via Strapi; tool logic should fall back to Clarivum-owned recommendations if no affiliate-safe product exists for a given category.
+- The result card needs a secondary CTA pointing to the flagship Fuel ebooks relevant to the product category (e.g., label reading playbook) so ebook funnels can be attributed back to `label_analysis_completed`.
+
 ## Primary Users & Segments
 - Grocery shoppers comparing packaged foods.
 - Parents monitoring sugar/sodium for family meals.

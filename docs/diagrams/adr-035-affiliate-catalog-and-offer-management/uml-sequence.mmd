@@ -1,0 +1,14 @@
+```mermaid
+sequenceDiagram
+  participant Editor
+  participant Strapi
+  participant ACS as Affiliate Catalog Service
+  participant NextApp as Next.js App
+
+  Editor->>Strapi: Submit offer form
+  Strapi-->>ACS: Webhook payload (offer draft)
+  ACS->>ACS: Validate + store + emit event
+  NextApp->>ACS: Fetch offers for slug
+  ACS-->>NextApp: Offer + disclosure payload
+  NextApp-->>Editor: Render CTA with telemetry context
+```

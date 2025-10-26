@@ -15,6 +15,11 @@
 - Business: Increase adoption of ergonomic equipment affiliate links by 12%; improve microbreak tool engagement by 15%.
 - Experience: 85% of users complete assessment within 5 minutes; recommendation clarity ≥4.5/5.
 
+### Monetization & Disclosure Hooks
+- Product recommendations in the summary dashboard must support partner metadata, signed redirect URLs, and FTC-compliant disclosure text per ADR-033.
+- Emit `affiliate_link_clicked` events whenever a user opens a gear suggestion so the monetization telemetry platform can correlate against payouts and fraud signals.
+- Provide optional CTAs to relevant Habits ebooks (e.g., posture or desk setup guides) inside the prioritized action list, tagging clicks with the analytics schema so growth can attribute conversions.
+
 ## Primary Users & Segments
 - Remote workers and freelancers.
 - Office employees customizing desk setup.

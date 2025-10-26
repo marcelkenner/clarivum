@@ -1,0 +1,9 @@
+```mermaid
+flowchart LR
+  start([Offer change]) --> review{Partner Ops review}
+  review -->|Approved| publish[Publish to ACS]
+  review -->|Needs edits| rework[Request updates]
+  rework --> review
+  publish --> notify[Notify consumers + run guardrails]
+  notify --> end([Live])
+```

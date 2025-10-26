@@ -61,3 +61,26 @@
 - Hosting decision settled (self-managed on AWS ECS per `ADR-010`); document deployment pipeline expectations.
 - Determine localization tooling (manual vs integrated translation provider).
 - Assume Strapi will manage taxonomy for both blog and ecommerce content; confirm no conflicting systems.
+
+## App Router content API contract (TSK-FE-021 / FE-022)
+
+To replace the temporary `content-map.ts`, Strapi must serve structured payloads that map 1:1 to the App Router view models:
+
+- **Collections**
+  - `homePage`: hero copy blocks, diagnostics array (`label`, `description`, `href`), learning moments (`title`, `summary`, `href`), CTA groups (primary/secondary).
+  - `verticalHub`: slug, tagline, description, accent color, CTA group, ordered `categories` relation.
+  - `categoryPage`: slug, hero intro, tool embeds (`tool_slug`, `variant`, `copy`), diagnostics references, featured article list (title, slug, excerpt), CTA group (ebook + tool), metadata.
+  - `articlePage`: slug, vertical/category references, body blocks (portable text/MDX), CTA shelf definitions, SEO + structured data, telemetry tags.
+  - `navigationGlobal`: primary nav links (label, href, vertical association, icon token), utility links, feature-flagged experiments, skip-link targets.
+  - `footerGlobal`: legal links, social links, newsletter CTA, privacy controls entry point.
+- **Endpoints**
+  - `/content/home`, `/content/verticals/:slug`, `/content/categories/:slug`, `/content/articles/:slug`, `/navigation/global`, `/footer/global`.
+  - Responses must include `updatedAt`, `etag`, and `cache-control` headers. Support preview tokens for draft review, and redact any admin-only fields from the public API.
+- **Webhooks & revalidation**
+  - Publishing any of the above content types should POST to Vercel/Next revalidation endpoints with tags: `home`, `vertical:<slug>`, `category:<slug>`, `article:<slug>`, `navigation`, `footer`.
+- **Validation**
+  - Enforce slug uniqueness by vertical, require CTA URLs, and guard against missing diagnostic references. Provide JSON schema documentation so frontend loaders can type data safely.
+- **Security**
+  - Reader tokens for frontend APIs must be scoped and rotated quarterly. Preview tokens should expire within 24h.
+
+Keep this section synchronized with `docs/PRDs/first_configuration.md#10-dynamic-content-loaders--caching-tsk-fe-021` and `docs/PRDs/clarivum_brand.md#global-navigation--footer-data-source-tsk-fe-022`.

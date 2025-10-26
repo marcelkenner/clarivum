@@ -434,6 +434,7 @@ Adjust these workflows as actual automation is put in place (e.g., using `npm ru
 - `docs/runbooks/sisu-debugging.md`: maintain the Sisu steps, bottleneck catalog, and guardrail examples.
 - `docs/runbooks/ops-hub.md`: keep the Clarivum Operations Hub procedures, alerts, and access reviews current with ADR-031.
 - `docs/role-guides/continuous-improvement.md`: keep the daily, weekly, monthly cadence aligned with this file.
+- `docs/role-guides/copywriting.md`: opisuje, jak pisać naturalne polskie copy w formule „me, me, me” i pilnować nazw Clarivum Skin/Fuel/Habits.
 - `docs/playbooks/kaizen-minute.md`: store the daily form, examples under 60 minutes, and scoreboard. Create this file if missing.
 - `docs/playbooks/metsa-cadence.md`: define seasonal boards, entry/exit criteria, and sample tasks. Create if missing.
 - `docs/PRDs/requierments/operations-hub/feature-requirements.md` + `docs/adr/ADR-031-admin-operations-hub.md`: update whenever we expand `/ops` modules or change integrations; refresh diagrams under `docs/diagrams/adr-031-admin-operations-hub/`.

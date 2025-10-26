@@ -15,6 +15,11 @@
 - Business: Increase `/fuel/narzedzia/` lead conversions by 12% within 60 days; lift ebook downloads tied to personalized calorie targets by 8%.
 - Experience: Deliver results in ≤150 ms post-input; 90% of users understand their recommended caloric window (survey CSAT ≥4.5/5).
 
+### Ebook Funnel Hooks
+- Pair the summary card with a configurable CTA that deep-links to the flagship calorie planning ebook (default: `/ebooks/fuel/planer-kalorii/`) and track clicks via the analytics schema (`tool_ebook_cta_click`).
+- When users export emails/PDFs, include teaser pages for the ebook bundle and tag the export event with `ebook_offer_shown=true` so lifecycle automation can segment buyers vs browsers.
+- Provide context to macros & protein/fiber tools: if a user opens those follow-up tools without downloading the ebook, surface the offer again with a reminder ribbon.
+
 ## Primary Users & Segments
 - **Starter**: Adults (18–55) beginning nutrition tracking; typically mobile users seeking weight management baselines.
 - **Performance**: Recreational athletes needing accurate TDEE for training cycles.

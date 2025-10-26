@@ -198,6 +198,40 @@ WIDTH ≈ 120ch
 
 * Logo: “Clarivum — nauka w praktyce”
 * Widżet UV: “Widżet z bieżącym indeksem UV dla [miasto]”
+
+---
+
+## Vertical experience modules (TSK-FE-023/024/025)
+
+Each vertical inherits the shared layout but needs dedicated modules before launch. Use these ASCII notes alongside the brand PRD when implementing Skin/Fuel/Habits UI.
+
+### Skin (TSK-FE-023)
+
+- **Hero**: gradient background (teal accent), headline “Plan skóry, który trzyma się realiów”, CTA buttons (`/skin/start`, `/skin/ebooki`). Right rail shows barrier diagnostic card (+ completion badge) and testimonial quote.
+- **Diagnostic rail**: cards for Retinoid planner, UV index widget, Barrier test. Each card lists “Czas” + “Co dostaniesz” bullet list.
+- **CTA shelf**: two rows — ebooks (Conscious Skincare, Barrier Reset) and tools (`generator-rutyny`, `kalendarz-retinolu`). Each tile requires space for certification badges (derm-reviewed) and disclosure microcopy.
+- **Affiliate highlights**: slot for `ACS` offers with image, title, benefit list, `Zobacz ofertę` CTA. Ensure disclosure text references `/jak-zarabiamy/`.
+- **Metadata**: define OG image alt text (“Clarivum Skin — plan startowy”) and JSON-LD `ItemList` for featured topics.
+
+### Fuel (TSK-FE-024)
+
+- **Hero**: amber accent, tagline “Jedzenie i suplementy, które działają dla Ciebie”, CTA `[Uruchom kalkulator]` + `[Zobacz plan posiłków]`.
+- **Macro strip**: three cards showing Protein, Fiber, Energy with quick metrics and `Dodaj do planu` links. Connect to calculators.
+- **Budget callouts**: banner for “Koszyk tygodniowy 150 PLN” with toggle for `biuro` vs `dom`. Include note referencing coupon/affiliate telemetry IDs.
+- **Tool embeds**: inline component slots for TDEE calculator, Goal protein slider, Smart snacking builder (wireframe each height/state).
+- **Monetization slot**: `ACS` offers appear as stacked cards, each with nutritional compliance copy (“Oferta partnerska, zasady w /jak-zarabiamy/”).
+- **SEO**: list the structured data requirements (FAQPage for macro myths, BreadcrumbList for /fuel/tematy/...).
+
+### Habits (TSK-FE-025)
+
+- **Hero**: indigo accent, headline “Rytm dnia, który chroni Twój fokus”, CTA `[Zbuduj Forest Day]` + `[Sprawdź checklistę biurową]`.
+- **Cadence timeline**: horizontal scroll showing Winter/Spring/Summer/Autumn focus (“Metsa cadence”). Each season card links to `/habits/start#season`. Include guardrail reminder chip.
+- **Kaizen callouts**: table listing “Guardrail tygodnia”, “Slowdown”, “Weryfikacja” with links to Ops Hub tasks.
+- **Habit tracker embed**: placeholder copy describing a future interactive component (grid of days, `focus-visible` behavior). Provide accessible labels for toggles.
+- **Ops integration**: highlight `/ops` modules (Ops Hub, documentation) with `type:guardrail` labels to reinforce continuous improvement.
+- **SEO**: metadata note for `SpeakableSpecification` (since Habits content will feed podcasts/voice).
+
+Keep these specs synchronized with the matching backlog tasks and update this file when marketing revises copy or module ordering.
 * Okładki ebooków: “Okładka ebooka ‘Retinoid bez paniki’” itd.
 * Ikony narzędzi: “Ikona słońca dla UV Index SPF” / “Ikona kolby dla Składniki Checker” itp.
 

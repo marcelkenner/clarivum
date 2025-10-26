@@ -15,6 +15,11 @@
 - Business: Increase meal plan exports by 20%; convert 12% of users into newsletter or ebook leads.
 - Experience: 85% of users complete plan creation in <3 minutes; satisfaction ≥4.4/5.
 
+### Ebook Funnel Hooks
+- Export flows (PDF/CSV/Notion) must inject contextual CTAs for the meal-planning ebook set, and exports should only trigger after the user sees the disclosure/offer modal captured via analytics.
+- The preset picker should indicate which ebook chapter or template pairs with each scenario (e.g., “High Protein → link to `Strong Week` ebook”) to create a predictable attribution path.
+- Saved plans need to store whether the user has claimed the companion ebook so lifecycle campaigns avoid redundant messaging.
+
 ## Primary Users & Segments
 - Busy professionals wanting done-for-you plans (omnivore/vegetarian/vegan).
 - Fitness-focused individuals syncing macros from previous tools.

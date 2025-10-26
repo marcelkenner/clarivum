@@ -15,6 +15,11 @@
 - Business: Grow download rate of `Smart Protein & Fiber` ebook by 18%; capture 25% more newsletter signups from the tool.
 - Experience: 90% of users understand target explanation (tooltip helpfulness ≥4.5/5); return visits to adjust settings within 14 days ≥20%.
 
+### Ebook Funnel Hooks
+- The results card must reserve a CTA slot for the `Smart Protein & Fiber` ebook (or successor) controlled via Strapi, with A/B testing flags defined in the growth playbook.
+- Email/PDF exports should require opt-in consent and include contextual upsells to the ebook bundle; track these events using the analytics schema so marketing can attribute purchases.
+- Saved targets should tag the originating ebook CTA so lifecycle flows (Sprint 07) can drip additional content to users who have not yet converted.
+
 ## Primary Users & Segments
 - Active adults seeking muscle maintenance or growth.
 - Individuals addressing satiety and blood sugar stability via higher fiber.

@@ -10,6 +10,11 @@
 - Business: increase lead magnet conversions, drive ebook and subscription upsell through tool usage.
 - Experience: ensure tools deliver actionable results within minutes and are easy to revisit or share.
 
+## Funnel Strategy (2025-10-27)
+- **Affiliate-first tools:** `analiza-etykiety`, `smart-zamienniki-produktow`, `checklista-sypialni`, and `ocena-ergonomii-stanowiska` are the canonical surfaces for promoting partner products. Each must render FTC-compliant disclosures, reuse the affiliate CTA component defined in ADR-033, and emit impression/click events consumed by the monetization telemetry platform (`plat-043`). Editors manage inventory via Strapi relations so offers stay in sync with partner contracts.
+- **Ebook-first tools:** `cel-bialko-i-blonnik`, `kalkulator-kcal-bmr-tdee`, `podzial-makroskladnikow`, and `generator-jadlospisu` drive ebook funnel conversions. Their result cards and exports must surface dynamically targeted ebook CTAs (`/ebooks/<vertical>/`) and feed the analytics schema from `docs/PRDs/requierments/analytics/feature-requirements.md` so growth can attribute purchases back to tool usage.
+- All other tools should defer to these eight references when they need affiliate or ebook hand-offs, ensuring disclosures, telemetry, and experimentation hooks remain consistent across the catalog.
+
 ## Primary Users & Segments
 - Visitors seeking practical support (e.g., SPF calculator, meal planner, sleep tracker).
 - Returning customers using tools to maintain routines.

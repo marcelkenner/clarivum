@@ -15,6 +15,11 @@
 - Business: Increase conversion on affiliate recommendations by 12%; drive 20% more adoption of healthier swaps.
 - Experience: Substitution relevance rating ≥4.6/5; performance latency ≤200 ms.
 
+### Monetization & Disclosure Hooks
+- Every substitution card must support affiliate product metadata (SKU, network, disclosure flag) and emit the ADR-033 events (`affiliate_card_rendered`, `affiliate_link_clicked`) so the monetization telemetry platform (`plat-043`) can reconcile payouts.
+- When a suggested product lacks an affiliate relationship, the UI should gracefully degrade to editorial recommendation copy while hiding monetization labels to stay compliant.
+- Provide an optional CTA to relevant Fuel ebooks (e.g., ingredient swap guides) so growth teams can run A/B tests on ebook upsells inside the substitution experience.
+
 ## Primary Users & Segments
 - Grocery shoppers seeking healthier or cheaper options.
 - Meal planners adjusting recipes for allergies or macros.

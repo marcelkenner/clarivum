@@ -1,0 +1,49 @@
+```mermaid
+flowchart LR
+    subgraph Editors
+        Strapi[Strapi Affiliate Plugin]
+        PartnerOps[Partner Ops Lead]
+    end
+
+    subgraph Supabase
+        Programs[(affiliate_programs)]
+        Offers[(affiliate_offers)]
+        Disclosures[(affiliate_disclosure_profiles)]
+        Taxonomy[(affiliate_taxonomy_links)]
+    end
+
+    subgraph Services
+        ACSAPI[/ACS REST/GraphQL/]
+        SDK[@clarivum/affiliate SDK]
+        KillSwitch[Kill Switch CLI]
+    end
+
+    subgraph Consumers
+        Tools[Tools Blueprint CTA Slots]
+        Glossary[Glossary Ingredient Pages]
+        Recommendations[Recommendations Engine]
+        OpsHub[Ops Hub Dashboards]
+    end
+
+    Strapi -->|CRUD via webhooks| Programs
+    Strapi --> Offers
+    Strapi --> Disclosures
+    Strapi --> Taxonomy
+
+    Programs --> ACSAPI
+    Offers --> ACSAPI
+    Disclosures --> ACSAPI
+    Taxonomy --> ACSAPI
+
+    ACSAPI --> SDK
+    SDK --> Tools
+    SDK --> Glossary
+    SDK --> Recommendations
+
+    ACSAPI --> OpsHub
+    KillSwitch --> ACSAPI
+
+    SDK -->|Signed URL + telemetry context| Redirect[/ /go/... /]
+    Redirect --> Telemetry[(ADR-033 Monetization Logs)]
+    Telemetry --> OpsHub
+```

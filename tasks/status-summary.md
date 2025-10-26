@@ -22,6 +22,11 @@ Generated 2025-10-25 via `npm run tasks:summary`.
 - `TSK-FE-018` · Integrate Monetization SDK Across Content Surfaces — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-033-advertising-and-affiliate-telemetry.md))
 - `TSK-FE-019` · Maintain Component Coverage Targets — Owner: Frontend Lead; Effort: small; Updated: 2025-11-03 ([link](docs/PRDs/first_steps.md#8))
 - `TSK-FE-020` · Add Client Interaction Test Suite — Owner: Frontend Lead; Effort: medium; Updated: 2025-11-03 ([link](docs/PRDs/first_steps.md#8))
+- `TSK-FE-021` · Implement App Router Content Loaders — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-25 ([link](docs/PRDs/first_configuration.md))
+- `TSK-FE-022` · Build Global Navigation & Footer Data Source — Owner: Frontend Engineer; Effort: small; Updated: 2025-10-25 ([link](docs/PRDs/clarivum_brand.md))
+- `TSK-FE-023` · Deliver Skin Vertical UI Modules — Owner: Frontend Engineer (Skin Pod); Effort: medium; Updated: 2025-10-25 ([link](docs/PRDs/first_configuration.md))
+- `TSK-FE-024` · Deliver Fuel Vertical UI Modules — Owner: Frontend Engineer (Fuel Pod); Effort: medium; Updated: 2025-10-25 ([link](docs/PRDs/first_configuration.md))
+- `TSK-FE-025` · Deliver Habits Vertical UI Modules — Owner: Frontend Engineer (Habits Pod); Effort: medium; Updated: 2025-10-25 ([link](docs/PRDs/first_configuration.md))
 
 ### Platform
 - `TSK-PLAT-001` · Establish Terraform Infrastructure Repository — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md))
@@ -62,6 +67,7 @@ Generated 2025-10-25 via `npm run tasks:summary`.
 - `TSK-PLAT-041` · Implement Guest Purchase Claim Workflow — Owner: Platform Engineer; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-032-guest-entitlements-and-account-claiming.md))
 - `TSK-PLAT-042` · Launch Fulfillment Orchestrator Guardrails — Owner: Platform Engineer; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-032-guest-entitlements-and-account-claiming.md))
 - `TSK-PLAT-043` · Build Monetization Telemetry Platform — Owner: Platform Engineer; Effort: large; Updated: 2025-10-27 ([link](docs/adr/ADR-033-advertising-and-affiliate-telemetry.md))
+- `TSK-PLAT-046` · Build Affiliate Catalog Service & SDK — Owner: Platform Tech Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-035-affiliate-catalog-and-offer-management.md))
 
 ### Qa
 - `TSK-QA-001` · Establish Playwright E2E Smoke Suite — Owner: QA Lead; Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md#8))
@@ -86,11 +92,11 @@ Generated 2025-10-25 via `npm run tasks:summary`.
 - `TSK-SHARED-006` · Deliver Legal & Compliance Surfaces — Owner: Legal Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/legal/feature-requirements.md))
 - `TSK-SHARED-007` · Implement Blog Information Architecture — Owner: Content Strategist; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/blog_structure.md))
 - `TSK-SHARED-008` · Operationalize Brand Design System v1.0 — Owner: Design Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/brand_design_system.md))
+- `TSK-SHARED-010` · Stand Up Affiliate Operations Workflow — Owner: Partner Ops Lead; Effort: small; Updated: 2025-10-27 ([link](docs/PRDs/requierments/affiliate/feature-requirements.md))
 
 ## Ready
 
 ### Frontend
-- `TSK-FE-002` · Scaffold App Router Information Architecture — Owner: Frontend Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/first_configuration.md))
 - `TSK-FE-005` · Build Tools-First Homepage MVP — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/homepage/feature-requirements.md))
 
 ### Backend
@@ -112,7 +118,8 @@ Generated 2025-10-25 via `npm run tasks:summary`.
 
 ## In Progress
 
-_No tasks._
+### Frontend
+- `TSK-FE-002` · Scaffold App Router Information Architecture — Owner: Frontend Lead; Effort: medium; Updated: 2025-10-25 ([link](docs/PRDs/first_configuration.md))
 
 ## Blocked
 

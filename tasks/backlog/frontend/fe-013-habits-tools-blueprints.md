@@ -65,5 +65,5 @@ Build the Habits vertical tool suite using the shared tool shell, computation ma
 - [ ] Analytics events validated in Plausible; legacy PostHog hooks removed and documented.
 - [ ] User education content, disclaimers, and follow-up CTAs wired via CMS where specified.
 - [ ] Future enhancements and research follow-ups logged for subsequent iterations.
+- [ ] Blueprint surfaces standardized affiliate CTA/disclosure components so `checklista-sypialni` and `ocena-ergonomii` can plug partner offers + telemetry without custom code, while still exposing ebook CTA slots for upcoming Habits guides.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

@@ -58,6 +58,22 @@
 
 ---
 
+## Global navigation & footer data source (TSK-FE-022)
+
+Marketing supplies a JSON contract (served through Strapi) that keeps navigation editable without touching code.
+
+- **Primary nav**: ordered entries `{ label, href, verticalKey?, iconToken?, featureFlag? }`. Items tied to Skin/Fuel/Habits inherit accent tokens; marketing-only links (`/narzedzia`, `/ebooks`, `/blog`, `/o-nas`, `/ops`) remain neutral.
+- **Utility nav**: search, account, cart, language toggles with `{ label, ariaLabel, href, placement: 'desktop'|'mobile'|'both' }`.
+- **Mobile menu**: accordion sections keyed by vertical plus a global drawer. Each entry supplies `analyticsId` + `flagsmithKey` for experiments.
+- **Footer**: column definitions `[ { heading, links: [{ label, href, ariaLabel }] } ]`, newsletter CTA (headline, helper copy, button label), legal links (privacy, cookies, terms, medical disclaimer, “Jak zarabiamy”), CMP entry label, social list with icon tokens.
+- **Skip links & announcements**: `skipLinks` array (defaults to `#main-content`, allow per-vertical anchors) and `announcementBadges` with copy, link, dismiss TTL, and visibility flag.
+- **Accessibility**: specify focus order, `aria-current` behavior, and keyboard handling for the mobile menu (focus trap). Provide fallback text for icon-only buttons.
+- **Telemetry**: include `eventId` and optional `experimentKey` for each link so Plausible and Flagsmith metrics line up. Document instrumentation in `docs/runbooks/observability-operations.md`.
+
+This section governs `tasks/backlog/frontend/fe-022-global-navigation-data-source.md` and stays in sync with the Strapi API contract.
+
+---
+
 ## Refined global sitemap (v1)
 
 ```

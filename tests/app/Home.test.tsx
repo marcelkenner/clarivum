@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import { describe, expect, it, vi } from "vitest";
 
-import Home from "@/app/page";
+import MarketingHomePage from "@/app/(marketing)/page";
 
 type MockedImageProps = React.ComponentProps<"img"> & { priority?: boolean };
 
@@ -17,20 +17,23 @@ vi.mock("next/image", () => ({
   },
 }));
 
-describe("Home page", () => {
-  it("renders the onboarding steps", () => {
-    render(<Home />);
+describe("Marketing home page", () => {
+  it("renders the Clarivum hero copy", () => {
+    render(<MarketingHomePage />);
 
-    expect(screen.getByAltText(/next\.js logo/i)).toBeInTheDocument();
-    expect(screen.getByText(/get started by editing/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /tools-first guidance that respects your time/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Kaizen guardrails/i)).toBeInTheDocument();
   });
 
-  it("includes a link to the documentation", () => {
-    render(<Home />);
+  it("surfaces Skin, Fuel, and Habits entry points", () => {
+    render(<MarketingHomePage />);
 
-    expect(screen.getByRole("link", { name: /read our docs/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /browse the roadmap/i })).toHaveAttribute(
       "href",
-      expect.stringContaining("nextjs.org/docs"),
+      "/skin",
     );
+    expect(screen.getByRole("link", { name: /habits hq/i })).toHaveAttribute("href", "/habits");
   });
 });
