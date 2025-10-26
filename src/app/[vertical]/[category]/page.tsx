@@ -6,7 +6,7 @@ import { buildBreadcrumbs } from "@/app/_vertical-experience/viewmodel/VerticalV
 
 import type { Metadata } from "next";
 
-export const revalidate = 60 * 60 * 24;
+export const revalidate = 86400;
 
 export function generateStaticParams() {
   const coordinator = createVerticalExperienceCoordinator();

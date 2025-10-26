@@ -1,6 +1,6 @@
 import { content } from "@/lib/content-map";
 
-export const revalidate = 60 * 60;
+export const revalidate = 3600;
 
 export async function GET() {
   const items: string[] = [];

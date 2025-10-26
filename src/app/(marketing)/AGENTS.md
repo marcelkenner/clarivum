@@ -12,7 +12,7 @@ The `(marketing)` route group owns `/`, `/ebooks`, `/narzedzia`, `/blog`, and fu
 ## Implementation notes
 
 - Always build page data via a coordinator (e.g., `createHomeExperienceCoordinator`) to keep dependency injection intact. Never import managers or content maps directly inside components.
-- Revalidate cadence defaults to 30 minutes for marketing routes (`export const revalidate = 60 * 30`). Adjust only with product + SEO sign-off, and update `docs/runbooks/seo-operations.md` if cadence changes.
+- Revalidate cadence defaults to 30 minutes for marketing routes (`export const revalidate = 1800`). Adjust only with product + SEO sign-off, and update `docs/runbooks/seo-operations.md` if cadence changes.
 - Metadata (title, description, Open Graph) must align with `docs/PRDs/clarivum_brand.md`. Keep TODO callouts referencing ASCII designs until copy is final.
 - When introducing new marketing subroutes, add them to `src/app/sitemaps/pages.xml/route.ts` and the sitemap index.
 

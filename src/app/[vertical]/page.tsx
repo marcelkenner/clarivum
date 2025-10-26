@@ -6,7 +6,7 @@ import { allVerticals } from "@/lib/content-map";
 
 import type { Metadata } from "next";
 
-export const revalidate = 60 * 60 * 24;
+export const revalidate = 86400;
 
 export function generateStaticParams() {
   return allVerticals.map((vertical) => ({ vertical }));
