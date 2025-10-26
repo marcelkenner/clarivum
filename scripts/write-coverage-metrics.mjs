@@ -21,7 +21,7 @@ function readCoverageSummary() {
   if (!fs.existsSync(COVERAGE_SUMMARY_PATH)) {
     console.error(
       `Coverage summary not found at ${COVERAGE_SUMMARY_PATH}. ` +
-        "Run `npm run test -- --coverage` first."
+        "Run `npm run test -- --coverage` first.",
     );
     process.exitCode = 1;
     return null;

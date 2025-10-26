@@ -9,9 +9,7 @@ test.describe("Marketing home smoke", () => {
 
     await page.goto("/");
 
-    await expect(
-      page.getByRole("heading", { name: landingViewModel.hero.headline }),
-    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: landingViewModel.hero.headline })).toBeVisible();
     await expect(
       page.getByRole("link", { name: landingViewModel.hero.primaryCta.label }),
     ).toHaveAttribute("href", landingViewModel.hero.primaryCta.href);

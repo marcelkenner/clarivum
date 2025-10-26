@@ -37,9 +37,10 @@ describe("Marketing home page", () => {
     render(<MarketingHomePage />);
 
     landingViewModel.verticals.forEach((vertical) => {
-      expect(
-        screen.getByRole("link", { name: vertical.primaryCta.label }),
-      ).toHaveAttribute("href", vertical.primaryCta.href);
+      expect(screen.getByRole("link", { name: vertical.primaryCta.label })).toHaveAttribute(
+        "href",
+        vertical.primaryCta.href,
+      );
     });
   });
 });

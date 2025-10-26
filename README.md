@@ -1,5 +1,13 @@
 This repository hosts the Clarivum web experience (Next.js App Router, React 19, Tailwind CSS 4, TypeScript 5). It is preconfigured with governance, documentation, and tooling captured in `AGENTS.md`, the PTRD (`docs/PRDs/first_steps.md`), and the ADR set (`docs/adr/`).
 
+## Current status (2025-10-26)
+
+- **Marketing experience:** The App Router home funnel is live under `src/app/(marketing)` with coordinator/view-model plumbing and placeholder Polish copy until Strapi delivers final content. Three verticals (Skin, Fuel, Habits) derive their CTAs from `src/lib/content-map.ts`.
+- **Observability:** OpenTelemetry scaffolding (`instrumentation*.ts`, `observability/`) is checked in; set the OTLP credentials described in `docs/runbooks/observability-operations.md` before deploying to capture spans/metrics.
+- **Testing & QA:** Vitest + Testing Library cover the home/coordinator/content-library flows (≈15.5 % statements today). `scripts/write-coverage-metrics.mjs` emits `metrics/coverage.json`, and the Playwright smoke suite (`PLAYWRIGHT_BASE_URL=http://127.0.0.1:3310 npm run test:e2e:smoke`) validates the hero CTA while writing `metrics/quality.json` for dashboards.
+- **Automation:** `.github/workflows/ci.yml` runs `npm run validate`, Vitest coverage, metrics export, and the Playwright smoke project. All runs upload `qa-metrics`, `vitest-coverage`, `playwright-report`, and `ci-metrics` artifacts per ADR-015.
+- **Outstanding work:** Finish the Strapi hookup (`src/app/_vertical-experience`) plus Supabase data loaders, raise coverage toward the ≥80 % goal, and continue populating Kaizen guardrails (see `tasks/ready/**`).
+
 ## Local development
 
 Install dependencies (Node ≥ 20.11):
@@ -10,20 +18,24 @@ npm install
 
 Common scripts:
 
-| Purpose             | Command                 | Notes                                                                            |
-| ------------------- | ----------------------- | -------------------------------------------------------------------------------- |
-| Start dev server    | `npm run dev`           | Uses Turbopack; hot reload enabled.                                              |
-| Build production    | `npm run build`         | Generates the production bundle (Turbopack).                                     |
-| Run quality gate    | `npm run validate`      | Executes lint (tasks + code), typecheck, and Prettier format check.              |
-| Lint tasks only     | `npm run lint:tasks`    | Validates task board metadata/schema.                                            |
-| Lint code only      | `npm run lint:code`     | ESLint with zero warnings allowed.                                               |
-| Type-check only     | `npm run typecheck`     | Uses `tsconfig.json` strict settings.                                            |
-| Auto-format source  | `npm run format`        | Runs Prettier respecting `.prettierignore`.                                      |
-| Refresh AGENTS docs | `npm run ensure:agents` | Regenerates directory-specific agent guidance files.                             |
-| Task status digest  | `npm run tasks:summary` | Rebuilds `tasks/status-summary.md`.                                              |
-| Stale flag audit    | `npm run flags:stale`   | Requires Flagsmith Admin API creds; posts Slack + GitHub alerts when configured. |
+| Purpose                | Command                                                            | Notes                                                                              |
+| ---------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| Start dev server       | `npm run dev`                                                      | Uses Turbopack; hot reload enabled.                                                |
+| Build production       | `npm run build`                                                    | Generates the production bundle (Turbopack).                                       |
+| Run quality gate       | `npm run validate`                                                 | Executes lint (tasks + code), typecheck, and Prettier format check.                |
+| Lint tasks only        | `npm run lint:tasks`                                               | Validates task board metadata/schema.                                              |
+| Lint code only         | `npm run lint:code`                                                | ESLint with zero warnings allowed.                                                 |
+| Type-check only        | `npm run typecheck`                                                | Uses `tsconfig.json` strict settings.                                              |
+| Auto-format source     | `npm run format`                                                   | Runs Prettier respecting `.prettierignore`.                                        |
+| Refresh AGENTS docs    | `npm run ensure:agents`                                            | Regenerates directory-specific agent guidance files.                               |
+| Task status digest     | `npm run tasks:summary`                                            | Rebuilds `tasks/status-summary.md`.                                                |
+| Update coverage metric | `npm run test:coverage && npm run metrics:coverage`                | Produces `coverage/` HTML + refreshes `metrics/coverage.json` for dashboards.      |
+| Smoke test + QA metric | `PLAYWRIGHT_BASE_URL=http://127.0.0.1:3310 npm run test:e2e:smoke` | Requires a running dev server on the same base URL; writes `metrics/quality.json`. |
+| Stale flag audit       | `npm run flags:stale`                                              | Requires Flagsmith Admin API creds; posts Slack + GitHub alerts when configured.   |
 
 CI relies on `npm run validate`; ensure it passes before pushing. Task changes alone still require `npm run lint:tasks`.
+
+> **Note:** Playwright suites target whichever host is provided via `PLAYWRIGHT_BASE_URL`. Use `npm run dev -- --hostname 127.0.0.1 --port 3310` (or a deployed preview) before running the smoke suite locally so the QA metrics reporter embeds the correct URL in `metrics/quality.json`.
 
 ## Observability baseline
 

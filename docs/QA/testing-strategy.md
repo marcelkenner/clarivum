@@ -28,7 +28,7 @@ Tag tests with `@smoke`, `@regression`, or `@accessibility` to support selective
 2. Generate agent scaffolding (ensures AGENTS docs exist): `npm run ensure:agents`
 3. Run targeted suites:
    - Unit/integration: `npm run test -- --runInBand ./path/to/file.test.tsx`
-   - End-to-end: `npm run test:e2e -- --project smoke` (or `npm run test:e2e:smoke`)
+   - End-to-end: run `npm run dev -- --hostname 127.0.0.1 --port 3310` in a separate terminal, then execute `PLAYWRIGHT_BASE_URL=http://127.0.0.1:3310 npm run test:e2e -- --project smoke` (or `npm run test:e2e:smoke`). Use preview/staging URLs in place of the localhost base when validating deployed builds so `metrics/quality.json` captures the correct environment.
 4. Update fixtures under `tests/config/fixtures/` when API contracts change; keep them synthetic.
 5. Record flake notes in `sisu-log/` when retries exceed guardrail thresholds.
 

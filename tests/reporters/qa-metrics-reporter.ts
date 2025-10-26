@@ -2,13 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 
-import type {
-  FullConfig,
-  FullResult,
-  Reporter,
-  Suite,
-  TestCase,
-} from "@playwright/test/reporter";
+import type { FullConfig, FullResult, Reporter, Suite, TestCase } from "@playwright/test/reporter";
 
 type ReporterOptions = {
   outputFile?: string;
@@ -80,7 +74,7 @@ class QaMetricsReporter implements Reporter {
       : DEFAULT_OUTPUT;
     fs.mkdirSync(path.dirname(outputFile), { recursive: true });
     fs.writeFileSync(outputFile, JSON.stringify(payload, null, 2));
-    console.log(`📈 Wrote Playwright metrics → ${outputFile}`);
+    console.warn(`📈 Wrote Playwright metrics → ${outputFile}`);
   }
 
   // Keep a record of the project names from the config for reporting.

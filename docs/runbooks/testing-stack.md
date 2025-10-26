@@ -13,7 +13,7 @@ This runbook explains how to operate the Vitest, Testing Library, and Playwright
 - Reporting: c8 coverage, Playwright trace viewer, GitHub Checks summaries
 
 ## Environments
-- **Local:** `npm run test`, `npm run test:e2e -- --project smoke`
+- **Local:** `npm run test`, `PLAYWRIGHT_BASE_URL=http://127.0.0.1:3310 npm run test:e2e -- --project smoke` (requires a dev server started via `npm run dev -- --hostname 127.0.0.1 --port 3310`)
 - **Preview:** GitHub Actions deploy preview → Playwright smoke
 - **Nightly:** GitHub Actions scheduled regression matrix across Chromium, Firefox, WebKit
 - **Release:** Manual Playwright regression on production-like data before major launches
@@ -24,12 +24,12 @@ This runbook explains how to operate the Vitest, Testing Library, and Playwright
    - Run `npm run ensure:agents` after pulling latest changes.
 2. **Run Sequencing**
    - Unit/integration first (`npm run test -- --coverage` locally to mirror CI output), then run `npm run metrics:coverage` to refresh `metrics/coverage.json`.
-   - Trigger smoke Playwright (`npm run test:e2e:smoke`).
+   - Start the dev server on `127.0.0.1:3310` (avoid conflicts with preview or Next.js defaults), export `PLAYWRIGHT_BASE_URL=http://127.0.0.1:3310`, then trigger Playwright smoke (`npm run test:e2e:smoke`). Record the same base URL in hand-offs/notes so QA dashboards line up with the JSON payload.
    - Optional: `npm run test:e2e:regression` locally before releases.
 3. **Artifacts**
    - Vitest coverage: `coverage/` (HTML + JSON) uploaded automatically as the `vitest-coverage` artifact in CI.
    - Playwright artifacts: `playwright-report/`, `playwright-results/`, `blob-report/` → bundled as the `playwright-report` artifact (includes traces).
-   - QA metrics snapshot: `metrics/coverage.json` (c8 summary) + `metrics/quality.json` (Playwright runtime/flake data) bundled in the `qa-metrics` artifact.
+   - QA metrics snapshot: `metrics/coverage.json` (c8 summary) + `metrics/quality.json` (Playwright runtime/flake data + `environment.baseURL`) bundled in the `qa-metrics` artifact.
    - CI metrics snapshot: `ci-metrics.json` describing durations + pass/fail counts for lint, typecheck, format, Vitest, and Playwright stages.
    - Download artifacts from the failed GitHub Actions run linked in the automatic PR comment.
 
