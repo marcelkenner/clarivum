@@ -1,9 +1,15 @@
-import MarketingPage, {
-  metadata as marketingMetadata,
-  revalidate as marketingRevalidate,
-} from "./(marketing)/page";
+import MarketingPage from "./(marketing)/page";
 
-export const metadata = marketingMetadata;
-export const revalidate = marketingRevalidate;
+import type { Metadata } from "next";
 
-export default MarketingPage;
+export const metadata: Metadata = {
+  title: "Clarivum · Strona główna Skin · Fuel · Habits",
+  description:
+    "W mniej niż 20 sekund widzisz dalszy krok w Clarivum Skin, Clarivum Fuel i Clarivum Habits. Ta makieta odwzorowuje layout ASCII do czasu, aż Strapi poda finalne treści.",
+};
+
+export const revalidate = 60 * 30;
+
+export default function RootMarketingProxy() {
+  return <MarketingPage />;
+}
