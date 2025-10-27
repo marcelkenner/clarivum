@@ -1,3 +1,5 @@
+> **Canonical decisions:** `docs/adr/ADR-022-tools-and-calculators-platform.md` for shared tooling; UI primitives per `docs/adr/ADR-018-brand-design-system.md`.
+
 Below are **mobile‑first ASCII wireframes** (≈38–42 char width) for the **Kompatybilność pH** tool. They cover the main flow, results (incl. the acceptance example), error/edge states, and i18n cues. Text defaults to **Polish** per spec, with select **English** variants shown where helpful.
 
 ---

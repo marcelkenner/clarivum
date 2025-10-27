@@ -16,7 +16,9 @@ Status: Accepted
   - **Typography:** wordmark set in Cormorant Garamond; UI/body in Inter with prescribed type scale, tracking, and responsive `clamp()` usage.
   - **Color tokens:** Jade, Skin Teal, Fuel Amber, Habits Indigo, Beige, Gold, Ink, Snow. Enforce WCAG contrast thresholds (≥4.5:1 body, ≥3:1 icon/large text) and pillar-specific usage.
 - Layout & components:
-  - 8‑pt spacing system, 12-column desktop grid, 12 px card radius, no shadows (depth via tints/hairlines).
+  - Center content inside containers (`1120px` default, `740px` narrow, `1280px` wide) with `clamp(16px, 4vw, 64px)` inline padding and clamp(64–96 px) section spacing; only backgrounds may bleed full-width.
+  - 4‑pt spacing scale across UI (`4 • 8 • 12 • 16 • 24 • 32 • 40 • 48 • 64 • 80 • 96 • 128`), 12-column desktop grid with 24–32 px gutters, 8-column tablet grid, 4-column mobile grid.
+  - 12 px card radius, 1 px hairline Jade-10% borders; depth via tints/hairlines (no drop shadows).
   - Buttons follow Jade-first hierarchy with defined hover/active/disabled/focus states; focus ring = 2 px Jade outline.
 - Icon system:
   - Reference ADR-017; Phosphor icons with stroke 1.5–1.75 px, rounded terminals, size tokens 16/20/24/32 px, duotone reserved for emphasis.

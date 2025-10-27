@@ -13,27 +13,27 @@ effort: medium
 created_at: 2025-02-16
 updated_at: 2025-02-16
 links:
-  - docs/PRDs/requierments/tools/habits/narzedzia/alkohol_a_sen_symulator.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/checklista_sypialni.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/chronotyp_screener.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/digital_sunset_planer.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/dziennik_kofeiny.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/dziennik_nastroju_niedyagnostyczny.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/indeks_regularnosci_snu.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/jet_lag_planer.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/kalkulator_bialka_i_blonika.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/kalkulator_hydratacji.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/kalkulator_stania_vs_siedzenia.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/monitor_cisnienia_niedyagnostyczny.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/ocena_ergonomii_stanowiska.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/okno_zywieniowe_planer.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/planer_drzemek.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/przygotowanie_do_badan_laboratoryjnych.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/raport_tygodniowy_zdrowia.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/skala_sennosci_subiektywna.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/social_jetlag_kalkulator.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/timer_mikroprzerw.md
-  - docs/PRDs/requierments/tools/habits/narzedzia/trener_oddechu.md
+  - docs/PRDs/requierments/tools/habits/alkohol_a_sen_symulator.md
+  - docs/PRDs/requierments/tools/habits/checklista_sypialni.md
+  - docs/PRDs/requierments/tools/habits/chronotyp_screener.md
+  - docs/PRDs/requierments/tools/habits/digital_sunset_planer.md
+  - docs/PRDs/requierments/tools/habits/dziennik_kofeiny.md
+  - docs/PRDs/requierments/tools/habits/dziennik_nastroju_niedyagnostyczny.md
+  - docs/PRDs/requierments/tools/habits/indeks_regularnosci_snu.md
+  - docs/PRDs/requierments/tools/habits/jet_lag_planer.md
+  - docs/PRDs/requierments/tools/habits/kalkulator_bialka_i_blonika.md
+  - docs/PRDs/requierments/tools/habits/kalkulator_hydratacji.md
+  - docs/PRDs/requierments/tools/habits/kalkulator_stania_vs_siedzenia.md
+  - docs/PRDs/requierments/tools/habits/monitor_cisnienia_niedyagnostyczny.md
+  - docs/PRDs/requierments/tools/habits/ocena_ergonomii_stanowiska.md
+  - docs/PRDs/requierments/tools/habits/okno_zywieniowe_planer.md
+  - docs/PRDs/requierments/tools/habits/planer_drzemek.md
+  - docs/PRDs/requierments/tools/habits/przygotowanie_do_badan_laboratoryjnych.md
+  - docs/PRDs/requierments/tools/habits/raport_tygodniowy_zdrowia.md
+  - docs/PRDs/requierments/tools/habits/skala_sennosci_subiektywna.md
+  - docs/PRDs/requierments/tools/habits/social_jetlag_kalkulator.md
+  - docs/PRDs/requierments/tools/habits/timer_mikroprzerw.md
+  - docs/PRDs/requierments/tools/habits/trener_oddechu.md
   - docs/adr/ADR-022-tools-and-calculators-platform.md
   - docs/adr/ADR-019-frontend-platform.md
   - docs/adr/ADR-029-plausible-analytics-platform.md

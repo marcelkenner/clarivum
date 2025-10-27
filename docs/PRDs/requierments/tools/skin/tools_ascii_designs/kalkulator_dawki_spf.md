@@ -1,3 +1,5 @@
+> **Canonical decisions:** `docs/adr/ADR-022-tools-and-calculators-platform.md` for computation + state; respect UI tokens per `docs/adr/ADR-018-brand-design-system.md`.
+
 Below are **mobile‑first ASCII wireframes** for the “**Kalkulator Dawki SPF**” in key states. They are sized for a narrow viewport (≈40–44ch). Copy shows **Polish by default** (per path), plus one **English** sample to prove i18n (decimal separators + labels).
 
 **Legend (for all screens)**

@@ -102,11 +102,96 @@
 
 ## E) Layout & Grid
 
-- **8‑pt spacing system**; **12‑column** desktop, **4‑column** mobile.
-- **Gutters:** 24 px desktop / 16 px tablet / 12 px mobile.
-- **Section rhythm:** top 96 px • internal 64 px • bottom 96 px (desktop).
-- **Cards:** 12 px radius, **1 px hairline** border at **Jade 10%** opacity.
-- **Shadows:** **none**; depth via tints and hairlines.
+### Containers & Safe Edges
+
+- Wrap page content in centered containers so text, cards, and controls never hug the viewport edge.
+- Max widths: `--mw-narrow 740 px` (long-form copy), `--mw-default 1120 px` (most sections), `--mw-wide 1280 px` (dense grids / tool shelves).
+- Inline padding: `clamp(16px, 4vw, 64px)`; bump to `max(var(--pad-inline), env(safe-area-inset-*)))` for sticky nav, banners, and off-canvas UI via the `.safe` helper.
+- Only backgrounds, color bands, and galleries may bleed full-width. Nest a container inside `.full-bleed` to keep content aligned.
+
+```css
+:root {
+  --pad-inline: clamp(16px, 4vw, 64px);
+  --mw-narrow: 740px;
+  --mw-default: 1120px;
+  --mw-wide: 1280px;
+}
+.container { margin-inline: auto; padding-inline: var(--pad-inline); max-width: var(--mw-default); }
+.container--narrow { max-width: var(--mw-narrow); }
+.container--wide { max-width: var(--mw-wide); }
+.full-bleed { position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; width: 100vw; }
+.full-bleed > .container { margin-inline: auto; }
+.safe { padding-left: max(var(--pad-inline), env(safe-area-inset-left)); padding-right: max(var(--pad-inline), env(safe-area-inset-right)); }
+```
+
+### Responsive Grid & Gutters
+
+- Desktop ≥1024 px: 12 columns, outer padding 48–64 px, gutter clamp(24–32 px), card min-width 280–360 px.
+- Tablet 600–1023 px: 8 columns, outer padding 24–32 px, gutter 24 px.
+- Mobile ≤599 px: 4 columns, outer padding 16–20 px, gutter 16 px.
+- In design tools, set layout grids to these values so snapping keeps rhythm consistent.
+
+### Spacing Scale & Rhythm
+
+- Adopt a strict 4-pt scale: `4 • 8 • 12 • 16 • 24 • 32 • 40 • 48 • 64 • 80 • 96 • 128`.
+- Section spacing: clamp(64 px, 12vw, 96 px) between major bands (hero, diagnostics, tools, learnings).
+- Stacks inside a section: 16–24 px between heading, body, and CTAs.
+- Grid gaps follow gutter rules (24–32 px on desktop, 16 px on mobile).
+- Card padding: 16 px mobile → 24/32 px desktop; forms maintain 16–24 px vertical rhythm, button groups 12–16 px.
+
+### Readability Constraints
+
+- Line length for body copy: 60–75 characters (`max-width: 72ch` or `.container--narrow`).
+- Heading spacing: H1→body 16–24 px; H2→body 12–20 px; avoid excessive white space.
+- Buttons remain 40–44 px tall with 8–12 px breathing room from adjacent text.
+
+### Section Recipes
+
+- **Hero with widget:** `.full-bleed` wrapper, inner `.container` (default width) with 80–96 px top/bottom padding; 8/12 columns for wizard, 4/12 for UV card; gap 32 px.
+- **Tool or diagnostics grid:** `.container--wide`, 3–4 columns desktop, 2 tablet, 1 mobile; grid gap 24–32 px; section padding 64–80 px.
+- **Text-heavy strip:** `.container--narrow`, `max-width: 72ch`, stack spacing 24 px, section padding 64–80 px.
+- **Footer:** `.container` default width, 96 px margin from preceding section, 3–4 columns desktop (collapse to 1 mobile).
+
+### Do / Don’t
+
+- **Do:** keep every text block inside a container; let only backgrounds bleed; use one spacing scale; cap content width at 1280 px on large screens.
+- **Don’t:** leave cards or paragraphs touching the viewport; mix arbitrary paddings (e.g., 22 px); change gutters per breakpoint; rely on color-only structure.
+
+### Tailwind / Utility Hook
+
+```js
+// tailwind.config.js
+theme: {
+  container: { center: true, padding: { DEFAULT: 'clamp(16px,4vw,64px)' } },
+  extend: {
+    maxWidth: { narrow: '740px', default: '1120px', wide: '1280px' },
+    spacing: { 4: '1rem', 6: '1.5rem', 8: '2rem', 12: '3rem', 16: '4rem', 20: '5rem', 24: '6rem' }
+  }
+}
+```
+
+```html
+<section class="full-bleed section">
+  <div class="container max-w-default py-24 md:py-28">
+    <!-- content -->
+  </div>
+</section>
+<section class="container max-w-wide py-24 section">
+  <!-- tools grid -->
+</section>
+<section class="container max-w-narrow section section--tight">
+  <!-- long-form -->
+</section>
+```
+
+### Acceptance Checklist
+
+1. No text or cards touch viewport edges at any breakpoint.
+2. Hero background may bleed, but wizard + copy sit inside a centered container with ≥16 px padding mobile / ≥48 px desktop.
+3. Section spacing stays within 64–96 px; grids respect gutter settings.
+4. Cards use consistent internal padding (16/24/32 px).
+5. Body copy never exceeds 72 ch line length; buttons maintain 40–44 px height.
+6. Very wide monitors (≥1600 px) cap effective content width at ≤1280 px.
 
 ---
 

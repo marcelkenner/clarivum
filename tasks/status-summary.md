@@ -5,16 +5,15 @@ Generated 2025-10-27 via `npm run tasks:summary`.
 ## Backlog
 
 ### Frontend
-- `TSK-FE-003` · Build Component Library Foundations — Owner: Frontend Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/components/feature-requirements.md))
 - `TSK-FE-004` · Stand Up Storybook Workbench — Owner: Frontend Engineer; Effort: small; Updated: 2025-10-24 ([link](docs/PRDs/requierments/storybook/feature-requirements.md))
-- `TSK-FE-006` · Roll Out Tools & Calculators Platform — Owner: Frontend Engineer; Effort: large; Updated: 2025-10-24 ([link](docs/PRDs/requierments/tools/feature-requirements.md))
+- `TSK-FE-006` · Roll Out Tools & Calculators Platform — Owner: Frontend Engineer; Effort: large; Updated: 2025-10-24 ([link](docs/PRDs/requierments/tools/skin/feature-requirements.md))
 - `TSK-FE-007` · Launch Diagnostics & Quiz Experience — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/diagnostics/feature-requirements.md))
 - `TSK-FE-008` · Deliver Authentication & Login Experience — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/login/feature-requirements.md))
 - `TSK-FE-009` · Establish Form Engine Foundation — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/form-engine/feature-requirements.md))
 - `TSK-FE-010` · Implement Hero UV Widget Experience — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-23 ([link](docs/PRDs/requierments/homepage/feature-requirements.md))
 - `TSK-FE-011` · Integrate NotificationManager with Novu Workflows — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-26 ([link](docs/adr/ADR-012-notification-experience-and-toasts.md))
-- `TSK-FE-012` · Implement Fuel Tool Blueprints — Owner: Frontend Engineer (Fuel Pod); Effort: medium; Updated: 2025-02-16 ([link](docs/PRDs/requierments/tools/fuel/narzedzia/analiza_etykiety.md))
-- `TSK-FE-013` · Implement Habits Tool Blueprints — Owner: Frontend Engineer (Habits Pod); Effort: medium; Updated: 2025-02-16 ([link](docs/PRDs/requierments/tools/habits/narzedzia/alkohol_a_sen_symulator.md))
+- `TSK-FE-012` · Implement Fuel Tool Blueprints — Owner: Frontend Engineer (Fuel Pod); Effort: medium; Updated: 2025-02-16 ([link](docs/PRDs/requierments/tools/fuel/analiza_etykiety.md))
+- `TSK-FE-013` · Implement Habits Tool Blueprints — Owner: Frontend Engineer (Habits Pod); Effort: medium; Updated: 2025-02-16 ([link](docs/PRDs/requierments/tools/habits/alkohol_a_sen_symulator.md))
 - `TSK-FE-014` · Finalize Trust Page ASCII Blueprints — Owner: Frontend Designer-Developer; Effort: small; Updated: 2025-02-16 ([link](docs/PRDs/requierments/ascii_designs.md))
 - `TSK-FE-015` · Automate Lighthouse CI Performance Gates — Owner: Frontend Engineer; Effort: small; Updated: 2025-10-24 ([link](docs/PRDs/requierments/homepage/feature-requirements.md))
 - `TSK-FE-016` · Design & Build Operations Hub Interface — Owner: Frontend Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/operations-hub/feature-requirements.md))
@@ -45,7 +44,7 @@ Generated 2025-10-27 via `npm run tasks:summary`.
 - `TSK-PLAT-016` · Deploy Meilisearch Search Service — Owner: Search Platform Manager; Effort: medium; Updated: 2025-10-25 ([link](docs/PRDs/technology-stack-catalog.md))
 - `TSK-PLAT-017` · Establish Grafana Observability Stack — Owner: SRE Lead; Effort: medium; Updated: 2025-10-25 ([link](docs/PRDs/requierments/observability/feature-requirements.md))
 - `TSK-PLAT-018` · Implement PDF & EPUB Generation Pipeline — Owner: Platform Engineer; Effort: medium; Updated: 2025-10-25 ([link](docs/PRDs/requierments/pdf-converter/requirements.md))
-- `TSK-PLAT-019` · Build Open-Meteo UV Widget Service Layer — Owner: Platform Engineer; Effort: medium; Updated: 2025-10-23 ([link](docs/PRDs/requierments/tools/widget_indeks_uv.md))
+- `TSK-PLAT-019` · Build Open-Meteo UV Widget Service Layer — Owner: Platform Engineer; Effort: medium; Updated: 2025-10-23 ([link](docs/PRDs/requierments/tools/skin/widget_indeks_uv.md))
 - `TSK-PLAT-023` · Provision Novu Notification Platform — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-26 ([link](docs/adr/ADR-012-notification-experience-and-toasts.md))
 - `TSK-PLAT-024` · Implement Novu CI/CD & Governance — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-26 ([link](docs/PRDs/requierments/subscriptions/feature-requirements.md))
 - `TSK-PLAT-025` · Automate Consent Enforcement Tests — Owner: QA Lead; Effort: small; Updated: 2025-10-26 ([link](docs/adr/ADR-014-cookie-consent-and-preference-management.md))
@@ -71,7 +70,7 @@ Generated 2025-10-27 via `npm run tasks:summary`.
 
 ### Qa
 - `TSK-QA-001` · Establish Playwright E2E Smoke Suite — Owner: QA Lead; Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md#8))
-- `TSK-QA-002` · Validate UV Widget Experience & Data Quality — Owner: QA Lead; Effort: small; Updated: 2025-10-23 ([link](docs/PRDs/requierments/tools/widget_indeks_uv.md))
+- `TSK-QA-002` · Validate UV Widget Experience & Data Quality — Owner: QA Lead; Effort: small; Updated: 2025-10-23 ([link](docs/PRDs/requierments/tools/skin/widget_indeks_uv.md))
 - `TSK-QA-003` · Ebooks Fulfillment Reliability Guardrails — Owner: QA Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/runbooks/ebooks-fulfillment.md))
 
 ### Shared
@@ -122,6 +121,7 @@ _No tasks._
 ### Frontend
 - `TSK-FE-001` · Bootstrap Vitest Unit Testing — Owner: Frontend Lead; Effort: medium; Updated: 2025-11-03 ([link](AGENTS.md))
 - `TSK-FE-002` · Scaffold App Router Information Architecture — Owner: Frontend Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/PRDs/first_configuration.md))
+- `TSK-FE-003` · Build Component Library Foundations — Owner: Frontend Lead; Effort: medium; Updated: 2025-11-04 ([link](docs/PRDs/requierments/components/feature-requirements.md))
 
 ### Backend
 - `TSK-BE-001` · Model Supabase Schema v0 — Owner: Marcel (Backend Engineer); Effort: medium; Updated: 2025-10-27 ([link](docs/PRDs/first_steps.md#4))

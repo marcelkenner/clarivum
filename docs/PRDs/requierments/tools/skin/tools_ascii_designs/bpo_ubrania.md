@@ -1,3 +1,5 @@
+> **Canonical decisions:** `docs/adr/ADR-022-tools-and-calculators-platform.md` defines the tooling platform; follow UI tokens from `docs/adr/ADR-018-brand-design-system.md`.
+
 Below are **mobile‑first ASCII wireframes** for the BPO Fabric‑Bleach Risk Aid, covering the primary flows and required UI states. They reflect the spec’s rules, copy, and accessibility notes. Polish (PL) is the default; an EN toggle is shown in one screen.
 
 ---

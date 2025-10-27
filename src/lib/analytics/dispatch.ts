@@ -4,7 +4,7 @@
  * Minimal Plausible dispatcher aligned with ADR-029. Replace with the full
  * @clarivum/analytics toolkit once Tasks TSK-PLAT-005 and TSK-SEO-001 land.
  */
-type AnalyticsEventMap = {
+export type AnalyticsEventPayloadMap = {
   HomepageHeroAreaSelected: { area: string };
   HomepageHeroGoalSelected: { area: string; goal: string };
   HomepageHeroPlanRequested: { area: string; goal: string; emailProvided: boolean };
@@ -21,9 +21,11 @@ declare global {
   }
 }
 
-export function dispatchAnalyticsEvent<EventName extends keyof AnalyticsEventMap>(
+export type AnalyticsEventName = keyof AnalyticsEventPayloadMap;
+
+export function dispatchAnalyticsEvent<EventName extends AnalyticsEventName>(
   name: EventName,
-  properties: AnalyticsEventMap[EventName],
+  properties: AnalyticsEventPayloadMap[EventName],
 ): void {
   if (typeof window === "undefined") {
     return;
@@ -37,5 +39,3 @@ export function dispatchAnalyticsEvent<EventName extends keyof AnalyticsEventMap
     console.debug(`[analytics] ${name}`, properties);
   }
 }
-
-export type AnalyticsEventName = keyof AnalyticsEventMap;

@@ -7,7 +7,8 @@ end: 2026-03-28
 updated_at: 2025-10-27
 links:
   - docs/PRDs/requierments/homepage/feature-requirements.md
-  - docs/PRDs/requierments/tools/widget_indeks_uv.md
+  - docs/PRDs/requierments/tools/skin/widget_indeks_uv.md
+  - docs/PRDs/requierments/tools/skin/tools_ascii_designs/widget_indeks_uv.md
   - docs/adr/ADR-022-tools-and-calculators-platform.md
   - docs/adr/ADR-019-frontend-platform.md
   - docs/adr/ADR-018-brand-design-system.md

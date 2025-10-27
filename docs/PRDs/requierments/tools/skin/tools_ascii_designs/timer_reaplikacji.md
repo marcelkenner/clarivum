@@ -1,3 +1,5 @@
+> **Canonical decisions:** `docs/adr/ADR-022-tools-and-calculators-platform.md` governs state + scheduling; interface tokens follow `docs/adr/ADR-018-brand-design-system.md`.
+
 Below are **mobile‑first ASCII wireframes** for the **SPF Reapplication Timer**. They focus on the primary states and flows defined in your spec (Idle → Computed → DueNow → Error → Offline), with accessible labels, localized strings (EN/PL), and UI behaviors called out inline.
 
 > Legend:

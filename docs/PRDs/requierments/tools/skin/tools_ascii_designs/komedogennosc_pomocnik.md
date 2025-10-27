@@ -1,3 +1,5 @@
+> **Canonical decisions:** `docs/adr/ADR-022-tools-and-calculators-platform.md` powers the tool runtime; follow tokens in `docs/adr/ADR-018-brand-design-system.md`.
+
 Below are **mobile‑first ASCII wireframes** for the **Komedogennosc Pomocnik** UI (Polish-first, EN toggle). Each screen targets a ~360–400 px viewport; width is kept to ~44 chars. Controls are shown in **[BRACKETS]**; dynamic regions annotated with `(aria-…)` where relevant.
 
 ---

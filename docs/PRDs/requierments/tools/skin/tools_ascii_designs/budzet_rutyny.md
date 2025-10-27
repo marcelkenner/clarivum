@@ -1,3 +1,5 @@
+> **Canonical decisions:** `docs/adr/ADR-022-tools-and-calculators-platform.md` governs the tooling plumbing; reuse surfaces from `docs/adr/ADR-018-brand-design-system.md`.
+
 Below are **mobile‑first ASCII wireframes** for **/skin/narzedzia/budzet‑rutyny/** (Routine Budget Calculator). They reflect the A–Z spec you provided, emphasize **stacked cards** on small screens (table semantics under the hood), and demonstrate all key states: empty, canonical example, validation, zero‑usage, advanced month model, import/export, share link, and EN locale preview.
 
 **Legend (ASCII UI cues)**

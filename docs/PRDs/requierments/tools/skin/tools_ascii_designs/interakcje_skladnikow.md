@@ -1,3 +1,5 @@
+> **Canonical decisions:** `docs/adr/ADR-022-tools-and-calculators-platform.md` for the tooling stack; UI tokens per `docs/adr/ADR-018-brand-design-system.md`.
+
 Below are **mobile‑first ASCII wireframes** for the **Actives Interaction Checker** at
 `/skin/narzedzia/interakcje-skladnikow/`.
 They cover empty state → input → results (grouped by severity) → expand/explain → export/share, plus the key variants and error states required by the spec.

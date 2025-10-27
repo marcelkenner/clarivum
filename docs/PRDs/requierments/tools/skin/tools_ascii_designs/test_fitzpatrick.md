@@ -1,3 +1,5 @@
+> **Canonical decisions:** `docs/adr/ADR-022-tools-and-calculators-platform.md` sets the quiz foundation; visual, typographic tokens per `docs/adr/ADR-018-brand-design-system.md`.
+
 Below are **mobile‑first ASCII wireframes** for the Fitzpatrick quiz, showing the key **states** and **flows** from the spec. They’re sized for small screens (~320–375 px). Copy directly into specs, tickets, or PRDs.
 
 ---

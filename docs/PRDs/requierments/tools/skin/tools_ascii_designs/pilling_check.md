@@ -1,3 +1,5 @@
+> **Canonical decisions:** `docs/adr/ADR-022-tools-and-calculators-platform.md` handles the runtime; visual system per `docs/adr/ADR-018-brand-design-system.md`.
+
 Below are **mobile‑first ASCII wireframes** for **`/skin/narzedzia/pilling-check` — Pilling Risk Estimator**, aligned with the spec. Each screen fits a ~**360–400 px** mobile viewport and shows primary states, validation, explain, and export.
 
 ---

@@ -2,7 +2,9 @@
 
 import { ArrowRight, BookOpen, FileArrowDown, Leaf } from "@phosphor-icons/react/ssr";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+
+import { Button, ButtonLink } from "@/components/ui";
 
 import { HomeHeroWizard, type HomeHeroPlanState } from "./HomeHeroWizard";
 import { HomeNewsletterBanner } from "./HomeNewsletterBanner";
@@ -27,24 +29,54 @@ export function HomeLandingView({ viewModel }: { viewModel: HomeLandingViewModel
     }
   }, []);
 
+  const newsletterBanner = useMemo(() => {
+    if (!viewModel.featureFlags.newsletterBar) {
+      return null;
+    }
+
+    return (
+      <div className="sticky top-24 z-40">
+        <HomeNewsletterBanner viewModel={viewModel.newsletter} />
+      </div>
+    );
+  }, [viewModel.featureFlags.newsletterBar, viewModel.newsletter]);
+
   return (
-    <div className="space-y-16 pb-24">
-      {viewModel.featureFlags.newsletterBar ? (
-        <div className="sticky top-24 z-40">
-          <HomeNewsletterBanner viewModel={viewModel.newsletter} />
+    <div>
+      <section className="full-bleed section">
+        <div className="safe container flex flex-col gap-8">
+          {newsletterBanner}
+          <HomeHeroWizard
+            viewModel={viewModel.heroWizard}
+            showUvWidget={viewModel.featureFlags.uvWidget}
+            onPlanStateChange={handlePlanStateChange}
+          />
         </div>
-      ) : null}
+      </section>
 
-      <HomeHeroWizard
-        viewModel={viewModel.heroWizard}
-        showUvWidget={viewModel.featureFlags.uvWidget}
-        onPlanStateChange={handlePlanStateChange}
-      />
+      <div className="section">
+        <div className="container">
+          <PlanSection planState={planState} />
+        </div>
+      </div>
 
-      <PlanSection planState={planState} />
-      <Diagnostics diagnostics={viewModel.diagnostics} />
-      <VerticalGrid verticals={viewModel.verticals} />
-      <LearningMoments learningMoments={viewModel.learningMoments} />
+      <div className="section">
+        <div className="container">
+          <Diagnostics diagnostics={viewModel.diagnostics} />
+        </div>
+      </div>
+
+      <div className="section">
+        <div className="container--wide container">
+          <VerticalGrid verticals={viewModel.verticals} />
+        </div>
+      </div>
+
+      <div className="section section--tight">
+        <div className="container--narrow container">
+          <LearningMoments learningMoments={viewModel.learningMoments} />
+        </div>
+      </div>
     </div>
   );
 }
@@ -104,11 +136,11 @@ function PlanSection({ planState }: { planState: HomeHeroPlanState }) {
         <p className="text-ink-soft text-base leading-relaxed">{plan.summary}</p>
       </header>
 
-      <div className="mt-8 grid gap-4 lg:grid-cols-3">
+      <div className="mt-8 grid gap-6 lg:grid-cols-3">
         {plan.phases.map((phase) => (
           <article
             key={phase.title}
-            className="border-ink-soft text-ink-soft rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-5 text-sm"
+            className="border-ink-soft text-ink-soft rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-6 text-sm"
           >
             <h3 className="text-ink text-sm font-semibold tracking-[0.18em] uppercase">
               {phase.title}
@@ -145,20 +177,23 @@ function PlanSection({ planState }: { planState: HomeHeroPlanState }) {
       </div>
 
       <div className="mt-10 flex flex-wrap gap-3">
-        <button
+        <Button
           type="button"
-          className="border-ink-soft text-ink hover:border-jade hover:text-jade focus-visible:ring-jade inline-flex items-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none"
+          variant="secondary"
+          accent={pillar.key}
+          icon={<FileArrowDown size={18} weight="regular" aria-hidden="true" />}
         >
-          <FileArrowDown size={18} weight="regular" aria-hidden="true" />
           Zapisz plan jako PDF
-        </button>
-        <Link
+        </Button>
+        <ButtonLink
           href="/ebooks"
-          className="bg-jade text-snow focus-visible:ring-jade inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition hover:bg-[#245345] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none"
+          variant="primary"
+          accent={pillar.key}
+          iconPosition="end"
+          icon={<ArrowRight size={16} weight="regular" aria-hidden="true" />}
         >
           Pobierz rozszerzony przewodnik
-          <ArrowRight size={16} weight="regular" aria-hidden="true" />
-        </Link>
+        </ButtonLink>
       </div>
 
       <p className="text-ink-soft mt-4 text-xs">{plan.disclaimer}</p>
@@ -178,7 +213,7 @@ function PlanLinks({
   accentColor: string;
 }) {
   return (
-    <section className="border-ink-soft text-ink-soft rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-5 text-sm">
+    <section className="border-ink-soft text-ink-soft rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-6 text-sm">
       <header className="text-ink flex items-center gap-2 text-xs font-semibold tracking-[0.22em] uppercase">
         {icon}
         {title}
@@ -217,11 +252,11 @@ function Diagnostics({ diagnostics }: Pick<HomeLandingViewModel, "diagnostics">)
           rezultat.
         </p>
       </header>
-      <div className="mt-6 grid gap-4 md:grid-cols-3">
+      <div className="mt-6 grid gap-6 md:grid-cols-3">
         {diagnostics.map((item) => (
           <article
             key={item.label}
-            className="border-ink-soft rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-5"
+            className="border-ink-soft rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-6"
           >
             <h3 className="text-ink text-base font-semibold">{item.label}</h3>
             <p className="text-ink-soft mt-2 text-sm leading-relaxed">{item.description}</p>
@@ -322,11 +357,11 @@ function LearningMoments({ learningMoments }: Pick<HomeLandingViewModel, "learni
           utrzymujemy ręczne sloty mapujące runbooki i playbooki.
         </p>
       </header>
-      <div className="mt-6 grid gap-4 md:grid-cols-3">
+      <div className="mt-6 grid gap-6 md:grid-cols-3">
         {learningMoments.map((item) => (
           <article
             key={item.title}
-            className="border-ink-soft text-ink-soft rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-5 text-sm"
+            className="border-ink-soft text-ink-soft rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-6 text-sm"
           >
             <h3 className="text-ink text-base font-semibold">{item.title}</h3>
             <p className="mt-2 leading-relaxed">{item.summary}</p>

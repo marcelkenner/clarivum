@@ -14,7 +14,7 @@ created_at: 2025-10-25
 updated_at: 2025-10-25
 links:
   - docs/PRDs/first_configuration.md
-  - docs/PRDs/requierments/tools/feature-requirements.md
+  - docs/PRDs/requierments/tools/skin/feature-requirements.md
   - docs/adr/ADR-018-brand-design-system.md
 context7:
   - /vercel/next.js

@@ -14,6 +14,9 @@ Centralized follow-up list for sprint guardrails and CI hygiene. Keep items conc
 8. **Manual spans & synthetic follow-up:** Coordinate with feature owners to add manual spans for the critical flows noted in TSK-PLAT-003 notes and open/track the synthetic monitoring guardrail task once owners are assigned.
 9. **Flagsmith automation secrets:** Add the `FLAGSMITH_PROJECT_ID`, `FLAGSMITH_API_TOKEN`, and optional `FLAGSMITH_PROJECT_DASHBOARD_URL` repo secrets/variables so `.github/workflows/flags-stale.yml` can run. Reuse/verify `SLACK_WEBHOOK_CI` for the workflow step. (Source: TSK-PLAT-002 rollout)
 10. **Workflow smoke test:** After wiring the secrets, trigger the “Flagsmith Stale Flag Audit” workflow via the Actions tab (`workflow_dispatch`) to confirm Slack + GitHub issue outputs before relying on the Monday schedule. (Source: TSK-PLAT-002 DoD)
+11. **PDF guardrail for homepage plan:** Wire the “Zapisz plan jako PDF” CTA in `src/app/(marketing)/_home/view/HomeLandingView.tsx` to the upcoming exporter service once it lands so users can actually download the generated plan. (Source: ascii_designs/home.md implementation follow-up)
+12. **CMS feed for hero wizard:** Replace the hard-coded `HomeExperienceManager` data with Strapi content loaders when TSK-MKT-004 ships so marketing can adjust copy/goals without redeploying. Document the mapping in `docs/PRDs/requierments/ascii_designs/home.md`.
+13. **CMS-backed learning slots:** Swap the manual “Ops i momenty nauki” cards for CMS-driven slot components (hooked to `/library`) after the Strapi collections are ready, keeping the fallback copy in the runbook until then.
 
 ## Nice-to-haves
 

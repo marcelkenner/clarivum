@@ -12,7 +12,8 @@ effort: small
 created_at: 2025-10-23
 updated_at: 2025-10-23
 links:
-  - docs/PRDs/requierments/tools/widget_indeks_uv.md
+  - docs/PRDs/requierments/tools/skin/widget_indeks_uv.md
+  - docs/PRDs/requierments/tools/skin/tools_ascii_designs/widget_indeks_uv.md
   - docs/PRDs/requierments/homepage/feature-requirements.md
   - docs/adr/ADR-015-testing-strategy.md
   - docs/adr/ADR-022-tools-and-calculators-platform.md
@@ -41,4 +42,3 @@ Plan and execute automated + manual coverage for the UV widget, ensuring data ac
 - [ ] Analytics events verified in staging with consent variations.
 - [ ] QA report delivered with sign-off + follow-up issues logged in tracker.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

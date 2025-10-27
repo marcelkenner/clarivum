@@ -11,4 +11,9 @@ Atrament documentation UI (see `documents/`), but keep this guidance general for
   tokens.
 - Tests: `npm run lint:code -- src/components` and `npm run typecheck`. Add unit tests (Vitest + RTL)
   under `src/components/__tests__/` as soon as a component gains logic.
-- Update this file when we introduce additional shared component families (forms, layout, etc.).\*\*\* End Patch
+- `ui/` holds the Clarivum component library primitives. Follow `src/components/ui/AGENTS.md`
+  before adding or modifying shared UI pieces.
+- When composing layouts, rely on the global `.container`, `.section`, `.full-bleed`, and `.safe`
+  helpers defined in `src/app/globals.css` so spacing aligns with the site-wide 4‑pt scale and
+  container widths (740 / 1120 / 1280 px).
+- Update this file when we introduce additional shared component families (forms, layout, etc.).

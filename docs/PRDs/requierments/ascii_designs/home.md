@@ -4,6 +4,14 @@
 
 A tools‑first homepage proves value in ≤20 s, builds **mental availability** (jasne kody pionów) and **physical availability** (głęboki dostęp do narzędzi), while the optional capture respects autonomy—users stay, explore, i wracają.
 
+### Implementation snapshot (Feb 2026)
+
+- **Nav & shell:** `src/app/(marketing)/layout.tsx` now mirrors the ASCII nav (tools-first top bar, utility strip, CMP button) using brand typography tokens from ADR-018.
+- **Hero flow:** `HomeHeroWizard` implements the three-step diagnostic, inline UV widget prompt, and plan reveal behaviour described below; analytics events map 1:1 with the “Tracking & UTM” section.
+- **Plan reveal:** `HomeLandingView` renders the post-hero plan section with pillar accents, CTA buttons (`Zapisz plan jako PDF`, `Pobierz rozszerzony przewodnik`), and the tool/resource shelves called out in the ASCII spec.
+- **Newsletter bar:** Sticky segmentation banner matches the thin pill requirement and respects the 7‑day snooze guardrail via `localStorage`.
+- Follow-ups tracked in `TODO.md` cover the remaining gaps: PDF export wiring, Strapi data feed for the wizard, and CMS-backed learning slots.
+
 ---
 
 ## Forward look — **pełna kopia + szczegółowy projekt ASCII + interakcje**

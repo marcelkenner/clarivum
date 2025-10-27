@@ -1,3 +1,5 @@
+> **Canonical decisions:** `docs/adr/ADR-022-tools-and-calculators-platform.md` supplies APIs/state; visual hierarchy comes from `docs/adr/ADR-018-brand-design-system.md`.
+
 Below are **mobile‑first ASCII wireframes** for the Clarivum **Widżet Indeksu UV**.
 They are sized for ~360–400 px mobile viewports and cover the core states required by the spec.
 

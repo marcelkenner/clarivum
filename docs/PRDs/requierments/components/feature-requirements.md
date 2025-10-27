@@ -27,6 +27,14 @@
 - FR5 — Support analytics instrumentation hooks so components emit standardized events.
 - FR6 — Ship Storybook or equivalent documentation site with usage guidelines and variants.
 
+### Implementation Status (2025-11-04)
+- ✅ `Button` + `ButtonLink` components deliver CTA primitives with accent-aware styling, analytics dispatch hooks, loading state spinner, and icon support (`src/components/ui/Button.tsx`, `src/components/ui/ButtonLink.tsx`).
+- ✅ `Card` + `Heading` primitives expose brand-aligned typography, elevated surfaces, and accent trims for marketing blocks (`src/components/ui/Card.tsx`, `src/components/ui/Heading.tsx`).
+- ✅ `TextField` ships accessible labels, helper/error messaging, and accent-aware focus treatment for forms (`src/components/ui/TextField.tsx`).
+- ✅ Shared token utilities (`src/components/ui/tokens.ts`) centralize ADR-018 palette + spacing; all UI components consume these tokens instead of hardcoding values.
+- ✅ Vitest coverage for the new primitives lives under `tests/components/ui/*`, verifying analytics hooks, accessibility wiring, and basic rendering contracts.
+- 🔜 Storybook workbench (FR6) remains outstanding (tracked via `TSK-FE-004`).
+
 ## Content & Data Inputs
 - Token definitions from design system.
 - Copy and imagery references from Strapi entries; components render placeholders when data missing.

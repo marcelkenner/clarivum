@@ -1,3 +1,5 @@
+> **Canonical decisions:** `docs/adr/ADR-022-tools-and-calculators-platform.md` for logic and data plumbing; UI surfaces align with `docs/adr/ADR-018-brand-design-system.md`.
+
 Below are **mobile‑first ASCII wireframes** for the **Exfoliation Frequency Planner**. They’re sized for a narrow phone viewport and annotated so engineering can lift labels, ARIA roles, and event hooks directly.
 
 ---
