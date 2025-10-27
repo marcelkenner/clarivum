@@ -8,7 +8,7 @@ type AnalyticsEventMap = {
   HomepageHeroAreaSelected: { area: string };
   HomepageHeroGoalSelected: { area: string; goal: string };
   HomepageHeroPlanRequested: { area: string; goal: string; emailProvided: boolean };
-  HomepageHeroPlanSkipped: { area: string };
+  HomepageHeroPlanSkipped: { area: string; goal: string };
   HomepageHeroPlanDisplayed: { area: string; goal: string };
   HomepageNewsletterSubmitted: { segments: string[]; emailProvided: boolean };
   HomepageNewsletterDismissed: Record<string, never>;

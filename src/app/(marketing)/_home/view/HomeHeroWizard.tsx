@@ -6,23 +6,28 @@ import { dispatchAnalyticsEvent } from "@/lib/analytics/dispatch";
 
 import type {
   HomeHeroGoal,
-  HomeHeroPlanViewModel,
+  HomeHeroPillar,
   HomeHeroWizardViewModel,
 } from "../viewmodel/HomeViewModel";
+
+export type HomeHeroPlanState =
+  | { status: "idle" }
+  | { status: "generating"; pillar: HomeHeroPillar; goal: HomeHeroGoal }
+  | { status: "ready"; pillar: HomeHeroPillar; goal: HomeHeroGoal };
 
 type HomeHeroWizardProps = {
   viewModel: HomeHeroWizardViewModel;
   showUvWidget: boolean;
+  onPlanStateChange?: (state: HomeHeroPlanState) => void;
 };
-
-type PlanState =
-  | { status: "idle" }
-  | { status: "generating"; goal: HomeHeroGoal }
-  | { status: "ready"; goal: HomeHeroGoal };
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export function HomeHeroWizard({ viewModel, showUvWidget }: HomeHeroWizardProps) {
+export function HomeHeroWizard({
+  viewModel,
+  showUvWidget,
+  onPlanStateChange,
+}: HomeHeroWizardProps) {
   const { pillars, badges, uvWidget } = viewModel;
   const [selectedAreaKey, setSelectedAreaKey] = useState(pillars[0]?.key ?? "skin");
   const activePillar = useMemo(
@@ -34,19 +39,26 @@ export function HomeHeroWizard({ viewModel, showUvWidget }: HomeHeroWizardProps)
   );
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState<string | null>(null);
-  const [planState, setPlanState] = useState<PlanState>({ status: "idle" });
+  const [planState, setPlanState] = useState<HomeHeroPlanState>({ status: "idle" });
 
   useEffect(() => {
     if (!activePillar) {
       return;
     }
 
-    const isCurrentGoalValid = activePillar.goals.some((goal) => goal.slug === selectedGoal?.slug);
-
-    if (!isCurrentGoalValid) {
+    const goalFromPillar = activePillar.goals.find((goal) => goal.slug === selectedGoal?.slug);
+    if (!goalFromPillar) {
       setSelectedGoal(activePillar.goals[0] ?? null);
     }
   }, [activePillar, selectedGoal?.slug]);
+
+  useEffect(() => {
+    onPlanStateChange?.(planState);
+  }, [planState, onPlanStateChange]);
+
+  const resetPlanState = useCallback(() => {
+    setPlanState({ status: "idle" });
+  }, []);
 
   const selectArea = useCallback(
     (areaKey: typeof selectedAreaKey) => {
@@ -54,22 +66,22 @@ export function HomeHeroWizard({ viewModel, showUvWidget }: HomeHeroWizardProps)
       const pillar = pillars.find((candidate) => candidate.key === areaKey);
       const defaultGoal = pillar?.goals[0] ?? null;
       setSelectedGoal(defaultGoal);
-      setPlanState({ status: "idle" });
+      resetPlanState();
       dispatchAnalyticsEvent("HomepageHeroAreaSelected", { area: areaKey });
     },
-    [pillars],
+    [pillars, resetPlanState],
   );
 
   const selectGoal = useCallback(
     (goal: HomeHeroGoal) => {
       setSelectedGoal(goal);
-      setPlanState({ status: "idle" });
+      resetPlanState();
       dispatchAnalyticsEvent("HomepageHeroGoalSelected", {
         area: activePillar?.key ?? goal.slug,
         goal: goal.slug,
       });
     },
-    [activePillar?.key],
+    [activePillar?.key, resetPlanState],
   );
 
   const validateEmail = useCallback((value: string) => {
@@ -84,22 +96,33 @@ export function HomeHeroWizard({ viewModel, showUvWidget }: HomeHeroWizardProps)
     return null;
   }, []);
 
-  const setPlan = useCallback(
+  const triggerPlanGeneration = useCallback(
     (goal: HomeHeroGoal) => {
-      setPlanState({ status: "generating", goal });
+      if (!activePillar) {
+        return;
+      }
+
+      const generatingState: HomeHeroPlanState = {
+        status: "generating",
+        pillar: activePillar,
+        goal,
+      };
+      setPlanState(generatingState);
+
       window.setTimeout(() => {
-        setPlanState({ status: "ready", goal });
+        const readyState: HomeHeroPlanState = { status: "ready", pillar: activePillar, goal };
+        setPlanState(readyState);
         dispatchAnalyticsEvent("HomepageHeroPlanDisplayed", {
-          area: activePillar?.key ?? goal.slug,
+          area: activePillar.key,
           goal: goal.slug,
         });
-      }, 250);
+      }, 320);
     },
-    [activePillar?.key],
+    [activePillar],
   );
 
   const handleGenerate = useCallback(() => {
-    if (!selectedGoal) {
+    if (!selectedGoal || !activePillar) {
       return;
     }
 
@@ -110,27 +133,28 @@ export function HomeHeroWizard({ viewModel, showUvWidget }: HomeHeroWizardProps)
     }
 
     dispatchAnalyticsEvent("HomepageHeroPlanRequested", {
-      area: activePillar?.key ?? selectedGoal.slug,
+      area: activePillar.key,
       goal: selectedGoal.slug,
       emailProvided: email.trim().length > 0,
     });
 
-    setPlan(selectedGoal);
-  }, [activePillar?.key, email, selectedGoal, setPlan, validateEmail]);
+    triggerPlanGeneration(selectedGoal);
+  }, [activePillar, email, selectedGoal, triggerPlanGeneration, validateEmail]);
 
   const handleSkip = useCallback(() => {
-    if (!selectedGoal) {
+    if (!selectedGoal || !activePillar) {
       return;
     }
 
     dispatchAnalyticsEvent("HomepageHeroPlanSkipped", {
-      area: activePillar?.key ?? selectedGoal.slug,
+      area: activePillar.key,
+      goal: selectedGoal.slug,
     });
 
     setEmail("");
     setEmailError(null);
-    setPlan(selectedGoal);
-  }, [activePillar?.key, selectedGoal, setPlan]);
+    triggerPlanGeneration(selectedGoal);
+  }, [activePillar, selectedGoal, triggerPlanGeneration]);
 
   const handleUvWidgetClick = useCallback(() => {
     dispatchAnalyticsEvent("HomepageUvWidgetPermissionRequested", {});
@@ -141,30 +165,36 @@ export function HomeHeroWizard({ viewModel, showUvWidget }: HomeHeroWizardProps)
 
     navigator.geolocation.getCurrentPosition(
       () => {
-        // noop: we do not yet persist the location, but the follow-up task will wire OTLP + tooling.
+        // Placeholder: next iteration wires location storage + OTLP signal.
       },
       () => {
-        // noop: consent will be handled by the dedicated observability/UX tasks.
+        // Placeholder: consent handling sits in observability tasks.
       },
     );
   }, []);
 
   return (
-    <section className="flex flex-col gap-6 rounded-3xl border border-slate-100 bg-gradient-to-br from-slate-50 via-white to-slate-100 p-6 shadow-sm lg:flex-row">
+    <section
+      className="border-ink-soft flex flex-col gap-6 rounded-[2.5rem] border bg-[linear-gradient(145deg,rgba(255,255,255,0.92)_0%,rgba(237,230,218,0.65)_100%)] p-6 shadow-[0_40px_65px_-50px_rgba(46,107,90,0.45)] lg:flex-row lg:p-8"
+      aria-labelledby="clarivum-hero-heading"
+    >
       <div className="flex w-full flex-col gap-6 lg:w-2/3">
         <header className="space-y-3">
-          <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
+          <p className="text-ink-soft text-xs font-semibold tracking-[0.26em] uppercase">
             {viewModel.eyebrow}
           </p>
-          <h1 className="text-3xl font-semibold text-slate-900 lg:text-4xl">
+          <h1
+            id="clarivum-hero-heading"
+            className="font-display text-ink text-4xl leading-tight lg:text-5xl"
+          >
             {viewModel.headline}
           </h1>
-          <p className="text-base text-slate-600">{viewModel.subheading}</p>
-          <ul className="flex flex-wrap gap-2 pt-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
+          <p className="text-ink-soft max-w-xl text-base leading-relaxed">{viewModel.subheading}</p>
+          <ul className="text-ink-soft flex flex-wrap gap-2 pt-2 text-[0.65rem] font-semibold tracking-[0.22em] uppercase">
             {badges.map((badge) => (
               <li
                 key={badge}
-                className="rounded-full border border-slate-200 px-3 py-1 text-[0.6rem] tracking-wide"
+                className="border-ink-soft rounded-full border px-3 py-1 text-[0.65rem]"
               >
                 {badge}
               </li>
@@ -180,32 +210,41 @@ export function HomeHeroWizard({ viewModel, showUvWidget }: HomeHeroWizardProps)
             handleGenerate();
           }}
         >
-          <fieldset className="space-y-3 rounded-2xl border border-slate-200 bg-white/70 p-4">
-            <legend className="text-sm font-semibold tracking-wide text-slate-500 uppercase">
+          <fieldset
+            className="border-ink-soft bg-snow space-y-3 rounded-[1.75rem] border p-5 backdrop-blur-sm"
+            style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
+          >
+            <legend className="text-ink-soft text-xs font-semibold tracking-[0.22em] uppercase">
               Krok 1 · Wybierz obszar
             </legend>
             <div className="flex flex-wrap gap-3">
-              {pillars.map((pillar) => (
-                <button
-                  key={pillar.key}
-                  type="button"
-                  onClick={() => selectArea(pillar.key)}
-                  className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                    pillar.key === activePillar?.key
-                      ? "bg-slate-900 text-white"
-                      : "border border-slate-300 text-slate-900 hover:border-slate-900"
-                  }`}
-                  aria-pressed={pillar.key === activePillar?.key}
-                >
-                  {pillar.label}
-                </button>
-              ))}
+              {pillars.map((pillar) => {
+                const isActive = pillar.key === activePillar?.key;
+                return (
+                  <button
+                    key={pillar.key}
+                    type="button"
+                    onClick={() => selectArea(pillar.key)}
+                    className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                      isActive
+                        ? "bg-jade text-snow shadow-[0_12px_18px_-14px_rgba(46,107,90,0.65)]"
+                        : "border-ink-soft text-ink hover:border-jade border"
+                    }`}
+                    aria-pressed={isActive}
+                  >
+                    {pillar.label}
+                  </button>
+                );
+              })}
             </div>
-            <p className="text-xs text-slate-500">{activePillar?.description}</p>
+            <p className="text-ink-soft text-xs leading-relaxed">{activePillar?.description}</p>
           </fieldset>
 
-          <fieldset className="space-y-3 rounded-2xl border border-slate-200 bg-white/70 p-4">
-            <legend className="text-sm font-semibold tracking-wide text-slate-500 uppercase">
+          <fieldset
+            className="border-ink-soft bg-snow space-y-3 rounded-[1.75rem] border p-5 backdrop-blur-sm"
+            style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
+          >
+            <legend className="text-ink-soft text-xs font-semibold tracking-[0.22em] uppercase">
               Krok 2 · Wybierz cel
             </legend>
             <div className="flex flex-wrap gap-2">
@@ -218,8 +257,8 @@ export function HomeHeroWizard({ viewModel, showUvWidget }: HomeHeroWizardProps)
                     onClick={() => selectGoal(goal)}
                     className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                       isSelected
-                        ? "bg-slate-900 text-white"
-                        : "border border-slate-300 text-slate-900 hover:border-slate-900"
+                        ? "border-jade text-jade border bg-[rgba(46,107,90,0.08)]"
+                        : "border-ink-soft text-ink hover:border-jade border"
                     }`}
                     aria-pressed={isSelected}
                   >
@@ -228,17 +267,20 @@ export function HomeHeroWizard({ viewModel, showUvWidget }: HomeHeroWizardProps)
                 );
               })}
             </div>
-            <p className="text-xs text-slate-500">{selectedGoal?.description}</p>
+            <p className="text-ink-soft text-xs leading-relaxed">{selectedGoal?.description}</p>
           </fieldset>
 
-          <fieldset className="space-y-3 rounded-2xl border border-slate-200 bg-white/70 p-4">
-            <legend className="text-sm font-semibold tracking-wide text-slate-500 uppercase">
+          <fieldset
+            className="border-ink-soft bg-snow space-y-3 rounded-[1.75rem] border p-5 backdrop-blur-sm"
+            style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
+          >
+            <legend className="text-ink-soft text-xs font-semibold tracking-[0.22em] uppercase">
               Krok 3 · Opcjonalny e-mail
             </legend>
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
+              <label className="text-ink-soft text-xs font-semibold tracking-[0.22em] uppercase">
                 {viewModel.emailLabel}{" "}
-                <span className="font-normal text-slate-400">{viewModel.emailOptionalLabel}</span>
+                <span className="text-ink-soft font-normal">{viewModel.emailOptionalLabel}</span>
               </label>
               <input
                 type="email"
@@ -251,18 +293,18 @@ export function HomeHeroWizard({ viewModel, showUvWidget }: HomeHeroWizardProps)
                     setEmailError(null);
                   }
                 }}
-                className="w-full rounded-full border border-slate-300 px-4 py-2 text-sm text-slate-900 focus:border-slate-900 focus:outline-none"
+                className="border-ink-soft text-ink focus:border-jade focus-visible:ring-jade w-full rounded-full border px-5 py-2 text-sm transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none"
                 aria-invalid={emailError ? "true" : "false"}
               />
-              <p className="text-xs text-slate-500">{viewModel.emailHelper}</p>
-              {emailError ? <p className="text-xs text-red-600">{emailError}</p> : null}
+              <p className="text-ink-soft text-xs leading-relaxed">{viewModel.emailHelper}</p>
+              {emailError ? <p className="text-xs text-[#c9403d]">{emailError}</p> : null}
             </div>
           </fieldset>
 
           <div className="flex flex-wrap gap-3">
             <button
               type="submit"
-              className="rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white transition hover:bg-slate-700"
+              className="bg-jade text-snow focus-visible:ring-jade rounded-full px-5 py-2 text-sm font-semibold transition hover:bg-[#245345] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none"
               disabled={!selectedGoal || planState.status === "generating"}
             >
               {planState.status === "generating" ? "Generuję plan…" : viewModel.primaryActionLabel}
@@ -270,20 +312,22 @@ export function HomeHeroWizard({ viewModel, showUvWidget }: HomeHeroWizardProps)
             <button
               type="button"
               onClick={handleSkip}
-              className="rounded-full border border-slate-300 px-5 py-2 text-sm font-semibold text-slate-900 transition hover:border-slate-900"
+              className="border-ink-soft text-ink hover:border-jade focus-visible:ring-jade rounded-full border px-5 py-2 text-sm font-semibold transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none"
               disabled={!selectedGoal || planState.status === "generating"}
             >
               {viewModel.secondaryActionLabel}
             </button>
           </div>
+
+          <PlanStatusMessage planState={planState} />
         </form>
 
-        <div className="flex flex-wrap gap-4 text-xs text-slate-500">
+        <div className="text-ink-soft flex flex-wrap gap-4 text-xs">
           {viewModel.disclaimers.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="underline decoration-slate-300 underline-offset-2 transition hover:decoration-slate-900"
+              className="hover:decoration-jade underline decoration-[rgba(46,107,90,0.25)] underline-offset-4 transition"
             >
               {item.label}
             </a>
@@ -292,40 +336,48 @@ export function HomeHeroWizard({ viewModel, showUvWidget }: HomeHeroWizardProps)
       </div>
 
       <aside className="flex w-full flex-col gap-4 lg:w-1/3">
-        {planState.status === "ready" ? (
-          <PlanSummary plan={planState.goal.plan} />
-        ) : planState.status === "generating" ? (
-          <div className="rounded-2xl border border-slate-200 bg-white/80 p-5 text-sm text-slate-600">
-            Przygotowujemy plan… sprawdzamy guardraile i dobieramy narzędzia Clarivum.
-          </div>
-        ) : (
-          <div className="rounded-2xl border border-dashed border-slate-200 bg-white/40 p-5 text-sm text-slate-500">
-            Wybierz cel i kliknij <span className="font-semibold">Generuj plan</span>, aby zobaczyć
-            propozycję kroków, narzędzi i guardraili na kolejne dni.
-          </div>
-        )}
+        <div
+          className="border-ink-soft bg-snow text-ink-soft rounded-[1.75rem] border p-5 text-sm leading-relaxed"
+          style={{ backgroundColor: "rgba(255, 255, 255, 0.82)" }}
+        >
+          <p className="text-ink font-semibold tracking-[0.24em] uppercase">Jak to działa?</p>
+          <p className="mt-2">
+            Dobieramy kroki i guardraile na 14 dni. Plan pojawi się poniżej hero — możesz go zapisać
+            jako PDF lub od razu kliknąć narzędzia.
+          </p>
+          <p className="mt-2">
+            Bez presji na e-mail: kliknij <span className="text-ink font-semibold">Pomiń</span>, aby
+            zobaczyć plan w przeglądarce.
+          </p>
+        </div>
 
         {showUvWidget ? (
           <button
             type="button"
             onClick={handleUvWidgetClick}
-            className="group rounded-2xl border border-slate-200 bg-white/80 p-5 text-left transition hover:border-slate-900 hover:shadow-md"
+            className="group border-ink-soft bg-snow text-ink hover:border-jade focus-visible:ring-jade rounded-[1.75rem] border p-5 text-left text-sm transition hover:shadow-[0_18px_38px_-28px_rgba(46,107,90,0.45)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none"
+            style={{ backgroundColor: "rgba(255, 255, 255, 0.86)" }}
+            aria-label="Włącz widżet UV i pogody Clarivum"
           >
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
+                <p className="text-ink-soft text-xs font-semibold tracking-[0.22em] uppercase">
                   {uvWidget.title}
                 </p>
-                <p className="mt-1 text-sm font-semibold text-slate-900">{uvWidget.subtitle}</p>
+                <p className="text-ink mt-1 text-base font-semibold">{uvWidget.subtitle}</p>
               </div>
-              <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white transition group-hover:bg-slate-700">
+              <span className="bg-jade text-snow rounded-full px-3 py-1 text-xs font-semibold tracking-[0.22em] uppercase transition group-hover:bg-[#245345]">
                 {uvWidget.actionLabel}
               </span>
             </div>
-            <p className="mt-3 text-xs text-slate-500">
-              Domyślna lokalizacja: <span className="font-semibold">{uvWidget.fallbackCity}</span>
+            <p className="text-ink-soft mt-3 text-xs">
+              Domyślna lokalizacja:{" "}
+              <span className="text-ink font-semibold">{uvWidget.fallbackCity}</span>
             </p>
-            <p className="mt-1 text-xs text-slate-500">{uvWidget.consentCopy}</p>
+            <p className="text-ink-soft mt-1 text-xs">{uvWidget.consentCopy}</p>
+            <p className="text-ink-soft mt-3 text-[0.65rem] tracking-[0.22em] uppercase">
+              Widżet z bieżącym indeksem UV dla Twojego miasta
+            </p>
           </button>
         ) : null}
       </aside>
@@ -333,66 +385,34 @@ export function HomeHeroWizard({ viewModel, showUvWidget }: HomeHeroWizardProps)
   );
 }
 
-function PlanSummary({ plan }: { plan: HomeHeroPlanViewModel }) {
+function PlanStatusMessage({ planState }: { planState: HomeHeroPlanState }) {
+  if (planState.status === "generating") {
+    return (
+      <div
+        aria-live="polite"
+        className="border-ink-soft bg-snow text-ink-soft rounded-[1.5rem] border px-5 py-3 text-sm"
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
+      >
+        Przygotowujemy plan — dobieramy guardraile i narzędzia Clarivum. Plan pojawi się zaraz pod
+        hero.
+      </div>
+    );
+  }
+
+  if (planState.status === "ready") {
+    return (
+      <div
+        aria-live="polite"
+        className="border-jade text-jade rounded-[1.5rem] border bg-[rgba(46,107,90,0.08)] px-5 py-3 text-sm"
+      >
+        Plan gotowy! Przewiń w dół — sekcja “Twój plan na start” czeka tuż pod hero.
+      </div>
+    );
+  }
+
   return (
-    <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm">
-      <header className="space-y-1">
-        <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
-          {plan.durationLabel}
-        </p>
-        <h2 className="text-xl font-semibold text-slate-900">{plan.title}</h2>
-        <p className="text-sm text-slate-600">{plan.summary}</p>
-      </header>
-      <div className="space-y-3">
-        {plan.phases.map((phase) => (
-          <section key={phase.title} className="rounded-xl border border-slate-100 bg-white p-4">
-            <h3 className="text-sm font-semibold text-slate-900">{phase.title}</h3>
-            <ul className="mt-2 space-y-1 text-sm text-slate-600">
-              {phase.steps.map((step) => (
-                <li key={step} className="flex items-start gap-2">
-                  <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-slate-900" />
-                  <span>{step}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
-      </div>
-      <div className="space-y-2">
-        <h3 className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
-          Narzędzia Clarivum
-        </h3>
-        <ul className="space-y-1 text-sm text-slate-600">
-          {plan.tools.map((tool) => (
-            <li key={tool.href}>
-              <a
-                href={tool.href}
-                className="text-slate-900 underline decoration-slate-300 underline-offset-2 transition hover:decoration-slate-900"
-              >
-                {tool.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="space-y-2">
-        <h3 className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
-          Czytaj dalej
-        </h3>
-        <ul className="space-y-1 text-sm text-slate-600">
-          {plan.resources.map((resource) => (
-            <li key={resource.href}>
-              <a
-                href={resource.href}
-                className="text-slate-900 underline decoration-slate-300 underline-offset-2 transition hover:decoration-slate-900"
-              >
-                {resource.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <p className="text-xs text-slate-500">{plan.disclaimer}</p>
-    </article>
+    <p className="text-ink-soft text-sm">
+      Guardrail reminder: dodaj plan do wyników w ciągu 48 godzin i uzupełnij go własnymi notatkami.
+    </p>
   );
 }

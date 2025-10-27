@@ -496,7 +496,7 @@ const verticalNarratives: Record<VerticalKey, VerticalNarrative> = {
     tagline: "Clarivum Skin · Bariera najpierw, zero chaosu",
     description:
       "Clarivum Skin daje mi rutyny wspierane dermatologią, gotowe CTA i diagnostyki dla prawdziwej skóry, żebym mogła szybko zobaczyć efekt zanim dorzucę płatne usługi.",
-    accent: "#f97316",
+    accent: "#2f8c7a",
     primaryCta: { label: "Chcę zobaczyć roadmapę Skin", href: "/skin" },
     secondaryCta: { label: "Robię test bariery", href: "/skin/bariera" },
   },
@@ -504,7 +504,7 @@ const verticalNarratives: Record<VerticalKey, VerticalNarrative> = {
     tagline: "Clarivum Fuel · Narzędziowe wsparcie codziennego odżywiania",
     description:
       "Clarivum Fuel przekłada dietetyczne playbooki na checklisty, kalkulatory i skrypty, żebym nawet w zabiegany dzień wiedziała, co zjeść i jak to zmierzyć.",
-    accent: "#16a34a",
+    accent: "#d98a1a",
     primaryCta: { label: "Otwieram mapę Fuel", href: "/fuel" },
     secondaryCta: { label: "Odpalam półkę narzędzi", href: "/narzedzia" },
   },
@@ -512,7 +512,7 @@ const verticalNarratives: Record<VerticalKey, VerticalNarrative> = {
     tagline: "Clarivum Habits · Systemy na energię, sen i fokus",
     description:
       "Clarivum Habits dostarcza szablony rytmu, rytuały Forest Day i guardraile Kaizen, żebym mogła zaplanować tydzień z mierzalnymi checkpointami.",
-    accent: "#2563eb",
+    accent: "#3f3c7f",
     primaryCta: { label: "Wchodzę do Habits HQ", href: "/habits" },
     secondaryCta: { label: "Diagnozuję wąskie gardło", href: "/habits/fokus" },
   },

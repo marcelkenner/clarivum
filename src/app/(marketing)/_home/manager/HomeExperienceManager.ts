@@ -502,9 +502,9 @@ const HERO_WIZARD = {
   eyebrow: "Clarivum · Skin · Fuel · Habits",
   headline: "Uczymy. Upraszczamy. Dowozimy.",
   subheading:
-    "Wybierz obszar, cel i — jeśli chcesz — zostaw e-mail. W mniej niż 20 sekund masz plan.",
+    "Zrób 3 krótkie kroki — pokażemy gotowy plan i narzędzia gotowe do użycia w ≤20 sekund.",
   badges: ["Za darmo", "Bez spamu", "Oparte na dowodach"],
-  emailHelper: "Opcjonalnie: wyślemy PDF oraz przypomnienia guardrail.",
+  emailHelper: "Podaj e-mail, jeśli chcesz PDF + przypomnienia guardrail. Możesz pominąć ten krok.",
   primaryActionLabel: "Generuj plan",
   secondaryActionLabel: "Pomiń",
   emailLabel: "E-mail",

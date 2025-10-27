@@ -7,7 +7,7 @@ import { dispatchAnalyticsEvent } from "@/lib/analytics/dispatch";
 import type { HomeNewsletterViewModel } from "../viewmodel/HomeViewModel";
 
 const STORAGE_KEY = "clarivum-home-newsletter-hidden-at";
-const HIDE_DURATION_MS = 7 * 24 * 60 * 60 * 1000; // 7 dni
+const HIDE_DURATION_MS = 7 * 24 * 60 * 60 * 1000;
 
 type HomeNewsletterBannerProps = {
   viewModel: HomeNewsletterViewModel;
@@ -52,7 +52,6 @@ export function HomeNewsletterBanner({ viewModel }: HomeNewsletterBannerProps) {
         segments,
         emailProvided: email.trim().length > 0,
       });
-      // Placeholder: actual ESP integration lands with TSK-MKT-004.
       handleDismiss();
     },
     [email, handleDismiss, segments],
@@ -60,7 +59,7 @@ export function HomeNewsletterBanner({ viewModel }: HomeNewsletterBannerProps) {
 
   const segmentationSummary = useMemo(() => {
     if (segments.length === 0) {
-      return "Nie wybrano segmentu — podpowiemy najważniejsze nowości z wszystkich pionów.";
+      return "Nie wybrano segmentu — pokażemy esencję z Skin, Fuel i Habits.";
     }
 
     if (segments.length === 1) {
@@ -76,85 +75,87 @@ export function HomeNewsletterBanner({ viewModel }: HomeNewsletterBannerProps) {
   }
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-sm">
-      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between md:gap-6">
-        <div className="flex-1 space-y-1">
-          <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
-            {viewModel.eyebrow}
-          </p>
-          <h2 className="text-lg font-semibold text-slate-900 md:text-xl">{viewModel.headline}</h2>
-          <p className="text-sm text-slate-600">{viewModel.subheadline}</p>
-        </div>
-        <button
-          type="button"
-          onClick={handleDismiss}
-          className="self-start rounded-full border border-slate-300 px-4 py-1 text-xs font-semibold text-slate-500 transition hover:border-slate-900 hover:text-slate-900"
-          aria-label="Zamknij pasek newslettera"
-        >
-          {viewModel.dismissLabel}
-        </button>
-      </div>
-
+    <section
+      className="border-ink-soft bg-snow rounded-full border px-4 py-3 shadow-[0_24px_38px_-32px_rgba(14,15,15,0.45)]"
+      role="region"
+      aria-label="Newsletter Clarivum"
+    >
       <form
         onSubmit={handleSubmit}
-        className="mt-4 flex flex-col gap-4 md:flex-row md:items-end md:gap-6"
+        className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-4"
       >
-        <fieldset className="flex-1 space-y-2">
-          <legend className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
-            {viewModel.segmentationLabel}
-          </legend>
-          <div className="flex flex-wrap gap-2">
-            {viewModel.segmentation.map((segment) => {
-              const isSelected = segments.includes(segment.id);
-              return (
-                <button
-                  key={segment.id}
-                  type="button"
-                  onClick={() => toggleSegment(segment.id)}
-                  className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
-                    isSelected
-                      ? "bg-slate-900 text-white"
-                      : "border border-slate-300 text-slate-900 hover:border-slate-900"
-                  }`}
-                  aria-pressed={isSelected}
-                >
-                  {segment.label}
-                </button>
-              );
-            })}
-          </div>
-          {segmentationSummary ? (
-            <p className="text-xs text-slate-500">{segmentationSummary}</p>
-          ) : null}
+        <div className="text-ink-soft flex flex-1 flex-col gap-1 text-xs md:flex-row md:items-center md:gap-3">
+          <span className="text-ink text-xs font-semibold tracking-[0.24em] uppercase">
+            {viewModel.eyebrow}
+          </span>
+          <span className="text-ink text-sm">
+            {viewModel.headline} · {viewModel.subheadline}
+          </span>
+          <button
+            type="button"
+            onClick={handleDismiss}
+            className="border-ink-soft text-ink hover:border-jade hover:text-jade focus-visible:ring-jade inline-flex items-center rounded-full border px-2 py-1 text-[0.65rem] font-semibold tracking-[0.22em] uppercase transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none"
+            aria-label="Zamknij pasek newslettera"
+          >
+            × {viewModel.dismissLabel}
+          </button>
+        </div>
+
+        <fieldset className="flex flex-wrap items-center gap-2">
+          <legend className="sr-only">{viewModel.segmentationLabel}</legend>
+          {viewModel.segmentation.map((segment) => {
+            const isSelected = segments.includes(segment.id);
+            return (
+              <label
+                key={segment.id}
+                className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[0.7rem] font-semibold tracking-[0.18em] uppercase ${
+                  isSelected
+                    ? "border-jade text-jade bg-[rgba(46,107,90,0.08)]"
+                    : "border-ink-soft text-ink"
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  checked={isSelected}
+                  onChange={() => toggleSegment(segment.id)}
+                  className="h-3 w-3"
+                  style={{ accentColor: "var(--color-jade)" }}
+                />
+                {segment.label}
+              </label>
+            );
+          })}
         </fieldset>
 
-        <div className="flex flex-1 flex-col gap-2 md:max-w-xs">
-          <label className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
-            {viewModel.emailLabel}
-          </label>
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-2">
+          <label className="sr-only">{viewModel.emailLabel}</label>
           <input
             type="email"
             inputMode="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             placeholder={viewModel.emailPlaceholder}
-            className="w-full rounded-full border border-slate-300 px-4 py-2 text-sm text-slate-900 focus:border-slate-900 focus:outline-none"
+            className="border-ink-soft text-ink focus:border-jade focus-visible:ring-jade w-full rounded-full border px-4 py-2 text-sm transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none md:w-64"
           />
-          <a
-            href={viewModel.privacyCopy.href}
-            className="text-xs text-slate-500 underline decoration-slate-300 underline-offset-2 transition hover:decoration-slate-900"
+          <button
+            type="submit"
+            className="bg-jade text-snow focus-visible:ring-jade inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-[0.22em] uppercase transition hover:bg-[#245345] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none"
           >
-            {viewModel.privacyCopy.label}
-          </a>
+            {viewModel.submitLabel}
+          </button>
         </div>
-
-        <button
-          type="submit"
-          className="rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 md:self-center"
-        >
-          {viewModel.submitLabel}
-        </button>
       </form>
+      {segmentationSummary ? (
+        <p className="text-ink-soft mt-2 text-[0.65rem] tracking-[0.18em] uppercase">
+          {segmentationSummary}
+        </p>
+      ) : null}
+      <a
+        href={viewModel.privacyCopy.href}
+        className="text-ink-soft hover:decoration-jade mt-1 inline-block text-[0.65rem] tracking-[0.18em] uppercase underline decoration-[rgba(46,107,90,0.25)] underline-offset-4 transition"
+      >
+        {viewModel.privacyCopy.label}
+      </a>
     </section>
   );
 }
