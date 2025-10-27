@@ -1,19 +1,20 @@
 ---
 id: TSK-BE-001
 title: Model Supabase Schema v0
-status: ready
+status: in-progress
 area: backend
 subarea: data-modeling
-owner: Unassigned
+owner: Marcel (Backend Engineer)
 collaborators: []
 effort: medium
 created_at: 2025-10-21
-updated_at: 2025-10-24
+updated_at: 2025-10-27
 links:
   - docs/PRDs/first_steps.md#4
   - docs/PRDs/requierments/supabase-platform/feature-requirements.md
   - docs/architecture.md
   - docs/adr/ADR-001-primary-cloud-and-database.md
+  - docs/adr/ADR-036-supabase-schema-v0.md
 context7:
   - /supabase/supabase
   - /postgresql/docs

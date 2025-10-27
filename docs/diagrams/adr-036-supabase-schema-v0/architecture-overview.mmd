@@ -1,0 +1,28 @@
+```mermaid
+flowchart LR
+    subgraph Next.js App
+        API[API Routes<br/>Server Actions]
+        OpsHub[Operations Hub]
+    end
+
+    subgraph Supabase Postgres (Schema v0)
+        Personas[(personas)]
+        Profiles[(profiles)]
+        Leads[(leads)]
+        Content[(content_items)]
+        Entitlements[(entitlements)]
+        StatusHistory[(entitlement_status_history)]
+    end
+
+    API --> Profiles
+    API --> Leads
+    API --> Entitlements
+    OpsHub --> Profiles
+    OpsHub --> Entitlements
+    OpsHub --> StatusHistory
+
+    Strapi[[Strapi CMS]] --> Content
+    Flagsmith[[Flagsmith]] --> API
+    CRM[[CRM Integrations]] --> Leads
+    Payments[[Payments Webhooks]] --> Entitlements
+```

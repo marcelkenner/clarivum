@@ -31,10 +31,10 @@ tags:
 Create the `/api/tools/uv-widget` service pipeline that calls Open-Meteo, applies caching and rate limits, enriches responses with Strapi copy, and surfaces fallback metadata for the hero widget.
 
 ## Definition of Ready
-- [ ] Open-Meteo usage terms and attribution requirements confirmed with legal.
-- [ ] Environment variables and secrets prepared for stage/prod deploys.
-- [ ] Strapi content model for risk copy finalized (keys, locales).
-- [ ] Observability events and alerts defined with SRE.
+- [ ] Legal sign-off obtained on Open-Meteo terms (rate limits, attribution, usage caps) with notes stored in ADR.
+- [ ] Environment variables and secrets cataloged (API base, timeouts, cache TTL, API key) and stored in Secrets Manager.
+- [ ] Strapi risk-copy model finalized (hazard levels, disclaimers, locales) with content owners assigned.
+- [ ] Observability requirements defined (request/response timing, error codes, fallback metrics, alert thresholds for upstream failures).
 
 ## Definition of Done
 - [ ] Edge handler integrates Open-Meteo forecast + geocoding with retries, timeouts, and 5 min cache.
@@ -44,4 +44,3 @@ Create the `/api/tools/uv-widget` service pipeline that calls Open-Meteo, applie
 - [ ] `docs/runbooks/tools-platform-operations.md` updated with failure modes and manual failover steps.
 - [ ] DataDog monitors live for error rate, latency, and fallback percentage.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

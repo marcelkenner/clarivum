@@ -31,10 +31,10 @@ tags:
 Stand up the managed Plausible Analytics EU project, shared analytics toolkit, and governance workflows so Clarivum can capture funnel events, segment audiences, and uphold privacy commitments end-to-end without introducing alternate vendors.
 
 ## Definition of Ready
-- [ ] Configure Plausible project and service accounts aligned with security baseline.
-- [ ] Confirm event catalogue scope and consent requirements with product + legal.
-- [ ] Align SDK rollout plan (web + server) with frontend and backend owners.
-- [ ] Review runbook expectations for QA, alerting, and warehouse sync.
+- [ ] Plausible project and service accounts configured per environment with custom domains verified.
+- [ ] Event catalogue and consent scope finalized (namespaces, required properties, consent gating rules) with product/legal.
+- [ ] SDK rollout plan agreed (wrapper utilities, sampling rules, dry-run mode for dev environments).
+- [ ] QA, alerting, and warehouse export expectations documented (event QA checklist, volume-drop alerts, export spec).
 
 ## Definition of Done
 - [ ] Plausible project provisioned with RBAC, retention, and EU residency settings.
@@ -43,4 +43,3 @@ Stand up the managed Plausible Analytics EU project, shared analytics toolkit, a
 - [ ] Slack/Flagsmith alerts wired for anomaly detection; dashboards shared with stakeholders.
 - [ ] Documentation updates merged (runbook changelog, architecture references, PRD notes).
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

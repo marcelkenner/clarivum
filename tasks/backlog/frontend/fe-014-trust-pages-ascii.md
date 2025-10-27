@@ -33,10 +33,10 @@ tags:
 Translate the ASCII blueprints for the homepage and trust utilities into production-ready components that adhere to Clarivum’s brand system, accessibility rules, and performance budgets.
 
 ## Definition of Ready
-- [ ] Copy deck aligned with compliance and brand tone-of-voice for all sections.
-- [ ] Component availability confirmed in the design system or tickets logged for new atoms/molecules.
-- [ ] Analytics and experimentation hypotheses enumerated for the key surfaces.
-- [ ] Legal and support stakeholders approve disclosure placements and fallback messaging.
+- [ ] Compliance-approved copy deck signed off by legal/support with last-reviewed timestamp captured.
+- [ ] Component availability confirmed in design system or follow-up tickets logged for missing pieces.
+- [ ] Analytics and experimentation hypotheses enumerated (contact rate, time on page, etc.) with tracking plan references.
+- [ ] Disclosure placements and fallback messaging approved by legal, security, and support stakeholders.
 
 ## Definition of Done
 - [ ] Responsive implementations shipped for baseline and tools-first trust flows, matching ASCII layouts within agreed tolerances.
@@ -45,4 +45,3 @@ Translate the ASCII blueprints for the homepage and trust utilities into product
 - [ ] Analytics, feature flags, and experiment hooks wired per PRD requirements.
 - [ ] Documentation updated with component usage guidance and future iterations logged.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

@@ -43,11 +43,11 @@ Implement a durable fulfillment orchestrator, monitoring, and reconciliation too
 - Supabase admin role available for job table access.
 
 ## Definition of Ready
-- [ ] Data model for `fulfillment_jobs` and `fulfillment_job_events` reviewed with DBA.
-- [ ] Alert thresholds agreed with lifecycle marketing and support (e.g., >3 failures/hour).
-- [ ] Support requirements for admin tooling captured (search by email, order ID, status).
-- [ ] Incident playbook draft prepared (`docs/runbooks/ebooks-fulfillment.md` updates staged).
-- [ ] DevOps confirms infrastructure for worker scaling and secure secrets storage.
+- [ ] Job models confirmed (idempotent jobs with states queued/running/succeeded/failed/dead-letter and supporting tables reviewed).
+- [ ] Alert thresholds aligned (p95 latency, failure rate trigger, DLQ alerts) with lifecycle and support teams.
+- [ ] Admin tooling scope captured (retry, cancel, requeue actions plus audit log requirements).
+- [ ] Incident playbook draft prepared with classification, rollback steps, and communications plan.
+- [ ] Worker scaling and secrets strategy validated (horizontal scaling, secrets manager integration, backpressure controls).
 
 ## Definition of Done
 - [ ] Fulfillment orchestrator service persists job records, runs idempotent steps, and handles retries with jitter.

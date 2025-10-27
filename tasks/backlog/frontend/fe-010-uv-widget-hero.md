@@ -30,10 +30,10 @@ tags:
 Deliver the hero UV widget UI and ViewModel so visitors immediately see their UV status, understand the Warsaw fallback, and can launch related SPF tools without leaving the homepage.
 
 ## Definition of Ready
-- [ ] Copy blocks and risk messaging published in Strapi for PL/EN.
-- [ ] Feature flag `tools.uv_widget.enabled` configured with rollout plan.
-- [ ] Confirm accessible focus order and keyboard interactions with design.
-- [ ] Validate API contract with platform (`/api/tools/uv-widget`).
+- [ ] Strapi copy published for PL/EN (risk messaging, CTAs, fallback text) with owners for ongoing updates.
+- [ ] Feature flag `tools.uv_widget.enabled` configured with gradual rollout plan and kill switch documented.
+- [ ] Accessibility interactions confirmed (focus order, keyboard support, ARIA announcements for live UV updates).
+- [ ] API contract validated with platform (`/api/tools/uv-widget`) including typed response, error handling, cache strategy.
 
 ## Definition of Done
 - [ ] Hero module renders UV badge, risk copy, fallback banner, and SPF CTAs per spec.
@@ -43,4 +43,3 @@ Deliver the hero UV widget UI and ViewModel so visitors immediately see their UV
 - [ ] Storybook scenario and screenshot tests added for high/low UV states.
 - [ ] Playbook entry created for content editors on updating Strapi copy.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

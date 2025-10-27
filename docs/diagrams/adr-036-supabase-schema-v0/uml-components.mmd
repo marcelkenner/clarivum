@@ -1,0 +1,57 @@
+```mermaid
+classDiagram
+    class AuditTrigger {
+        +set_audit_fields()
+    }
+    class PersonaTable {
+        +uuid id
+        +text key
+        +text name
+        +trigger set_audit_fields
+    }
+    class ProfileTable {
+        +uuid id
+        +citext email
+        +text email_hash
+        +uuid persona_id
+        +profile_status status
+        +text pending_claim_token
+        +trigger set_audit_fields
+    }
+    class LeadTable {
+        +uuid id
+        +citext email
+        +text email_hash
+        +uuid profile_id
+        +uuid persona_id
+        +jsonb metadata
+        +trigger set_audit_fields
+    }
+    class EntitlementTable {
+        +uuid id
+        +uuid profile_id
+        +text feature_key
+        +text plan_key
+        +entitlement_status status
+        +timestamp starts_at
+        +timestamp ends_at
+        +trigger set_audit_fields
+    }
+    class HistoryTable {
+        +uuid id
+        +uuid entitlement_id
+        +entitlement_status from_status
+        +entitlement_status to_status
+        +text change_reason
+    }
+
+    AuditTrigger <|.. PersonaTable
+    AuditTrigger <|.. ProfileTable
+    AuditTrigger <|.. LeadTable
+    AuditTrigger <|.. EntitlementTable
+    ProfileTable --> PersonaTable : persona_id
+    LeadTable --> PersonaTable : persona_id
+    LeadTable --> ProfileTable : profile_id
+    EntitlementTable --> ProfileTable : profile_id
+    HistoryTable --> EntitlementTable : entitlement_id
+```

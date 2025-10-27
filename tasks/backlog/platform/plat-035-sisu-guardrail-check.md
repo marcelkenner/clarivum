@@ -30,11 +30,10 @@ tags:
 Add automation that blocks bug-labelled pull requests unless they reference a Sisu debugging note and a guardrail follow-up, reinforcing the 48-hour guardrail commitment documented in the Sisu playbook.
 
 ## Definition of Ready
-- [ ] Align enforcement rules (labels, body text, bypass options) with engineering leadership and incident commanders.
-- [ ] Confirm Sisu note and guardrail link formats so automation can validate them reliably.
-- [ ] Obtain GitHub token permissions for reading PR metadata and failing checks.
-- [ ] Draft communication plan for rollout, including documentation updates and owner training.
-- [ ] Identify monitoring approach for workflow failures or false positives.
+- [ ] Enforcement rules confirmed (PRs labeled `bug` must link Sisu incident/bug ID plus guardrail follow-up; failing test or metric link required).
+- [ ] Link formats captured with regex patterns documented for automation validation.
+- [ ] Workflow permissions scoped to `checks: write`/`pull-requests: write` using GitHub OIDC (no repo-wide PAT).
+- [ ] Communication + monitoring plan prepared (playbook update, announcement post, weekly bypass report owners).
 
 ## Definition of Done
 - [ ] Workflow `.github/workflows/sisu-on-bug.yml` committed, covering PR opened/edited/synchronized events with clear failure messaging.
@@ -43,4 +42,3 @@ Add automation that blocks bug-labelled pull requests unless they reference a Si
 - [ ] Alerting wired (e.g., Slack or GitHub notifications) when the workflow fails or cannot parse a PR.
 - [ ] Follow-up task opened for extending guardrail validation (e.g., verifying linked guardrail PR status).
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

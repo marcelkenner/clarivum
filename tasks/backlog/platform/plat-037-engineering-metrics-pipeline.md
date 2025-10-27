@@ -31,11 +31,11 @@ tags:
 Create scheduled scripts and storage that populate `metrics/flow.json`, `metrics/quality.json`, `metrics/sustainability.json`, and `metrics/coverage.json`, giving leadership a trustworthy picture of throughput, guardrails, and deep-work protection.
 
 ## Definition of Ready
-- [ ] Align required metrics, calculations, and data sources with engineering leadership (GitHub, Plausible, PagerDuty).
-- [ ] Determine retention, storage format, and access controls for generated JSON snapshots.
-- [ ] Confirm GitHub token scopes, Plausible API keys, and other credentials are approved per security policy.
-- [ ] Decide hosting approach (GitHub Actions scheduled job vs Supabase function) and error alerting channel.
-- [ ] Document verification steps and owners for interpreting anomalies.
+- [ ] Metric definitions and data sources locked (lead time, deployment frequency, MTTR, change-failure rate from GitHub, CI, incident logs).
+- [ ] Retention and access controls documented (12-month history, role-based dashboard access).
+- [ ] Credentials approach agreed (GitHub OIDC + app installs, no personal access tokens).
+- [ ] Hosting and alerting design chosen (lightweight daily job or service) with failure alerts routed to Platform.
+- [ ] Anomaly verification playbook drafted so spikes are confirmed before paging stakeholders.
 
 ## Definition of Done
 - [ ] Automation built (GitHub Action or scheduled job) generating all required JSON files and committing or uploading them per governance rules.
@@ -44,4 +44,3 @@ Create scheduled scripts and storage that populate `metrics/flow.json`, `metrics
 - [ ] Downstream dashboards or docs wired to consume the new metrics, with stakeholders briefed.
 - [ ] Follow-up tasks filed for advanced visualizations or additional KPIs requested during rollout.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

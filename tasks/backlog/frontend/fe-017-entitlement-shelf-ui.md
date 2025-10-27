@@ -43,12 +43,12 @@ Design and implement the Account Center entitlement shelf with downloadable card
 - Supabase policies verified for shelf endpoints.
 
 ## Definition of Ready
-- [ ] UX mockups approved (desktop + mobile) including empty state, pending-claim prompt, and filter interactions.
-- [ ] API contract for `GET /api/account/entitlements` documented with sample payloads.
-- [ ] Copy reviewed for status badges, empty state guidance, and claim CTA.
-- [ ] Accessibility acceptance criteria defined (keyboard navigation, focus management, screen reader labels).
-- [ ] Performance budget defined (initial load ≤1.5 s on broadband).
-- [ ] QA test plan drafted (Playwright flows, visual regression scenes).
+- [ ] UX mocks approved with interaction specs frozen and responsive states (empty, pending claim, pagination) documented.
+- [ ] API contract for the read-only entitlements endpoint finalized (ETags, pagination, error states) with sample payloads.
+- [ ] Microcopy and empty-state content reviewed with product/support, including claim CTA language.
+- [ ] Accessibility acceptance criteria locked (keyboard navigation, ARIA roles, focus management, screen-reader copy).
+- [ ] Performance budget set (TTI ≤1.5 s when entitlements cached + fallback behavior defined).
+- [ ] QA/Playwright test plan drafted covering visible entitlements, pagination, and error fallback scenarios.
 
 ## Definition of Done
 - [ ] Entitlement shelf route renders cards with format badges, last download timestamp, and download/resend actions.

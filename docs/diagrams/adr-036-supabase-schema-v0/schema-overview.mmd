@@ -1,0 +1,53 @@
+```mermaid
+erDiagram
+    PERSONA ||--o{ PROFILE : aligns_with
+    PERSONA {
+        uuid id
+        string key
+        string name
+    }
+
+    PROFILE ||--o{ LEAD : captures
+    PROFILE ||--o{ ENTITLEMENT : owns
+    PROFILE {
+        uuid id
+        string email_hash
+        enum status
+        uuid persona_id
+        timestamp created_at
+    }
+
+    LEAD {
+        uuid id
+        string source
+        string utm_campaign
+        uuid persona_id
+    }
+
+    CONTENT_ITEM ||--o{ ENTITLEMENT : unlocks
+    CONTENT_ITEM ||--o{ LEAD : influences
+    CONTENT_ITEM {
+        uuid id
+        string slug
+        enum content_type
+        enum status
+        timestamp published_at
+    }
+
+    ENTITLEMENT ||--o{ ENTITLEMENT_STATUS_HISTORY : transitions
+    ENTITLEMENT {
+        uuid id
+        string feature_key
+        string plan_key
+        enum status
+        timestamp starts_at
+        timestamp ends_at
+    }
+
+    ENTITLEMENT_STATUS_HISTORY {
+        uuid id
+        enum from_status
+        enum to_status
+        timestamp created_at
+    }
+```

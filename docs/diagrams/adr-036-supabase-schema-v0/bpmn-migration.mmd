@@ -1,0 +1,17 @@
+```mermaid
+%% BPMN-style flow describing zero-downtime migration steps.
+flowchart LR
+    A([Draft migration & seed]) --> B{Schema change type?}
+    B -- Additive --> C[Write expand migration<br/>(new tables/columns/indexes)]
+    B -- Breaking --> D[Design expand-migrate-contract plan<br/>with feature flags]
+    C --> E[Run supabase db reset locally]
+    D --> E
+    E --> F[Execute npm run validate]
+    F --> G[Apply to staging via supabase db push]
+    G --> H[Capture EXPLAIN ANALYZE snapshots]
+    H --> I{Checks pass?}
+    I -- No --> J[Roll back / adjust migration]
+    I -- Yes --> K[Deploy to production window]
+    K --> L[Monitor Grafana + alerts]
+    L --> M[Update ADRs, runbooks, Kaizen log]
+```

@@ -1,7 +1,7 @@
 ---
 id: TSK-QA-004
 title: Monetization Telemetry Validation & Synthetic Monitoring
-status: backlog
+status: in-progress
 area: qa
 subarea: monetization
 owner: QA Lead
@@ -11,7 +11,7 @@ collaborators:
   - Partnerships Manager
 effort: medium
 created_at: 2025-10-27
-updated_at: 2025-10-27
+updated_at: 2025-11-03
 links:
   - docs/PRDs/requierments/analytics/feature-requirements.md
   - docs/adr/ADR-033-advertising-and-affiliate-telemetry.md
@@ -38,10 +38,10 @@ Deliver automated tests and monitors that guarantee ad and affiliate placements 
 - Alert triage workflows integrated with QA runbook.
 
 ## Definition of Ready
-- [ ] Test placements identified with stable slugs in staging.
-- [ ] Access to Supabase monetization tables granted (read-only).
-- [ ] Synthetic monitoring vendor selected/configured (Checkly or GitHub Actions).
-- [ ] Partner test URLs available (sandbox or deterministic).
+- [ ] Staging placements enumerated with stable slugs and fixtures committed for deterministic tests.
+- [ ] Supabase monetization tables exposed via read-only service account for QA validation queries.
+- [ ] Synthetic monitoring vendor selected/configured with check definitions and alert thresholds documented.
+- [ ] Partner/Sandbox test URLs secured and cataloged with access notes for QA.
 
 ## Definition of Done
 - [ ] Playwright tests executed in CI verifying `AdPlacementViewed`, `AdPlacementClicked`, `AffiliateLinkClicked` events and consent gating.

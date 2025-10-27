@@ -60,6 +60,9 @@
 - Quarterly access review: export COH access list and compare with HR roster.
 - Ensure audit exports stored per compliance retention (1 year).
 - Do not expose full PII; COH masks sensitive attributes by design. Report deviations immediately.
+- Supabase guardrails:
+  - Personas and published content tables are world-readable, but all write operations funnel through service accounts.
+  - Profiles, leads, entitlements, and entitlement history now enforce RLS; authenticated users can only see/update rows tied to their Auth0 identity (match on `auth_user_id` or email), while service_role retains full access for automation.
 
 ## Change Log
 - **2025-10-24:** Initial runbook documenting ownership, daily/incident workflows, deployment, and troubleshooting.

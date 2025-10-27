@@ -11,3 +11,4 @@ pre_code_a_to_z.md
 aws
 answers.md
 scripts/ensure-agents.mjs
+supabase/types.ts

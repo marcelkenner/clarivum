@@ -53,11 +53,11 @@ tags:
 Build the Habits vertical tool suite using the shared tool shell, computation managers, and analytics instrumentation so every experience delivers reusable, localized guidance with minimal engineering overhead.
 
 ## Definition of Ready
-- [ ] Confirm behavioral science success metrics, guardrails, and copy tone for each scoped tool.
-- [ ] Align interaction design with component library and accessibility baseline (ADR-018, ADR-027).
-- [ ] Define analytics events for diagnostics and follow-up flows, capturing event schemas per ADR-029 while documenting ADR-008 deprecations.
-- [ ] Map integrations (e.g., Supabase profile traits, external APIs) and fallback strategies.
-- [ ] Ensure localization, consent copy, and medical disclaimers are prepared for release.
+- [ ] Behavioral success metrics and tone guidelines approved by Behavioral Science for each tool.
+- [ ] Interaction design aligned with component library and accessibility baseline (ADR-018/ADR-027) including progressive disclosure patterns.
+- [ ] Diagnostics analytics plan defined (event map, cohort tagging) with ADR-029 updates and ADR-008 deprecations logged.
+- [ ] Integrations and fallbacks mapped (Supabase traits, external APIs, offline persistence, sync conflict handling).
+- [ ] Legal/consent requirements captured (non-medical disclaimers, localized consent text, privacy review sign-off).
 
 ## Definition of Done
 - [ ] ToolShell view models, managers, and localization scaffolding implemented per ADR-022 with dependency injection.

@@ -43,11 +43,11 @@ Deliver the edge services, background workers, and reconciliation tooling that c
 - Consent gating logic aligned with ADR-014 and analytics SDK.
 
 ## Definition of Ready
-- [ ] Data model RFC reviewed (tables, columns, retention, indexing).
-- [ ] Edge runtime constraints validated (Vercel Edge vs Lambda) with performance budget (<20 ms logging overhead).
-- [ ] Fraud signal rules documented with partnerships/finance (rate limits, geo, session).
-- [ ] Alerting requirements captured (Slack, PagerDuty, thresholds).
-- [ ] Synthetic monitoring plan defined (Checkly or GitHub Actions).
+- [ ] Data model RFC approved (event schema for impressions/clicks/purchases, attribution fields, user-consent flags).
+- [ ] Edge constraints validated (payload size, retry logic, offline queue behavior, idempotency guarantees).
+- [ ] Fraud heuristics and thresholds agreed with partnerships/finance (block/allow lists, geo/session rules).
+- [ ] Alerting requirements documented (drop rate, latency, anomaly detection signals and destinations).
+- [ ] Synthetic monitoring plan defined (hourly canary events with drift alerts and ownership).
 
 ## Definition of Done
 - [ ] Impression + click services deployed with HMAC-signed parameters, allowlists, and consent-aware logging.
@@ -73,4 +73,3 @@ Deliver the edge services, background workers, and reconciliation tooling that c
 - Partner-side conversion APIs (future phase).
 - Ad creative management and inventory negotiation (handled by marketing/partnerships).
 - Payment processing of partner invoices (finance systems).
-

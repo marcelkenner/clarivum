@@ -18,9 +18,9 @@ tags: [decision-log, governance, roadmap]
 Collect every open question surfaced across the Clarivum PRDs, requirements, ADRs, and tooling plans into a single decision backlog, assign accountable owners, and define when and how each choice will be closed so delivery teams can execute confidently.
 
 ## Definition of Ready
-- [ ] Stakeholders for each decision cluster (Product, Engineering, Marketing, Legal, Growth, Ops) are identified and invited.
-- [ ] Latest PRDs, ADRs, and requirements files reviewed to verify the decision list is current.
-- [ ] Dependencies on external vendors or budget approvals flagged for finance/leadership awareness.
+- [ ] Stakeholder map compiled across Eng, QA, Platform, SEO, Product, Legal with a DRI assigned per decision domain.
+- [ ] Latest PRDs and ADRs reviewed so decisions are captured with status (`accepted`, `proposed`, `needs review`).
+- [ ] External dependencies and risks flagged with owners, target dates, and escalation path documented.
 
 ## Definition of Done
 - [ ] Decision backlog documented (e.g., worksheet or Notion) with owners, due dates, and next steps per item.

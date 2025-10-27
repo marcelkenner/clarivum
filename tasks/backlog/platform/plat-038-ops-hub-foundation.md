@@ -31,11 +31,11 @@ tags:
 Bootstrap the `/ops` namespace inside the Next.js app, enforce Auth0-based RBAC, provision the Supabase `ops_audit` schema, and wire feature flags so the Clarivum Operations Hub can ship behind controlled gates.
 
 ## Definition of Ready
-- [ ] Confirm Auth0 role mapping (`ops_viewer`, `ops_editor`, `ops_admin`, `ops_finance`) and MFA policy with security.
-- [ ] Align Supabase schema changes (ops_audit, supporting views) with data governance.
-- [ ] Define Vercel environment variables and Secrets Manager entries for proxy credentials.
-- [ ] Review ADR-031 architecture with stakeholders; capture feedback.
-- [ ] Feature flag keys agreed (`ops_module_<slug>`) and seeded in Flagsmith.
+- [ ] Auth0 roles mapped to Ops Hub permissions with MFA enforced for admins and documented session lifetime policy.
+- [ ] Supabase schema changes (integrations, jobs, audit tables) reviewed and migrations drafted with data governance.
+- [ ] Environment variables and secrets cataloged per environment, stored in Secrets Manager, and mirrored in `.env.example`.
+- [ ] ADR-031 walkthrough completed with stakeholders; decisions logged and open questions resolved.
+- [ ] Flagsmith service keys provisioned per environment with restricted access and rotation plan documented.
 
 ## Definition of Done
 - [ ] Next.js middleware enforces Auth0 RBAC for `/ops` routes with session timeout handling.
@@ -45,4 +45,3 @@ Bootstrap the `/ops` namespace inside the Next.js app, enforce Auth0-based RBAC,
 - [ ] Observability (OTel spans + Grafana metrics) and alert baseline configured for the new namespace.
 - [ ] Runbook `docs/runbooks/ops-hub.md` updated with access/rollback notes from implementation.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

@@ -29,10 +29,10 @@ tags:
 Stand up Meilisearch Cloud projects, baseline indexes, and ingestion pipelines so Clarivum content (blog, tools, ebooks) is discoverable with low-latency search and editor-friendly workflows.
 
 ## Definition of Ready
-- [ ] Finalize index schema and ranking rules with content and product stakeholders.
-- [ ] Align ingestion sources (Strapi webhooks, Supabase sync jobs) and required credentials.
-- [ ] Determine provisioning path and budget approvals for Meilisearch tenancy.
-- [ ] Draft fallback plan for search downtime leveraging cached content.
+- [ ] Index schema and ranking rules defined (searchable attributes, filterable facets, custom ranking for freshness/popularity) with content stakeholders.
+- [ ] Ingestion sources and credentials aligned (Strapi webhooks plus batch backfill), keys rotated, and ingestion workers network-restricted.
+- [ ] Tenancy budget and sizing approved (capacity/QPS forecast, cost alerts configured) with DevOps and finance.
+- [ ] Fallback experience planned (graceful “no-search” UX, curated links, circuit breaker requirements).
 
 ## Definition of Done
 - [ ] Meilisearch environments provisioned with API keys, access controls, and alerting configured.
@@ -41,4 +41,3 @@ Stand up Meilisearch Cloud projects, baseline indexes, and ingestion pipelines s
 - [ ] Search operations runbook updated with tenant specifics and swap procedures.
 - [ ] Follow-up tasks captured for advanced analytics, personalization, or A/B testing needs.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

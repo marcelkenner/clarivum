@@ -1,10 +1,10 @@
 ---
 id: sprint-01
 title: Sprint 01 Plan
-status: planned
+status: completed
 start: 2025-11-03
 end: 2025-11-14
-updated_at: 2025-10-24
+updated_at: 2025-10-26
 links:
   - docs/PRDs/first_steps.md
   - docs/adr/ADR-015-testing-strategy.md
@@ -22,11 +22,11 @@ links:
 
 | Task | Status Lane | Notes |
 |------|-------------|-------|
-| [`tasks/done/frontend/fe-001-bootstrap-vitest.md`](../../done/frontend/fe-001-bootstrap-vitest.md) | Done | Configure Vitest, add sample specs, update docs |
-| [`tasks/done/platform/plat-044-testing-ci-integration.md`](../../done/platform/plat-044-testing-ci-integration.md) | Done | Extend CI workflows to run unit + smoke suites |
-| [`tasks/ready/platform/devops-003-otel-baseline.md`](../../ready/platform/devops-003-otel-baseline.md) | Ready → In-progress | Instrument Next.js app + Lambda workers with OTel |
-| [`tasks/ready/platform/devops-002-stale-flag-monitor.md`](../../ready/platform/devops-002-stale-flag-monitor.md) | Ready → In-progress | Automate Flagsmith stale-flag detection + alerts |
-| [`tasks/ready/qa/qa-005-testing-metrics-pipeline.md`](../../ready/qa/qa-005-testing-metrics-pipeline.md) | Ready → In-progress | Publish coverage/flake metrics into `metrics/*.json` |
+| [`tasks/done/frontend/fe-001-bootstrap-vitest.md`](../../done/frontend/fe-001-bootstrap-vitest.md) | Done | Vitest config landed with sample specs + scripts |
+| [`tasks/done/platform/plat-044-testing-ci-integration.md`](../../done/platform/plat-044-testing-ci-integration.md) | Done | CI now runs lint, typecheck, Vitest, smoke Playwright |
+| [`tasks/done/platform/devops-003-otel-baseline.md`](../../done/platform/devops-003-otel-baseline.md) | Done | Instrumented Next.js + Lambda, dashboards + alerts live |
+| [`tasks/done/platform/plat-002-stale-flag-monitor.md`](../../done/platform/plat-002-stale-flag-monitor.md) | Done | Flagsmith stale-flag automation + Slack/issue guardrail |
+| [`tasks/done/qa/qa-005-testing-metrics-pipeline.md`](../../done/qa/qa-005-testing-metrics-pipeline.md) | Done | Coverage + flake metrics exported into `metrics/*.json` |
 
 ### Stretch (Pull only if capacity remains)
 

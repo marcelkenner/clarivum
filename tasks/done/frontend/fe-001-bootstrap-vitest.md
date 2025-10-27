@@ -41,7 +41,7 @@ Set up Vitest for shared frontend/backend TypeScript modules, add initial sample
 - [x] Sample tests committed for one server component and one utility.
 - [x] Documentation updates applied (`AGENTS.md`, role guides, tasks guidelines).
 - [x] Future test backlog items captured (coverage goals, additional suites).
-- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+- [x] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
 
 
 ## Notes

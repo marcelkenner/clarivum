@@ -57,11 +57,11 @@ tags:
 Deliver reusable blueprints for all Clarivum Fuel calculators and planners so every tool ships with shared shell, computation managers, copy hooks, analytics, and localization from day one.
 
 ## Definition of Ready
-- [ ] Confirm computation formulas, data inputs, and guardrails with Nutrition Science Lead for each scoped tool.
-- [ ] Align UX patterns with brand system and component library (ADR-018, ADR-027) before implementation.
-- [ ] Define analytics events per tool using Plausible catalogue and deprecate any PostHog remnants identified in ADR-008.
-- [ ] Ensure content strings and disclaimers have localization plan and FTC-compliant copy review.
-- [ ] Validate data sources (internal datasets vs external APIs) and fallbacks for each tool.
+- [ ] Computation formulas, inputs, and guardrails confirmed with Nutrition Science for each scoped tool.
+- [ ] Design system alignment complete (component library selections, mobile layouts) per ADR-018/ADR-027.
+- [ ] Analytics plan finalized (Plausible events mapped, PostHog retirements cataloged) with tracking plan updates.
+- [ ] Localization and legal review scheduled (translations, FTC-compliant disclaimers, copy approvals).
+- [ ] Data sources and fallbacks validated (internal datasets vs external APIs, caching/timeout strategy documented).
 
 ## Definition of Done
 - [ ] ToolShell view models and computation managers implemented per ADR-022 with dependency injection for data providers.

@@ -24,6 +24,16 @@
 - Grafana `Postgres Health` dashboard (latency, connections, slow queries).
 - Slack `#clarivum-data` for deployment coordination.
 
+## Environment Configuration
+- Application runtime expects the following Supabase variables:
+  - `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
+  - `SUPABASE_PROJECT_REF`, `SUPABASE_DB_PASSWORD` (CLI / migrations)
+  - Public client mirrors: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- Rotate keys via Supabase dashboard → Project Settings → API. Update secrets in Vercel, background job runners, and local `.env` files.
+- Regenerate TypeScript schema after migration changes:  
+  `npx supabase@latest gen types typescript --linked > supabase/types.ts`
+
+
 ## Operational Checklist
 ### Daily
 - Check Grafana alerts for connection spikes or replica lag.

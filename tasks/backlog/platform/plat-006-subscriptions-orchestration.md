@@ -30,11 +30,11 @@ tags:
 Deliver the membership infrastructure that powers subscription checkout, entitlements, renewals, and lifecycle webhooks across Stripe, PayU, and Supabase so users can purchase and retain Clarivum offerings.
 
 ## Definition of Ready
-- [ ] Confirm product catalog, plan matrix, trials, and regional payment requirements with product/finance.
-- [ ] Align Supabase schema for entitlements with backend team.
-- [ ] Review legal and compliance dependencies (taxes, invoices, GDPR) per PRD.
-- [ ] Sequence checkout UX updates with frontend owners.
-- [ ] Coordinate wallet enablement scope with `TSK-PLAT-032` and `TSK-PLAT-033` to ensure Apple Pay / Google Pay readiness aligns with subscription launch.
+- [ ] Product catalog and plan requirements finalized (plan matrix, trials, proration rules, discounts/vouchers, gift logic).
+- [ ] Supabase schema alignment confirmed (`subscriptions`, `invoices`, `payments`, `entitlements`) with idempotency keys defined.
+- [ ] Legal and compliance checklist reviewed (tax/VAT handling, ToS/consent storage, refund policy obligations).
+- [ ] Checkout UX sequencing agreed (happy path, 3DS fallback, error recovery flows, receipt email templates).
+- [ ] Wallet enablement scope decided (post-MVP if necessary) and feature-flag rollout plan documented.
 
 ## Definition of Done
 - [ ] Checkout flows implemented with Stripe + PayU integrations, including edge cases and retries.
@@ -43,4 +43,3 @@ Deliver the membership infrastructure that powers subscription checkout, entitle
 - [ ] Analytics + observability instrumentation shipped (conversion, churn, errors).
 - [ ] Runbooks updated with support playbooks and rollback strategy.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

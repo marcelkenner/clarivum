@@ -30,10 +30,10 @@ tags:
 Create the ingredient glossary data pipeline, editorial workflow, and UI so visitors can explore INCI information with localization and compliance guardrails.
 
 ## Definition of Ready
-- [ ] Confirm data sources, normalization rules, and legal review cadence.
-- [ ] Define content model fields and localization requirements in Strapi.
-- [ ] Align frontend presentation patterns with component library.
-- [ ] Plan enrichment (synonyms, tags) and search integration.
+- [ ] Confirm data sources, normalization rules, and legal review cadence; document contracts alongside decision backlog (`TSK-SHARED-001`).
+- [ ] Define content model fields and localization requirements in Strapi with the platform team (`TSK-PLAT-021`), including editorial workflow states from `TSK-SHARED-003`.
+- [ ] Align frontend presentation patterns with component library and App Router scaffolding (`TSK-FE-002`, `TSK-FE-003`), capturing accessibility needs.
+- [ ] Plan enrichment (synonyms, tags) and search integration in concert with Meilisearch rollout (`TSK-PLAT-016`) and analytics instrumentation targets.
 - [ ] Schedule sync checkpoint with Product Catalog owners to lock SKU/ingredient mapping workflow and `ProductIngredientSync` field contract.
 
 ## Definition of Done
@@ -44,4 +44,3 @@ Create the ingredient glossary data pipeline, editorial workflow, and UI so visi
 - [ ] Follow-up tasks added for ongoing enrichment and automation.
 - [ ] “Products with &lt;ingredient&gt;” module reads from the catalog-powered association component with freshness telemetry, and catalog + editorial teams acknowledge the weekly reconciliation ritual in the runbook.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

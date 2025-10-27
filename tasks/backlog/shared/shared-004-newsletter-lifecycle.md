@@ -30,10 +30,10 @@ tags:
 Deliver the newsletter capture flow, double opt-in, segmentation, and automation sequences so Clarivum can nurture leads compliantly across Skin, Fuel, and Habits pillars.
 
 ## Definition of Ready
-- [ ] Confirm value props, sequences, and segmentation strategy with marketing.
-- [ ] Align consent + GDPR requirements with legal and privacy officer.
-- [ ] Map integration points between forms, Strapi content, Supabase, and Listmonk.
-- [ ] Plan analytics and experiment tracking for signup funnels.
+- [ ] Value props and lifecycle sequences finalized (welcome, nurture, re-engagement) with content owners assigned.
+- [ ] Consent/GDPR requirements confirmed (double opt-in, one-click unsubscribe, DSAR flow linked in runbook).
+- [ ] Integrations mapped end-to-end (Forms → Strapi → Supabase → Listmonk) with failure handling and retries documented.
+- [ ] Analytics and experiment plan agreed (open/click reporting, subject line A/B tests, frequency guardrails).
 
 ## Definition of Done
 - [ ] Capture components implemented with consent + analytics instrumentation.
@@ -42,4 +42,3 @@ Deliver the newsletter capture flow, double opt-in, segmentation, and automation
 - [ ] Runbooks and onboarding docs updated; training session completed.
 - [ ] Backlog created for experimentation and ongoing content contributions.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

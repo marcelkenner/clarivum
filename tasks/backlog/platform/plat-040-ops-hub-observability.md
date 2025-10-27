@@ -31,11 +31,11 @@ tags:
 Implement tracing, metrics, logging, alerting, and compliance hooks for the Ops Hub, ensuring actions feed audit exports, SLO dashboards, and guardrail alerts, while automating monthly access reviews.
 
 ## Definition of Ready
-- [ ] Align target SLOs (availability, latency) and alert thresholds with leadership.
-- [ ] Identify telemetry spans, metrics, and log schemas needed for dashboards and compliance.
-- [ ] Plan pipeline for exporting audit data to S3 and syncing with `sisu-log/`.
-- [ ] Verify Grafana, Slack, and email alert destinations plus API tokens.
-- [ ] Coordinate with analytics team on instrumentation naming conventions.
+- [ ] SLO targets confirmed (availability 99.9%, p95 API latency ≤400 ms) with alert policies and paging tree documented.
+- [ ] Telemetry schema finalized (span/event names, attributes, PII handling rules) and shared with analytics.
+- [ ] Audit export pipeline defined (daily export destination, 365-day retention, access controls) with owners assigned.
+- [ ] Grafana, Slack, and email tokens verified end-to-end and rotation plan captured in runbook.
+- [ ] Naming conventions aligned with analytics taxonomy to ensure dashboards and reports stay consistent.
 
 ## Definition of Done
 - [ ] Ops Hub instrumented with OTel spans + metrics (latency, error rate, action counts) shipped to Grafana Cloud.
@@ -45,4 +45,3 @@ Implement tracing, metrics, logging, alerting, and compliance hooks for the Ops 
 - [ ] Metrics JSON files updated (flow, quality, sustainability) to include Ops Hub KPIs; documentation refreshed.
 - [ ] Runbook expanded with observability dashboards, alert response expectations, and audit export instructions.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

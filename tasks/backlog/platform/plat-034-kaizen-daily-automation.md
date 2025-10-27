@@ -30,11 +30,10 @@ tags:
 Ship a GitHub Actions workflow that opens the daily Kaizen Minute issue on weekdays, avoiding duplicates and tagging the right owners so the team can reliably capture slowdowns and guardrails without manual coordination.
 
 ## Definition of Ready
-- [ ] Confirm time zone, schedule (08:00 local), and ownership expectations with engineering leadership.
-- [ ] Gather issue template defaults (`Kaizen Minute`) and labeling rules from `docs/AGENTS.md`.
-- [ ] Ensure required repository permissions (issues:write) and GitHub token scopes are approved by security.
-- [ ] Define failure alerts (Slack, email) and logging strategy for automation misfires.
-- [ ] Document rollout plan, including dry run in a test repository.
+- [ ] Schedule and ownership confirmed (weekdays 09:00 team timezone, Platform owns, backup owner named).
+- [ ] Issue template and labels finalized (Kaizen Minute template, `kaizen-daily` label, checklist fields) from `docs/AGENTS.md`.
+- [ ] Permissions scoped (GitHub OIDC workflow with `issues: write`, no PAT usage).
+- [ ] Failure alert plan defined (Slack webhook on failure, retry logic, dry-run validated).
 
 ## Definition of Done
 - [ ] Workflow committed under `.github/workflows/kaizen-daily.yml` with schedule + manual trigger, using configuration from playbook.
@@ -43,4 +42,3 @@ Ship a GitHub Actions workflow that opens the daily Kaizen Minute issue on weekd
 - [ ] Runbooks (`docs/runbooks/deployment.md`) and platform status summary updated to describe automation.
 - [ ] Follow-up tasks logged for multi-timezone support or guardrail enhancements.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

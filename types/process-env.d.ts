@@ -31,5 +31,12 @@ declare namespace NodeJS {
     GRAFANA_OTLP_USERNAME?: string;
     GRAFANA_OTLP_PASSWORD?: string;
     GRAFANA_OTLP_BASIC_AUTH?: string;
+    SUPABASE_URL?: string;
+    SUPABASE_ANON_KEY?: string;
+    SUPABASE_SERVICE_ROLE_KEY?: string;
+    SUPABASE_DB_PASSWORD?: string;
+    SUPABASE_PROJECT_REF?: string;
+    NEXT_PUBLIC_SUPABASE_URL?: string;
+    NEXT_PUBLIC_SUPABASE_ANON_KEY?: string;
   }
 }

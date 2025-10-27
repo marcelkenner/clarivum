@@ -43,12 +43,11 @@ Build the backend and automation required to support guest ebook purchases that 
 - Listmonk/Listmonk SMTP throughput confirmed for reminder cadence.
 
 ## Definition of Ready
-- [ ] Supabase schema changes for `profiles.status`, claim tokens, and entitlement status history reviewed with DBA.
-- [ ] Auth0 email template drafts and branding reviewed by marketing.
-- [ ] Lifecycle & support stakeholders sign off on reminder cadence (24h, 7d) and messaging copy.
-- [ ] Analytics events (`entitlement.claim_initiated`, `entitlement.claim_success`) defined with tracking plan entry.
-- [ ] Support tooling requirements (resend claim, merge entitlements) refined with ops.
-- [ ] Runbook updates outlined with owners (`docs/runbooks/ebooks-fulfillment.md`, `docs/runbooks/account-claiming.md`).
+- [ ] Schema review completed for linking guest purchases to email plus claim token table (status history + indices).
+- [ ] Auth0 email templates and branding for claim/reminder flows approved by marketing.
+- [ ] Reminder cadence locked (e.g., 24 h and 7 d) with opt-out path documented for lifecycle + support.
+- [ ] Analytics events (`entitlement.claim_started`, `entitlement.claimed`, `entitlement.claim_expired`) defined in tracking plan.
+- [ ] Support tooling requirements captured (admin resend, manual claim resolution) with runbook owners assigned.
 
 ## Definition of Done
 - [ ] Webhook handlers create pending profiles and entitlements with `pending_claim` status when checkout completes without authenticated context.
