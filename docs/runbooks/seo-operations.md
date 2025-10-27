@@ -41,6 +41,7 @@ Before shipping SEO-impacting changes (`src/app/**`, metadata libraries, CMS sch
 3. Preview environment reviewed by SEO Lead (titles, descriptions, schema markup, canonical).
 4. Sitemaps regenerated in staging and validated via Search Console inspection tool.
 5. Change log captured in tasks entry with context links to PRD, ADR, and policy.
+6. For homepage changes, align with `docs/runbooks/seo-homepage-metadata-kickoff.md` to keep metadata factory, JSON-LD fixtures, and CI checks in sync.
 
 ### App Router guardrails (TSK-FE-002 follow-up)
 

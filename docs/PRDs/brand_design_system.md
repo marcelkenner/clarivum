@@ -127,7 +127,7 @@
 
 ## G) Motion
 
-- **Principle:** calm, responsive, purpose‑driven.
+- **Principle:** calm, responsive, purpose‑driven. Every module must ship mobile-first variants, scale through Tailwind breakpoint tokens (`xs`–`2xl`), and nest media queries alongside component styles per ADR-037.
 - **Durations:** micro **120 ms**, standard **180 ms**, hero **240 ms**.
 - **Easing:** `cubic-bezier(0.2,0.0,0.2,1)` for move/fade.
 - **Entrance:** fade‑in + 8 px rise; **Exit:** 8 px drop + fade.
@@ -142,6 +142,7 @@
 - **People:** diverse tones, relaxed posture, clean skin, no heavy retouch.
 - **Food (Fuel):** in‑season produce, matte ceramics, top‑down or 45°.
 - **Post:** −10–15% saturation, slight shadow lift, gentle contrast.
+- **Delivery:** export image sets for responsive `srcset` sizing (≥ 3 breakpoints) and provide cropping guidance for `xs`, `md`, `lg` to keep focal points centered.
 
 ---
 
@@ -197,6 +198,21 @@
 **Tabs & Breadcrumbs**
 
 - Tabs: underlined active (Jade border); Breadcrumbs: Ink text, Jade link, `>` separator.
+
+**Homepage wizard & planner (TSK-FE-005)**
+
+- Layout: split card (wizard 2/3, plan summary 1/3) on desktop, stacked cards on mobile (`xs`–`md`).
+- Wizard steps: three `fieldset` blocks with rounded 24 px corners, Jade/Snow gradients (`bg-gradient-to-br from-slate-50 via-white to-slate-100`); badge chips use uppercase Ink text on Jade outline.
+- CTA buttons follow primary/secondary rules; disabled/loading state uses “Generuję plan…” copy and retains contrast.
+- Plan summary card: Snow surface with Jade border tint, headings using Ink, bullet markers tinted to pillar accent. Disclaimer text set in small Ink-60.
+- UV widget: optional card with Pillar accent ring; consent copy in Small text, CTA pill consistent with primary buttons but sized 32 px height.
+
+**Newsletter banner (sticky)**
+
+- Surface: Snow @ 90% opacity over page background, 12 px radius, Jade-10 border.
+- Close control: pill button with Jade outline, 32 px height, icon optional (×). Interaction states follow secondary button spec.
+- Segmentation chips: Jade outline toggles; selected state uses Jade fill/white text. Helper copy in Small Ink-60 text.
+- Privacy link: inline Jade underline; hover uses Jade-80 underline.
 
 **Charts**
 

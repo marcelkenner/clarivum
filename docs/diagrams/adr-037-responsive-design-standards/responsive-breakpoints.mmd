@@ -1,0 +1,12 @@
+%% Responsive breakpoints overview
+flowchart LR
+    A[Design Tokens\n(Tailwind + CSS vars)] --> B[Component Layouts]
+    B --> C{Viewport}
+    C -->|xs ≤ 600px| D[Mobile Stack\nSingle column\nTouch-first nav]
+    C -->|md 768px| E[Tablet Grid\nTwo-column\nAdaptive typography]
+    C -->|lg ≥ 1024px| F[Desktop Layout\nThree-column\nEnhanced affordances]
+    D --> G[Lighthouse & Playwright\n(xs suite)]
+    E --> G
+    F --> G
+    G --> H[CI Gate\nnpm run validate]
+    H --> I[Production Deploy]

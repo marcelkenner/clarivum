@@ -26,11 +26,11 @@ describe("Marketing home page", () => {
     render(<MarketingHomePage />);
 
     expect(
-      screen.getByRole("heading", { name: landingViewModel.hero.headline }),
+      screen.getByRole("heading", { name: landingViewModel.heroWizard.headline }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: landingViewModel.hero.secondaryCta.label }),
-    ).toHaveAttribute("href", landingViewModel.hero.secondaryCta.href);
+      screen.getByRole("button", { name: landingViewModel.heroWizard.primaryActionLabel }),
+    ).toBeInTheDocument();
   });
 
   it("surfaces Skin, Fuel, and Habits entry points", () => {

@@ -1,8 +1,8 @@
 This repository hosts the Clarivum web experience (Next.js App Router, React 19, Tailwind CSS 4, TypeScript 5). It is preconfigured with governance, documentation, and tooling captured in `AGENTS.md`, the PTRD (`docs/PRDs/first_steps.md`), and the ADR set (`docs/adr/`).
 
-## Current status (2025-10-26)
+## Current status (2025-10-27)
 
-- **Marketing experience:** The App Router home funnel is live under `src/app/(marketing)` with coordinator/view-model plumbing and placeholder Polish copy until Strapi delivers final content. Three verticals (Skin, Fuel, Habits) derive their CTAs from `src/lib/content-map.ts`.
+- **Marketing experience:** The App Router home funnel is live under `src/app/(marketing)` with coordinator/view-model plumbing, newsletter segmentation banner, and the multi-step hero wizard that generates 14-day plans per pillar. Three verticals (Skin, Fuel, Habits) derive their CTAs from `src/lib/content-map.ts` while analytics events flow through the interim Plausible dispatcher in `src/lib/analytics/dispatch.ts`.
 - **Observability:** OpenTelemetry scaffolding (`instrumentation*.ts`, `observability/`) is checked in; set the OTLP credentials described in `docs/runbooks/observability-operations.md` before deploying to capture spans/metrics.
 - **Testing & QA:** Vitest + Testing Library cover the home/coordinator/content-library flows (≈15.5 % statements today). `scripts/write-coverage-metrics.mjs` emits `metrics/coverage.json`, and the Playwright smoke suite (`PLAYWRIGHT_BASE_URL=http://127.0.0.1:3310 npm run test:e2e:smoke`) validates the hero CTA while writing `metrics/quality.json` for dashboards.
 - **Automation:** `.github/workflows/ci.yml` runs `npm run validate`, Vitest coverage, metrics export, and the Playwright smoke project. All runs upload `qa-metrics`, `vitest-coverage`, `playwright-report`, and `ci-metrics` artifacts per ADR-015.
@@ -51,6 +51,7 @@ CI relies on `npm run validate`; ensure it passes before pushing. Task changes a
 - Policy references: `docs/policies/`.
 - Role and workflow guides: `docs/role-guides/`.
 - Task board: `tasks/` (see `tasks/README.md` + lane-specific `AGENTS.md` guides).
+- Homepage SEO/metadata hand-off: `docs/runbooks/seo-homepage-metadata-kickoff.md`.
 - Atrament document viewer: visit `/library` locally to search/browse every PRD, ADR, task lane, and Sisu note with the in-app “high quality paper” theme. The `/docs/...`, `/tasks/...`, and `/sisu-log/...` routes render individual files with anchors and metadata.
 
 ## App Router information architecture

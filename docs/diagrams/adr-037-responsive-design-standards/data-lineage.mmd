@@ -1,0 +1,11 @@
+```mermaid
+%% Responsive data lineage
+flowchart LR
+    Content[CMS Assets\n(Strapi, media)] --> Optimizer[Asset Pipeline\nsrcset generation]
+    Optimizer --> CDN[CDN / Vercel Assets]
+    CDN --> Browser[Browser]
+    Tokens[Design Tokens\nTailwind config] --> Styles[Responsive Utilities]
+    Styles --> Components
+    Browser --> Metrics[CWV Metrics\n(LCP, CLS, INP)]
+    Metrics --> Grafana[Grafana Dashboards]
+```

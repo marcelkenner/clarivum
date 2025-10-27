@@ -1,7 +1,7 @@
 ---
 id: TSK-FE-005
 title: Build Tools-First Homepage MVP
-status: ready
+status: in-progress
 area: frontend
 subarea: marketing
 owner: Frontend Engineer
@@ -11,13 +11,14 @@ collaborators:
   - Analytics Lead
 effort: medium
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-27
 links:
   - docs/PRDs/requierments/homepage/feature-requirements.md
   - docs/PRDs/requierments/frontend-platform/homepage.md
   - docs/PRDs/requierments/ascii_designs.md
   - docs/adr/ADR-019-frontend-platform.md
   - docs/adr/ADR-018-brand-design-system.md
+  - docs/adr/ADR-037-responsive-design-standards.md
 context7:
   - /vercel/next.js
   - /tailwindlabs/tailwindcss
@@ -45,3 +46,8 @@ Deliver the tools-first Clarivum homepage with hero, CTA funnels, diagnostic tea
 - [ ] Launch checklist completed with QA sign-off and documentation updates.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
 
+## Notes
+- Kick-off aligned with design/content on 2025-10-28 to confirm hero asset delivery in `assets/home/`; marketing to drop final JSON copy into `content/pages/home.v1.json`.
+- Frontend to stand up responsive layout skeleton first, then integrate analytics + feature flags before wiring metadata utilities from TSK-SEO-001.
+- Confirm Plausible events map to agreed naming before merging to `main`; coordinate with Analytics Lead for dashboard updates.
+- Hero skeleton (multi-step CTA + plan summary) and newsletter banner shipped; analytics dispatcher stub aligns with ADR-029 until @clarivum/analytics toolkit lands.

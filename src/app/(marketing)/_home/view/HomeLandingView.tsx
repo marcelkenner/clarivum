@@ -1,45 +1,24 @@
 import Link from "next/link";
 
+import { HomeHeroWizard } from "./HomeHeroWizard";
+import { HomeNewsletterBanner } from "./HomeNewsletterBanner";
+
 import type { HomeLandingViewModel } from "../viewmodel/HomeViewModel";
 
 export function HomeLandingView({ viewModel }: { viewModel: HomeLandingViewModel }) {
   return (
-    <div className="space-y-10">
-      <Hero {...viewModel.hero} />
+    <div className="space-y-10 pb-12">
+      {viewModel.featureFlags.newsletterBar ? (
+        <HomeNewsletterBanner viewModel={viewModel.newsletter} />
+      ) : null}
+      <HomeHeroWizard
+        viewModel={viewModel.heroWizard}
+        showUvWidget={viewModel.featureFlags.uvWidget}
+      />
       <Diagnostics diagnostics={viewModel.diagnostics} />
       <VerticalGrid verticals={viewModel.verticals} />
       <LearningMoments learningMoments={viewModel.learningMoments} />
     </div>
-  );
-}
-
-function Hero(props: HomeLandingViewModel["hero"]) {
-  return (
-    <header className="rounded-3xl border border-slate-100 bg-gradient-to-br from-slate-50 via-white to-slate-100 p-8 shadow-sm">
-      <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
-        {props.eyebrow}
-      </p>
-      <h1 className="mt-3 text-4xl font-semibold text-slate-900">{props.headline}</h1>
-      <p className="mt-4 max-w-3xl text-base text-slate-600">{props.subheading}</p>
-      <p className="mt-4 text-xs text-slate-500">
-        TODO: podmień hero na finalny moduł z docs/PRDs/requierments/ascii_designs.md i pilnuj, żeby
-        CTA pozostały zgodne z akceptem marketingu.
-      </p>
-      <div className="mt-6 flex flex-wrap gap-4">
-        <Link
-          href={props.primaryCta.href}
-          className="rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white transition hover:bg-slate-700"
-        >
-          {props.primaryCta.label}
-        </Link>
-        <Link
-          href={props.secondaryCta.href}
-          className="rounded-full border border-slate-300 px-5 py-2 text-sm font-semibold text-slate-900 transition hover:border-slate-900"
-        >
-          {props.secondaryCta.label}
-        </Link>
-      </div>
-    </header>
   );
 }
 

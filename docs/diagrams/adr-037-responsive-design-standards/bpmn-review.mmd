@@ -1,0 +1,17 @@
+```mermaid
+%% Responsive review BPMN
+flowchart LR
+    A[Design update ready] --> B{Design includes xs/md/lg frames?}
+    B -->|No| C[Request additional breakpoints]
+    B -->|Yes| D[Implement component]
+    D --> E[Create Storybook responsive stories]
+    E --> F[Run Playwright xs/md/lg]
+    F --> G{Tests pass?}
+    G -->|No| H[Fix issues]
+    H --> E
+    G -->|Yes| I[Lighthouse budgets check]
+    I --> J{Budgets pass?}
+    J -->|No| H
+    J -->|Yes| K[Peer review + design sign-off]
+    K --> L[Merge & deploy]
+```

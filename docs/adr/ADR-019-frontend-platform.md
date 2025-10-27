@@ -18,13 +18,15 @@ Status: Accepted
 - Standardize **Tailwind CSS 4** for styling:
   - Tokenize Clarivum brand foundations (ADR-018) via Tailwind config + CSS custom properties.
   - Enforce component-level utility usage with composition helpers rather than ad-hoc CSS files.
+  - Responsive behavior follows ADR-037 (mobile-first, shared breakpoints, nested media queries, responsive images).
 - Composition rules:
   - Each feature exposes a `ViewModel`, `Manager`, and optional `Coordinator` to respect modular design.
   - Shared utilities belong in `/src/shared/` packages consumed via dependency injection.
   - Avoid runtime cross-vertical imports; rely on explicit interfaces.
-- Implementation reference (TSK-FE-002):
+- Implementation reference (TSK-FE-002 / TSK-FE-005):
   - Public funnels live under `src/app/(marketing)` while vertical experiences reside in `src/app/[vertical]/[category]/[slug]` with dynamic params and ISR.
   - `src/app/_vertical-experience/{manager,coordinator,viewmodel,view}` owns the `ContentLibrary`, builder helpers, and presentation components wired by pages.
+  - Home experiences compose a multi-step wizard (`HomeHeroWizard`) plus newsletter segmentation banner backed by view models and feature flags. The interim Plausible dispatcher (`src/lib/analytics/dispatch.ts`) keeps analytics typed until the shared toolkit ships per ADR-029.
   - Sitemaps (`src/app/sitemaps/*.xml`), `robots.ts`, and `/rss` consume the same content map to keep SEO guardrails consistent.
 - Performance guardrails:
   - Leverage Next.js `optimizePackageImports` for heavy libraries (e.g., Phosphor icons per ADR-017).

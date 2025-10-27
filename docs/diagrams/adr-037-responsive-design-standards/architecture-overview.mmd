@@ -1,0 +1,13 @@
+```mermaid
+%% Responsive architecture overview
+graph TD
+    A[Design Tokens & Tailwind Config] --> B[Components]
+    A --> C[Storybook Addons]
+    B --> D[Responsive Assets (srcset)]
+    B --> E[Playwright Projects]
+    C --> F[Design Sign-off]
+    D --> G[Next.js Rendering]
+    E --> H[CI Validation]
+    G --> H
+    H --> I[Production Experience]
+```

@@ -1,0 +1,24 @@
+```mermaid
+%% UML component sketch
+classDiagram
+    class ResponsiveTokenService {
+        +getBreakpoint(name)
+        +getFluidScale(step)
+    }
+    class MediaAssetService {
+        +generateSrcSet(assetId)
+        +generateSizesConfig(route)
+    }
+    class ComponentLibrary {
+        +render(viewport)
+        +applyTokens()
+        +applyMedia()
+    }
+    class TestingSuite {
+        +runPlaywright(viewports)
+        +runLighthouse(viewports)
+    }
+    ResponsiveTokenService --> ComponentLibrary
+    MediaAssetService --> ComponentLibrary
+    ComponentLibrary --> TestingSuite
+```

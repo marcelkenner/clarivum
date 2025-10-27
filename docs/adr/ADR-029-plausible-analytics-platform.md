@@ -44,17 +44,25 @@ Update this table whenever instrumentation changes. Any new event must include r
 - **Identifiers:** No raw PII; use hashed member IDs and Flagsmith cohort tags.
 - **Experiments:** Provide `flag_key` and `flag_variant` for any flag-governed event.
 
-| Event key                  | Trigger                                           | Required properties                                                          | Destination             |
-| -------------------------- | ------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------- |
-| `SkinEbookDownloadStarted` | User clicks primary CTA on `/skin/*` pages        | `vertical`, `pillar_category`, `cta_variant`, `lead_source`                  | Plausible               |
-| `FuelToolLaunched`         | Tool modal/form opens under `/fuel/*`             | `vertical`, `tool_slug`, `cta_variant`, `session_region`, `flag_variant`     | Plausible               |
-| `HabitsQuizCompleted`      | Diagnostics flow completes on `/habits/diagnose` | `vertical`, `result_segment`, `time_to_complete`, `question_version`, `ab_test` | Plausible               |
-| `LeadSubmitSucceeded`      | Supabase lead insert + CRM handoff succeeds       | `vertical`, `offer_slug`, `form_variant`, `flagsmith_flag`, `crm_destination` | Plausible               |
-| `PreviewDeploymentViewed`  | Internal QA opens preview URL                     | `branch_name`, `vercel_url`, `build_id`, `feature_flags_enabled`             | Plausible               |
-| `AdPlacementViewed`        | Monetization SDK records eligible ad impression   | `placement_id`, `vertical`, `article_slug`, `consent_state`, `flag_variant`  | Plausible + Supabase    |
-| `AdPlacementClicked`       | User clicks ad module                             | `placement_id`, `partner_id`, `article_slug`, `cta_variant`, `session_hash`  | Plausible + Supabase    |
-| `AffiliateLinkClicked`     | Monetization redirect logs outbound affiliate click | `partner_id`, `placement_id`, `article_slug`, `utm_campaign`, `session_hash` | Plausible + Supabase    |
-| `AffiliateLinkRedirected`  | Redirect service confirms partner handoff         | `partner_id`, `event_id`, `http_status`, `retry_count`, `consent_state`      | Supabase (warehouse)    |
+| Event key                          | Trigger                                                     | Required properties                                                          | Destination          |
+| ---------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------------- |
+| `HomepageHeroAreaSelected`         | User chooses pillar (Skin/Fuel/Habits) in hero wizard       | `area`                                                                       | Plausible            |
+| `HomepageHeroGoalSelected`         | User picks a goal (e.g., barrier reset, TDEE)               | `area`, `goal`                                                               | Plausible            |
+| `HomepageHeroPlanRequested`        | User submits hero wizard (with or without email)            | `area`, `goal`, `emailProvided`                                              | Plausible            |
+| `HomepageHeroPlanDisplayed`        | Planner renders 14-day plan summary                         | `area`, `goal`                                                               | Plausible            |
+| `HomepageHeroPlanSkipped`          | User skips email capture but still requests plan            | `area`                                                                       | Plausible            |
+| `HomepageNewsletterSubmitted`      | Newsletter banner submitted                                 | `segments`, `emailProvided`                                                  | Plausible            |
+| `HomepageNewsletterDismissed`      | Newsletter banner dismissed                                 | —                                                                            | Plausible            |
+| `HomepageUvWidgetPermissionRequested` | User clicks UV widget consent button                      | —                                                                            | Plausible            |
+| `SkinEbookDownloadStarted`         | User clicks primary CTA on `/skin/*` pages                  | `vertical`, `pillar_category`, `cta_variant`, `lead_source`                  | Plausible            |
+| `FuelToolLaunched`                 | Tool modal/form opens under `/fuel/*`                       | `vertical`, `tool_slug`, `cta_variant`, `session_region`, `flag_variant`     | Plausible            |
+| `HabitsQuizCompleted`              | Diagnostics flow completes on `/habits/diagnose`           | `vertical`, `result_segment`, `time_to_complete`, `question_version`, `ab_test` | Plausible         |
+| `LeadSubmitSucceeded`              | Supabase lead insert + CRM handoff succeeds                 | `vertical`, `offer_slug`, `form_variant`, `flagsmith_flag`, `crm_destination` | Plausible         |
+| `PreviewDeploymentViewed`          | Internal QA opens preview URL                               | `branch_name`, `vercel_url`, `build_id`, `feature_flags_enabled`             | Plausible            |
+| `AdPlacementViewed`                | Monetization SDK records eligible ad impression             | `placement_id`, `vertical`, `article_slug`, `consent_state`, `flag_variant`  | Plausible + Supabase |
+| `AdPlacementClicked`               | User clicks ad module                                       | `placement_id`, `partner_id`, `article_slug`, `cta_variant`, `session_hash`  | Plausible + Supabase |
+| `AffiliateLinkClicked`             | Monetization redirect logs outbound affiliate click         | `partner_id`, `placement_id`, `article_slug`, `utm_campaign`, `session_hash` | Plausible + Supabase |
+| `AffiliateLinkRedirected`          | Redirect service confirms partner handoff                   | `partner_id`, `event_id`, `http_status`, `retry_count`, `consent_state`      | Supabase (warehouse) |
 
 ### Maintenance checklist
 - Review the catalogue during sprint planning with analytics and product; log changes in `docs/runbooks/analytics-qa.md`.

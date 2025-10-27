@@ -19,6 +19,7 @@
 - Embrace the App Router to mirror sitemap structure (route groups, dynamic segments) and keep navigation intuitive.
 - Align styling with the brand design system using Tailwind tokens and custom utilities; avoid ad-hoc CSS.
 - Maintain accessibility-first approach with semantic HTML, focus management, and ARIA patterns embedded in components.
+- Guarantee responsive behavior across all breakpoints defined in ADR-037: mobile-first layouts, fluid typography (`clamp()`), Tailwind token usage, and responsive images (`srcset`/`sizes`) so experiences adapt seamlessly.
 
 ## Functional Requirements
 - FR1 — Implement routing structure reflecting `clarivum_brand.md` (global home, vertical hubs, category-first blog, tools, ebooks, recommendations).
@@ -28,6 +29,7 @@
 - FR5 — Enforce TypeScript strict mode, path aliases, and ESLint configuration to maintain code quality.
 - FR6 — Ensure hydration boundaries and server components minimize bundle size (<200 KB for anonymous routes).
 - FR7 — Offer utilities for feature flags, analytics, and localization injection via dependency-injected providers.
+- FR8 — Ship the homepage multi-step wizard, plan summary, and newsletter segmentation banner as coordinator-driven components with feature-flag toggles and typed analytics events (per ADR-029).
 
 ## Content & Data Inputs
 - Content fetched from Strapi via REST/GraphQL, cached appropriately.
@@ -41,11 +43,13 @@
 ## Analytics & KPIs
 - Monitor Web Vitals (LCP, FID/INP, CLS), conversion funnels, and navigation drop-offs.
 - Track build times, bundle sizes, and static generation performance to catch regressions early.
+- Capture hero wizard and newsletter interactions via the Plausible dispatcher helper; reconcile event schemas with ADR-029 before release.
 
 ## Non-Functional Requirements
 - Maintain 99.9% availability via Vercel; fallback rendering for flag/timeouts.
 - Enforce tree-shaking and code-splitting; use Turbopack build outputs.
 - Keep JSX components under 200 lines; break into child components to uphold single responsibility.
+- Responsive CSS must rely on platform breakpoints (`xs`–`2xl`) and nested media queries adjacent to component rules per ADR-037/10up best practices.
 
 ## Localization Framework
 - Adopt `next-intl` for server/client translations, routing locale resolution, and message formatting.
@@ -63,6 +67,7 @@
 - Performance budgets verified in production-like environment.
 - TypeScript build and ESLint pass with zero errors; CI gating configured.
 - Documentation added to developer guide describing folder conventions and theming strategy.
+- Homepage metadata/JSON-LD kickoff checklist (`docs/runbooks/seo-homepage-metadata-kickoff.md`) reviewed and actioned for new hero/wizard changes.
 - Locale detection and message loading strategy documented with `next-intl` provider usage examples; confirm Polish baseline coverage before activating additional locales.
 
 ## Open Questions & Assumptions

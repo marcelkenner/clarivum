@@ -11,12 +11,14 @@ collaborators:
   - Analytics Engineer
 effort: large
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-27
 links:
   - docs/PRDs/seo-foundation.md
   - docs/adr/ADR-034-seo-foundation-and-governance.md
   - docs/runbooks/seo-operations.md
   - docs/policies/seo-governance.md
+  - docs/adr/ADR-037-responsive-design-standards.md
+  - docs/runbooks/seo-homepage-metadata-kickoff.md
 context7:
   - /vercel/next.js
   - /garmeeh/next-seo
@@ -46,3 +48,8 @@ Implement the shared SEO platform layer for Clarivum: metadata factory, structur
 - [ ] Documentation updated (README snippets) and knowledge share recorded; follow-up tickets logged for additional schema types.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
 
+## Notes
+- Prep homepage metadata kickoff doc before 2025-10-29, outlining hand-off from TSK-FE-005 skeleton merge and mapping component slots to metadata requirements.
+- Kick-off doc ready in `docs/runbooks/seo-homepage-metadata-kickoff.md`; circulate during sprint planning to unblock metadata factory implementation.
+- Draft initial `metadataFactory` API proposal referencing Next.js 15 metadata contract and `next-seo` helpers; review with Frontend + SEO leads.
+- Collect structured data examples from `docs/PRDs/requierments/homepage/feature-requirements.md` to pre-populate JSON-LD fixtures for homepage launch day.

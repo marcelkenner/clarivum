@@ -17,6 +17,7 @@ links:
   - docs/adr/ADR-034-seo-foundation-and-governance.md
   - docs/runbooks/seo-operations.md
   - docs/policies/seo-governance.md
+  - docs/adr/ADR-037-responsive-design-standards.md
 context7:
   - /garmeeh/next-seo
   - /websites/vercel
@@ -43,4 +44,3 @@ Operationalize Clarivum's SEO governance program by training stakeholders, integ
 - [ ] Policy sign-off captured from Platform, Content Ops, Marketing leadership; acknowledgements logged in tasks record.
 - [ ] Forest Day + Kaizen workflows reference new guardrails and follow-up tasks created for remaining gaps.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

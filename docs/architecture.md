@@ -142,6 +142,7 @@ The Clarivum web app now mirrors the Skin/Fuel/Habits sitemap described in `docs
 - **Route groups**: marketing experiences live under `src/app/(marketing)` (home, ebooks, narzedzia, blog). Verticalized flows use dynamic segments in `src/app/[vertical]/[category]/[slug]` so we can add categories without new folders.
 - **Shared shell + DI**: `src/app/_vertical-experience/{manager,coordinator,view,viewmodel}` exposes `ContentLibrary`, coordinators, and typed ViewModels. Route files construct a coordinator per request, resolve params, and pass serializable models into view components.
 - **Placeholders that match ASCII designs**: The new home + hub pages render TODO callouts referencing `docs/PRDs/requierments/ascii_designs.md` so design/content owners know exactly where to inject final copy.
+- **Homepage funnel (TSK-FE-005)**: Multi-step hero wizard, plan summary card, UV consent widget, and newsletter segmentation banner live in `src/app/(marketing)/_home/view/**`. These surfaces rely on DI (manager/coordinator/view model), feature flags, and the Plausible dispatcher helper to log events defined in ADR-029.
 - **Sitemaps, robots, RSS**: `/sitemap.xml`, `/sitemaps/{skin,fuel,habits}.xml`, `/sitemaps/pages.xml`, `/robots.txt`, and `/rss` are generated via route handlers under `src/app/sitemap*.{ts,tsx}`. Update them alongside `observability/config.ts` whenever telemetry domains change.
 - **Redirect guardrails**: `next.config.ts` encodes the legacy `/blog` URL migrations described in ADR-019 so search traffic lands on the new dynamic routes.
 
@@ -149,4 +150,13 @@ Extension points:
 
 - Swap `ContentLibrary` inputs (currently static map) with Strapi/Supabase loaders once `TSK-SHARED-003` and `TSK-FE-006` ship. The coordinator/manager boundary lets tests inject doubles.
 - Add package-level `AGENTS.md` entries whenever new route groups/components appear so future agents know which commands/tests to run.
+- Align homepage metadata work with `docs/runbooks/seo-homepage-metadata-kickoff.md` as soon as SEO utilities start integrating the wizard.
 - Update the sitemap helpers whenever we introduce new hubs (ebooks, tools, ops) so Flow/SEO metrics stay accurate.
+
+## Responsive experience standards (ADR-037)
+
+- **Breakpoints:** Adhere to tokens `xs` (320 px) through `2xl` (1536 px) defined in Tailwind config. Components must render mobile-first layouts, progressively enhancing for `md` and `lg` viewports.
+- **Fluid scales:** Typography and spacing use `clamp()` ramps sourced from design tokens, ensuring resize text compliance. Avoid hard-coded pixel values; rely on utilities or CSS custom properties.
+- **Images:** Implement responsive images with `srcset`/`sizes` (or Next `<Image>` with `deviceSizes`) so browsers select optimal assets per viewport, per 10up responsive guidelines.
+- **CSS structure:** Nest media queries next to component styles or leverage container queries; forbid scattered breakpoint partials. Linting will flag raw, non-token media queries.
+- **Testing:** Storybook stories must declare `viewport` parameters; Playwright and Lighthouse run at `xs`, `md`, `lg` in CI. Visual regression tooling will extend to these breakpoints in follow-up work.

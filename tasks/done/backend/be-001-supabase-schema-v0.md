@@ -1,7 +1,7 @@
 ---
 id: TSK-BE-001
 title: Model Supabase Schema v0
-status: in-progress
+status: done
 area: backend
 subarea: data-modeling
 owner: Marcel (Backend Engineer)
@@ -34,12 +34,17 @@ Establish the initial Supabase (Postgres) schema, migrations, and indexing plan 
 - [x] Document zero-downtime migration approach using Supabase CLI (expand-migrate-contract pattern with dual-write feature flags, transactional migrations where safe, batched backfills, documented in `docs/runbooks/zero-downtime-migrations.md`).
 
 ## Definition of Done
-- [ ] SQL schema + migrations covering core entities (users, personas, content, entitlements).
-- [ ] Index plan documented for primary queries (JOIN/WHERE/ORDER BY) with rationale.
-- [ ] ADR addendum or new ADR summarizing trade-offs and future considerations.
-- [ ] Seed/fixture script committed for CI and local testing.
-- [ ] Documentation updates merged (`docs/architecture.md`, relevant runbooks).
-- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+- [x] SQL schema + migrations covering core entities (users, personas, content, entitlements).
+- [x] Index plan documented for primary queries (JOIN/WHERE/ORDER BY) with rationale.
+- [x] ADR addendum or new ADR summarizing trade-offs and future considerations.
+- [x] Seed/fixture script committed for CI and local testing.
+- [x] Documentation updates merged (`docs/architecture.md`, relevant runbooks).
+- [x] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+
+## Outcome
+- Supabase schema v0 applied with personas/profiles/leads/content/entitlements, audit helpers, and RLS guardrails (see ADR-036).
+- Seed fixtures added for CI/local flows; schema captured in docs/architecture.md and zero-downtime runbook.
+- Typed Supabase clients and env configuration wired into repo; Vercel production secrets mirrored for deploy parity.
 
 
 ## Notes
