@@ -495,26 +495,26 @@ const verticalNarratives: Record<VerticalKey, VerticalNarrative> = {
   skin: {
     tagline: "Clarivum Skin · Bariera najpierw, zero chaosu",
     description:
-      "Clarivum Skin daje mi rutyny wspierane dermatologią, gotowe CTA i diagnostyki dla prawdziwej skóry, żebym mogła szybko zobaczyć efekt zanim dorzucę płatne usługi.",
+      "Rutyny oparte na faktach, guardraile i diagnostyki, które pomagają odbudować barierę i wdrożyć aktywy bez paniki.",
     accent: "#2f8c7a",
-    primaryCta: { label: "Chcę zobaczyć roadmapę Skin", href: "/skin" },
-    secondaryCta: { label: "Robię test bariery", href: "/skin/bariera" },
+    primaryCta: { label: "Wejdź → Clarivum Skin", href: "/skin" },
+    secondaryCta: { label: "Zacznij tutaj", href: "/skin/podstawy" },
   },
   fuel: {
     tagline: "Clarivum Fuel · Narzędziowe wsparcie codziennego odżywiania",
     description:
-      "Clarivum Fuel przekłada dietetyczne playbooki na checklisty, kalkulatory i skrypty, żebym nawet w zabiegany dzień wiedziała, co zjeść i jak to zmierzyć.",
+      "Checklisty, kalkulatory i plany posiłków, które trzymają energię i makro bez jedzenia z apki przez cały dzień.",
     accent: "#d98a1a",
-    primaryCta: { label: "Otwieram mapę Fuel", href: "/fuel" },
-    secondaryCta: { label: "Odpalam półkę narzędzi", href: "/narzedzia" },
+    primaryCta: { label: "Wejdź → Clarivum Fuel", href: "/fuel" },
+    secondaryCta: { label: "Zacznij tutaj", href: "/fuel/podstawy" },
   },
   habits: {
     tagline: "Clarivum Habits · Systemy na energię, sen i fokus",
     description:
-      "Clarivum Habits dostarcza szablony rytmu, rytuały Forest Day i guardraile Kaizen, żebym mogła zaplanować tydzień z mierzalnymi checkpointami.",
+      "Szablony rytmu, Forest Day i guardrale Kaizen, które pomagają odzyskać fokus i sen bez kultu produktywności.",
     accent: "#3f3c7f",
-    primaryCta: { label: "Wchodzę do Habits HQ", href: "/habits" },
-    secondaryCta: { label: "Diagnozuję wąskie gardło", href: "/habits/fokus" },
+    primaryCta: { label: "Wejdź → Clarivum Habits", href: "/habits" },
+    secondaryCta: { label: "Zacznij tutaj", href: "/habits/podstawy" },
   },
 };
 

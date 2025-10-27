@@ -86,6 +86,7 @@ export type HomeLandingViewModel = {
   featureFlags: HomeFeatureFlags;
   newsletter: HomeNewsletterViewModel;
   heroWizard: HomeHeroWizardViewModel;
+  tools: HomeToolsViewModel;
   diagnostics: {
     label: string;
     description: string;
@@ -96,6 +97,9 @@ export type HomeLandingViewModel = {
     summary: string;
     href: string;
   }[];
+  trust: HomeTrustViewModel;
+  ebooks: HomeEbooksViewModel;
+  globalCta: HomeGlobalCtaViewModel;
   verticals: {
     key: string;
     tagline: string;
@@ -120,3 +124,53 @@ export function mapHighlightToViewModel(
     secondaryCta: highlight.narrative.secondaryCta,
   };
 }
+
+export type HomeToolCardViewModel = {
+  key: string;
+  label: string;
+  description: string;
+  href: string;
+  eyebrow?: string;
+};
+
+export type HomeToolsViewModel = {
+  eyebrow: string;
+  headline: string;
+  description: string;
+  seeAllLabel: string;
+  seeAllHref: string;
+  items: HomeToolCardViewModel[];
+};
+
+export type HomeTrustViewModel = {
+  eyebrow: string;
+  headline: string;
+  quotes: { quote: string; author: string }[];
+  logos: { alt: string; href: string }[];
+  links: { label: string; href: string }[];
+  disclaimer: string;
+};
+
+export type HomeEbookCardViewModel = {
+  slug: string;
+  title: string;
+  description: string;
+  href: string;
+};
+
+export type HomeEbooksViewModel = {
+  eyebrow: string;
+  headline: string;
+  description: string;
+  seeAllLabel: string;
+  seeAllHref: string;
+  items: HomeEbookCardViewModel[];
+};
+
+export type HomeGlobalCtaViewModel = {
+  eyebrow: string;
+  headline: string;
+  subheading: string;
+  primaryCta: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
+};

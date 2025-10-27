@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, BookOpen, FileArrowDown, Leaf } from "@phosphor-icons/react/ssr";
+import { ArrowRight, BookOpen, FileArrowDown, Leaf, Quotes } from "@phosphor-icons/react/ssr";
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
 
@@ -61,6 +61,12 @@ export function HomeLandingView({ viewModel }: { viewModel: HomeLandingViewModel
       </div>
 
       <div className="section">
+        <div className="container--wide container">
+          <ToolsGrid tools={viewModel.tools} />
+        </div>
+      </div>
+
+      <div className="section">
         <div className="container">
           <Diagnostics diagnostics={viewModel.diagnostics} />
         </div>
@@ -69,6 +75,24 @@ export function HomeLandingView({ viewModel }: { viewModel: HomeLandingViewModel
       <div className="section">
         <div className="container--wide container">
           <VerticalGrid verticals={viewModel.verticals} />
+        </div>
+      </div>
+
+      <div className="section section--tight">
+        <div className="container">
+          <TrustStrip trust={viewModel.trust} />
+        </div>
+      </div>
+
+      <div className="section section--tight">
+        <div className="container--wide container">
+          <EbooksStrip ebooks={viewModel.ebooks} />
+        </div>
+      </div>
+
+      <div className="section section--tight">
+        <div className="container--narrow container">
+          <GlobalCtaStrip data={viewModel.globalCta} />
         </div>
       </div>
 
@@ -91,11 +115,8 @@ function PlanSection({ planState }: { planState: HomeHeroPlanState }) {
       >
         <p className="text-ink font-semibold tracking-[0.22em] uppercase">Twój plan na start</p>
         <p className="mt-2 text-base">
-          Wygeneruj plan w hero — pojawi się tutaj w formie kroków na 14 dni, z guardrailami i
-          dopasowanymi narzędziami.
-        </p>
-        <p className="mt-2 text-xs tracking-[0.22em] uppercase">
-          Guardrail: dodaj go do checklisty w ciągu 48 h i zweryfikuj efekt.
+          Wypełnij trzy kroki w hero — pokażemy tutaj plan na 14 dni z guardrailami, narzędziami i
+          materiałami do doczytania.
         </p>
       </section>
     );
@@ -128,10 +149,10 @@ function PlanSection({ planState }: { planState: HomeHeroPlanState }) {
     >
       <header className="space-y-3">
         <p className="text-ink-soft text-xs font-semibold tracking-[0.24em] uppercase">
-          Twój plan na start · {plan.durationLabel}
+          Twój plan na start
         </p>
         <h2 className="font-display text-ink text-3xl md:text-[2.5rem]">
-          {pillar.label} → {goal.label}
+          {pillar.label} → {goal.label} ({plan.durationLabel})
         </h2>
         <p className="text-ink-soft text-base leading-relaxed">{plan.summary}</p>
       </header>
@@ -221,7 +242,7 @@ function PlanLinks({
       <ul className="mt-3 space-y-2 text-sm leading-relaxed">
         {items.map((item) => (
           <li key={item.href}>
-            <a
+            <Link
               href={item.href}
               className="text-ink hover:text-jade inline-flex items-center gap-2 transition"
             >
@@ -231,10 +252,55 @@ function PlanLinks({
                 style={{ backgroundColor: accentColor }}
               />
               {item.label}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
+    </section>
+  );
+}
+
+function ToolsGrid({ tools }: Pick<HomeLandingViewModel, "tools">) {
+  return (
+    <section className="border-ink-soft bg-snow rounded-[2.5rem] border p-8 shadow-[0_40px_65px_-55px_rgba(14,15,15,0.45)] md:p-10">
+      <header className="space-y-3">
+        <p className="text-ink-soft text-xs font-semibold tracking-[0.24em] uppercase">
+          {tools.eyebrow}
+        </p>
+        <h2 className="font-display text-ink text-3xl md:text-[2.1rem]">{tools.headline}</h2>
+        <p className="text-ink-soft text-sm leading-relaxed md:text-base">{tools.description}</p>
+      </header>
+      <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        {tools.items.map((item, index) => (
+          <Link
+            key={item.key}
+            href={item.href}
+            className="border-ink-soft text-ink hover:border-jade hover:text-jade group flex h-full flex-col justify-between gap-4 rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-5 transition hover:shadow-[0_24px_40px_-32px_rgba(46,107,90,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-jade"
+            aria-label={`Otwórz narzędzie ${item.label}`}
+          >
+            <div className="space-y-2">
+              <span className="text-ink-soft text-[0.7rem] font-semibold tracking-[0.22em] uppercase">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3 className="text-ink text-lg font-semibold leading-tight">{item.label}</h3>
+              <p className="text-ink-soft text-sm leading-relaxed">{item.description}</p>
+            </div>
+            <span className="text-jade inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] transition group-hover:gap-3">
+              Otwórz
+              <ArrowRight size={16} weight="regular" aria-hidden="true" />
+            </span>
+          </Link>
+        ))}
+      </div>
+      <div className="mt-6">
+        <Link
+          href={tools.seeAllHref}
+          className="text-ink hover:text-jade inline-flex items-center gap-2 text-sm font-semibold transition"
+        >
+          {tools.seeAllLabel}
+          <ArrowRight size={16} weight="regular" aria-hidden="true" />
+        </Link>
+      </div>
     </section>
   );
 }
@@ -281,10 +347,10 @@ function VerticalGrid({ verticals }: Pick<HomeLandingViewModel, "verticals">) {
         <p className="text-ink-soft text-xs font-semibold tracking-[0.24em] uppercase">
           Clarivum Skin · Fuel · Habits
         </p>
-        <h2 className="font-display text-ink text-3xl">Wejdź w pion z planem</h2>
+        <h2 className="font-display text-ink text-3xl">Wybierz pion i kontynuuj plan</h2>
         <p className="text-ink-soft text-sm leading-relaxed">
-          Każdy kafel odwzorowuje sitemapę i CTA z docs/PRDs/first_configuration.md — kliknij
-          roadmapę, narzędzia i przewodniki dopasowane do Twojego celu.
+          Jeden klik otwiera zestaw narzędzi, checklisty i przewodniki dla wybranego obszaru. Każdy
+          pion ma gotowe wejście „Zacznij tutaj”.
         </p>
       </header>
       <div className="grid gap-6 lg:grid-cols-3">
@@ -324,19 +390,163 @@ function VerticalGrid({ verticals }: Pick<HomeLandingViewModel, "verticals">) {
               <Link
                 href={vertical.primaryCta.href}
                 className="bg-jade text-snow inline-flex items-center justify-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition hover:bg-[#245345]"
+                aria-label={`${vertical.primaryCta.label}`}
               >
                 {vertical.primaryCta.label}
                 <ArrowRight size={16} weight="regular" aria-hidden="true" />
               </Link>
               <Link
                 href={vertical.secondaryCta.href}
-                className="border-ink-soft text-ink hover:border-jade hover:text-jade inline-flex items-center justify-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold transition"
+                className="text-ink-soft hover:text-jade inline-flex items-center gap-2 text-sm transition"
               >
+                <ArrowRight size={14} weight="regular" aria-hidden="true" />
                 {vertical.secondaryCta.label}
               </Link>
             </div>
           </article>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function TrustStrip({ trust }: Pick<HomeLandingViewModel, "trust">) {
+  return (
+    <section className="border-ink-soft bg-snow rounded-[2.5rem] border p-8 shadow-[0_40px_65px_-55px_rgba(14,15,15,0.5)] md:p-10">
+      <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+        <header className="space-y-3 lg:max-w-md">
+          <p className="text-ink-soft text-xs font-semibold tracking-[0.24em] uppercase">
+            {trust.eyebrow}
+          </p>
+          <h2 className="font-display text-ink text-3xl">{trust.headline}</h2>
+          <div className="flex flex-wrap gap-3 text-sm font-semibold uppercase tracking-[0.18em]">
+            {trust.links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-ink hover:text-jade transition"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </header>
+        <div className="flex-1 space-y-6">
+          <div className="grid gap-4 md:grid-cols-2">
+            {trust.quotes.map((quote) => (
+              <figure
+                key={quote.quote}
+                className="border-ink-soft rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-5 text-sm leading-relaxed"
+              >
+                <Quotes size={22} weight="fill" className="text-jade" aria-hidden="true" />
+                <blockquote className="text-ink mt-2">&ldquo;{quote.quote}&rdquo;</blockquote>
+                <figcaption className="text-ink-soft mt-3 text-xs font-semibold tracking-[0.18em] uppercase">
+                  {quote.author}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {trust.logos.map((logo) => (
+              <Link
+                key={logo.href}
+                href={logo.href}
+                className="border-ink-soft text-ink hover:border-jade hover:text-jade inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition"
+              >
+                {logo.alt}
+              </Link>
+            ))}
+          </div>
+          <p className="text-ink-soft text-xs leading-relaxed">{trust.disclaimer}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function EbooksStrip({ ebooks }: Pick<HomeLandingViewModel, "ebooks">) {
+  return (
+    <section className="border-ink-soft bg-snow rounded-[2.5rem] border p-8 shadow-[0_40px_65px_-55px_rgba(14,15,15,0.45)] md:p-10">
+      <header className="space-y-3">
+        <p className="text-ink-soft text-xs font-semibold tracking-[0.24em] uppercase">
+          {ebooks.eyebrow}
+        </p>
+        <h2 className="font-display text-ink text-3xl">{ebooks.headline}</h2>
+        <p className="text-ink-soft text-sm leading-relaxed md:text-base">{ebooks.description}</p>
+      </header>
+      <div
+        className="mt-6 grid gap-4 md:grid-cols-3"
+        itemScope
+        itemType="https://schema.org/ItemList"
+      >
+        {ebooks.items.map((ebook, index) => (
+          <Link
+            key={ebook.slug}
+            href={ebook.href}
+            className="border-ink-soft text-ink hover:border-jade hover:text-jade group flex h-full flex-col gap-4 rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-5 transition hover:shadow-[0_24px_40px_-32px_rgba(46,107,90,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-jade"
+            itemProp="itemListElement"
+            itemScope
+            itemType="https://schema.org/ListItem"
+          >
+            <meta itemProp="position" content={`${index + 1}`} />
+            <div className="space-y-2">
+              <span className="text-ink-soft text-[0.7rem] font-semibold tracking-[0.22em] uppercase">
+                Ebook
+              </span>
+              <h3 className="text-ink text-lg font-semibold leading-tight" itemProp="name">
+                {ebook.title}
+              </h3>
+              <p className="text-ink-soft text-sm leading-relaxed" itemProp="description">
+                {ebook.description}
+              </p>
+            </div>
+            <span className="text-jade inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] transition group-hover:gap-3">
+              Zobacz
+              <ArrowRight size={16} weight="regular" aria-hidden="true" />
+            </span>
+          </Link>
+        ))}
+      </div>
+      <div className="mt-6">
+        <Link
+          href={ebooks.seeAllHref}
+          className="text-ink hover:text-jade inline-flex items-center gap-2 text-sm font-semibold transition"
+        >
+          {ebooks.seeAllLabel}
+          <ArrowRight size={16} weight="regular" aria-hidden="true" />
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+function GlobalCtaStrip({ data }: { data: HomeLandingViewModel["globalCta"] }) {
+  return (
+    <section className="border-ink-soft bg-snow rounded-[2.5rem] border p-8 text-center shadow-[0_40px_65px_-55px_rgba(14,15,15,0.45)] md:p-12">
+      <p className="text-ink-soft text-xs font-semibold tracking-[0.24em] uppercase">
+        {data.eyebrow}
+      </p>
+      <h2 className="font-display text-ink mt-3 text-3xl md:text-[2.4rem]">{data.headline}</h2>
+      <p className="text-ink-soft mt-4 text-base leading-relaxed md:text-lg">{data.subheading}</p>
+      <div className="mt-6 flex flex-wrap justify-center gap-3">
+        <ButtonLink
+          href={data.primaryCta.href}
+          variant="primary"
+          iconPosition="end"
+          icon={<ArrowRight size={18} weight="regular" aria-hidden="true" />}
+        >
+          {data.primaryCta.label}
+        </ButtonLink>
+        {data.secondaryCta ? (
+          <ButtonLink
+            href={data.secondaryCta.href}
+            variant="secondary"
+            iconPosition="end"
+            icon={<ArrowRight size={18} weight="regular" aria-hidden="true" />}
+          >
+            {data.secondaryCta.label}
+          </ButtonLink>
+        ) : null}
       </div>
     </section>
   );

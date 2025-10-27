@@ -22,6 +22,8 @@ type HomeHeroWizardProps = {
 };
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const LAST_SELECTION_STORAGE_KEY = "clarivum-home-hero-selection";
+const LAST_SELECTION_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 
 export function HomeHeroWizard({
   viewModel,
@@ -42,6 +44,37 @@ export function HomeHeroWizard({
   const [planState, setPlanState] = useState<HomeHeroPlanState>({ status: "idle" });
 
   useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(LAST_SELECTION_STORAGE_KEY);
+      if (!raw) {
+        return;
+      }
+      const parsed = JSON.parse(raw) as {
+        area?: HomeHeroPillar["key"];
+        goal?: HomeHeroGoal["slug"] | null;
+        savedAt?: number;
+      };
+      if (!parsed?.area || !parsed.savedAt) {
+        return;
+      }
+      if (Date.now() - parsed.savedAt > LAST_SELECTION_TTL_MS) {
+        window.localStorage.removeItem(LAST_SELECTION_STORAGE_KEY);
+        return;
+      }
+      const storedPillar = pillars.find((pillar) => pillar.key === parsed.area);
+      if (!storedPillar) {
+        return;
+      }
+      setSelectedAreaKey(storedPillar.key);
+      const storedGoal =
+        storedPillar.goals.find((goal) => goal.slug === parsed.goal) ?? storedPillar.goals[0] ?? null;
+      setSelectedGoal(storedGoal);
+    } catch {
+      // Ignored: jeśli JSON jest niepoprawny, startujemy z domyślnym widokiem.
+    }
+  }, [pillars]);
+
+  useEffect(() => {
     if (!activePillar) {
       return;
     }
@@ -60,28 +93,47 @@ export function HomeHeroWizard({
     setPlanState({ status: "idle" });
   }, []);
 
+  const persistSelection = useCallback((areaKey: HomeHeroPillar["key"], goal: HomeHeroGoal | null) => {
+    try {
+      window.localStorage.setItem(
+        LAST_SELECTION_STORAGE_KEY,
+        JSON.stringify({
+          area: areaKey,
+          goal: goal?.slug ?? null,
+          savedAt: Date.now(),
+        }),
+      );
+    } catch {
+      // Ignore quota errors (np. tryb prywatny) — po prostu nie zapisujemy stanu.
+    }
+  }, []);
+
   const selectArea = useCallback(
     (areaKey: typeof selectedAreaKey) => {
       setSelectedAreaKey(areaKey);
       const pillar = pillars.find((candidate) => candidate.key === areaKey);
       const defaultGoal = pillar?.goals[0] ?? null;
       setSelectedGoal(defaultGoal);
+      persistSelection(areaKey, defaultGoal);
       resetPlanState();
       dispatchAnalyticsEvent("HomepageHeroAreaSelected", { area: areaKey });
     },
-    [pillars, resetPlanState],
+    [persistSelection, pillars, resetPlanState],
   );
 
   const selectGoal = useCallback(
     (goal: HomeHeroGoal) => {
       setSelectedGoal(goal);
+      if (activePillar) {
+        persistSelection(activePillar.key, goal);
+      }
       resetPlanState();
       dispatchAnalyticsEvent("HomepageHeroGoalSelected", {
         area: activePillar?.key ?? goal.slug,
         goal: goal.slug,
       });
     },
-    [activePillar?.key, resetPlanState],
+    [activePillar, persistSelection, resetPlanState],
   );
 
   const validateEmail = useCallback((value: string) => {
@@ -126,7 +178,8 @@ export function HomeHeroWizard({
       return;
     }
 
-    const error = validateEmail(email.trim());
+    const trimmedEmail = email.trim();
+    const error = validateEmail(trimmedEmail);
     setEmailError(error);
     if (error) {
       return;
@@ -135,7 +188,7 @@ export function HomeHeroWizard({
     dispatchAnalyticsEvent("HomepageHeroPlanRequested", {
       area: activePillar.key,
       goal: selectedGoal.slug,
-      emailProvided: email.trim().length > 0,
+      emailProvided: trimmedEmail.length > 0,
     });
 
     triggerPlanGeneration(selectedGoal);
@@ -172,6 +225,16 @@ export function HomeHeroWizard({
       },
     );
   }, []);
+
+  const currentStep = useMemo(() => {
+    if (!activePillar) {
+      return 1;
+    }
+    if (!selectedGoal) {
+      return 1;
+    }
+    return email.trim().length > 0 ? 3 : 2;
+  }, [activePillar, email, selectedGoal]);
 
   return (
     <section
@@ -210,12 +273,15 @@ export function HomeHeroWizard({
             handleGenerate();
           }}
         >
+          <p className="text-ink-soft text-xs font-semibold tracking-[0.24em] uppercase">
+            Krok {currentStep} z 3
+          </p>
           <fieldset
             className="border-ink-soft bg-snow space-y-3 rounded-[1.75rem] border p-5 backdrop-blur-sm"
             style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
           >
             <legend className="text-ink-soft text-xs font-semibold tracking-[0.22em] uppercase">
-              Krok 1 · Wybierz obszar
+              Krok 1 z 3 · Wybierz obszar
             </legend>
             <div className="flex flex-wrap gap-3">
               {pillars.map((pillar) => {
@@ -245,7 +311,7 @@ export function HomeHeroWizard({
             style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
           >
             <legend className="text-ink-soft text-xs font-semibold tracking-[0.22em] uppercase">
-              Krok 2 · Wybierz cel
+              Krok 2 z 3 · Wybierz cel
             </legend>
             <div className="flex flex-wrap gap-2">
               {activePillar?.goals.map((goal) => {
@@ -275,7 +341,7 @@ export function HomeHeroWizard({
             style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }}
           >
             <legend className="text-ink-soft text-xs font-semibold tracking-[0.22em] uppercase">
-              Krok 3 · Opcjonalny e-mail
+              Krok 3 z 3 · Opcjonalny e-mail
             </legend>
             <div className="flex flex-col gap-2">
               <label className="text-ink-soft text-xs font-semibold tracking-[0.22em] uppercase">

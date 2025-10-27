@@ -3,10 +3,14 @@ import type { ContentLibrary } from "@/app/_vertical-experience/manager/ContentL
 
 import {
   mapHighlightToViewModel,
+  type HomeEbooksViewModel,
   type HomeFeatureFlags,
+  type HomeGlobalCtaViewModel,
   type HomeHeroPillar,
   type HomeLandingViewModel,
   type HomeNewsletterViewModel,
+  type HomeToolsViewModel,
+  type HomeTrustViewModel,
 } from "../viewmodel/HomeViewModel";
 
 const FEATURE_FLAGS: HomeFeatureFlags = {
@@ -34,6 +38,65 @@ const NEWSLETTER: HomeNewsletterViewModel = {
     label: "Polityka prywatności",
     href: "/docs/policies/security-baseline.md#data-protection--privacy",
   },
+};
+
+const TOOLS_GRID: HomeToolsViewModel = {
+  eyebrow: "Narzędzia Clarivum",
+  headline: "Otwórz gotowe narzędzia w mniej niż minutę",
+  description:
+    "Każde narzędzie prowadzi do konkretnego działania: planu, checklisty lub kalkulatora. Zacznij od jednego i wracaj, kiedy potrzebujesz kolejnego kroku.",
+  seeAllLabel: "Zobacz wszystkie narzędzia",
+  seeAllHref: "/narzedzia",
+  items: [
+    {
+      key: "uv-index",
+      label: "Indeks UV i reaplikacja",
+      description: "Sprawdź indeks UV i zaplanuj przypomnienia reaplikacji SPF.",
+      href: "/narzedzia/indeks-uv",
+    },
+    {
+      key: "retinoid-planner",
+      label: "Planner retinoidów",
+      description: "Zaplanuj rytm 2-1-2, notuj reakcje i unikaj podrażnień.",
+      href: "/narzedzia/retinoid-planner",
+    },
+    {
+      key: "inci-checker",
+      label: "Składniki Checker",
+      description: "Wklej INCI, zobacz potencjalne ryzyka i kompatybilność z barierą.",
+      href: "/narzedzia/analiza-inci",
+    },
+    {
+      key: "tdee",
+      label: "Kalkulator TDEE",
+      description: "Policz zapotrzebowanie energetyczne z guardrailem deficytu.",
+      href: "/narzedzia/kalkulator-tdee",
+    },
+    {
+      key: "protein",
+      label: "Cel białka",
+      description: "Dobierz dzienne białko i rozkład posiłków zgodnie z Twoją wagą i celem.",
+      href: "/narzedzia/rozklad-makro",
+    },
+    {
+      key: "meal-planner",
+      label: "Planner posiłków",
+      description: "Ułóż jadłospis na tydzień z listą zakupów i sygnałami głodu.",
+      href: "/narzedzia/plan-posilkow",
+    },
+    {
+      key: "habit-tracker",
+      label: "Habit Tracker",
+      description: "Monitoruj mikro-nawyki, Forest Day i guardraile Kaizen.",
+      href: "/narzedzia/habit-tracker",
+    },
+    {
+      key: "sleep-calculator",
+      label: "Kalkulator snu",
+      description: "Policz cykle snu i ustaw guardrail pobudki 7–9 godzin.",
+      href: "/narzedzia/tracker-snu",
+    },
+  ],
 };
 
 const HERO_PILLARS: HomeHeroPillar[] = [
@@ -502,18 +565,18 @@ const HERO_WIZARD = {
   eyebrow: "Clarivum · Skin · Fuel · Habits",
   headline: "Uczymy. Upraszczamy. Dowozimy.",
   subheading:
-    "Zrób 3 krótkie kroki — pokażemy gotowy plan i narzędzia gotowe do użycia w ≤20 sekund.",
+    "Zrób 3 krótkie kroki — pokażemy gotowy plan + narzędzia gotowe do użycia w ≤20 sekund.",
   badges: ["Za darmo", "Bez spamu", "Oparte na dowodach"],
-  emailHelper: "Podaj e-mail, jeśli chcesz PDF + przypomnienia guardrail. Możesz pominąć ten krok.",
+  emailHelper: "Wyślemy PDF planu i przypomnienia guardrail — możesz pominąć i zobaczyć plan na stronie.",
   primaryActionLabel: "Generuj plan",
-  secondaryActionLabel: "Pomiń",
+  secondaryActionLabel: "Zobacz przykładowy plan",
   emailLabel: "E-mail",
   emailOptionalLabel: "(opcjonalnie)",
   emailPlaceholder: "anna@example.com",
   disclaimers: [
     { label: "Disclaimer medyczny", href: "/docs/policies/medical-disclaimer.md" },
     {
-      label: "Zasady danych (ADR-028)",
+      label: "Zasady danych Clarivum",
       href: "/docs/adr/ADR-028-security-and-compliance-baseline.md",
     },
   ],
@@ -565,6 +628,70 @@ const LEARNING_MOMENTS: HomeLandingViewModel["learningMoments"] = [
   },
 ];
 
+const TRUST_STRIP: HomeTrustViewModel = {
+  eyebrow: "Dowody i zaufanie",
+  headline: "Budujemy guardraile na faktach, nie hype'ie",
+  quotes: [
+    {
+      quote: "Wreszcie widzę plan z guardrailami, który da się dowieźć bez konsultanta na speed dial.",
+      author: "Marta P., Product Lead",
+    },
+    {
+      quote: "Clarivum zbiera dane i tłumaczy je na działania, a nie 100-punktowe checklisty.",
+      author: "dr Karolina W., dermatolożka",
+    },
+  ],
+  logos: [
+    { alt: "Rzeczpospolita", href: "/docs/PRDs/clarivum_brand.md" },
+    { alt: "My Company Polska", href: "/docs/PRDs/clarivum_brand.md" },
+    { alt: "Forbes Women", href: "/docs/PRDs/clarivum_brand.md" },
+  ],
+  links: [
+    { label: "Metodologia", href: "/docs/PRDs/seo-foundation.md" },
+    { label: "Jak zarabiamy", href: "/docs/PRDs/clarivum_brand.md" },
+  ],
+  disclaimer:
+    "Clarivum to projekt edukacyjny. Nie zastępuje profesjonalnej konsultacji medycznej, dietetycznej ani psychologicznej.",
+};
+
+const EBOOKS_SECTION: HomeEbooksViewModel = {
+  eyebrow: "Ebooki Clarivum",
+  headline: "Zanurz się głębiej w przewodniki",
+  description:
+    "Każdy ebook to konkretne sekwencje kroków, guardraile i checklisty — bez lania wody. Najpierw narzędzia, potem kontekst.",
+  seeAllLabel: "Zobacz katalog",
+  seeAllHref: "/ebooks",
+  items: [
+    {
+      slug: "retinoid-playbook",
+      title: "Retinoid bez podrażnień",
+      description: "3 scenariusze wdrożenia retinoidu + plan awaryjny dla bariery.",
+      href: "/ebooks/retinoid-playbook",
+    },
+    {
+      slug: "fuel-prep",
+      title: "Meal prep na realne życie",
+      description: "Makra, listy zakupów i gotowe rotacje posiłków na tydzień.",
+      href: "/ebooks/meal-prep",
+    },
+    {
+      slug: "sleep-rhythm",
+      title: "Sen i rytm dobowy",
+      description: "14-dniowy reset snu z mikro praktykami i checklistą guardraili.",
+      href: "/ebooks/sleep-playbook",
+    },
+  ],
+};
+
+const GLOBAL_CTA: HomeGlobalCtaViewModel = {
+  eyebrow: "Gotowa na kolejny krok?",
+  headline: "Uruchom diagnostykę i narzędzia Clarivum",
+  subheading:
+    "Zacznij od darmowych narzędzi, a gdy będziesz gotowa — przejdź do rozszerzonych przewodników i warsztatów.",
+  primaryCta: { label: "Przejdź do narzędzi", href: "/narzedzia" },
+  secondaryCta: { label: "Uruchom diagnostykę", href: "/diagnostyka" },
+};
+
 export class HomeExperienceManager {
   constructor(private readonly contentLibrary: ContentLibrary = createContentLibrary()) {}
 
@@ -575,8 +702,12 @@ export class HomeExperienceManager {
       featureFlags: FEATURE_FLAGS,
       newsletter: NEWSLETTER,
       heroWizard: HERO_WIZARD,
+      tools: TOOLS_GRID,
       diagnostics: DIAGNOSTIC_PROMPTS,
       learningMoments: LEARNING_MOMENTS,
+      trust: TRUST_STRIP,
+      ebooks: EBOOKS_SECTION,
+      globalCta: GLOBAL_CTA,
       verticals: highlights,
     };
   }
