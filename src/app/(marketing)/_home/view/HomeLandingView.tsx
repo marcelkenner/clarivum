@@ -275,17 +275,17 @@ function ToolsGrid({ tools }: Pick<HomeLandingViewModel, "tools">) {
           <Link
             key={item.key}
             href={item.href}
-            className="border-ink-soft text-ink hover:border-jade hover:text-jade group flex h-full flex-col justify-between gap-4 rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-5 transition hover:shadow-[0_24px_40px_-32px_rgba(46,107,90,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-jade"
+            className="border-ink-soft text-ink hover:border-jade hover:text-jade group focus-visible:ring-jade flex h-full flex-col justify-between gap-4 rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-5 transition hover:shadow-[0_24px_40px_-32px_rgba(46,107,90,0.45)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             aria-label={`Otwórz narzędzie ${item.label}`}
           >
             <div className="space-y-2">
               <span className="text-ink-soft text-[0.7rem] font-semibold tracking-[0.22em] uppercase">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <h3 className="text-ink text-lg font-semibold leading-tight">{item.label}</h3>
+              <h3 className="text-ink text-lg leading-tight font-semibold">{item.label}</h3>
               <p className="text-ink-soft text-sm leading-relaxed">{item.description}</p>
             </div>
-            <span className="text-jade inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] transition group-hover:gap-3">
+            <span className="text-jade inline-flex items-center gap-2 text-sm font-semibold tracking-[0.18em] uppercase transition group-hover:gap-3">
               Otwórz
               <ArrowRight size={16} weight="regular" aria-hidden="true" />
             </span>
@@ -419,7 +419,7 @@ function TrustStrip({ trust }: Pick<HomeLandingViewModel, "trust">) {
             {trust.eyebrow}
           </p>
           <h2 className="font-display text-ink text-3xl">{trust.headline}</h2>
-          <div className="flex flex-wrap gap-3 text-sm font-semibold uppercase tracking-[0.18em]">
+          <div className="flex flex-wrap gap-3 text-sm font-semibold tracking-[0.18em] uppercase">
             {trust.links.map((link) => (
               <Link
                 key={link.href}
@@ -451,7 +451,7 @@ function TrustStrip({ trust }: Pick<HomeLandingViewModel, "trust">) {
               <Link
                 key={logo.href}
                 href={logo.href}
-                className="border-ink-soft text-ink hover:border-jade hover:text-jade inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition"
+                className="border-ink-soft text-ink hover:border-jade hover:text-jade inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold tracking-[0.18em] uppercase transition"
               >
                 {logo.alt}
               </Link>
@@ -483,7 +483,7 @@ function EbooksStrip({ ebooks }: Pick<HomeLandingViewModel, "ebooks">) {
           <Link
             key={ebook.slug}
             href={ebook.href}
-            className="border-ink-soft text-ink hover:border-jade hover:text-jade group flex h-full flex-col gap-4 rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-5 transition hover:shadow-[0_24px_40px_-32px_rgba(46,107,90,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-jade"
+            className="border-ink-soft text-ink hover:border-jade hover:text-jade group focus-visible:ring-jade flex h-full flex-col gap-4 rounded-[1.75rem] border bg-[rgba(255,255,255,0.92)] p-5 transition hover:shadow-[0_24px_40px_-32px_rgba(46,107,90,0.45)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             itemProp="itemListElement"
             itemScope
             itemType="https://schema.org/ListItem"
@@ -493,14 +493,14 @@ function EbooksStrip({ ebooks }: Pick<HomeLandingViewModel, "ebooks">) {
               <span className="text-ink-soft text-[0.7rem] font-semibold tracking-[0.22em] uppercase">
                 Ebook
               </span>
-              <h3 className="text-ink text-lg font-semibold leading-tight" itemProp="name">
+              <h3 className="text-ink text-lg leading-tight font-semibold" itemProp="name">
                 {ebook.title}
               </h3>
               <p className="text-ink-soft text-sm leading-relaxed" itemProp="description">
                 {ebook.description}
               </p>
             </div>
-            <span className="text-jade inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] transition group-hover:gap-3">
+            <span className="text-jade inline-flex items-center gap-2 text-sm font-semibold tracking-[0.18em] uppercase transition group-hover:gap-3">
               Zobacz
               <ArrowRight size={16} weight="regular" aria-hidden="true" />
             </span>

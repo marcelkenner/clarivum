@@ -567,7 +567,8 @@ const HERO_WIZARD = {
   subheading:
     "Zrób 3 krótkie kroki — pokażemy gotowy plan + narzędzia gotowe do użycia w ≤20 sekund.",
   badges: ["Za darmo", "Bez spamu", "Oparte na dowodach"],
-  emailHelper: "Wyślemy PDF planu i przypomnienia guardrail — możesz pominąć i zobaczyć plan na stronie.",
+  emailHelper:
+    "Wyślemy PDF planu i przypomnienia guardrail — możesz pominąć i zobaczyć plan na stronie.",
   primaryActionLabel: "Generuj plan",
   secondaryActionLabel: "Zobacz przykładowy plan",
   emailLabel: "E-mail",
@@ -633,7 +634,8 @@ const TRUST_STRIP: HomeTrustViewModel = {
   headline: "Budujemy guardraile na faktach, nie hype'ie",
   quotes: [
     {
-      quote: "Wreszcie widzę plan z guardrailami, który da się dowieźć bez konsultanta na speed dial.",
+      quote:
+        "Wreszcie widzę plan z guardrailami, który da się dowieźć bez konsultanta na speed dial.",
       author: "Marta P., Product Lead",
     },
     {

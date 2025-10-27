@@ -67,7 +67,9 @@ export function HomeHeroWizard({
       }
       setSelectedAreaKey(storedPillar.key);
       const storedGoal =
-        storedPillar.goals.find((goal) => goal.slug === parsed.goal) ?? storedPillar.goals[0] ?? null;
+        storedPillar.goals.find((goal) => goal.slug === parsed.goal) ??
+        storedPillar.goals[0] ??
+        null;
       setSelectedGoal(storedGoal);
     } catch {
       // Ignored: jeśli JSON jest niepoprawny, startujemy z domyślnym widokiem.
@@ -93,20 +95,23 @@ export function HomeHeroWizard({
     setPlanState({ status: "idle" });
   }, []);
 
-  const persistSelection = useCallback((areaKey: HomeHeroPillar["key"], goal: HomeHeroGoal | null) => {
-    try {
-      window.localStorage.setItem(
-        LAST_SELECTION_STORAGE_KEY,
-        JSON.stringify({
-          area: areaKey,
-          goal: goal?.slug ?? null,
-          savedAt: Date.now(),
-        }),
-      );
-    } catch {
-      // Ignore quota errors (np. tryb prywatny) — po prostu nie zapisujemy stanu.
-    }
-  }, []);
+  const persistSelection = useCallback(
+    (areaKey: HomeHeroPillar["key"], goal: HomeHeroGoal | null) => {
+      try {
+        window.localStorage.setItem(
+          LAST_SELECTION_STORAGE_KEY,
+          JSON.stringify({
+            area: areaKey,
+            goal: goal?.slug ?? null,
+            savedAt: Date.now(),
+          }),
+        );
+      } catch {
+        // Ignore quota errors (np. tryb prywatny) — po prostu nie zapisujemy stanu.
+      }
+    },
+    [],
+  );
 
   const selectArea = useCallback(
     (areaKey: typeof selectedAreaKey) => {
