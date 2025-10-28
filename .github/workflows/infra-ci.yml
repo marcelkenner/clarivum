@@ -1,0 +1,107 @@
+name: TSK-PLAT-022 · Terraform Gates
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "infra/**"
+      - ".github/workflows/infra-ci.yml"
+  push:
+    branches: [main]
+    paths:
+      - "infra/**"
+      - ".github/workflows/infra-ci.yml"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  terraform:
+    name: terraform fmt/validate/plan
+    runs-on: ubuntu-latest
+    env:
+      TF_BACKEND_BUCKET: ${{ vars.TF_BACKEND_BUCKET }}
+      TF_BACKEND_KEY: ${{ vars.TF_BACKEND_KEY }}
+      TF_BACKEND_REGION: ${{ vars.TF_BACKEND_REGION }}
+      TF_BACKEND_DYNAMODB_TABLE: ${{ vars.TF_BACKEND_DYNAMODB_TABLE }}
+      TERRAFORM_WORKING_DIR: infra/strapi
+      TERRAFORM_ENV: ${{ vars.TERRAFORM_DEFAULT_WORKSPACE || 'dev' }}
+      TF_IN_AUTOMATION: "true"
+      AWS_REGION: ${{ vars.TF_BACKEND_REGION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.5"
+
+      - name: Ensure backend configuration is provided
+        run: |
+          set -euo pipefail
+          missing=0
+          for name in TF_BACKEND_BUCKET TF_BACKEND_KEY TF_BACKEND_REGION TF_BACKEND_DYNAMODB_TABLE; do
+            if [ -z "${!name:-}" ]; then
+              echo "::error::$name is not defined. Set repository or environment variable \"$name\" for the Terraform backend."
+              missing=1
+            fi
+          done
+          if [ "$missing" -eq 1 ]; then
+            exit 1
+          fi
+
+      - name: Ensure Terraform deployer role secret exists
+        run: |
+          if [ -z "${AWS_TERRAFORM_DEPLOYER_ROLE_ARN:-}" ]; then
+            echo "::error::Missing secret AWS_TERRAFORM_DEPLOYER_ROLE_ARN. Add this secret so the workflow can assume the TerraformDeployer role."
+            exit 1
+          fi
+        env:
+          AWS_TERRAFORM_DEPLOYER_ROLE_ARN: ${{ secrets.AWS_TERRAFORM_DEPLOYER_ROLE_ARN }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_TERRAFORM_DEPLOYER_ROLE_ARN }}
+          aws-region: ${{ env.TF_BACKEND_REGION }}
+          role-session-name: terraform-plan
+
+      - name: Terraform fmt check
+        run: terraform -chdir=${TERRAFORM_WORKING_DIR} fmt -check -recursive
+
+      - name: Terraform init
+        run: |
+          terraform -chdir=${TERRAFORM_WORKING_DIR} init \
+            -backend-config="bucket=${TF_BACKEND_BUCKET}" \
+            -backend-config="key=${TF_BACKEND_KEY}" \
+            -backend-config="region=${TF_BACKEND_REGION}" \
+            -backend-config="dynamodb_table=${TF_BACKEND_DYNAMODB_TABLE}" \
+            -input=false
+
+      - name: Terraform workspace select
+        run: |
+          terraform -chdir=${TERRAFORM_WORKING_DIR} workspace select ${TERRAFORM_ENV} \
+            || terraform -chdir=${TERRAFORM_WORKING_DIR} workspace new ${TERRAFORM_ENV}
+
+      - name: Terraform validate
+        run: terraform -chdir=${TERRAFORM_WORKING_DIR} validate
+
+      - name: Terraform plan (${{ env.TERRAFORM_ENV }})
+        run: |
+          terraform -chdir=${TERRAFORM_WORKING_DIR} plan \
+            -input=false \
+            -var-file=env/${TERRAFORM_ENV}.tfvars \
+            -out=plan-${TERRAFORM_ENV}.tfplan
+
+      - name: Show plan summary
+        run: terraform -chdir=${TERRAFORM_WORKING_DIR} show -no-color plan-${TERRAFORM_ENV}.tfplan
+
+      - name: Upload plan artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan-${{ env.TERRAFORM_ENV }}
+          path: infra/strapi/plan-${{ env.TERRAFORM_ENV }}.tfplan

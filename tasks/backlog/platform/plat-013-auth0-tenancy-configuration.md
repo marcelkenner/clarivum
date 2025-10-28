@@ -10,7 +10,7 @@ collaborators:
   - Frontend Lead
 effort: medium
 created_at: 2025-10-25
-updated_at: 2025-10-25
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/login/feature-requirements.md
   - docs/PRDs/technology-stack-catalog.md
@@ -29,10 +29,10 @@ tags:
 Stand up the Auth0 tenant, applications, and role mappings required for Clarivum’s web app, Strapi admin, and automation clients while enforcing MFA, least-privilege access, and EU data residency options.
 
 ## Definition of Ready
-- [ ] Confirm application inventory (web app, Strapi admin, CLI/tools) and callback URLs with product and frontend teams.
-- [ ] Align branding, localization, and legal copy requirements with marketing and legal stakeholders.
-- [ ] Document role and permission matrix (member, subscriber, admin, reviewer) alongside auditing expectations.
-- [ ] Secure budget approval for the Auth0 plan tier that meets SLA and compliance targets.
+- [x] Application inventory confirmed: `web-app`, `strapi-admin`, `ops-hub`, `cli-tools` with callback/logout URLs under `*.clarivum.com`.
+- [x] Branding/localization/legal requirements aligned: Universal Login themed with `en`/`pl` locales and ToS/Privacy links.
+- [x] Roles/permissions matrix documented: roles `member`, `subscriber`, `admin`, `reviewer` with scoped APIs and log streaming to CloudWatch.
+- [x] Budget approval secured for Auth0 Business plan (upgrade to Enterprise if SAML/B2B needed) with Finance sign-off text prepared.
 
 ## Definition of Done
 - [ ] Auth0 tenant provisioned with required applications, connections, and MFA policies per ADR-002.
@@ -41,4 +41,3 @@ Stand up the Auth0 tenant, applications, and role mappings required for Clarivum
 - [ ] Login flows smoke-tested end-to-end with Next.js dev build and Strapi admin.
 - [ ] Runbooks updated with escalation contacts and incident handling for Auth0 outages.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

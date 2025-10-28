@@ -25,31 +25,34 @@ links:
 
 | Task | Status Lane | Notes |
 |------|-------------|-------|
-| [`tasks/backlog/frontend/fe-002-app-router-skeleton.md`](../../backlog/frontend/fe-002-app-router-skeleton.md) | Backlog → Ready → In-progress | Scaffold App Router structure, layouts, metadata |
-| [`tasks/backlog/backend/be-001-supabase-schema-v0.md`](../../backlog/backend/be-001-supabase-schema-v0.md) | Backlog → Ready → In-progress | Author initial Supabase schema, migrations, seeds |
-| [`tasks/backlog/frontend/fe-005-homepage-mvp.md`](../../backlog/frontend/fe-005-homepage-mvp.md) | Backlog → Ready → In-progress | Build tools-first homepage with analytics + flags |
-| [`tasks/ready/platform/plat-045-seo-platform-foundation.md`](../../ready/platform/plat-045-seo-platform-foundation.md) | Ready → In-progress | Metadata factory, structured data, sitemap automation |
-| [`tasks/ready/shared/shared-009-seo-governance-rollout.md`](../../ready/shared/shared-009-seo-governance-rollout.md) | Ready → In-progress | Training, runbooks, metrics for SEO governance |
+| [`tasks/backlog/platform/plat-012-supabase-tenancy-provision.md`](../../backlog/platform/plat-012-supabase-tenancy-provision.md) | Backlog → Ready → In-progress | Provision Supabase projects, secrets, storage buckets |
+| [`tasks/backlog/frontend/fe-004-storybook-workbench.md`](../../backlog/frontend/fe-004-storybook-workbench.md) | Backlog → Ready → In-progress | Configure Storybook with accessibility + docs addons |
+| [`tasks/backlog/frontend/fe-021-app-router-content-loaders.md`](../../backlog/frontend/fe-021-app-router-content-loaders.md) | Backlog → Ready → In-progress | Build content loader utilities + skeleton states |
+| [`tasks/backlog/frontend/fe-022-global-navigation-data-source.md`](../../backlog/frontend/fe-022-global-navigation-data-source.md) | Backlog → Ready → In-progress | Wire global nav data fetching + analytics hooks |
+| [`tasks/backlog/platform/plat-050-seo-guardrail-ci.md`](../../backlog/platform/plat-050-seo-guardrail-ci.md) | Backlog → Ready → In-progress | Add SEO guardrail suite to CI workflow |
+| [`tasks/backlog/platform/plat-051-web-vitals-ingestion.md`](../../backlog/platform/plat-051-web-vitals-ingestion.md) | Backlog → Ready → In-progress | Capture Web Vitals events into analytics dashboards |
+| [`tasks/backlog/shared/shared-002-complete-ptrd.md`](../../backlog/shared/shared-002-complete-ptrd.md) | Backlog → Ready → In-progress | Finalize PTRD intake + approvals for upcoming work |
+| [`tasks/ready/shared/shared-009-seo-governance-rollout.md`](../../ready/shared/shared-009-seo-governance-rollout.md) | Ready → In-progress | Roll out SEO governance training + runbooks |
 
 ### Stretch
 
-- [`tasks/backlog/frontend/fe-006-tools-platform-rollout.md`](../../backlog/frontend/fe-006-tools-platform-rollout.md) — if homepage completes early, kick off tools-module UX.
-- [`tasks/backlog/platform/plat-023-novu-notification-platform.md`](../../backlog/platform/plat-023-novu-notification-platform.md) — prep integration design if BFF dependencies settle.
+- [`tasks/backlog/shared/shared-001-open-decisions-alignment.md`](../../backlog/shared/shared-001-open-decisions-alignment.md) — document ADR follow-ups if PTRD work wraps early.
+- [`tasks/backlog/frontend/fe-019-component-coverage-targets.md`](../../backlog/frontend/fe-019-component-coverage-targets.md) — define coverage baseline if Storybook stabilizes quickly.
 
 ## Definition of Success
 
-- App Router skeleton merged with documented extension points and updated diagrams in `docs/architecture.md`.
-- Supabase schema v0 deployed with migrations, RLS policies, and seed data; types validated by TypeScript.
-- Homepage MVP live behind feature flag, with Core Web Vitals + analytics hitting targets.
-- SEO platform utilities enforce metadata/schema requirements and automated sitemap/robots workflows.
-- SEO governance runbooks adopted; metrics flowing into dashboards; stakeholders trained.
+- Supabase tenancy provisioned with secrets rotation, bucket lifecycle policies, and `.env.example` guidance.
+- Storybook workbench delivers accessible docs with contribution checklist + CI linting.
+- App Router loaders/global navigation data source power homepage + vertical scaffolds with analytics + error handling.
+- SEO guardrail + Web Vitals telemetry run in CI/analytics, blocking regressions before rollout.
+- PTRD, SEO governance, and intake workflows updated in runbooks; stakeholders trained.
 
 ## Dependencies & Prep
 
-- Finalize taxonomy, CTA copy, and structured data requirements with product/design by 2025-11-12.
-- Confirm Search Console credentials and Plausible dashboards for SEO telemetry.
-- Align on Supabase infrastructure changes with DevOps/infra owners (Terraform follow-up PR).
-- Ensure Sprint 01 guardrails (tests, CI, telemetry) are stable before starting feature work.
+- Confirm Supabase project quotas + Secrets Manager naming with DevOps before provisioning.
+- Gather Storybook addon approvals from Design/QA and ensure Tailwind configuration ready.
+- Align analytics event schema for nav + Web Vitals with product analytics lead.
+- Ensure sprint 01 guardrails are stable (CI, Vitest, telemetry) to support new suites.
 
 ## Risks & Mitigations
 

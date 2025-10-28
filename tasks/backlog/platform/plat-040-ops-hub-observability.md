@@ -10,7 +10,7 @@ collaborators:
   - Security Lead
 effort: medium
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/operations-hub/feature-requirements.md
   - docs/adr/ADR-031-admin-operations-hub.md
@@ -31,11 +31,11 @@ tags:
 Implement tracing, metrics, logging, alerting, and compliance hooks for the Ops Hub, ensuring actions feed audit exports, SLO dashboards, and guardrail alerts, while automating monthly access reviews.
 
 ## Definition of Ready
-- [ ] SLO targets confirmed (availability 99.9%, p95 API latency ≤400 ms) with alert policies and paging tree documented.
-- [ ] Telemetry schema finalized (span/event names, attributes, PII handling rules) and shared with analytics.
-- [ ] Audit export pipeline defined (daily export destination, 365-day retention, access controls) with owners assigned.
-- [ ] Grafana, Slack, and email tokens verified end-to-end and rotation plan captured in runbook.
-- [ ] Naming conventions aligned with analytics taxonomy to ensure dashboards and reports stay consistent.
+- [x] SLO targets locked: availability 99.9% and p95 API ≤400 ms with documented alert policies and paging tree.
+- [x] Telemetry schema finalized: spans/events plus PII handling shared with analytics.
+- [x] Audit export plan set: daily export to S3 with 365-day retention and assigned access controls.
+- [x] Tokens verified end-to-end: Grafana, Slack, email credentials tested and rotation noted in runbook.
+- [x] Naming conventions aligned with analytics taxonomy for dashboards/reports consistency.
 
 ## Definition of Done
 - [ ] Ops Hub instrumented with OTel spans + metrics (latency, error rate, action counts) shipped to Grafana Cloud.

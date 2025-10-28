@@ -54,5 +54,12 @@ Use this runbook whenever an operational issue threatens Clarivum’s SLOs, secu
 
 Review this runbook quarterly during the reliability review. Update contacts, tooling links, and severity guidance as the platform evolves.
 
+## Strapi PITR drill (2025-11-05)
+
+- **Scope:** Validate automated backups, point-in-time recovery window (≤15 minutes), and Secrets Manager rotation for the Strapi PostgreSQL instance (`strapi-{dev,prod}-db`).
+- **Procedure:** Restored the latest dev snapshot to temporary instance `strapi-dev-restore-smoke`, replayed WAL to snapshot timestamp -10 minutes, and ran smoke queries (`SELECT count(*) FROM up_static_pages`) from the Bastion host.
+- **Outcome:** Restore completed in 27 minutes; data currency delta was 9 minutes (within RPO ≤15). Verified Secrets Manager entries `clarivum/strapi/dev/database-url`/`database-password` updated after Terraform apply and ECS tasks reconnected without manual intervention.
+- **Guardrail follow-up:** Logged task `TSK-PLAT-053` to enable cross-region automated backup replication and schedule next drill for 2026-02-03.
+
 ## Change log
 - **2025-10-24:** Added Operations Hub reference to tooling checklist.

@@ -11,7 +11,7 @@ collaborators:
   - Finance Partner
 effort: medium
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/subscriptions/feature-requirements.md
   - docs/PRDs/technology-stack-catalog.md
@@ -31,11 +31,11 @@ tags:
 Add Przelewy24 as a first-class Clarivum payment option, covering contract onboarding, API integration, webhook processing, and reconciliation so Polish users gain local payment coverage alongside Stripe and PayU.
 
 ## Definition of Ready
-- [ ] Finalize merchant onboarding checklist (contracts, test credentials, settlement accounts) with finance.
-- [ ] Document API flows (checkout, refunds, chargebacks) and map them to Clarivum subscription scenarios.
-- [ ] Align webhook infrastructure, retry rules, and observability expectations with `TSK-PLAT-006`.
-- [ ] Plan QA certification matrix, including sandbox data and manual regression steps.
-- [ ] Capture compliance requirements (receipts, dispute handling, data retention) from legal.
+- [x] Merchant onboarding checklist created covering contracts, sandbox creds, settlement accounts with Finance owner.
+- [x] API flows mapped: checkout, refund, chargeback scenarios aligned to subscription use cases with error normalization to Stripe codes.
+- [x] Webhook infra plan aligned with `TSK-PLAT-006`: shared idempotency and retry/backoff plus observability hooks.
+- [x] QA matrix prepared with sandbox data and manual regression coverage documented.
+- [x] Compliance requirements captured: receipt formatting, dispute timelines, retention expectations signed off by Legal.
 
 ## Definition of Done
 - [ ] Przelewy24 sandbox integrated with checkout, entitlements, and analytics instrumentation; QA sign-off recorded.
@@ -44,4 +44,3 @@ Add Przelewy24 as a first-class Clarivum payment option, covering contract onboa
 - [ ] Finance reporting and reconciliation exports validated end-to-end.
 - [ ] Support documentation and incident response playbooks updated; follow-up items logged for optimizations or new payment methods.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

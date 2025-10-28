@@ -11,7 +11,7 @@ collaborators:
   - Finance Partner
 effort: small
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/subscriptions/feature-requirements.md
   - docs/PRDs/requierments/ebooks/feature-requirements.md
@@ -31,11 +31,11 @@ tags:
 Provision Apple Pay through Stripe’s Payment Element, including domain verification and merchant identity certificates, so iOS and Safari users can complete Clarivum purchases with a single tap.
 
 ## Definition of Ready
-- [ ] Identify supported storefront domains and confirm TLS configuration for Apple Pay verification.
-- [ ] Collect merchant ID, Payment Processing certificate, and Apple Pay entitlement requirements with security/legal.
-- [ ] Coordinate frontend wallet placement and UX copy with design.
-- [ ] Draft QA plan (Safari desktop/mobile, device simulators) and regression cases for fallback to card entry.
-- [ ] Define analytics instrumentation for wallet clicks, authorizations, and declines.
+- [x] Storefront domains verified: Apple Pay domain association plan confirmed with TLS 1.2+ on eligible hosts.
+- [x] Merchant ID and certificates collected with legal/security approval; references stored in Secrets Manager.
+- [x] Frontend placement and copy aligned with design system, including alternative path when wallet unavailable.
+- [x] QA plan drafted covering Safari desktop/mobile with fallback regression to card entry.
+- [x] Analytics events defined: `wallet.apple.click`, `wallet.apple.authorization`, `wallet.apple.decline`.
 
 ## Definition of Done
 - [ ] Merchant IDs, certificates, and domain association completed in Stripe and Apple Developer accounts.
@@ -44,4 +44,3 @@ Provision Apple Pay through Stripe’s Payment Element, including domain verific
 - [ ] `docs/runbooks/payments-operations.md` augmented with Apple Pay maintenance procedures; support resources briefed.
 - [ ] Follow-up backlog items logged for localization, express checkout experimentation, or wallet-specific offers.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

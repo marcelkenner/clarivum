@@ -2,6 +2,8 @@
 
 This runbook aligns with `docs/PRDs/seo-foundation.md`, ADR-034, and the governance policy (`docs/policies/seo-governance.md`). It codifies rituals, guardrails, and escalation paths that keep Clarivum's SEO surface fast, indexable, and trustworthy.
 
+Implementation note: the platform helpers live under `src/lib/seo/` (`metadata.ts`, `structured-data.ts`, and `routes/**`). App Router pages consume those factories directly so metadata and JSON-LD stay consistent across templates.
+
 ## 1. Roles & responsibilities
 
 - **SEO Lead (Marketing/Growth):** owns keyword strategy, monitors Search Console, requests schema updates, and drives backlog prioritization.
@@ -36,7 +38,7 @@ This runbook aligns with `docs/PRDs/seo-foundation.md`, ADR-034, and the governa
 
 Before shipping SEO-impacting changes (`src/app/**`, metadata libraries, CMS schema updates):
 
-1. `npm run validate` passes (lint + typecheck + metadata guardrails).
+1. `npm run validate` passes (lint + typecheck + format check + `npm run check:seo` metadata/JSON-LD guardrails).
 2. Playwright smoke suite covers canonical templates (`npm run test:e2e:smoke`).
 3. Preview environment reviewed by SEO Lead (titles, descriptions, schema markup, canonical).
 4. Sitemaps regenerated in staging and validated via Search Console inspection tool.
@@ -58,10 +60,11 @@ Before shipping SEO-impacting changes (`src/app/**`, metadata libraries, CMS sch
 
 ## 5. Tooling & integrations
 
+- **CI enforcement (`TSK-PLAT-050`):** `.github/workflows/ci.yml` runs `npm run check:seo` on every push and pull request. Failures surface as a dedicated “Run SEO metadata guardrail” step with explicit annotations—treat red runs as merge blockers and follow the guardrail playbook before retrying.
 - **Search Console API:** nightly ingestion job writes coverage metrics (impressions, clicks, CTR, average position) to `metrics/flow.json`; alert if API fails >24h.
-- **Web Vitals library (`web-vitals`):** capture LCP/INP/CLS/TTFB in browser and ship to Plausible custom events; threshold breaches trigger Kaizen guardrail tasks.
+- **Web Vitals library (`web-vitals`):** captured via `WebVitalsReporter` (`src/app/_components/WebVitalsReporter.tsx`). Metrics dispatch as the `WebVitalsMetric` analytics event and flow into Plausible dashboards; threshold breaches trigger Kaizen guardrail tasks.
 - **Broken link monitor:** part of CI; manual rerun via `npm run validate -- --only broken-links` (script to be added during implementation).
-- **Schema validator:** Ajv-based tests under `src/lib/seo/__tests__/schema.spec.ts`; update snapshots when Google releases guideline changes.
+- **Schema validator:** Ajv-based tests under `src/lib/seo/__tests__/structured-data.spec.ts`; update schemas when Google releases guideline changes.
 
 ## 6. Knowledge sharing & training
 

@@ -10,7 +10,7 @@ collaborators:
   - Engineering Manager
 effort: tiny
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/observability/feature-requirements.md
   - docs/adr/ADR-016-ci-cd-platform.md
@@ -30,11 +30,11 @@ tags:
 Implement a GitHub Actions workflow that opens the monthly Forest Day task with the required checklist so the team consistently schedules a no-meeting improvement day and tracks outcomes in GitHub.
 
 ## Definition of Ready
-- [ ] Cadence and reviewers confirmed (monthly first Friday, reviewers list fixed, checklist issue format approved).
-- [ ] Template and labels finalized (`forest-day` label, cleanup/dependency/flag cleanup checklist items).
-- [ ] Notification plan defined (Slack reminder 48 h prior, summary after) with owners.
-- [ ] GitHub OIDC permissions validated for issue creation (no PAT) and secrets configured.
-- [ ] Announcement plan drafted (calendar invite + team post) with responsible owner.
+- [x] Cadence/reviewers confirmed: first Friday monthly with fixed reviewer roster and approved checklist format.
+- [x] Template/labels finalized: `forest-day` label with required cleanup/dependency/flag cleanup checklist entries.
+- [x] Notifications planned: Slack reminder −48 h and summary post after day completes with owners assigned.
+- [x] Permissions validated: GitHub OIDC issue creation with secrets configured; no PATs.
+- [x] Announcement draft ready: calendar invite and team post prepared.
 
 ## Definition of Done
 - [ ] Workflow `.github/workflows/forest-day-monthly.yml` created with cron and manual trigger, writing issues that match the playbook template.

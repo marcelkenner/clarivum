@@ -3,6 +3,11 @@ import { notFound } from "next/navigation";
 import { createVerticalExperienceCoordinator } from "@/app/_vertical-experience/coordinator/VerticalExperienceCoordinator";
 import { VerticalHubView } from "@/app/_vertical-experience/view/VerticalViews";
 import { allVerticals } from "@/lib/content-map";
+import { JsonLd } from "@/lib/seo/JsonLd";
+import {
+  buildVerticalHubMetadata,
+  buildVerticalHubStructuredData,
+} from "@/lib/seo/routes/vertical-hub";
 
 import type { Metadata } from "next";
 
@@ -24,10 +29,7 @@ export async function generateMetadata({
     return {};
   }
 
-  return {
-    title: `${model.key.toUpperCase()} · Clarivum`,
-    description: model.description,
-  };
+  return buildVerticalHubMetadata(model);
 }
 
 export default function VerticalHubPage({ params }: { params: { vertical: string } }) {
@@ -38,5 +40,14 @@ export default function VerticalHubPage({ params }: { params: { vertical: string
     notFound();
   }
 
-  return <VerticalHubView model={viewModel} />;
+  const structuredData = buildVerticalHubStructuredData(viewModel);
+
+  return (
+    <>
+      <JsonLd id={`clarivum-${viewModel.key}-hub`} data={structuredData.webPage} />
+      <JsonLd id={`clarivum-${viewModel.key}-hub-breadcrumbs`} data={structuredData.breadcrumb} />
+      <JsonLd id={`clarivum-${viewModel.key}-hub-list`} data={structuredData.itemList} />
+      <VerticalHubView model={viewModel} />
+    </>
+  );
 }

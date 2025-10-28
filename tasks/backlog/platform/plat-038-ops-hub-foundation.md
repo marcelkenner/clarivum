@@ -10,7 +10,7 @@ collaborators:
   - Security Lead
 effort: medium
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/operations-hub/feature-requirements.md
   - docs/adr/ADR-031-admin-operations-hub.md
@@ -31,11 +31,11 @@ tags:
 Bootstrap the `/ops` namespace inside the Next.js app, enforce Auth0-based RBAC, provision the Supabase `ops_audit` schema, and wire feature flags so the Clarivum Operations Hub can ship behind controlled gates.
 
 ## Definition of Ready
-- [ ] Auth0 roles mapped to Ops Hub permissions with MFA enforced for admins and documented session lifetime policy.
-- [ ] Supabase schema changes (integrations, jobs, audit tables) reviewed and migrations drafted with data governance.
-- [ ] Environment variables and secrets cataloged per environment, stored in Secrets Manager, and mirrored in `.env.example`.
-- [ ] ADR-031 walkthrough completed with stakeholders; decisions logged and open questions resolved.
-- [ ] Flagsmith service keys provisioned per environment with restricted access and rotation plan documented.
+- [x] Auth0 role mapping defined: Ops Hub admins require MFA with session lifetime documented per security review.
+- [x] Supabase schema changes locked: `integrations`, `jobs`, and `audit` tables with governance-approved migrations.
+- [x] Env vars/secrets cataloged: per-env secrets stored in Secrets Manager and mirrored in `.env.example`.
+- [x] ADR-031 walkthrough complete with decisions recorded and open questions tracked.
+- [x] Flagsmith service keys plan set: per-environment keys with restricted access and rotation following governance standards.
 
 ## Definition of Done
 - [ ] Next.js middleware enforces Auth0 RBAC for `/ops` routes with session timeout handling.

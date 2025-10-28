@@ -8,5 +8,7 @@ Displays Markdown entries from `sisu-log/` (Sisu Debugging notes) via `DocumentS
 - Ensure new notes conform to the required filename pattern before linking (YYYY-MM-DD-short-id.md).
 - QA: `npm run lint:code -- src/app/sisu-log src/components/documents`, `npm run typecheck`,
   and manual navigation to `/sisu-log/YYYY-MM-DD-slug`.
+- Production access is gated by `assertInternalDocsAccess()`. Leave `INTERNAL_DOCS_ALLOW` unset so
+  notes stay internal-only.
 
-Extend this file when we add filters (e.g., owner, area) or additional guardrails.\*\*\* End Patch
+Extend this file when we add filters (e.g., owner, area) or additional guardrails.

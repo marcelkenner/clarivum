@@ -3,6 +3,11 @@ import { notFound } from "next/navigation";
 import { createVerticalExperienceCoordinator } from "@/app/_vertical-experience/coordinator/VerticalExperienceCoordinator";
 import { CategoryHubView } from "@/app/_vertical-experience/view/VerticalViews";
 import { buildBreadcrumbs } from "@/app/_vertical-experience/viewmodel/VerticalViewModels";
+import { JsonLd } from "@/lib/seo/JsonLd";
+import {
+  buildCategoryHubMetadata,
+  buildCategoryHubStructuredData,
+} from "@/lib/seo/routes/vertical-category";
 
 import type { Metadata } from "next";
 
@@ -25,10 +30,7 @@ export async function generateMetadata({
     return {};
   }
 
-  return {
-    title: `${model.category.label} · Clarivum ${model.vertical.key}`,
-    description: `CTA + tool shelf for ${model.category.label}.`,
-  };
+  return buildCategoryHubMetadata(model);
 }
 
 export default function CategoryHubPage({
@@ -48,5 +50,23 @@ export default function CategoryHubPage({
     category: model.category.slug,
   });
 
-  return <CategoryHubView model={model} breadcrumbs={breadcrumbs} />;
+  const structuredData = buildCategoryHubStructuredData(model);
+
+  return (
+    <>
+      <JsonLd
+        id={`clarivum-${model.vertical.key}-${model.category.slug}`}
+        data={structuredData.webPage}
+      />
+      <JsonLd
+        id={`clarivum-${model.vertical.key}-${model.category.slug}-breadcrumbs`}
+        data={structuredData.breadcrumb}
+      />
+      <JsonLd
+        id={`clarivum-${model.vertical.key}-${model.category.slug}-list`}
+        data={structuredData.itemList}
+      />
+      <CategoryHubView model={model} breadcrumbs={breadcrumbs} />
+    </>
+  );
 }

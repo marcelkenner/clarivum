@@ -17,6 +17,10 @@ Centralized follow-up list for sprint guardrails and CI hygiene. Keep items conc
 11. **Homepage rebuild brief:** Replace the placeholder in `src/app/page.tsx` with the next Clarivum homepage once product finalizes copy/structure. Capture the new scope in `docs/PRDs/requierments/ascii_designs/home.md` and list guardrails/tests to restore.
 12. **CMS feed readiness check:** Prep Strapi collections for hero wizard, plan summaries, and learning slots before the rebuild so marketing can adjust copy without redeploying. Note the mapping in the same PRD when finalized.
 13. **Learning slot instrumentation plan:** Decide how `/library` entries will surface on the rebuilt homepage and queue the analytics/guardrail updates alongside the implementation.
+14. **Upstash cache & rate-limit secrets:** Verify `UPSTASH_CACHE_REST_URL`/`UPSTASH_CACHE_REST_TOKEN` and `UPSTASH_RATELIMIT_REST_URL`/`UPSTASH_RATELIMIT_REST_TOKEN` are populated for preview/staging/prod before rolling the shared cache. Record the check in `docs/runbooks/tools-platform-operations.md` under the UV widget section and file follow-ups if any environment needs new credentials. (Source: TSK-PLAT-048 next step)
+15. **Terraform backend variables:** Populate `TF_BACKEND_BUCKET`, `TF_BACKEND_KEY`, `TF_BACKEND_REGION`, and `TF_BACKEND_DYNAMODB_TABLE` (plus optional `TERRAFORM_DEFAULT_WORKSPACE`) repository variables along with the `AWS_TERRAFORM_DEPLOYER_ROLE_ARN` secret so `.github/workflows/infra-ci.yml` can assume the TerraformDeployer role. (Source: TSK-PLAT-022 workflow hookup)
+16. **Terraform static analysis follow-up:** Land shared `tflint` and `tfsec` configs for `infra/` and extend the new workflow to execute them, completing the remaining guardrails for TSK-PLAT-022.
+17. **Terraform runbook reminder:** As part of a PR’s deployment checklist, explicitly include `-var-file=env/<env>.tfvars` when running `terraform plan` so the CLI doesn’t prompt for every required variable. Capture this in the release template/communication so the habit sticks. (Source: Strapi data foundation runbook update)
 
 ## Nice-to-haves
 

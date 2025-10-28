@@ -8,13 +8,13 @@ for the hero UV widget work tracked in:
 
 Contents:
 
-- `architecture-uv-widget.md` — C4-style component view highlighting frontend,
-  backend, and Open-Meteo integration boundaries.
-- `data-lineage-uv-widget.md` — Data flow from geolocation consent through API
+- `architecture-uv-widget.mmd` — C4-style component view highlighting frontend,
+  backend, and Wttr.in integration boundaries.
+- `data-lineage-uv-widget.mmd` — Data flow from geolocation consent through API
   responses and client caching layers.
-- `uml-uv-widget.md` — Sequence diagram showing runtime interactions among
+- `uml-uv-widget.mmd` — Sequence diagram showing runtime interactions among
   coordinator, managers, and external services.
-- `bpmn-uv-widget.md` — Process diagram covering user consent and fallback
+- `bpmn-uv-widget.mmd` — Process diagram covering user consent and fallback
   branching logic.
 
 Owners: Product (homepage), Frontend, and Platform teams jointly maintain these

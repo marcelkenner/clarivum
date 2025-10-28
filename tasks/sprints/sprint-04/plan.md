@@ -8,8 +8,16 @@ updated_at: 2025-10-27
 links:
   - docs/AGENTS.md
   - docs/runbooks/deployment.md
+  - docs/runbooks/secrets-management.md
+  - docs/runbooks/incident-response.md
+  - docs/runbooks/feature-flags-operations.md
   - docs/adr/ADR-015-testing-strategy.md
   - docs/adr/ADR-016-ci-cd-platform.md
+  - docs/adr/ADR-001-primary-cloud-and-database.md
+  - docs/adr/ADR-004-observability-stack.md
+  - docs/adr/ADR-005-feature-flags.md
+  - docs/adr/ADR-006-edge-cache-and-rate-limiting-platform.md
+  - docs/adr/ADR-007-secrets-management-and-configuration-distribution.md
   - docs/playbooks/kaizen-minute.md
   - docs/runbooks/sisu-debugging.md
 ---
@@ -28,28 +36,34 @@ links:
 |------|-------------|-------|
 | [`tasks/backlog/platform/devops-001-terraform-iac.md`](../../backlog/platform/devops-001-terraform-iac.md) | Backlog → Ready → In-progress | Stand up shared Terraform repo, remote state, baseline modules |
 | [`tasks/backlog/platform/devops-004-ci-cd-foundation.md`](../../backlog/platform/devops-004-ci-cd-foundation.md) | Backlog → Ready → In-progress | GitHub Actions quality gates + preview deploy requirement |
-| [`tasks/backlog/qa/qa-001-playwright-smoke-suite.md`](../../backlog/qa/qa-001-playwright-smoke-suite.md) | Backlog → Ready → In-progress | Automate Skin/Fuel/Habits smoke journeys for CI |
+| [`tasks/backlog/platform/plat-014-flagsmith-environments.md`](../../backlog/platform/plat-014-flagsmith-environments.md) | Backlog → Ready → In-progress | Provision Flagsmith projects, naming, alerting, secrets |
+| [`tasks/backlog/platform/plat-015-upstash-platform.md`](../../backlog/platform/plat-015-upstash-platform.md) | Backlog → Ready → In-progress | Provision Upstash Redis dbs, metrics, incident playbook |
+| [`tasks/backlog/platform/plat-028-request-security-controls.md`](../../backlog/platform/plat-028-request-security-controls.md) | Backlog → Ready → In-progress | Country denylist, honeypot, telemetry + support comms |
 | [`tasks/backlog/platform/plat-034-kaizen-daily-automation.md`](../../backlog/platform/plat-034-kaizen-daily-automation.md) | Backlog → Ready → In-progress | Schedule Kaizen issue creation + confirmations |
 | [`tasks/backlog/platform/plat-035-sisu-guardrail-check.md`](../../backlog/platform/plat-035-sisu-guardrail-check.md) | Backlog → Ready → In-progress | Enforce Sisu guardrail links on bug PRs |
 | [`tasks/backlog/platform/plat-036-forest-day-scheduler.md`](../../backlog/platform/plat-036-forest-day-scheduler.md) | Backlog → Ready → In-progress | Automate Forest Day issue so improvements stay on calendar |
+| [`tasks/backlog/qa/qa-001-playwright-smoke-suite.md`](../../backlog/qa/qa-001-playwright-smoke-suite.md) | Backlog → Ready → In-progress | Automate Skin/Fuel/Habits smoke journeys for CI |
 
 ### Stretch
 
-- Add `tasks/backlog/platform/devops-002-stale-flag-monitor.md` if Terraform+CI wraps early; same automation family.
-- Pilot `tasks/backlog/platform/plat-034` enhancements (multi-timezone) once MVP runs for a week.
+- [`tasks/backlog/platform/plat-048-uv-widget-upstash-cache.md`](../../backlog/platform/plat-048-uv-widget-upstash-cache.md) — extend new Redis infra to UV widget consumers.
+- [`tasks/backlog/platform/plat-049-uv-widget-analytics-guardrails.md`](../../backlog/platform/plat-049-uv-widget-analytics-guardrails.md) — baseline Plausible guardrails once caching lands.
 
 ## Definition of Success
 
-- Terraform repo provisions Vercel, Supabase, AWS primitives with documented runbooks and CI `plan` guardrails.
-- CI/CD workflows gate every PR with lint, typecheck, Vitest, Playwright smoke, and preview deploy status.
-- Kaizen, Sisu, and Forest Day automations create issues without manual effort; alerts fire on failures.
-- Smoke suite stabilizes at <2% flake rate and posts traces/screenshots for triage.
-- Documentation updates merged (AGENTS, deployment runbook, testing strategy) describing the guardrails for downstream teams.
+- Terraform repo + CI/CD guardrails operational with OIDC + Secrets Manager integration.
+- Flagsmith environments + governance live with stale alerting and secrets flow documented.
+- Upstash Redis provisioned with metrics + fallback plan; UV widget + rate limit consumers ready to integrate.
+- Request security middleware enforced with telemetry, support comms, and feature flags controlling rollout.
+- Kaizen/Sisu/Forest Day automations running daily/monthly with failure alerts; smoke suite stabilizes <2% flake.
+- Documentation (AGENTS, deployment, secrets management, incident response, feature-flag runbooks) reflects new guardrails.
 
 ## Dependencies & Prep
 
 - Align remote state backend + IAM naming before Sprint Planning (DevOps + Security).
 - Finalize branch protections (required checks list) with engineering leadership.
+- Confirm Flagsmith project access + billing before provisioning; prep feature flag metadata templates.
+- Reserve Upstash capacity and document incident contacts.
 - Confirm QA data + credentials for Playwright flows; stage environment seeded.
 - Slack/webhook destinations for automation success/failure vetted with ProdOps.
 

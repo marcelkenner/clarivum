@@ -1,277 +1,461 @@
-> **Canonical references:** Follow `docs/adr/ADR-018-brand-design-system.md` for brand system and `docs/adr/ADR-019-frontend-platform.md` for delivery patterns.
+> **Canonical references:** `docs/adr/ADR-018-brand-design-system.md`, `docs/adr/ADR-019-frontend-platform.md`
 
-## Forward look — Tools‑first refit (GLOBAL PATTERN + PER‑PAGE ASCII)
+Świetnie — poniżej dostajesz **refit “tools‑first”** w tej samej konwencji:
 
-### Global component (used on all pages)
+1. **ASCII (desktop) z gotową, naturalną kopią** — bez technicznych komentarzy.
+2. **Pod ASCII**: krótki **opis techniczno‑biznesowy** (interakcje, tracking, zasady zgodności).
+
+Uwaga: na stronach prawnych komponenty narzędzi są dyskretne (linki), na pozostałych — mini‑karty.
+
+---
+
+## GLOBALNE KOMPONENTY (używane na wszystkich stronach)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ MINI‑DIAGNOSTYKA (skrót) — lekki, dostępny, domyślnie zwinięty na stronach prawnych       │
-│ [▸ Otwórz diagnostykę]  [Wybierz pion ▾] [Cel ▾] [Generuj plan →]   [Zobacz narzędzia →]  │
-│ (i) Enter/Space otwiera; focus trap w drawerze; ESC zamyka; aria-expanded toggluje.       │
+│ MINI‑DIAGNOSTYKA                                                                          │
+│ [▸ Otwórz diagnostykę]   [Obszar: ▾ Skóra]   [Cel: ▾ wybierz]   [Pokaż plan]   [Narzędzia]│
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ QUICK TOOLS (rail/grid, 3–4 skróty dopasowane do kontekstu strony)                        │
-│ [UV Index]  [Planner retinoidów]  [TDEE]  [Habit Tracker]   [Zobacz wszystkie →]          │
-│ (i) Na prawnych: pokazuj jako linki tekstowe; na innych: małe karty z ikonami.           │
+│ QUICK TOOLS                                                                               │
+│ [UV Index SPF]   [Planner retinoidów]   [Kalkulator TDEE]   [Habit Tracker]   [Wszystkie] │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+**Opis techniczno‑biznesowy (globalne):**
+
+* Mini‑Diagnostyka: bar zwinięty domyślnie na stronach prawnych; otwarty na /o‑nas/, /jak‑zarabiamy/, /kontakt/, /szukaj/.
+* Quick Tools: 3–4 skróty powiązane z kontekstem strony (na prawnych — linki tekstowe).
+* Tracking (Plausible): `mini_diag_open`, `mini_diag_select_area`, `mini_diag_select_goal`, `mini_plan_generate`, `quick_tool_click {tool,page}`.
+* Zgody (CMP): brak personalizacji skrótów bez zgody marketingowej.
+
 ---
 
-### 1) **/o‑nas/** (About) — tools‑first variant
+## 1) `/o‑nas/` — O nas (wariant tools‑first)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ NAV + Sticky utility (jak na home B)                                                     │
+│ [CLARIVUM]  Skin  Fuel  Habits  Narzędzia  Ebooki  Blog  O nas  🔎                    👤 🛒 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ MINI‑DIAGNOSTYKA (otwarta na /o‑nas/)                                                    │
-│ [Pion: ● Skóra ○ Odżywianie ○ Nawyki]  [Cel chipsy: SPF | Retinoid | TDEE | Sen]         │
-│ [Generuj plan →]  ✓Za darmo ✓Bez spamu   [Zobacz narzędzia →]                            │
+│ [Otwórz diagnostykę]  [Obszar: ▾ Skóra]  [Cel: ▾ SPF / Retinoid / TDEE / Sen]  [Pokaż plan]│
+│ [Narzędzia]                                                                                 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ HERO: O Clarivum — nauka w praktyce  |  Quick Tools: [UV] [TDEE] [Retinoid] [Habit]      │
+│ O Clarivum — nauka w praktyce                                                               │
+│ Uczymy. Upraszczamy. Dowozimy. Bez szumu, z narzędziami.                                    │
+│ [Poznaj metodologię]   [Jak zarabiamy]                                                      │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ Misja i wartości • Metodologia (skrót) • Zespół (karty) • Oś czasu • Media/Partnerzy     │
-│ [Metodologia → /o-nas/redakcja/]  [Jak zarabiamy → /jak-zarabiamy/]                      │
+│ Szybkie skróty                                                                               │
+│ [UV Index SPF]   [Kalkulator TDEE]   [Planner retinoidów]   [Habit Tracker]                 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ CTA: “Chcesz plan na start?”  [Uruchom diagnostykę →]  lub  [Narzędzia → /narzedzia/]    │
+│ Misja i wartości                                                                            │
+│ Pomagamy podejmować rozsądne decyzje w trzech obszarach: skóra, odżywianie, nawyki.         │
+│ Stawiamy na prosty plan, jasny język i działające narzędzia.                                │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ Stopka                                                                                   │
+│ Metodologia (skrót)                                                                         │
+│ Pracujemy na wiarygodnych źródłach i regularnie aktualizujemy treści.                       │
+│ [Pełne zasady redakcyjne]                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ Zespół                                                                                      │
+│ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐                              │
+│ | [Foto]      | | [Foto]      | | [Foto]      | | [Foto]      |                              │
+│ | Imię, rola  | | Imię, rola  | | Imię, rola  | | Imię, rola  |                              │
+│ | [Zobacz bio]| | [Zobacz bio]| | [Zobacz bio]| | [Zobacz bio]|                              │
+│ └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘                              │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ Nasza droga                                                                                 │
+│ 2023 — start   •   2024 — 1 mln czytelników   •   2025 — narzędzia łączące piony           │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ Media i partnerzy                                                                           │
+│ [logo1] [logo2] [logo3] [logo4]   [Kit prasowy]                                             │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ Chcesz plan na start?  [Uruchom diagnostykę]   lub   [Przejdź do narzędzi]                  │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ O nas  •  Polityka prywatności  •  Polityka cookies  •  Disclaimer medyczny  •  CMP         │
+│ Kontakt  •  Reklama  •  Kariera  •  RSS  •  Sitemap  •  Zarządzaj cookies                   │
+│ © Clarivum                                                                                  │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+**Opis techniczno‑biznesowy:** mini‑diag otwarta na wejściu; skróty z prawej w hero; karty zespołu linkują do `/o‑nas/autorzy/{slug}`; eventy: `about_cta_click`, `team_card_open`.
+
 ---
 
-### 2) **/polityka‑prywatnosci/** (Privacy) — tools‑first, but **non‑intrusive**
+## 2) `/polityka‑prywatnosci/` — Polityka prywatności (dyskretnie)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ NAV                                                                                      │
+│ [CLARIVUM]  Skin  Fuel  Habits  Narzędzia  Ebooki  Blog  O nas  🔎                    👤 🛒 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ MINI‑DIAGNOSTYKA — ZWINIĘTA (ikonka + tekst, 1 linia, [▸])   [Zobacz narzędzia →]        │
-│ (i) Domyślnie zwinięta; otwarcie nie przesuwa TOC; pamięta stan w sessionStorage.        │
+│ [▸ Otwórz diagnostykę]   [Narzędzia]                                                     │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ H1: Polityka prywatności      |   [Pobierz PDF]  [Zarządzaj cookies → /ustawienia‑…/]     │
-│ Ostatnia aktualizacja: [YYYY‑MM‑DD]  • privacy@clarivum.pl                               │
+│ Polityka prywatności   [Pobierz PDF]   [Zarządzaj cookies]                               │
+│ Ostatnia aktualizacja: 2025‑10‑28   •   privacy@clarivum.pl                              │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ TOC (sticky): 1.Zakres 2.Admin 3.Dane i cele 4.Cookies 5.Odbiorcy 6.Transfery 7.Retencja │
-│               8.Prawa 9.Bezpieczeństwo 10.Zmiany 11.Kontakt                               │
-│ TREŚĆ (sekcje z anchorami; aria‑labelledby nagłówków)                                    │
+│ Spis treści                                                                                │
+│ 1. Zakres  •  2. Administrator  •  3. Dane i cele  •  4. Cookies  •  5. Odbiorcy          │
+│ 6. Transfery  •  7. Retencja  •  8. Twoje prawa  •  9. Bezpieczeństwo  •  10. Zmiany       │
+│ 11. Kontakt                                                                                 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ Quick Tools (linki tekstowe): UV Index • TDEE • Planner retinoidów • Habit Tracker       │
+│ Treść                                                                                      │
+│ [Sekcje zgodne ze spisem treści; nagłówki z anchorami]                                     │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ Stopka                                                                                   │
+│ Szybkie skróty                                                                             │
+│ UV Index • Kalkulator TDEE • Planner retinoidów • Habit Tracker                            │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ O nas  •  Polityka prywatności  •  Polityka cookies  •  Disclaimer medyczny  •  CMP         │
+│ Kontakt  •  Reklama  •  Kariera  •  RSS  •  Sitemap  •  Zarządzaj cookies                   │
+│ © Clarivum                                                                                  │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+**Opis techniczno‑biznesowy:** mini‑diag zwinięta; Quick Tools jako linki; akcent na PDF/ CMP; eventy: `privacy_pdf_download`, `privacy_open_cmp`.
+
 ---
 
-### 3) **/regulamin/** (Terms) — tools‑first, minimal
+## 3) `/regulamin/` — Regulamin (minimalnie, narzędzia na marginesie)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ NAV                                                                                      │
+│ [CLARIVUM]  Skin  Fuel  Habits  Narzędzia  Ebooki  Blog  O nas  🔎                    👤 🛒 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ MINI‑DIAGNOSTYKA — ZWINIĘTA  |  Quick Tools (linki): UV • TDEE • Habit • Narzędzia →     │
+│ [▸ Otwórz diagnostykę]   UV • TDEE • Habit • Narzędzia →                                 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ H1: Regulamin serwisu  |  [Pobierz PDF] [Wydrukuj]  | Data wejścia w życie: [YYYY‑MM‑DD] │
+│ Regulamin serwisu   [Pobierz PDF]   [Wydrukuj]                                            │
+│ Data wejścia w życie: 2025‑10‑28                                                          │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ TOC (sticky)  |  TREŚĆ (sekcje 1–9 z anchorami)                                          │
+│ Spis treści  •  Treść                                                                     │
+│ 1–9: Definicje, Postanowienia, Konto, Zakupy i zwroty, Odpowiedzialność, Prawa,           │
+│ Zmiany, Prawo i spory, Kontakt                                                             │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ Dyskretne CTA stop‑section: “Szukasz planu startowego?” [Uruchom diagnostykę →]          │
+│ Szukasz planu startowego?  [Uruchom diagnostykę]                                          │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ O nas  •  Polityka prywatności  •  Polityka cookies  •  Disclaimer medyczny  •  CMP         │
+│ Kontakt  •  Reklama  •  Kariera  •  RSS  •  Sitemap  •  Zarządzaj cookies                   │
+│ © Clarivum                                                                                  │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+**Opis techniczno‑biznesowy:** TOC sticky, styl do druku/PDF; mini‑diag zwinięta; eventy: `tos_pdf_download`, `tos_print`.
+
 ---
 
-### 4) **/polityka‑cookies/** (Cookies)
+## 4) `/polityka‑cookies/` — Polityka cookies
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ NAV                                                                                      │
+│ [CLARIVUM]  Skin  Fuel  Habits  Narzędzia  Ebooki  Blog  O nas  🔎                    👤 🛒 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ MINI‑DIAGNOSTYKA — ZWINIĘTA  |  [Zarządzaj preferencjami → /ustawienia‑prywatnosci/]     │
+│ [▸ Otwórz diagnostykę]   [Zarządzaj preferencjami]                                       │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ H1: Polityka plików cookies  |  Sub: Jak używamy cookies i technologii pokrewnych        │
+│ Polityka plików cookies                                                                   │
+│ Jak używamy cookies i podobnych technologii.                                              │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ Kategorie i tabela cookies + linki do dostawców                                          │
+│ Kategorie                                                                                 │
+│ Niezbędne — zawsze aktywne                                                                │
+│ Analityczne  [Pokaż szczegóły]                                                            │
+│ Personalizacja  [Pokaż szczegóły]                                                         │
+│ Reklamowe  [Pokaż szczegóły]                                                              │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ Quick Tools (linki tekstowe pod treścią): UV • TDEE • Planner • Narzędzia →              │
+│ Przykładowa lista                                                                         │
+│ Nazwa  •  Dostawca  •  Cel  •  Typ/żywotność  •  Kategoria                                │
+│ cmp_state — Clarivum — zapamiętanie zgód — cookie/6M — Niezbędne                          │
+│ _pa — Plausible — analityka bez PII — cookie/1R — Analityczne                             │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ Skróty:  UV • TDEE • Planner • Wszystkie narzędzia →                                      │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ O nas  •  Polityka prywatności  •  Polityka cookies  •  Disclaimer medyczny  •  CMP         │
+│ Kontakt  •  Reklama  •  Kariera  •  RSS  •  Sitemap  •  Zarządzaj cookies                   │
+│ © Clarivum                                                                                  │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+**Opis techniczno‑biznesowy:** akordeony kategorii; link do `/ustawienia‑prywatnosci/`; eventy: `cookies_manage_open`, `cookies_category_toggle`.
+
 ---
 
-### 5) **/ustawienia‑prywatnosci/** (CMP)
+## 5) `/ustawienia‑prywatnosci/` — Ustawienia prywatności (CMP)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ NAV                                                                                      │
+│ [CLARIVUM]  Skin  Fuel  Habits  Narzędzia  Ebooki  Blog  O nas  🔎                    👤 🛒 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ MINI‑DIAGNOSTYKA — ZWINIĘTA (nie personalizuje się bez zgód)                             │
+│ [▸ Otwórz diagnostykę]                                                                    │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ H1: Ustawienia prywatności                                                               │
-│ [Niezbędne] ▣ aktywne | [Analityczne] [WŁ/WYŁ] | [Personalizacja] [WŁ/WYŁ] | [Reklamowe] │
-│ [Zezwól na wszystkie]  [Zapisz preferencje]  [Odrzuć opcjonalne]                         │
+│ Ustawienia prywatności                                                                    │
+│ Wybierz, na co się zgadzasz. Możesz zmienić zdanie w każdej chwili.                       │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ Quick Tools (tylko link do /narzędzia/ bez personalizacji)                               │
+│ Niezbędne — zawsze aktywne                                                                │
+│ Analityczne  [WŁ / WYŁ]                                                                   │
+│ Personalizacja  [WŁ / WYŁ]                                                                │
+│ Reklamowe  [WŁ / WYŁ]                                                                     │
+│ [Zezwól na wszystkie]   [Zapisz preferencje]   [Odrzuć opcjonalne]                        │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ Skrót:  [Wszystkie narzędzia]                                                             │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ O nas  •  Polityka prywatności  •  Polityka cookies  •  Disclaimer medyczny  •  CMP         │
+│ Kontakt  •  Reklama  •  Kariera  •  RSS  •  Sitemap  •  Zarządzaj cookies                   │
+│ © Clarivum                                                                                  │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+**Opis techniczno‑biznesowy:** zapis preferencji + toast; brak personalizacji skrótów; eventy: `cmp_save`, `cmp_allow_all`, `cmp_reject_all`.
+
 ---
 
-### 6) **/disclaimer‑medyczny/** (Health disclaimer)
+## 6) `/disclaimer‑medyczny/` — Zastrzeżenie zdrowotne
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ NAV                                                                                      │
+│ [CLARIVUM]  Skin  Fuel  Habits  Narzędzia  Ebooki  Blog  O nas  🔎                    👤 🛒 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ MINI‑DIAGNOSTYKA — ZWINIĘTA  |  Quick Tools (linki): UV • Przewodnik retinoidy • Sen     │
+│ [▸ Otwórz diagnostykę]   UV • Przewodnik: retinoidy • Sen                                 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ H1: Zastrzeżenie i zakres treści                                                         │
-│ Blok ostrzegawczy (wysoki kontrast, aria‑live=off, bez animacji)                         │
+│ Zastrzeżenie i zakres treści                                                              │
+│ Treści Clarivum mają charakter edukacyjny i nie zastępują porady medycznej,               │
+│ dietetycznej ani psychologicznej. W sytuacji nagłej skontaktuj się z odpowiednimi służbami.│
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ Sekcje: Zakres • Źródła i weryfikacja • Aktualizacje • Kontakt                           │
+│ Zakres  •  Źródła i weryfikacja  •  Aktualizacje  •  Kontakt do redakcji                  │
+│ [Metodologia redakcyjna]                                                                   │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ “Chcesz plan edukacyjny?” [Uruchom diagnostykę →]   (kopiowanie neutralne, bez obietnic) │
+│ Chcesz plan edukacyjny?  [Uruchom diagnostykę]                                            │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ O nas  •  Polityka prywatności  •  Polityka cookies  •  Disclaimer medyczny  •  CMP         │
+│ Kontakt  •  Reklama  •  Kariera  •  RSS  •  Sitemap  •  Zarządzaj cookies                   │
+│ © Clarivum                                                                                  │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+**Opis techniczno‑biznesowy:** wysoki kontrast bloku ostrzegawczego; neutralna kopia; event: `disclaimer_link_click`.
+
 ---
 
-### 7) **/jak‑zarabiamy/** (How we make money) — tools‑first promo, transparent
+## 7) `/jak‑zarabiamy/` — Jak zarabiamy (transparentnie, pokazujemy wartość)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ NAV                                                                                      │
+│ [CLARIVUM]  Skin  Fuel  Habits  Narzędzia  Ebooki  Blog  O nas  🔎                    👤 🛒 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ MINI‑DIAGNOSTYKA — OTWARTA (tu pokazujemy wartość)                                       │
-│ [Pion ▾] [Cel ▾] [Generuj plan →]   Badges: ✓Za darmo ✓Bez spamu ✓Transparentnie         │
+│ [Otwórz diagnostykę]  [Obszar: ▾]  [Cel: ▾]  [Pokaż plan]   ✓ Za darmo  ✓ Bez spamu  ✓ Jawnie│
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ H1: Jak zarabiamy  | Lead: modele przychodu i niezależność redakcyjna                    │
-│ Sekcja: Ebooki • Afiliacja (oznaczenia) • Reklama • Kryteria wyboru produktów            │
-│ [Polityka reklamowa →] [Polityka prywatności →]                                          │
+│ Jak zarabiamy                                                                              │
+│ Wyjaśniamy nasze źródła przychodu i zasady niezależności redakcyjnej.                      │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ Quick Tools: UV • TDEE • Planner • Habit  |  “Wypróbuj narzędzia bezpłatnie”             │
+│ Modele przychodu                                                                           │
+│ • Ebooki — własne publikacje.                                                              │
+│ • Afiliacja — linki oznaczone #affiliate / #ad.                                            │
+│ • Reklama — ograniczone formaty, bez „ścian” śledzących.                                   │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ Oznaczenia i linki                                                                         │
+│ Wszystkie treści komercyjne są wyraźnie opisane. Rekomendacje nie są „na zamówienie”.      │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ Rozdział: redakcja vs sprzedaż                                                             │
+│ Zespół redakcyjny i sprzedaż działają niezależnie.                                         │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ Jak wybieramy produkty                                                                     │
+│ Liczą się wiarygodność, dostępność i stosunek jakości do ceny.                             │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ [Polityka reklamowa]   [Polityka prywatności]                                              │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ Wypróbuj narzędzia bezpłatnie                                                              │
+│ [UV Index SPF]   [Kalkulator TDEE]   [Planner retinoidów]   [Habit Tracker]               │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ O nas  •  Polityka prywatności  •  Polityka cookies  •  Disclaimer medyczny  •  CMP         │
+│ Kontakt  •  Reklama  •  Kariera  •  RSS  •  Sitemap  •  Zarządzaj cookies                   │
+│ © Clarivum                                                                                  │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+**Opis techniczno‑biznesowy:** mini‑diag otwarta; sekcje linkowalne; eventy: `money_policy_link_click`, `quick_tool_click`.
+
 ---
 
-### 8) **/kontakt/** (Contact) — self‑service first
+## 8) `/kontakt/` — Kontakt (najpierw samoobsługa)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ NAV                                                                                      │
+│ [CLARIVUM]  Skin  Fuel  Habits  Narzędzia  Ebooki  Blog  O nas  🔎                    👤 🛒 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ MINI‑DIAGNOSTYKA — OTWARTA   |   Quick Tools: [Narzędzia →] [FAQ →]                      │
+│ [Otwórz diagnostykę]   [Narzędzia]   [FAQ]                                                │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ H1: Skontaktuj się z Clarivum                                                             │
-│ Karty (tabs): [Współpraca] [Redakcja] [Wsparcie zakupów] [Prasa]                         │
+│ Skontaktuj się z Clarivum                                                                 │
+│ [Współpraca]   [Redakcja / korekty]   [Wsparcie zakupów]   [Prasa]                        │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ SEK C: Samopomoc (polecane)                                                               │
-│ “Zanim napiszesz — spróbuj:”  [Uruchom diagnostykę]  [Top narzędzia]  [FAQ]              │
+│ Zanim napiszesz — spróbuj                                                                 │
+│ [Uruchom diagnostykę]   [Najpopularniejsze narzędzia]   [FAQ]                              │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ Formularz: Imię | E‑mail | Temat | Pion | Typ sprawy | Wiadomość | Zgody                 │
-│ [Wyślij] [Wyczyść]  • SLA: 48h                                                            │
+│ Imię i nazwisko [__________________]   E‑mail [__________________]   Temat [___________]  │
+│ Obszar: [Skóra ▾] [Odżywianie ▾] [Nawyki ▾]   Typ sprawy: [Zapytanie ▾]                   │
+│ Wiadomość                                                                                 │
+│ [____________________________________________________________________________________]    │
+│ Zgody: [ ] Wyrażam zgodę na kontakt w odpowiedzi na wiadomość (wymagane)   [ ] Kopia do mnie│
+│ [Wyślij]   [Wyczyść]    Zwykle odpowiadamy w 48 h w dni robocze.                          │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ hello@clarivum.pl   •   [LinkedIn]  [X]  [Instagram]                                      │
+│ [Kit prasowy]   [Media kontakt]   [Wniosek RODO]                                          │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ O nas  •  Polityka prywatności  •  Polityka cookies  •  Disclaimer medyczny  •  CMP         │
+│ Kontakt  •  Reklama  •  Kariera  •  RSS  •  Sitemap  •  Zarządzaj cookies                   │
+│ © Clarivum                                                                                  │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+**Opis techniczno‑biznesowy:** tabs do routingu zapytań; walidacja inline; eventy: `contact_submit {topic}`, `contact_tab_click`.
+
 ---
 
-### 9) **/mapa‑strony/** (Sitemap) — quick actions up top
+## 9) `/mapa‑strony/` — Mapa strony (quick actions na górze)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ NAV                                                                                      │
+│ [CLARIVUM]  Skin  Fuel  Habits  Narzędzia  Ebooki  Blog  O nas  🔎                    👤 🛒 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ Quick Actions: [Uruchom diagnostykę] [Narzędzia] [Ebooki] [Blog]                         │
+│ Szybkie działania:  [Uruchom diagnostykę]   [Narzędzia]   [Ebooki]   [Blog]              │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ H1: Mapa strony                                                                          │
-│ Struktura IA (jak wcześniej), sekcja “Narzędzia” na górze listy                          │
+│ Mapa strony                                                                               │
+│ /                                                                                         │
+│ ├─ /skin/ …   /fuel/ …   /habits/ …                                                       │
+│ ├─ /narzedzia/  (/skin/… /fuel/… /habits/…)                                               │
+│ ├─ /ebooks/    (/skin/… /fuel/… /habits/…)                                                │
+│ ├─ /blog/      (/skin/ /fuel/ /habits/)                                                   │
+│ ├─ /o‑nas/     (/redakcja/ /autorzy/ /dla‑prasy/)                                         │
+│ ├─ /reklama/   (/media‑kit/ /wspolpraca/ /kontakt/)                                       │
+│ ├─ /polityka‑prywatnosci/  /regulamin/  /polityka‑cookies/  /ustawienia‑prywatnosci/      │
+│ ├─ /disclaimer‑medyczny/  /jak‑zarabiamy/  /kontakt/                                      │
+│ └─ /rss/   /sitemap.xml   /robots.txt                                                      │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ O nas  •  Polityka prywatności  •  Polityka cookies  •  Disclaimer medyczny  •  CMP         │
+│ Kontakt  •  Reklama  •  Kariera  •  RSS  •  Sitemap  •  Zarządzaj cookies                   │
+│ © Clarivum                                                                                  │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+**Opis techniczno‑biznesowy:** prosta lista HTML; quick actions wspierają eksplorację; event: `sitemap_link_click`.
+
 ---
 
-### 10) **/szukaj/** (Search) — pre‑results tool assist
+## 10) `/szukaj/` — Szukaj (asysta narzędzi przed wynikami)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ NAV                                                                                      │
+│ [CLARIVUM]  Skin  Fuel  Habits  Narzędzia  Ebooki  Blog  O nas  🔎                    👤 🛒 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ H1: Szukaj                                                                               │
-│ [ 🔎 fraza __________________ ] [Szukaj]   • Podpowiedzi: spf, retinoid, tdee, sen        │
+│ Szukaj                                                                                   │
+│ [ 🔎  wpisz frazę __________________________ ]  [Szukaj]                                   │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ MINI‑DIAGNOSTYKA — KONTEKSTOWA (chipsy zgodne z frazą)                                   │
-│ “Skróć drogę: dopasujemy plan i narzędzia”  [Pion ▾] [Cel ▾] [Generuj plan →]            │
+│ Szybki plan                                                                               │
+│ [Obszar: ▾]   [Cel: ▾]   [Pokaż plan]                                                     │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ FACETY (lewa)  |  WYNIKI (karty)  |  Quick Tools (prawa: dopasowane do frazy)            │
+│ Filtry (lewa)                                                                             │
+│ Pion: [☑ Skin] [☐ Fuel] [☐ Habits]                                                       │
+│ Typ:  [☑ Artykuł] [☐ Narzędzie] [☐ Ebook] [☐ Porównanie]                                  │
+│ Temat: [spf] [retinoid] [sen] [białko]…                                                   │
+│ Sortuj: [Najtrafniejsze ▾]   [Wyczyść]                                                    │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ Wyniki (środek)                                                                           │
+│ ┌──────────────────────────────────────────────────────┐                                   │
+│ │ Tytuł wyniku →                                                                            │
+│ │ Krótki opis…   [Tagi]   [Data]   [Czytaj →]                                              │
+│ └──────────────────────────────────────────────────────┘                                   │
+│ Paginacja: « 1 2 3 … »                                                                     │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ Skróty dopasowane do frazy (prawa kolumna)                                                │
+│ [UV Index SPF]   [Kalkulator TDEE]   [Cel białka]   [Zobacz wszystkie]                    │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ O nas  •  Polityka prywatności  •  Polityka cookies  •  Disclaimer medyczny  •  CMP         │
+│ Kontakt  •  Reklama  •  Kariera  •  RSS  •  Sitemap  •  Zarządzaj cookies                   │
+│ © Clarivum                                                                                  │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+**Opis techniczno‑biznesowy:** autosugestie, sterowanie klawiaturą; skróty po prawej wynikają z frazy; eventy: `search_used`, `search_result_click`, `quick_tool_click`.
+
 ---
 
-### 11) **/404** (Not found) — recovery via tools
+## 11) `/404` — Nie znaleziono (odzyskanie przez narzędzia)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ Minimal header                                                                           │
+│ [CLARIVUM]   Narzędzia   Ebooki   O nas   🔎                                           👤 🛒 │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ H1: 404 — Nie znaleźliśmy tej strony                                                     │
-│ [🔎 Szukaj…]  |  [Uruchom diagnostykę]  [Narzędzia →]  [Zacznij tutaj → /skin/start/]     │
-│ (i) event: error_404 z referrerem; proponuj narzędzia na bazie URL slug (heurystyka)     │
+│ 404 — Nie znaleźliśmy tej strony                                                         │
+│ Może literówka? Użyj wyszukiwarki albo skorzystaj ze skrótów poniżej.                    │
+│ [ 🔎  Szukaj w Clarivum ______________________ ]  [Szukaj]                                │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ Szybkie ścieżki                                                                           │
+│ [Uruchom diagnostykę]   [Narzędzia]   [Zacznij tutaj — /skin/start/]   [Kontakt]          │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ © Clarivum                                                                                │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+**Opis techniczno‑biznesowy:** logujemy `error_404` + referrer; heurystyka podpowiada narzędzia na bazie slug.
+
 ---
 
-### 12) **/500** (Server error) — graceful, keep them exploring
+## 12) `/500` — Błąd serwera (graceful, kierujemy do wartości)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
-│ Logo + link do Home                                                                      │
+│ [CLARIVUM]   [Strona główna]                                                              │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ H1: Ups! Coś poszło nie tak                                                              │
-│ [← Strona główna]  [Uruchom diagnostykę]  [Narzędzia]  [Status systemu]                  │
-│ ID incydentu #ABC123 (auto‑report)                                                       │
+│ Ups! Coś poszło nie tak                                                                    │
+│ To po naszej stronie. Spróbuj ponownie albo wróć na stronę główną.                         │
+│ [← Strona główna]   [Uruchom diagnostykę]   [Narzędzia]   [Status systemu]                │
+│ Identyfikator incydentu: #ABC123                                                           │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│ © Clarivum                                                                                │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
----
-
-### Interakcje & Tracking (applies across pages)
-
-* **Mini‑Diagnostyka drawer:** `idle → open → area_selected → goal_selected → plan_generated → close`.
-
-  * Events: `mini_diag_open`, `mini_diag_select_area`, `mini_diag_select_goal`, `mini_plan_generate`, `mini_diag_close`.
-* **Quick Tools clicks:** `quick_tool_click {tool, page_type}`; impression throttling per session.
-* **Legal page safeguards:** default **collapsed**, no sticky overlap with headings; `tabindex` and `aria-controls` wired to content.
-* **CMP:** no personalization of Quick Tools unless **marketing consent = true**.
+**Opis techniczno‑biznesowy:** lekka strona, auto‑raport; event: `error_500_view`.
 
 ---
 
-## Unknowns/Verify
+# Zasady wspólne (interakcje, tracking, zgodność)
 
-* Unknown/Unverifiable as of 2025‑10‑22: **Legal stance** on UI modules on policy pages. Fast checks: (1) Legal review of privacy/terms layouts; (2) Confirm that Mini‑Diagnostyka stays collapsed by default on legal pages.
-* Unknown/Unverifiable as of 2025‑10‑22: **Tool priority rules** per context (e.g., which 3–4 to surface on each page). Fast checks: (1) Provide ranking by usage/GM; (2) Map tool ↔ page intent table.
+**Mini‑Diagnostyka (drawer/pasek):**
+
+* Stany: `idle → open → area_selected → goal_selected → plan_generated → close`.
+* Klawiatura: Enter/Spacja otwiera, ESC zamyka, focus trap w obrębie.
+* Pamięć: stan rozwinięcia w `sessionStorage`; ostatni wybór obszaru/celu w `localStorage` (30 dni).
+* Eventy: `mini_diag_open`, `mini_diag_select_area`, `mini_diag_select_goal`, `mini_plan_generate`, `mini_diag_close`.
+
+**Quick Tools:**
+
+* Dobór kontekstowy:
+
+  * **/o‑nas/**: UV, TDEE, Planner, Habit.
+  * **Polityki/Regulamin/Disclaimer**: linki tekstowe UV/TDEE/Planner/Habit.
+  * **/jak‑zarabiamy/**: UV, TDEE, Planner, Habit (akcent „bezpłatnie”).
+  * **/kontakt/**: „Narzędzia”, „FAQ”, a dalej top 3 narzędzia.
+  * **/szukaj/**: skróty na podstawie frazy (np. „retinoid” → Planner, „UV” → UV Index).
+* Event: `quick_tool_click {tool,page}`; limit impresji per sesja.
+
+**Zgodność i prywatność:**
+
+* Brak personalizacji skrótów na stronach prawnych bez zgody marketingowej; wszystko zgodnie z `/ustawienia‑prywatnosci/`.
+* PDF/druk dostępne na politykach/regulaminie; druk przyjazny (`@media print`).
+* WCAG AA: kontrast, focus states, aria‑label, nagłówki zakotwiczone; „Spis treści” sticky bez zasłaniania Hx.
+
+**SEO:**
+
+* `BreadcrumbList` na stronach z okruszkami; `CreativeWork` dla polityk/regulaminu; `Organization` na /o‑nas/.
+* Tytuły i meta krótkie, rzeczowe; kanoniczne linki zgodnie z ADR‑019.
+
+**Ryzyka & mitygacje:**
+
+* **Zbyt inwazyjne narzędzia na stronach prawnych** → domyślnie zwinięte, neutralne linki.
+* **Wydajność drawerów** → lekkie animacje CSS, lazy init skryptów.
+* **Zgody** → bez personalizacji do czasu opt‑inu.
+
+**Unknowns/Verify:**
+
+* Potwierdzenie u działu prawnego układu polityk i miejsca CTA.
+* Ranking skrótów per strona po pierwszych danych (ustaw A/B na /o‑nas/ i /jak‑zarabiamy/).
+
+**Confidence:** 81% — układ zachowuje intencję stron i dodaje ścieżki do wartości bez naruszania czytelności treści prawnych.
 
 ---
 
-## Risks
-
-* **Compliance risk** if tools overshadow legal content—mitigate via collapsed defaults, neutral styling, and “skip” links.
-* **Performance risk** on mobile if drawers are heavy—mitigate via pure CSS transitions, defer scripts, no LCP impact.
-* **Personalization without consent** (GDPR)—serve non‑personalized defaults until opt‑in.
-
----
-
-## Confidence
-
-**81%** — The refits preserve primary page intents while injecting B’s proven mechanic. Confidence rises once legal OKs placement and tool ranking is tuned from analytics.
-
----
-
-**Calculation (if any)**
-—
+Chcesz, żebym dorzucił **stuby TSX** (Mini‑Diagnostyka, QuickToolsRail, TOC sticky) pod ADR‑019 z gotowymi propami na eventy Plausible?

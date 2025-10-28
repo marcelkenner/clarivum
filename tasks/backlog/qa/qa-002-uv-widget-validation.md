@@ -27,11 +27,11 @@ tags:
 ---
 
 ## Summary
-Plan and execute automated + manual coverage for the UV widget, ensuring data accuracy (Open-Meteo vs cache), accessibility behaviors, consent flows, and analytics events meet the requirements before launch.
+Plan and execute automated + manual coverage for the UV widget, ensuring data accuracy (Wttr.in vs cache), accessibility behaviors, consent flows, and analytics events meet the requirements before launch.
 
 ## Definition of Ready
 - [ ] Test environments seeded with Strapi copy and feature flag enabled.
-- [ ] Mocked Open-Meteo responses documented for deterministic tests.
+- [ ] Mocked Wttr.in responses documented for deterministic tests.
 - [ ] Analytics event schema and expected properties approved.
 - [ ] Accessibility acceptance criteria reviewed with product/design.
 

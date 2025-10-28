@@ -10,7 +10,7 @@ collaborators:
   - QA Lead
 effort: medium
 created_at: 2025-10-25
-updated_at: 2025-10-25
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/observability/feature-requirements.md
   - docs/PRDs/technology-stack-catalog.md
@@ -30,10 +30,10 @@ tags:
 Deploy the Grafana Tempo, Loki, and Prometheus stack (managed or self-hosted), configure OpenTelemetry collectors, and deliver baseline dashboards and alerts that uphold Clarivum’s error budget policy.
 
 ## Definition of Ready
-- [ ] Confirm hosting choice (Grafana Cloud vs self-managed) and budget with leadership.
-- [ ] Align telemetry schema, span naming, and retention requirements across teams.
-- [ ] Inventory integration points (Next.js, Lambda workers, Strapi) and required exporters.
-- [ ] Document alert routing targets (PagerDuty, Slack) and escalation paths.
+- [x] Hosting and budget approved: proceed with Grafana Cloud Pro subscription under Ops ownership and documented cost cap.
+- [x] Telemetry schema locked: span naming `svc.op` with attributes (`env`, `route`, `user_anonymous`), retention 30 d logs, 90 d metrics, 365 d traces.
+- [x] Integrations inventoried: Next.js OTEL auto-instrumentation, Lambda workers, Strapi middleware, ECS FireLens shipping logs identified.
+- [x] Alert routing defined: severity P1 to PagerDuty, P2 to Slack/email with documented escalation tree.
 
 ## Definition of Done
 - [ ] Grafana stack provisioned with environments separated for dev and prod plus access controls enforced.
@@ -42,4 +42,3 @@ Deploy the Grafana Tempo, Loki, and Prometheus stack (managed or self-hosted), c
 - [ ] Alert policies created and tested with simulated incidents; `docs/runbooks/observability-operations.md` updated and shared with on-call engineers.
 - [ ] Follow-up items filed for synthetic monitoring and cost optimization.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

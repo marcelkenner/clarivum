@@ -10,7 +10,7 @@ collaborators:
   - Analytics Lead
 effort: small
 created_at: 2025-10-26
-updated_at: 2025-10-26
+updated_at: 2025-10-28
 links:
   - docs/adr/ADR-014-cookie-consent-and-preference-management.md
   - docs/PRDs/requierments/legal/feature-requirements.md
@@ -29,9 +29,9 @@ tags:
 Implement automated checks that verify Klaro consent states block non-essential analytics until opt-in, update Flagsmith traits on change, and ensure the consent script loads successfully in CI.
 
 ## Definition of Ready
-- [ ] Klaro configuration finalized for essential/analytics/marketing buckets.
-- [ ] Flagsmith trait mapping for consent states documented.
-- [ ] Playwright environment variables for consent tests available.
+- [x] Klaro config agreed: buckets `essential`, `analytics`, `marketing`, mapped per service and served first-party.
+- [x] Flagsmith traits defined: `consent_analytics` and `consent_marketing` documented for automation hooks.
+- [x] Playwright env prepared: `CONSENT_TEST=true` plus cookie presets to cover matrix; verifies no beacons when disallowed.
 
 ## Definition of Done
 - [ ] Playwright (or equivalent) tests simulate consent accept/deny flows and confirm analytics scripts behavior.
@@ -39,4 +39,3 @@ Implement automated checks that verify Klaro consent states block non-essential 
 - [ ] CI pipeline step fails when consent script fails to load or tests regress.
 - [ ] Results documented in `docs/runbooks/cookie-consent-operations.md` and shared with QA/analytics.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

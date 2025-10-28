@@ -1,5 +1,6 @@
 import "./globals.css";
 
+import { WebVitalsReporter } from "./_components/WebVitalsReporter";
 import { brandSans, brandSerif } from "./fonts";
 
 import type { Metadata } from "next";
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={`${brandSans.variable} ${brandSerif.variable} bg-beige text-ink font-sans antialiased`}
       >
+        <WebVitalsReporter />
         <a
           href="#main-content"
           className="bg-jade text-snow focus-visible:ring-offset-beige focus-visible:ring-jade absolute top-4 left-4 -translate-y-16 rounded-full px-4 py-2 text-sm font-semibold transition focus-visible:translate-y-0 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"

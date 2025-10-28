@@ -45,6 +45,46 @@ This runbook defines the process for promoting changes from trunk to production 
    - Confirm no new alerts in Grafana; check error rate < 0.5% and p95 latency within budget.
    - Update release ticket with verification results.
 
+### Strapi ECS deploys (TSK-PLAT-020)
+
+Strapi infrastructure lives in Terraform under `infra/strapi`. Follow this sequence whenever updating container images, scaling policies, or infrastructure modules:
+
+1. **Plan:** `terraform -chdir=infra/strapi init` (supply backend config), select the workspace (`dev` or `prod`), then run `terraform -chdir=infra/strapi plan -var-file=env/<env>.tfvars`. Attaching the plan output to the PR keeps reviewers in sync. Always include the `-var-file` flag—without it Terraform will prompt interactively for every required variable (region, subnets, ACM cert, etc.).
+2. **Promote image:** Push the new container image to ECR with immutable tag (`strapi:<git-sha>`). Update the corresponding `container_image` in the environment tfvars or promote by retagging (`staging` → `prod`).
+3. **Apply dev:** On approval, run `terraform -chdir=infra/strapi apply -var-file=env/dev.tfvars`. Observe ECS service deployment in the console; tasks should pass health check `/api/healthz` within 60 seconds.
+4. **Blue/green cutover:** Once dev is healthy, promote the same image/tag to production and run `terraform -chdir=infra/strapi apply -var-file=env/prod.tfvars`. ALB target response time must stay `< 800ms` and target 5xx alarms remain green.
+5. **Verification:** Validate Strapi admin login, asset upload to S3, and Next.js revalidation webhook receipts. Monitor CloudWatch alarms `strapi-<env>-target-response-latency` and `strapi-<env>-target-5xx` plus ECS service events.
+6. **Rollback:** If deployment fails, update the `container_image` var to the previous digest and re-run `terraform apply`. The ECS service will drain unhealthy tasks and restore the last known good revision. Restore secrets or configuration by rotating the underlying Secrets Manager entries if drift is detected.
+
+Incident alerts for Strapi route to the `clarivum-oncall` SNS topic; acknowledge in `#clarivum-oncall` and follow the Sisu Debugging protocol.
+
+### Strapi data foundation (TSK-PLAT-021)
+
+Use this procedure when modifying Strapi database or media storage infrastructure. All changes live in `infra/strapi/main.tf`; never hand-create RDS instances or buckets.
+
+1. **Plan the change:**
+   - Update Terraform variables as needed (`db_*` settings or `database_subnet_ids`).
+   - Run `terraform -chdir=infra/strapi plan -var-file=env/<env>.tfvars`. Confirm the plan shows intended updates to:
+     - `aws_db_instance.strapi`
+     - `aws_db_subnet_group.strapi`
+     - `aws_s3_bucket.media_public` / `aws_s3_bucket.media_private`
+     - Secrets `clarivum/strapi/<env>/database-*`
+2. **Apply dev:** `terraform -chdir=infra/strapi apply -var-file=env/dev.tfvars`.
+   - Verify the dev database status is `available`, multi-AZ is `yes`, and Enhanced Monitoring reports within CloudWatch (`CWAgent` namespace).
+   - Upload a media asset via Strapi; confirm it lands in `clarivum-strapi-dev-media-public` and the object is encrypted with SSE-KMS (`aws/s3` key).
+3. **Run restore drill (quarterly or after significant change):**
+   - Create a snapshot (`aws rds create-db-snapshot --db-instance-identifier strapi-dev-db`).
+   - Restore to temp instance (`terraform apply` will not manage the temp restore; use CLI) and run smoke queries from Bastion.
+   - Document results in the incident runbook (see “Strapi PITR drill” section) and update the drill date in `infra/strapi/AGENTS.md`.
+4. **Promote to prod:** After dev validation, repeat `terraform apply` with `env/prod.tfvars`.
+   - Ensure production S3 buckets `clarivum-strapi-prod-media-public` and `clarivum-strapi-prod-media-private` continue to deny non-TLS traffic and that lifecycle rules keep versioned objects (`Transition → INTELLIGENT_TIERING after 180 days`).
+   - Confirm Secrets Manager entries `clarivum/strapi/prod/database-password` and `clarivum/strapi/prod/database-url` rotate as part of the apply.
+5. **Post-change checklist:**
+   - Update the release ticket with snapshot ID used for validation.
+   - Record any follow-up tasks (cost review, cross-region copy, data masking) in `tasks/backlog/platform`.
+
+Rollback: restore from the most recent automated snapshot (`terraform apply` with reverted changes) or run `aws rds restore-db-instance-to-point-in-time` using the last known timestamp, then re-point Secrets Manager (`database-url`) to the restored endpoint before switching traffic.
+
 ## Rollback procedure
 
 1. Trigger the `Rollback Production` workflow with the last known good deployment ID.

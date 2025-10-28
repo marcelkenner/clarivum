@@ -52,7 +52,7 @@ CI relies on `npm run validate`; ensure it passes before pushing. Task changes a
 - Role and workflow guides: `docs/role-guides/`.
 - Task board: `tasks/` (see `tasks/README.md` + lane-specific `AGENTS.md` guides).
 - Homepage SEO/metadata hand-off: `docs/runbooks/seo-homepage-metadata-kickoff.md`.
-- Atrament document viewer: visit `/library` locally to search/browse every PRD, ADR, task lane, and Sisu note with consistent Atrament typography. The `/docs/...`, `/tasks/...`, and `/sisu-log/...` routes render individual files with anchors and metadata.
+- Atrament document viewer: visit `/library` locally to search/browse every PRD, ADR, task lane, and Sisu note with consistent Atrament typography. In production these routes return 404 unless you set `INTERNAL_DOCS_ALLOW=true`; keep technical/business docs internal by default.
 
 ## App Router information architecture
 

@@ -10,7 +10,7 @@ collaborators:
   - QA Lead
 effort: small
 created_at: 2025-10-25
-updated_at: 2025-10-25
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/feature-flags/feature-requirements.md
   - docs/PRDs/technology-stack-catalog.md
@@ -30,10 +30,10 @@ tags:
 Provision Flagsmith projects for dev and prod, define environment defaults, and wire governance workflows so teams can gate features, experiments, and emergency toggles without risking regressions.
 
 ## Definition of Ready
-- [ ] Finalize flag naming conventions, metadata fields, and sunset policy with product leadership.
-- [ ] Confirm integration surfaces (Next.js app, background jobs, Strapi) and SDK requirements.
-- [ ] Align alerting pathways with `TSK-PLAT-002` stale flag automation plan.
-- [ ] Ensure secrets management approach documented for server and client SDK keys.
+- [x] Flag naming/metadata/sunset policy set: use `service.flag_name` with metadata `{owner, created_on, expires_on,ticket}` and 30/60/90-day reviews with weekly stale alerts (TSK-PLAT-002).
+- [x] Integration surfaces confirmed: Next.js server/client, background jobs, and Strapi webhooks; server keys remain server-side only.
+- [x] Alerting plan defined: weekly stale report to `#product-ops` plus automatic PR to retire flags after 90 days.
+- [x] Secrets handling documented: server keys stored in Secrets Manager; client keys in public env files with read-only scope.
 
 ## Definition of Done
 - [ ] Flagsmith environments created with initial segment and identity configuration plus audit logging enabled.
@@ -42,4 +42,3 @@ Provision Flagsmith projects for dev and prod, define environment defaults, and 
 - [ ] Sample feature flag wired into Next.js dev environment behind guard to validate evaluation paths.
 - [ ] Follow-up backlog items captured for experimentation dashboards or additional tooling.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

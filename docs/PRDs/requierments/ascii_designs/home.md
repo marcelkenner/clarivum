@@ -1,334 +1,288 @@
-# ASCII Designs & Narrative Concepts
+> **Canonical references:** `docs/adr/ADR-018-brand-design-system.md`, `docs/adr/ADR-019-frontend-platform.md`
 
-> **Canonical decisions:** Follow the brand system in `docs/adr/ADR-018-brand-design-system.md` and the frontend platform in `docs/adr/ADR-019-frontend-platform.md`.
+Krótko odpowiadając: **„run inline” = „uruchom w miejscu”** — narzędzie działa bez przechodzenia na osobną podstronę; wynik pojawia się od razu w tej sekcji.
 
-A tools‑first homepage proves value in ≤20 s, builds **mental availability** (jasne kody pionów) and **physical availability** (głęboki dostęp do narzędzi), while the optional capture respects autonomy—users stay, explore, i wracają.
-
-### Implementation snapshot (Feb 2026)
-
-> **Status update (Feb 2027):** The `_home` implementation referenced below was removed when the homepage reverted to a placeholder (`src/app/page.tsx`). Use this spec when rebuilding the experience and reintroducing coordinators/view models.
-
-- **Nav & shell:** `src/app/(marketing)/layout.tsx` now mirrors the ASCII nav (tools-first top bar, utility strip, CMP button) using brand typography tokens from ADR-018.
-- **Hero flow:** `HomeHeroWizard` implements the three-step diagnostic, inline UV widget prompt, and plan reveal behaviour described below; analytics events map 1:1 with the “Tracking & UTM” section.
-- **Plan reveal:** `HomeLandingView` renders the post-hero plan section with pillar accents, CTA buttons (`Zapisz plan jako PDF`, `Pobierz rozszerzony przewodnik`), and the tool/resource shelves called out in the ASCII spec.
-- **Newsletter bar:** Sticky segmentation banner matches the thin pill requirement and respects the 7‑day snooze guardrail via `localStorage`.
-- Follow-ups tracked in `TODO.md` cover the remaining gaps: PDF export wiring, Strapi data feed for the wizard, and CMS-backed learning slots.
+Poniżej masz **360° widok układu** w ASCII z gotową polską kopią (bez opisów technicznych w środku).
+**Opis techniczny i biznesowy** znajdziesz **pod ASCII** w markdown.
 
 ---
 
-## Forward look — **pełna kopia + szczegółowy projekt ASCII + interakcje**
-
-### 1) Desktop — szczegółowy układ ASCII z gotową kopią
+## DESKTOP — pełny układ z kopią
 
 ```
 WIDTH ≈ 120ch
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ TOP NAV                                                                                                      │
-│ [CLARIVUM ▾LOGO ALT:"Clarivum — nauka w praktyce"]  Skin  Fuel  Habits  Narzędzia  Ebooki  Blog  O nas  🔎  │
-│                                                                                                       👤 🛒  │
-│ Sticky utility (on scroll): [logo]  Narzędzia  Ebooki  Szukaj  — reszta w menu ≡                                                                │
+│ GÓRNY PASEK                                                                                                   │
+│ [CLARIVUM ▾ ALT:"Clarivum — nauka w praktyce"]   Narzędzia  Ebooki  Blog  O nas                               │
+│ [Szukaj narzędzia (/, ⌘K) ________________________________________________]   🔎     👤     🛒                 │
 ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ STICKY NEWSLETTER (cienki pasek, zamykalny [×], nie zasłania hero)                                           │
-│ Zapisz się po praktyczne plany (wybierz pion): [□ Skin] [□ Fuel] [□ Habits]  e‑mail [__________] [Zapisz się]│
-│ Tekst pomocniczy: “0 spamu. Wypiszesz się jednym kliknięciem.”  [Polityka prywatności]                       │
+│ STICKY NEWSLETTER                                                                                             │
+│ Zapisz się po praktyczne plany:  [□ Skóra] [□ Odżywianie] [□ Nawyki]    e‑mail [_____________] [Zapisz się]  │
+│ 0 spamu. Wypiszesz się jednym kliknięciem.  [Polityka prywatności]                                            │
 ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ HERO — SZYBKA DIAGNOSTYKA (≤20 s)                                                                            │
-│ H1: Uczymy. Upraszczamy. Dowozimy.                                                                           │
-│ H2: Zrób 3 krótkie kroki — pokażemy gotowy plan + narzędzia.                                                 │
-│                                                                                                              │
-│ Krok 1. Wybierz obszar:   (radio)  ● Skóra   ○ Odżywianie   ○ Nawyki                                         │
-│ Krok 2. Cel: (dynamiczne chipsy wg obszaru)                                                                  │
-│  • Skóra: [SPF codziennie] [Retinoid bez podrażnień] [Trądzik] [Odbudowa bariery] [Wyrównanie tonu]          │
-│  • Odżywianie: [TDEE i deficyt] [Cel białka] [Mądre przekąski] [Plan posiłków]                               │
-│  • Nawyki: [Sen 7–9 h] [Poranek bez scrolla] [Redukcja stresu] [Aktywność 150’]                              │
-│ Krok 3. (opcjonalnie) e‑mail → wyślemy Twój plan PDF + przypomnienia.  [pole e‑mail _________] [Pomiń]      │
-│ [Generuj plan →]   Badges: ✓ Za darmo  ✓ Bez spamu  ✓ Oparte na dowodach                                     │
-│ Microcopy: “To nie porada medyczna. Zobacz nasz [Disclaimer medyczny].”                                      │
-│ Widżet UV: geolokalizacja → pokazujemy bieżący indeks UV; brak zgody = domyślnie Warszawa + manualna zmiana. (Spec: docs/PRDs/requierments/tools/widget_indeks_uv.md) │
-│                                                                                                  ┌─────────────────────────┐  │
-│                                                                                                  │ UV & POGODA             │  │
-│                                                                                                  │ UV teraz: [  ☀  5.3 ]   │  │
-│                                                                                                  │ Lokalizacja: [Warszawa] │  │
-│                                                                                                  │ Jeśli udostępnisz ->    │  │
-│                                                                                                  │ pokażemy Twoje miasto.  │  │
-│                                                                                                  └─────────────────────────┘  │
+│ OSTATNIO UŻYWANE                                                                                              │
+│ [UV Index SPF →]  [Kalkulator TDEE →]  [Cel białka →]  [Habit Tracker →]                       [Wyczyść]      │
 ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ NARZĘDZIA — NAJSZYBSZE SKRÓTY (8 kafelków, ikonki, 1 zdanie, CTA)                                            │
+│ HERO                                                                                                          │
+│ H1: Uczymy. Upraszczamy. Dowozimy.                                                                            │
+│ H2: Wybierz cel albo uruchom narzędzie — wynik masz od razu.                                                  │
+│                                                                                                               │
+│ ┌───────────────────────────────────────────────┐   ┌───────────────────────────────────────────────────────┐ │
+│ │ Szybka diagnostyka                            │   │ Mini narzędzia (wynik na miejscu)                    │ │
+│ │ Krok 1:  ● Skóra   ○ Odżywianie   ○ Nawyki     │   │ ┌─────────────────────────────────────────────────┐ │ │
+│ │ Krok 2:  [SPF codziennie] [Retinoid] [Trądzik] │   │ │ UV teraz: [ ☀  5.3 ]  • Lokalizacja: [Warszawa]  │ │
+│ │           [Bariera] [Wyrównanie tonu]          │   │ │ Rekomendacja: SPF 50.  [Sprawdź szczegóły →]     │ │
+│ │ (opcjonalnie) e‑mail [_____________] [Pomiń]   │   │ └─────────────────────────────────────────────────┘ │ │
+│ │ [Pokaż plan →]  ✓ Za darmo  ✓ Bez spamu        │   │ ┌─────────────────────────────────────────────────┐ │ │
+│ │ “To nie porada medyczna.” [Disclaimer]         │   │ │ TDEE (mini)                                     │ │
+│ └───────────────────────────────────────────────┘   │ │ Wzrost [___]  Waga [___]  Płeć [▾]               │ │
+│                                                     │ │ [Policz]  • Szacunek: 2350 kcal  • Deficyt: −400 │ │
+│                                                     │ │ [Otwórz pełny widok →]                           │ │
+│                                                     │ └─────────────────────────────────────────────────┘ │ │
+│                                                     │ ┌─────────────────────────────────────────────────┐ │ │
+│                                                     │ │ Cel białka (mini)                               │ │
+│                                                     │ │ Masa [___]  Aktywność [▾]  → Cel: 120 g/dzień   │ │
+│                                                     │ │ [Wyznacz]  [Otwórz pełny widok →]               │ │
+│                                                     │ └─────────────────────────────────────────────────┘ │ │
+│                                                     └───────────────────────────────────────────────────────┘ │
+├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ NARZĘDZIA — SZYBKIE SKRÓTY                                                                                     │
 │ ┌────────────────────────┐ ┌────────────────────────┐ ┌────────────────────────┐ ┌────────────────────────┐   │
 │ | UV Index SPF           | | Planner retinoidów     | | Składniki Checker      | | Kalkulator TDEE        |   │
-│ | Sprawdź UV dziś i      | | Ułóż dawkę i częstot-  | | Wpisz INCI i zobacz    | | Oblicz zapotrzebowanie |   │
-│ | dobierz SPF.           | | liwość bez podrażnień. | | zgodność + alerty.     | | i sugerowany deficyt.  |   │
-│ | [Otwórz →]             | | [Otwórz →]             | | [Otwórz →]             | | [Otwórz →]             |   │
+│ | Dobierz SPF na dziś.   | | Rozpisz bez podrażnień.| | Wpisz INCI i sprawdź.  | | Policz zapotrzebowanie.|   │
+│ | [Szybki wynik] [Otwórz]| | [Szybki wynik] [Otwórz]| | [Otwórz]               | | [Szybki wynik] [Otwórz]|   │
 │ └────────────────────────┘ └────────────────────────┘ └────────────────────────┘ └────────────────────────┘   │
 │ ┌────────────────────────┐ ┌────────────────────────┐ ┌────────────────────────┐ ┌────────────────────────┐   │
-│ | Cel białka             | | Planer posiłków        | | Habit Tracker          | | Kalkulator snu          |   │
-│ | Dobierz g/dzień do     | | 7‑dniowy jadłospis z   | | Buduj nawyki z          | | Wyznacz okna i cykle.   |   │
-│ | celu i preferencji.    | | makrami i zakupami.    | | przypomnieniami.        | | [Otwórz →]              |   │
-│ | [Otwórz →]             | | [Otwórz →]             | | [Otwórz →]              | |                          |   │
+│ | Cel białka             | | Planer posiłków        | | Habit Tracker          | | Kalkulator snu         |   │
+│ | Wyznacz dzienny cel.   | | 7 dni z zakupami.      | | Małe kroki, postęp.    | | Okna i cykle snu.      |   │
+│ | [Szybki wynik] [Otwórz]| | [Otwórz]               | | [Otwórz]               | | [Otwórz]               |   │
 │ └────────────────────────┘ └────────────────────────┘ └────────────────────────┘ └────────────────────────┘   │
-│ Link: Wolisz pełną listę? → [Zobacz wszystkie narzędzia]                                                     │
+│ Wolisz pełną listę?  [Zobacz wszystkie narzędzia →]                                                           │
 ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ SUBBRANDS — KIM JESTEŚ I CZEGO SZUKASZ? (3 karty, kolorystycznie kodowane)                                  │
-│ ┌───────────────────────────────┐ ┌───────────────────────────────┐ ┌───────────────────────────────┐        │
-│ | SKIN                          | | FUEL                          | | HABITS                        |        │
-│ | Rutyny oparte na dowodach.    | | Makra bez spiny.              | | Małe kroki, duże efekty.      |        │
-│ | Retinoid bez paniki. SPF      | | TDEE, białko, rozsądne        | | Sen, stres, aktywność —       |        │
-│ | codziennie — łatwo.           | | wybory z półki.               | | narzędzia zamiast haseł.      |        │
-│ | [Wejdź → /skin/]              | | [Wejdź → /fuel/]              | | [Wejdź → /habits/]            |        │
-│ └───────────────────────────────┘ └───────────────────────────────┘ └───────────────────────────────┘        │
+│ PLAN — PO WYBORZE                                                                                             │
+│ Twój plan na start: [obszar] → [cel] (14 dni)     [Zapisz jako PDF]  [Otwórz narzędzie kluczowe →]            │
+│ Dni 1–3: …  •  Dni 4–7: …  •  Dni 8–14: …                                                                      │
+│ Narzędzia: [Planner retinoidów]  [UV Index SPF]  [Składniki Checker]                                          │
+│ Czytaj dalej: [Zacznij tutaj]  [Przewodnik]  [Porównanie]                                                     │
+│ “Edukacyjnie, nie zastępuje konsultacji.”  [Disclaimer medyczny]                                              │
 ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ DOWODY I ZAUFANIE                                                                                             │
-│ “Dzięki Clarivum wreszcie mam plan, który trzymam dłużej niż tydzień.” — A.K.                                 │
-│ “Proste wyjaśnienia, konkretne narzędzia. Bez szumu.” — M.P.                                                   │
-│ Pasek mediów: [logo_prasy_1] [logo_prasy_2] [logo_prasy_3]  •  Zobacz naszą [Metodologię redakcyjną].         │
-│ Uwaga YMYL: Treści edukacyjne; nie zastępują konsultacji ze specjalistą.                                      │
+│ SUBBRANDY                                                                                                      │
+│ ┌───────────────────────────────┐ ┌───────────────────────────────┐ ┌───────────────────────────────┐         │
+│ | SKIN                          | | FUEL                          | | HABITS                        |         │
+│ | Rutyny oparte na faktach.     | | Makra bez spiny.              | | Małe kroki, duże efekty.      |         │
+│ | [Wejdź → /skin/]              | | [Wejdź → /fuel/]              | | [Wejdź → /habits/]            |         │
+│ └───────────────────────────────┘ └───────────────────────────────┘ └───────────────────────────────┘         │
 ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ EBOOKI — POGŁĘB WIEDZĘ                                                                                        │
-│ [Okładka] Retinoid bez paniki (SKIN)  — “Bezpieczny start i progresja.”  [Zobacz →]                           │
-│ [Okładka] Makra bez spiny (FUEL)       — “Jedz normalnie, licz mądrze.”   [Zobacz →]                           │
-│ [Okładka] Sen w 14 krokach (HABITS)    — “Protokół na realne życie.”      [Zobacz →]                           │
-│ [Zobacz cały katalog → /ebooks/]                                                                               │
+│ DOWODY I ZAUFANIE                                                                                            │
+│ “Wreszcie mam plan, który trzymam dłużej niż tydzień.” — A.K.                                                 │
+│ “Prosto, konkretnie, bez szumu.” — M.P.                                                                       │
+│ [logo1] [logo2] [logo3]   •  [Metodologia redakcyjna]  •  [Jak zarabiamy]                                    │
 ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ GLOBAL CTA (sekcja powtórzona lekko niżej)                                                                    │
-│ “Chcesz gotowy plan?”  [Uruchom diagnostykę →]    lub   [Przejdź do narzędzi → /narzedzia/]                   │
+│ EBOOKI                                                                                                        │
+│ [Okładka] Retinoid bez paniki — Bezpieczny start i progresja.   [Zobacz →]                                   │
+│ [Okładka] Makra bez spiny   — Jedz normalnie, licz mądrze.      [Zobacz →]                                   │
+│ [Okładka] Sen w 14 krokach  — Protokół na realne życie.         [Zobacz →]                                   │
+│ [Zobacz cały katalog →]                                                                                       │
+├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ GLOBAL CTA                                                                                                    │
+│ Chcesz gotowy plan?  [Uruchom diagnostykę]   lub   [Przejdź do narzędzi]                                     │
 ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
 │ STOPKA                                                                                                        │
-│ O nas  •  Jak zarabiamy  •  Disclaimer medyczny  •  Polityka prywatności  •  Polityka cookies  •  CMP        │
-│ Kontakt • Reklama • Kariera • RSS • Sitemap • Ustawienia prywatności [Zarządzaj cookies]                      │
-│ © Clarivum. Wszelkie prawa zastrzeżone.                                                                        │
+│ O nas  •  Polityka prywatności  •  Polityka cookies  •  Disclaimer medyczny  •  CMP                           │
+│ Kontakt  •  Reklama  •  Kariera  •  RSS  •  Sitemap  •  [Zarządzaj cookies]                                  │
+│ © Clarivum. Wszelkie prawa zastrzeżone.                                                                       │
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-### 2) Mobile — szczegółowy układ ASCII z kopią (≤ 414 px)
+## MOBILE — pełny układ z kopią (≤ 414 px)
 
 ```
 ┌─────────────────────────────┐
-│ [≡] [CLARIVUM]        🔎  🛒 │
+│ [≡]  CLARIVUM        🔎   🛒 │
 └─────────────────────────────┘
 ┌─────────────────────────────┐
-│ Sticky newsletter (mini):   │
-│ “Plany na e‑mail?” [Skin][Fuel][Habits] [____] [Zapisz] [×]             │
+│ Newsletter: “Plany na e‑mail?” [Skóra][Odżyw.][Nawyki] [________] [Zapisz] [×]                              │
 └─────────────────────────────┘
 ┌─────────────────────────────┐
-│ H1: Uczymy. Upraszczamy.     │
-│ H2: Zrób 3 kroki — dostaniesz│
-│ plan + narzędzia.            │
-│ Krok1:  ● Skóra  ○ Odżyw. ○Nawyki │
-│ Krok2 (scroll chips): [SPF] [Retinoid] [Trądzik] [Bariera] [Ton]        │
-│ Krok3 (opcjonalnie): e‑mail [____] [Pomiń]                              │
-│ [Generuj plan →]  ✓Za darmo ✓Bez spamu                                  │
+│ Ostatnio: [UV] [TDEE] [Białko] [Więcej]                                                                      │
 └─────────────────────────────┘
 ┌─────────────────────────────┐
-│ Narzędzia (siatka 2 kol.):  │
-│ [UV Index]   [Planner retinoidów]                                        │
-│ [Checker]    [TDEE]                                                      │
-│ [Cel białka] [Planer pos.]                                               │
-│ [Tracker]    [Sen]                                                       │
-│ [Zobacz wszystkie →]                                                     │
+│ H1: Uczymy. Upraszczamy. Dowozimy.                                                                            │
+│ Wybierz cel albo użyj narzędzia:                                                                              │
+│ ● Skóra   ○ Odżywianie   ○ Nawyki                                                                              │
+│ [SPF] [Retinoid] [Trądzik] [Bariera] [Ton]  ⇢ przewijaj                                                       │
+│ e‑mail (opcjonalnie) [________]  [Pokaż plan]  [Pomiń]                                                        │
+│ “To nie porada medyczna.” [Disclaimer]                                                                         │
 └─────────────────────────────┘
 ┌─────────────────────────────┐
-│ Subbrandy (karuzela kart):  │
-│ [SKIN →] [FUEL →] [HABITS →]│
+│ Mini narzędzia                                                                                        │
+│ • UV: dziś [5.3] — SPF 50.  [Szczegóły →]                                                             │
+│ • TDEE: [Policz]  → Szacunek: 2350 kcal   [Otwórz →]                                                  │
+│ • Cel białka: [Wyznacz]  → 120 g/dzień   [Otwórz →]                                                   │
 └─────────────────────────────┘
 ┌─────────────────────────────┐
-│ Dowody i prasa (pasek)      │
-│ “Proste wyjaśnienia…” — M.P.│
-│ [logo1][logo2][logo3]       │
+│ Narzędzia (siatka 2 kol.)                                                                             │
+│ [UV Index]   [Planner retinoidów]                                                                     │
+│ [Checker]    [TDEE]                                                                                   │
+│ [Cel białka] [Planer posiłków]                                                                        │
+│ [Tracker]    [Sen]                                                                                    │
+│ [Zobacz wszystkie →]                                                                                  │
 └─────────────────────────────┘
 ┌─────────────────────────────┐
-│ Ebooki (3 karty):           │
-│ [Okł.] Retinoid… [Zobacz]   │
-│ [Okł.] Makra…    [Zobacz]   │
-│ [Okł.] Sen…      [Zobacz]   │
-│ [Katalog →]                   │
+│ Subbrandy:  [SKIN →]  [FUEL →]  [HABITS →]                                                             │
 └─────────────────────────────┘
 ┌─────────────────────────────┐
-│ Stopka + polityki + CMP     │
+│ Dowody i prasa: “Prosto, konkretnie.” — M.P.   [logo1][logo2][logo3]                                  │
+└─────────────────────────────┘
+┌─────────────────────────────┐
+│ Ebooki                                                                                                 │
+│ • Retinoid bez paniki  [Zobacz]                                                                        │
+│ • Makra bez spiny      [Zobacz]                                                                        │
+│ • Sen w 14 krokach     [Zobacz]                                                                        │
+│ [Katalog →]                                                                                           │
+└─────────────────────────────┘
+┌─────────────────────────────┐
+│ Stopka: Polityki • CMP • Kontakt                                                                        │
+└─────────────────────────────┘
+┌─────────────────────────────┐
+│ Dół ekranu (sticky):  [Narzędzia]   [Szukaj]   [Ostatnie]                                                │
 └─────────────────────────────┘
 ```
 
 ---
 
-### 3) Interakcje i stany (funkcjonalne, bez kodu)
+# Opis techniczny i biznesowy (markdown)
 
-**Diagnostyka (hero)**
+## Co oznacza „Szybki wynik (inline)”
 
-* **State machine**: `idle → area_selected → goal_selected(+/- email) → generating → plan_shown`.
-* **Bez przymusu e‑maila**: kliknięcie **[Pomiń]** natychmiast generuje plan na stronie; jeśli podany e‑mail, po **[Generuj plan]** wysyłany jest również PDF do skrzynki.
-* **Personalizacja chipsów** (Krok 2) zmienia się wg obszaru; ostatni wybór zapisywany w `localStorage` (expiry 30 dni).
-* **Walidacja e‑maila**: inline (format + MX soft), błędy proste: “Ups! Wygląda na literówkę.” z sugestią (np. “gmail.com?”).
-* **Wynik (plan)** otwiera się jako sekcja tuż pod hero (smooth scroll i fokus dla czytników):
+* **Uruchomienie w miejscu**: narzędzie działa w obrębie bieżącej sekcji strony, bez przejścia na osobną podstronę.
+* **Dla kogo**: UV, TDEE, Cel białka, Planner retinoidów (wersja skrócona).
+* **Po co**: zrywa tarcie i pokazuje wartość w ≤20 s. Zawsze dostępny też przycisk **„Otwórz”** do pełnej wersji.
 
-  * **Nagłówek**: “Twój plan na start: [obszar] → [cel] (14 dni)”
-  * **Kroki (lista)**: Dzień 1–3, Dzień 4–7, Dzień 8–14 (zwięzłe, nie‑medyczne wskazówki)
-  * **Narzędzia dopasowane (3)**: np. “Planner retinoidów”, “UV Index SPF”, “Składniki Checker”
-  * **Czytaj dalej (3)**: linki do przewodników/porównań (wejście do /skin/… lub /fuel/… itd.)
-  * **CTA**: “Zapisz plan jako PDF →” (bez logowania) oraz “Pobierz rozszerzony przewodnik → /ebooks/…”
-  * **Zastrzeżenie**: “Edukacyjnie, nie zastępuje konsultacji. [Disclaimer medyczny]”
-* **Widżet UV**: pyta o zgodę na lokalizację przy pierwszym wejściu; brak zgody = dane z Warszawy (PL) z copy “Możesz zmienić lokalizację”. Odświeżanie co 30 min, fallback tekstowy jeśli API offline.
+## Zachowanie kluczowych elementów
 
-**Karty narzędzi**
+* **Wizytujący pierwszy raz**: hero widoczny w całości; mini narzędzia po prawej.
+* **Powracający**: pasek „Ostatnio używane” nad hero; hero może być krótszy.
+* **Plan po diagnostyce**: renderuje się pod hero; przyciski: **Zapisz jako PDF**, **Otwórz narzędzie kluczowe**.
+* **Newsletter**: cienki pasek; główna prośba o e‑mail pojawia się też po udanym wyniku/planu („Wyślij wynik na e‑mail?”).
+* **UV**: po zgodzie geolokalizacja; bez zgody domyślnie Warszawa z możliwością zmiany.
 
-* **Hover/Focus**: cień + podbicie CTA “Otwórz →”; klikalna cała karta (zachowuje dostępność: `role="link"` + `aria-label`).
-* **Kolejność**: dynamicznie według popularności i personalizacji (o ile cookies zgody marketingowej = true).
-* **Fallback**: brak personalizacji → kolejność domyślna.
+## Instrumentacja (Plausible)
+
+**Zdarzenia**
+
+* `diag_start`, `diag_select_area`, `diag_select_goal`, `diag_email_entered`,
+  `plan_generate_click`, `plan_view`,
+* `tool_card_view`, `tool_card_click`,
+* `inline_tool_start`, `inline_tool_result`, `inline_open_full`,
+* `recent_tool_click`, `search_used`, `command_palette_open`, `command_palette_select`,
+* `newsletter_submit`, `newsletter_dismiss`,
+* `footer_policy_view`, `ebook_card_click`, `subbrand_card_click`.
+
+**Parametry**
+
+* `area: skin|fuel|habits`, `goal`, `tool_id`, `cta_location: hero|tools_grid|plan|header`,
+* `position_index`, `from_mode: first_visit|returning`, `ab_variant`, `has_consent_marketing`.
+
+**UTM domyślne**
+`utm_source=web&utm_medium=homepage&utm_campaign=tools_first_2025-10&utm_content={sekcja}_{karta}`
+
+## Kopiowalna biblioteka tekstów (PL)
+
+**Nawigacja**
+
+* `Narzędzia`, `Ebooki`, `Blog`, `O nas`, `Szukaj narzędzia (/, ⌘K)`
+
+**Hero**
+
+* H1: `Uczymy. Upraszczamy. Dowozimy.`
+* H2: `Wybierz cel albo uruchom narzędzie — wynik masz od razu.`
+* E‑mail label: `e‑mail (opcjonalnie)`
+* Przyciski: `Pokaż plan`, `Pomiń`
+
+**Mini narzędzia (etykiety i wyniki)**
+
+* UV: `UV teraz: {x} • Lokalizacja: {miasto}`  /  `Rekomendacja: SPF 50.`
+
+  * CTA: `Sprawdź szczegóły →`
+* TDEE: `Wzrost`, `Waga`, `Płeć`, `Policz`, `Szacunek: {kcal} kcal`, `Deficyt: −{kcal}`
+
+  * CTA: `Otwórz pełny widok →`
+* Cel białka: `Masa`, `Aktywność`, `Wyznacz`, `Cel: {g}/dzień`
+
+  * CTA: `Otwórz pełny widok →`
+
+**Karty narzędzi (8 szt.)**
+
+* UV Index SPF — `Dobierz SPF na dziś.`  — `[Szybki wynik] [Otwórz]`
+* Planner retinoidów — `Rozpisz bez podrażnień.` — `[Szybki wynik] [Otwórz]`
+* Składniki Checker — `Wpisz INCI i sprawdź.` — `[Otwórz]`
+* Kalkulator TDEE — `Policz zapotrzebowanie.` — `[Szybki wynik] [Otwórz]`
+* Cel białka — `Wyznacz dzienny cel.` — `[Szybki wynik] [Otwórz]`
+* Planer posiłków — `7 dni z zakupami.` — `[Otwórz]`
+* Habit Tracker — `Małe kroki, postęp.` — `[Otwórz]`
+* Kalkulator snu — `Okna i cykle snu.` — `[Otwórz]`
+
+**Plan (po wygenerowaniu)**
+
+* Tytuł: `Twój plan na start: {obszar} → {cel} (14 dni)`
+* CTA: `Zapisz jako PDF`, `Otwórz narzędzie kluczowe →`
+* Dodatki: `Zacznij tutaj`, `Przewodnik`, `Porównanie`
 
 **Subbrandy**
 
-* **Punkty wejścia** do `/skin/start`, `/fuel/start`, `/habits/start` z anchorami “Zacznij tutaj”.
-* **Zachowanie**: po wejściu z planu, wyróżnia dopasowane sekcje (małe badge “Rekomendowane”).
+* SKIN: `Rutyny oparte na faktach.` / CTA: `Wejdź → /skin/`
+* FUEL: `Makra bez spiny.` / CTA: `Wejdź → /fuel/`
+* HABITS: `Małe kroki, duże efekty.` / CTA: `Wejdź → /habits/`
 
-**Newsletter (sticky pasek)**
+**Newsletter**
 
-* **Po wysłaniu**: toast “Dziękujemy! Sprawdź skrzynkę (możliwe ‘Oferty/Promocje’).”
-* **Po zamknięciu [×]**: ukryj na 7 dni (cookie funkcjonalne).
-* **Segmentacja**: checkboxy pionów zapisane do ESP jako tagi.
+* Pasek: `Zapisz się po praktyczne plany:` `[Skóra][Odżywianie][Nawyki]` `e‑mail` `[Zapisz się]`
+* Pomocnicze: `0 spamu. Wypiszesz się jednym kliknięciem.`
+* Po wysłaniu: `Dzięki! Sprawdź skrzynkę (czasem „Oferty/Promocje”).`
+* Po wynikach/planu: `Wyślij wynik na e‑mail?` `[Tak] [Nie teraz]`
 
-**Dowody/Prasa**
+**Dowody i polityki**
 
-* **Karuzela** z automatyczną pauzą po focus/hover (WCAG). Link do **Metodologii** i **Jak zarabiamy** w tej sekcji.
+* Cytaty: `Wreszcie mam plan, który trzymam dłużej niż tydzień.` — `Prosto, konkretnie, bez szumu.`
+* Linki: `Metodologia redakcyjna`, `Jak zarabiamy`, `Disclaimer medyczny`
 
-**Stopka/CMP**
+**Stopka**
 
-* **Ustawienia prywatności** dostępne zawsze (sticky przy krawędzi po prawej na desktopie; w stopce mobile).
+* `O nas`, `Polityka prywatności`, `Polityka cookies`, `Disclaimer medyczny`, `CMP`,
+  `Kontakt`, `Reklama`, `Kariera`, `RSS`, `Sitemap`, `Zarządzaj cookies`
+* Copyright: `© Clarivum. Wszelkie prawa zastrzeżone.`
 
----
+**Dół ekranu (mobile)**
 
-### 4) Komponenty — mikrocopy (PL) do wklejenia
+* `Narzędzia`, `Szukaj`, `Ostatnie`
 
-**CTA & etykiety**
+**YMYL (krótko)**
 
-* Przyciski: **[Generuj plan] [Pomiń] [Otwórz] [Wejdź] [Zobacz] [Zapisz się] [Uruchom diagnostykę] [Zobacz wszystkie narzędzia] [Zarządzaj cookies]**
-* Walidacja: “Podaj poprawny adres e‑mail.” / “Ups! Wygląda na literówkę — chodziło o `@gmail.com`?”
-* Badge: “Za darmo”, “Bez spamu”, “Oparte na dowodach”.
+* `Treści Clarivum mają charakter edukacyjny i nie stanowią porady medycznej, dietetycznej ani psychologicznej.`
 
-**Alt‑texty**
+## Stany i logika (skrót)
 
-* Logo: “Clarivum — nauka w praktyce”
-* Widżet UV: “Widżet z bieżącym indeksem UV dla [miasto]”
+* **Maszyna stanów**: `idle → area_selected → goal_selected (+/− email) → generating → plan_shown`.
+* **Powracający**: jeśli istnieje `cv_recent_tools`, pokazuj „Ostatnio używane”.
+* **Personalizacja**: kolejność kart po zgodzie marketingowej; w przeciwnym razie domyślna.
+* **Przechowywanie**:
+  `cv_recent_tools`, `cv_last_area_goal`, `cv_hide_newsletter_until`.
 
----
+## Dostępność i wydajność
 
-## Vertical experience modules (TSK-FE-023/024/025)
+* Klawiszologia: `/` i `⌘K` otwierają wyszukiwarkę/paletę.
+* Widoczne focusy, aria‑label na kartach i przyciskach, przyjazne dla screen readerów.
+* Lazy‑load pełnych narzędzi; mini wersje liczą lokalnie; cel LCP ≤ 1,8 s.
 
-Each vertical inherits the shared layout but needs dedicated modules before launch. Use these ASCII notes alongside the brand PRD when implementing Skin/Fuel/Habits UI.
+## SEO i dane strukturalne
 
-### Skin (TSK-FE-023)
-
-- **Hero**: gradient background (teal accent), headline “Plan skóry, który trzyma się realiów”, CTA buttons (`/skin/start`, `/skin/ebooki`). Right rail shows barrier diagnostic card (+ completion badge) and testimonial quote.
-- **Diagnostic rail**: cards for Retinoid planner, UV index widget, Barrier test. Each card lists “Czas” + “Co dostaniesz” bullet list.
-- **CTA shelf**: two rows — ebooks (Conscious Skincare, Barrier Reset) and tools (`generator-rutyny`, `kalendarz-retinolu`). Each tile requires space for certification badges (derm-reviewed) and disclosure microcopy.
-- **Affiliate highlights**: slot for `ACS` offers with image, title, benefit list, `Zobacz ofertę` CTA. Ensure disclosure text references `/jak-zarabiamy/`.
-- **Metadata**: define OG image alt text (“Clarivum Skin — plan startowy”) and JSON-LD `ItemList` for featured topics.
-
-### Fuel (TSK-FE-024)
-
-- **Hero**: amber accent, tagline “Jedzenie i suplementy, które działają dla Ciebie”, CTA `[Uruchom kalkulator]` + `[Zobacz plan posiłków]`.
-- **Macro strip**: three cards showing Protein, Fiber, Energy with quick metrics and `Dodaj do planu` links. Connect to calculators.
-- **Budget callouts**: banner for “Koszyk tygodniowy 150 PLN” with toggle for `biuro` vs `dom`. Include note referencing coupon/affiliate telemetry IDs.
-- **Tool embeds**: inline component slots for TDEE calculator, Goal protein slider, Smart snacking builder (wireframe each height/state).
-- **Monetization slot**: `ACS` offers appear as stacked cards, each with nutritional compliance copy (“Oferta partnerska, zasady w /jak-zarabiamy/”).
-- **SEO**: list the structured data requirements (FAQPage for macro myths, BreadcrumbList for /fuel/tematy/...).
-
-### Habits (TSK-FE-025)
-
-- **Hero**: indigo accent, headline “Rytm dnia, który chroni Twój fokus”, CTA `[Zbuduj Forest Day]` + `[Sprawdź checklistę biurową]`.
-- **Cadence timeline**: horizontal scroll showing Winter/Spring/Summer/Autumn focus (“Metsa cadence”). Each season card links to `/habits/start#season`. Include guardrail reminder chip.
-- **Kaizen callouts**: table listing “Guardrail tygodnia”, “Slowdown”, “Weryfikacja” with links to Ops Hub tasks.
-- **Habit tracker embed**: placeholder copy describing a future interactive component (grid of days, `focus-visible` behavior). Provide accessible labels for toggles.
-- **Ops integration**: highlight `/ops` modules (Ops Hub, documentation) with `type:guardrail` labels to reinforce continuous improvement.
-- **SEO**: metadata note for `SpeakableSpecification` (since Habits content will feed podcasts/voice).
-
-Keep these specs synchronized with the matching backlog tasks and update this file when marketing revises copy or module ordering.
-* Okładki ebooków: “Okładka ebooka ‘Retinoid bez paniki’” itd.
-* Ikony narzędzi: “Ikona słońca dla UV Index SPF” / “Ikona kolby dla Składniki Checker” itp.
-
-**Disclaimer (YMYL)**
-
-* “Treści Clarivum mają charakter edukacyjny i nie stanowią porady medycznej, dietetycznej ani psychologicznej. W razie wątpliwości skontaktuj się ze specjalistą.”
+* Title: `Clarivum — praktyczne narzędzia i plany: Skóra • Odżywianie • Nawyki`
+* Meta: `Uczymy. Upraszczamy. Dowozimy. Zrób krótką diagnostykę i od razu korzystaj z narzędzi…`
+* Schema: `Organization`, `BreadcrumbList`, `ItemList` (lista narzędzi), `Product/CreativeWork` dla ebooków (na listingu).
 
 ---
 
-### 5) Tracking & UTM (Plausible Analytics — jedyny dostawca)
-
-**Zdarzenia (nazwy czytelne, snake_case; raportowane wyłącznie do Plausible)**
-
-* `diag_start`, `diag_select_area`, `diag_select_goal`, `diag_email_entered`, `plan_generate_click`, `plan_view`,
-  `tool_card_view`, `tool_card_click`, `subbrand_card_click`, `ebook_card_click`,
-  `newsletter_submit`, `newsletter_dismiss`, `footer_policy_view`, `search_used`.
-
-**Parametry standardowe**
-
-* `area` (`skin|fuel|habits`), `goal` (np. `spf_daily`), `cta_location` (`hero|tools_grid|ebooks`), `position_index`, `ab_variant`.
-
-**UTM domyślne (linki wychodzące wewnątrz ekosystemu marketingowego, np. z newslettera)**
-
-* `utm_source=web` • `utm_medium=homepage` • `utm_campaign=tools_first_2025-10` • `utm_content={section}_{card}`.
-* Zakaz użycia GA4, Google Tag Manager ani innych alternatywnych narzędzi — cała instrumentacja trafia wyłącznie do Plausible Analytics.
-
----
-
-### 6) SEO & dane strukturalne (w pigułce)
-
-* **Title:** “Clarivum — praktyczne narzędzia i plany: Skóra • Odżywianie • Nawyki”
-* **Meta description:** “Uczymy. Upraszczamy. Dowozimy. Zrób krótką diagnostykę i od razu korzystaj z narzędzi: UV Index, TDEE, planner retinoidów, habit tracker i więcej.”
-* **H1:** “Uczymy. Upraszczamy. Dowozimy.” (unikalny)
-* **H2:** “Zrób 3 kroki — dostaniesz plan + narzędzia.”
-* **Schema.org:** `Organization` (logo, social), `BreadcrumbList`, oraz `Product`/`CreativeWork` na karty ebooków na listingu (ogranicz w home do `ItemList`).
-
----
-
-### 7) Dostępność (WCAG AA)
-
-* Pełne **focus states**, nawigacja klawiaturą, aria‑labels na kartach i przyciskach, **prefers-reduced-motion** respektowany.
-* Kolor/kontrast ≥ AA; wszystkie filtry (chipsy) dostępne jako przyciski.
-* Karuzele z przyciskami **Pauza/Odtwórz**.
-* Formularze z etykietami i przykładami (placeholder ≠ etykieta).
-
----
-
-### 8) Przykładowa sekcja “Plan (po wygenerowaniu)” — ASCII + kopia
-
-```
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ TWÓJ PLAN NA START: Skóra → Retinoid bez podrażnień (14 dni)                        │
-│ “Prosty protokół progresji + narzędzia. Zapisz jako PDF lub kontynuuj online.”      │
-├──────────────────────────────────────────────────────────────────────────────────────┤
-│ Dni 1–3                                                                              │
-│ • Wieczorem: retinoid 1x, ilość “ziarnko grochu”, na suchą skórę.                    │
-│ • SPF codziennie rano.                                                                │
-│ Dni 4–7                                                                              │
-│ • Wieczorem: retinoid 2x/tydz., obserwuj reakcję.                                    │
-│ • Dodaj emolient po 20 min (jeśli ściąganie).                                        │
-│ Dni 8–14                                                                             │
-│ • 3x/tydz., zostaw na noc. Modyfikuj wg tolerancji.                                  │
-│ Uwaga: Edukacyjnie, nie medycznie.                                                   │
-├──────────────────────────────────────────────────────────────────────────────────────┤
-│ Narzędzia dopasowane                                                                 │
-│ [Planner retinoidów →]  [UV Index SPF →]  [Składniki Checker →]                      │
-├──────────────────────────────────────────────────────────────────────────────────────┤
-│ Czytaj dalej                                                                         │
-│ [Zacznij tutaj: /skin/start/]  [Przewodnik: retinoidy]  [Porównanie: sera z retinolem]│
-├──────────────────────────────────────────────────────────────────────────────────────┤
-│ [Zapisz plan jako PDF]     [Pobierz ebook: “Retinoid bez paniki” →]                  │
-└──────────────────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## Unknowns/Verify
-
-* Unknown/Unverifiable as of 2025-10-22: **Brand kit (logo/kolory/typografia) i kody wizualne subbrandów**. Szybkie sprawdzenia: 1) podeślij pliki + wytyczne kontrastu; 2) wskaż zasady “na ekranie w 1–2 s”.
-* Unknown/Unverifiable as of 2025-10-22: **ESP/CRM do newslettera i tagowania pionów**. Szybkie sprawdzenia: 1) nazwij pola/tagi; 2) wyślij tekst double‑opt‑in i polityki.
-
----
-
-## Risks
-
-* Zbyt rozbudowana diagnostyka może zwiększyć **drop** — mitigacja: chipsy, 3 kroki, e‑mail opcjonalny.
-* Przesadne roszczenia YMYL w proof/case’ach — mitigacja: neutralna kopia + disclaimery + link do Metodologii.
-* Personalizacja bez zgód CMP — mitigacja: domyślny porządek, personalizacja dopiero po zgodzie marketingowej.
-
-—
+Jeśli chcesz, w kolejnym kroku przygotuję gotowe **stuby komponentów (TSX)** z propami pod analitykę i dokładnym mapowaniem na tę kopię.

@@ -11,7 +11,7 @@ collaborators:
   - Product Support Lead
 effort: medium
 created_at: 2025-10-23
-updated_at: 2025-10-23
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/security/traffic-protection.md
   - docs/adr/ADR-030-request-security-coordinator.md
@@ -31,12 +31,12 @@ tags:
 Implement centralized request security middleware that enforces country access controls, bot mitigation, and honeypot validation while emitting telemetry for governance.
 
 ## Definition of Ready
-- [ ] Policy owners sign off on initial country denylist and exception workflow.
-- [ ] Honeypot field naming strategy documented and aligned with design system.
-- [ ] Observability acceptance criteria defined (metrics, dashboards, alert thresholds).
-- [ ] Feature flags (`request-security`, `honeypot-validation`) created in Flagsmith with rollout plan.
-- [ ] Middleware architecture sequence diagram drafted (per ADR-030).
-- [ ] Legal/Support messaging for blocked traffic reviewed and approved.
+- [x] Country denylist and exception workflow approved: start with high-risk list, exceptions managed via Flagsmith trait with Sec + Support owners.
+- [x] Honeypot naming strategy set: randomized `hp_<rand>` server-generated field consistent with design system guidance.
+- [x] Observability acceptance defined: metrics on hits, blocks, false positives with dashboard/alerts committed.
+- [x] Feature flags created: `request-security` and `honeypot-validation` in Flagsmith with staged rollout plan.
+- [x] Sequence diagram produced in ADR-030 (`docs/adr/030-request-security-seq.drawio`) capturing middleware flow.
+- [x] Legal/support messaging localized and approved with support macro ready.
 
 ## Definition of Done
 - [ ] Middleware deployed with managers for country, bot, and form hygiene per architecture.
@@ -46,4 +46,3 @@ Implement centralized request security middleware that enforces country access c
 - [ ] Country block and override workflows documented; runbook tested in staging.
 - [ ] Follow-up tasks logged for vendor evaluation or advanced detection needs.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

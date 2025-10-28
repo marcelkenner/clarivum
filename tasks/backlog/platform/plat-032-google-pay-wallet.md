@@ -11,7 +11,7 @@ collaborators:
   - Finance Partner
 effort: small
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/subscriptions/feature-requirements.md
   - docs/PRDs/requierments/ebooks/feature-requirements.md
@@ -31,11 +31,11 @@ tags:
 Activate Google Pay via Stripe’s Payment Element and Przelewy24 redundancy so Clarivum shoppers on supported devices can complete wallet-based checkouts without PCI scope expansion.
 
 ## Definition of Ready
-- [ ] Confirm supported countries, currency (PLN baseline), and branding assets with product and marketing.
-- [ ] Stripe dashboard configuration planned (payment method enablement, domain association) with security approval.
-- [ ] Przelewy24 Google Pay fallback requirements reviewed alongside `TSK-PLAT-031`.
-- [ ] QA test matrix drafted (desktop Chrome, Android Chrome, edge cases) with wallet simulators identified.
-- [ ] Telemetry and analytics events defined for wallet starts/completions/cancellations.
+- [x] Supported footprint confirmed: launch in PL/EU regions with PLN baseline and approved branding assets.
+- [x] Stripe dashboard plan set: enable Google Pay, verify domain, and record security approval.
+- [x] Fallback requirements agreed: fall back to Przelewy24 when wallet fails with analytics tracking.
+- [x] QA test matrix drafted covering desktop Chrome and Android Chrome with simulator coverage and key edge cases.
+- [x] Telemetry events defined: `wallet.start`, `wallet.success`, `wallet.cancel`, `wallet.error`.
 
 ## Definition of Done
 - [ ] Google Pay enabled in Stripe with domain verification and test transactions passing SCA requirements.
@@ -44,4 +44,3 @@ Activate Google Pay via Stripe’s Payment Element and Przelewy24 redundancy so 
 - [ ] Documentation (`docs/runbooks/payments-operations.md`) updated with maintenance steps and troubleshooting; support playbooks notified.
 - [ ] Follow-up tasks filed for expanded locale support or wallet-specific promotions.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

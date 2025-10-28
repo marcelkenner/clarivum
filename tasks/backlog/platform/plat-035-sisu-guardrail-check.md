@@ -10,7 +10,7 @@ collaborators:
   - Backend Lead
 effort: small
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/testing-stack/feature-requirements.md
   - docs/adr/ADR-015-testing-strategy.md
@@ -30,10 +30,10 @@ tags:
 Add automation that blocks bug-labelled pull requests unless they reference a Sisu debugging note and a guardrail follow-up, reinforcing the 48-hour guardrail commitment documented in the Sisu playbook.
 
 ## Definition of Ready
-- [ ] Enforcement rules confirmed (PRs labeled `bug` must link Sisu incident/bug ID plus guardrail follow-up; failing test or metric link required).
-- [ ] Link formats captured with regex patterns documented for automation validation.
-- [ ] Workflow permissions scoped to `checks: write`/`pull-requests: write` using GitHub OIDC (no repo-wide PAT).
-- [ ] Communication + monitoring plan prepared (playbook update, announcement post, weekly bypass report owners).
+- [x] Enforcement rules confirmed: `type:bug` PRs must include Sisu incident/bug ID and guardrail link with failing test/metric reference.
+- [x] Regex link formats documented for validation checks.
+- [x] Workflow permissions scoped: OIDC with `checks:write` and `pull-requests:write`, no PAT usage.
+- [x] Comms/monitoring plan prepared: playbook update, announcement draft, weekly bypass report ownership assigned.
 
 ## Definition of Done
 - [ ] Workflow `.github/workflows/sisu-on-bug.yml` committed, covering PR opened/edited/synchronized events with clear failure messaging.

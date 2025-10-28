@@ -13,6 +13,7 @@ export type AnalyticsEventPayloadMap = {
   HomepageNewsletterSubmitted: { segments: string[]; emailProvided: boolean };
   HomepageNewsletterDismissed: Record<string, never>;
   HomepageUvWidgetPermissionRequested: Record<string, never>;
+  WebVitalsMetric: { id: string; name: string; value: number; navigationType: string };
 };
 
 declare global {

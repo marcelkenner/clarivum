@@ -1,12 +1,15 @@
 import "@/styles/document-theme.css";
 
 import { DocumentIndex } from "@/components/documents/DocumentIndex";
+import { assertInternalDocsAccess } from "@/lib/documents/access";
 import { documentSerif } from "@/lib/documents/fonts";
 import { listDocuments } from "@/lib/documents/list-documents";
 
 export const revalidate = 300;
 
 export default async function LibraryPage() {
+  assertInternalDocsAccess();
+
   const documents = await listDocuments();
 
   return (

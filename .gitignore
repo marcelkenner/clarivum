@@ -23,6 +23,9 @@ blob-report
 # production
 /build
 
+# terraform
+.terraform/
+
 # misc
 .DS_Store
 *.pem

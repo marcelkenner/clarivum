@@ -10,7 +10,7 @@ collaborators:
   - Lifecycle Marketing Lead
 effort: medium
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/newsletter/feature-requirements.md
   - docs/PRDs/technology-stack-catalog.md
@@ -32,11 +32,11 @@ tags:
 Move Clarivum out of the Amazon SES sandbox, provision EU-region sending identities, and wire bounce/complaint handling so lifecycle and transactional emails meet deliverability, compliance, and observability commitments.
 
 ## Definition of Ready
-- [ ] Approved sender domains, subdomains, and DKIM/SPF configuration captured with legal and brand teams.
-- [ ] Decide on bounce/complaint pipeline (SNS → SQS/Lambda) and storage requirements for audit trails.
-- [ ] Confirm budget and rate limits for expected monthly email volume; request SES production access if not already filed.
-- [ ] Align IAM roles, Secrets Manager entries, and CI distribution with security baseline.
-- [ ] Plan monitoring dashboards and alert thresholds with observability owners.
+- [x] Sender domains approved: `clarivum.com` and `mail.clarivum.com` with DKIM/SPF plans and DMARC policy drafted.
+- [x] Bounce/complaint pipeline defined: SNS to SQS to Lambda writer persisting in `ses_events` table for audits.
+- [x] Budget/rate plan confirmed: production access request prepared with target volume and cost cap noted.
+- [x] IAM/secrets approach set: scoped IAM roles with credentials in Secrets Manager; CI distributes templating tokens only.
+- [x] Monitoring requirements captured: dashboards for bounce, complaint, delivery rates with alert thresholds agreed.
 
 ## Definition of Done
 - [ ] SES production access granted with verified domains, DKIM, SPF, and DMARC policies documented.
@@ -45,4 +45,3 @@ Move Clarivum out of the Amazon SES sandbox, provision EU-region sending identit
 - [ ] Secrets rotated and distributed to Listmonk, Next.js, and automation services without plaintext exposure.
 - [ ] Deliverability smoke tests executed (seed inboxes, complaint injection) and results logged with follow-up actions.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

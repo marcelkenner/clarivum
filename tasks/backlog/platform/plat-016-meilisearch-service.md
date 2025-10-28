@@ -10,7 +10,7 @@ collaborators:
   - Content Platform Lead
 effort: medium
 created_at: 2025-10-25
-updated_at: 2025-10-25
+updated_at: 2025-10-28
 links:
   - docs/PRDs/technology-stack-catalog.md
   - docs/PRDs/requierments/strapi/blog.md
@@ -29,10 +29,10 @@ tags:
 Stand up Meilisearch Cloud projects, baseline indexes, and ingestion pipelines so Clarivum content (blog, tools, ebooks) is discoverable with low-latency search and editor-friendly workflows.
 
 ## Definition of Ready
-- [ ] Index schema and ranking rules defined (searchable attributes, filterable facets, custom ranking for freshness/popularity) with content stakeholders.
-- [ ] Ingestion sources and credentials aligned (Strapi webhooks plus batch backfill), keys rotated, and ingestion workers network-restricted.
-- [ ] Tenancy budget and sizing approved (capacity/QPS forecast, cost alerts configured) with DevOps and finance.
-- [ ] Fallback experience planned (graceful “no-search” UX, curated links, circuit breaker requirements).
+- [x] Index schema finalized: searchable `title`, `subtitle`, `author`, `tags`, `body_excerpt`; filterable `locale`, `category`, `publish_date`; ranking prioritizes freshness then popularity agreed with stakeholders.
+- [x] Ingestion and credentials defined: Strapi webhooks plus nightly backfill worker, keys rotated quarterly, workers in private subnets/IP-allowlisted.
+- [x] Tenancy sizing approved: Fargate (or Meilisearch Cloud) starting t3.medium equivalent, EBS gp3 100 GB, autoscaling on QPS with cost alerts in place.
+- [x] Fallback UX locked: disable search gracefully with curated links and feature flag to turn off service when needed.
 
 ## Definition of Done
 - [ ] Meilisearch environments provisioned with API keys, access controls, and alerting configured.

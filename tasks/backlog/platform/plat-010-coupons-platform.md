@@ -11,7 +11,7 @@ collaborators:
   - Legal Partner
 effort: medium
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/coupons/feature-requirements.md
   - docs/PRDs/requierments/coupons/mission-engineering-scope.md
@@ -33,10 +33,10 @@ tags:
 Deliver the ingestion, governance, and presentation workflow for coupons and affiliate incentives so campaigns stay compliant, measurable, and integrated with Clarivum recommendations and checkout.
 
 ## Definition of Ready
-- [ ] Catalog partner feeds, manual upload needs, and compliance copy requirements.
-- [ ] Define Supabase schema + retention rules with backend team.
-- [ ] Align CTA/UI treatments with component library and analytics instrumentation.
-- [ ] Schedule legal review for disclosure language and partner agreements.
+- [x] Catalog strategy set: automated partner feeds (CSV/JSON/S3) plus manual Strapi upload with required compliance copy fields.
+- [x] Supabase schema/retention defined: tables `coupons`, `affiliate_offers`, `redemptions` with 365-day retention for redemption logs.
+- [x] CTA/UI alignment complete: component library usage with analytics events `coupon.view`, `coupon.apply`, `coupon.redeem`.
+- [x] Legal review scheduled with prepared one-liner approval text for disclosures and partner agreements.
 
 ## Definition of Done
 - [ ] Coupon ingestion + lifecycle jobs deployed with validation and alerting.
@@ -45,4 +45,3 @@ Deliver the ingestion, governance, and presentation workflow for coupons and aff
 - [ ] `docs/runbooks/mission-moderation.md`, `docs/runbooks/feature-flags-operations.md`, and `docs/runbooks/background-jobs.md` updated with operating procedures and escalation steps.
 - [ ] Follow-up tasks filed for automation or partner-specific enhancements.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

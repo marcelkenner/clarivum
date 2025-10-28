@@ -18,6 +18,7 @@ Catch-all route group that renders Markdown from `docs/` using the Atrament docu
   filenames (respecting case) so deep links and the `/library` index stay in sync.
 - When adding MDX features, update `DocumentScreen` + `document-theme.css` so styling stays
   consistent with ADR-018 (brand) and the Atrament typography guidance.
+- `assertInternalDocsAccess()` hides this route in production unless `INTERNAL_DOCS_ALLOW=true`.
 
 ## Ops
 

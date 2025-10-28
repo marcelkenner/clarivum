@@ -11,7 +11,7 @@ collaborators:
   - QA Lead
 effort: medium
 created_at: 2025-10-21
-updated_at: 2025-10-21
+updated_at: 2025-10-28
 links:
   - docs/PRDs/first_steps.md#8
   - docs/runbooks/deployment.md
@@ -31,10 +31,10 @@ tags:
 Deliver an initial GitHub Actions pipeline that enforces linting, type checks, unit tests, and preview deployments so every merge meets the PTRD Section 8 quality bar.
 
 ## Definition of Ready
-- [ ] Target branch protections and required checks agreed with engineering leadership.
-- [ ] Tooling inventory confirmed (ESLint, TypeScript, Vitest, Playwright smoke, Terraform plans).
-- [ ] Secrets management approach for CI (Vercel tokens, Supabase service keys) documented.
-- [ ] Repository governance policy (`docs/policies/repository-governance.md`) reviewed to align required checks and branch rules.
+- [x] Branch protections locked: require checks `lint`, `typecheck`, `unit`, `playwright-smoke`, `build`, `terraform-plan` (infra diffs), `seo-guardrail`, `changeset-version`, 2 reviewers, signed commits/DCO, no force pushes, Codeowners for `infra/**`, `apps/web/**`, `packages/config/**`.
+- [x] CI tooling inventory chosen covering ESLint (flat), TypeScript `--noEmit`, Vitest (jsdom/node), Playwright smoke on preview, Terraform validate/plan, tflint, tfsec, `pnpm audit`, and weekly Snyk scan.
+- [x] Secrets strategy documented: favor provider GitHub Apps; scoped tokens stored in GitHub Environments per env, long-lived service keys in AWS Secrets Manager injected via OIDC-assumed role.
+- [x] Governance policy alignment complete—required checks and branch rules mapped to `docs/policies/repository-governance.md` expectations.
 
 ## Definition of Done
 - [ ] GitHub Actions workflows created for lint/type-check/unit-test/build and pull-request gating.

@@ -1,6 +1,6 @@
 # Tool Specification — Widżet Indeksu UV
 
-> **Canonical decision:** Implement on the shared tools runtime per `docs/adr/ADR-022-tools-and-calculators-platform.md`. Integrate weather data via Open-Meteo (`https://open-meteo.com/`) with caching and privacy guardrails described below.
+> **Canonical decision:** Implement on the shared tools runtime per `docs/adr/ADR-022-tools-and-calculators-platform.md`. Integrate weather data via Wttr.in (`https://wttr.in/`) with caching and privacy guardrails described below. Operational guardrails and copy sourcing live in `docs/adr/ADR-038-uv-widget-service-guardrails.md`.
 
 Poniższy dokument opisuje kompletne wymagania dla widżetu **Indeks UV + pogoda
 lokalna**, renderowanego w sekcji hero strony głównej i dostępnego jako moduł
@@ -34,10 +34,13 @@ w repozytorium narzędzi Clarivum.
 
 ## C) Definicje, dane i założenia
 
-* **Open-Meteo endpoints:** `https://api.open-meteo.com/v1/forecast` z
-  parametrami `latitude`, `longitude`, `current=uv_index&daily=uv_index_max`.
-* **Geokodowanie:** używamy `https://geocoding-api.open-meteo.com/v1/search`
-  dla ręcznego wyboru miasta (max 10 wyników, wspieraj PL/EN).
+* **Wttr.in endpoints:** `https://wttr.in/{lat},{lon}?format=j1` zwraca aktualny
+  i dzienny indeks UV oraz temperaturę w lekkim JSON-ie. Alternatywnie dla
+  nazw miast używamy `https://wttr.in/{city}?format=j1` (język określony przez
+  nagłówek `Accept-Language`).
+* **Geokodowanie:** wykorzystujemy `?format=j1` z nazwą miasta, a wyniki
+  normalizujemy lokalnie (max 10 wyników, wspieraj PL/EN; mapuj na strukturę
+  `CityCandidate`).
 * **Refresh window:** dane aktualizowane co 30 minut; wcześniejsze odpytywanie
   korzysta z cache (edge + local storage).
 * **Fallback coordinates:** Warszawa (52.2297, 21.0122) gdy użytkownik odmówi
@@ -62,13 +65,12 @@ w repozytorium narzędzi Clarivum.
 ### 2. Ręczny wybór miasta
 
 * Input `search_query` (min 2 znaki, max 60).
-* Request (server → Open-Meteo Geocoding):
+* Request (server → Wttr.in search endpoint):
 
 ```json
 {
-  "name": "Warsaw",
-  "count": 10,
-  "language": "pl"
+  "url": "https://wttr.in/Warsaw?format=j1&num_of_days=1",
+  "headers": {"Accept-Language": "pl"}
 }
 ```
 
@@ -94,7 +96,7 @@ w repozytorium narzędzi Clarivum.
 ```json
 {
   "city_label": "Warszawa, PL",
-  "source": "Open-Meteo",
+  "source": "Wttr.in",
   "observed_at": "2025-01-17T10:30:00Z",
   "uv_now": 5.3,
   "uv_max_today": 6.8,
@@ -134,7 +136,7 @@ w repozytorium narzędzi Clarivum.
 ### FR2 — Pobieranie i prezentacja danych
 
 * Po otrzymaniu współrzędnych front-end pyta własny endpoint
-  (`/api/tools/uv-widget`) → serwer łączy się z Open-Meteo.
+  (`/api/tools/uv-widget`) → serwer łączy się z Wttr.in.
 * W hero wyświetlamy: **UV teraz (liczba, kolor badge), nazwę miasta, status
   ryzyka, copy, linki skrótów**.
 * Jeśli API zwróci błąd → fallback tekst: „Nie możemy teraz pobrać danych. Skorzystaj
@@ -166,8 +168,9 @@ w repozytorium narzędzi Clarivum.
   light (bez ciężkich wizualizacji).
 * **Accessibility:** badge UV z kontrastem AA, aria-live dla komunikatów o
   błędach, focus management w modalu wyszukiwarki.
-* **Reliability:** Open-Meteo 99.5% SLA; nasze endpointy retry 3x z backoffem
-  300–1200 ms.
+* **Reliability:** Wttr.in to usługa best-effort; zakładamy ≥95% dostępności,
+  dlatego nasze endpointy retry 3x z backoffem 300–1200 ms i fallbackiem kopii
+  zapasowej.
 * **Security & Privacy:** Nie logujemy dokładnych współrzędnych; w analityce
   tylko `country_code` oraz `consent_status`. Zgoda na lokalizację przechowywana
   w `localStorage` (`uv_location_consent=true/false`).
@@ -179,7 +182,7 @@ w repozytorium narzędzi Clarivum.
 
 * **Internal:** Shared tools API layer, Strapi (copy), feature flag
   `tools.uv_widget.enabled`.
-* **External:** Open-Meteo Forecast + Geocoding API, browser Geolocation API.
+* **External:** Wttr.in Forecast + Location Search API, browser Geolocation API.
 * **Observability:** Logi w DataDog (`service=tools-uv-widget`), metryki czasów
   odpowiedzi, % fallbacków.
 

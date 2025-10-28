@@ -11,7 +11,7 @@ collaborators:
   - Marketing Partner
 effort: medium
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/recommendations/feature-requirements.md
   - docs/adr/ADR-025-recommendations-and-merchandising.md
@@ -30,10 +30,10 @@ tags:
 Build the service layer that combines Strapi curation, behavioral signals, and diagnostics outcomes to deliver personalized recommendations and affiliate merchandising across Clarivum surfaces.
 
 ## Definition of Ready
-- [ ] Confirm data contracts for Strapi collections, analytics feeds, and diagnostics outcomes.
-- [ ] Define affiliate compliance and attribution requirements with marketing/legal.
-- [ ] Align caching + edge strategies with frontend team.
-- [ ] Establish KPI dashboard and experimentation plan.
+- [x] Data contracts confirmed: Strapi collections `recommendation_slot`, `merch_rule`, Plausible-derived signals, diagnostics persisted to `rec_diagnostics`.
+- [x] Affiliate compliance defined: always render locale-specific disclosure with tracking params `utm_source=clarivum&utm_medium=affiliate&acs_id=<id>`.
+- [x] Caching and edge strategy aligned: server Upstash cache 300–900 s, edge SWR 60 s, purge on catalog update webhook.
+- [x] KPI/experimentation plan set: dashboards for CTR/RPM/attach rate with Flagsmith multivariate tests.
 
 ## Definition of Done
 - [ ] Recommendation API/service deployed with deterministic fallbacks and feature flags.
@@ -42,4 +42,3 @@ Build the service layer that combines Strapi curation, behavioral signals, and d
 - [ ] Documentation updated (PRD links, runbooks, experimentation guide).
 - [ ] Follow-up experiments and ML roadmap captured as tasks.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

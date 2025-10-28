@@ -5,6 +5,7 @@ Shared utilities for reading and indexing Markdown documents:
 - `fonts.ts` registers the Cormorant Garamond font used by the Atrament document styles.
 - `get-document.ts` reads a single Markdown file from `docs/`, `tasks/`, or `sisu-log/`.
 - `list-documents.ts` indexes all docs + caches metadata for the `/library` page.
+- `access.ts` exposes `assertInternalDocsAccess()` to hide routes in production by default.
 
 ## Guardrails
 
@@ -16,6 +17,7 @@ Shared utilities for reading and indexing Markdown documents:
 - Cache writes go to `.next/cache/clarivum`. Failing to write must never crash the server — always
   swallow errors after logging (if needed).
 - Fonts: if you change typography, sync with ADR-018 and update `src/styles/document-theme.css`.
+- Do not bypass `assertInternalDocsAccess()` without product/security approval.
 
 ## Checks
 
@@ -24,4 +26,4 @@ npm run lint:code -- src/lib/documents
 npm run typecheck
 ```
 
-Document any new helpers (e.g., Markdown sanitizers) here before exporting them.\*\*\* End Patch
+Document any new helpers (e.g., Markdown sanitizers) here before exporting them.

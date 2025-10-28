@@ -10,7 +10,7 @@ collaborators:
   - Security Lead
 effort: medium
 created_at: 2025-10-26
-updated_at: 2025-10-26
+updated_at: 2025-10-28
 links:
   - docs/adr/ADR-012-notification-experience-and-toasts.md
   - docs/architecture.md
@@ -30,10 +30,10 @@ tags:
 Deploy a self-hosted Novu stack on AWS ECS Fargate with MongoDB and Redis backends managed through Terraform. Ensure networking, IAM, secrets, and scaling policies meet Clarivum security and reliability requirements while keeping operations aligned with ADR-012.
 
 ## Definition of Ready
-- [ ] VPC/subnet placement and security group rules finalized with networking (load balancer, API, worker ingress/egress).
-- [ ] Datastore strategy confirmed (DocumentDB vs self-managed Mongo, Redis tier) with backup/restore policies approved.
-- [ ] Secrets catalog (Novu API keys, worker creds, SMTP integrations) approved in AWS Secrets Manager with rotation plan.
-- [ ] Logging and monitoring requirements locked (structured logs, metrics, alert destinations) with observability team.
+- [x] Networking finalized: Novu self-hosted on ECS in private subnets with public ALB, minimal security groups approved.
+- [x] Datastores chosen: MongoDB Atlas via PrivateLink plus Upstash Redis tier with backup policy and ownership confirmed.
+- [x] Secrets catalog defined: `/novu/<env>/{api_key,worker_creds,smtp_*}` in Secrets Manager with documented rotation.
+- [x] Logging/monitoring requirements locked: structured logs to CloudWatch, metrics into Grafana, alerts on queue lag and handler failures.
 
 ## Definition of Done
 - [ ] Terraform modules provision ECS services (API, worker), ALB, autoscaling targets, and task definitions with injected secrets.

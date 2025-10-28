@@ -11,7 +11,7 @@ collaborators:
   - Marketing Automation Lead
 effort: medium
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/ebooks/feature-requirements.md
   - docs/adr/ADR-024-ebooks-and-digital-products.md
@@ -30,10 +30,10 @@ tags:
 Implement the end-to-end ebook delivery flow—catalog metadata, purchase gating, entitlement storage, and signed URL fulfillment—so Clarivum can monetize and nurture leads with premium content.
 
 ## Definition of Ready
-- [ ] Content ingest strategy (Strapi models, asset storage, watermarking) agreed with content ops.
-- [ ] Checkout and entitlement requirements reviewed with payments and profile teams.
-- [ ] Email fulfillment templates aligned with marketing automation.
-- [ ] Legal/compliance checks for licensing, refunds, and data retention completed.
+- [x] Content ingest strategy finalized: Strapi models `ebook`, `edition`, `asset` using S3 (`public`/`private`) with on-demand watermarking (TSK-PLAT-027) and metadata for hash/version.
+- [x] Checkout/entitlement flow aligned: post-purchase webhook feeds Fulfillment Orchestrator (TSK-PLAT-042) to grant entitlements and queue email.
+- [x] Email templates defined: Novu templates `ebook_receipt` and `ebook_fulfillment`, localized and stage-previewable.
+- [x] Legal/compliance requirements documented: license terms stored per ebook, refund rules surfaced, fulfillment logs retained 365 days.
 
 ## Definition of Done
 - [ ] Strapi models + Supabase storage configured for ebooks with localization.
@@ -42,4 +42,3 @@ Implement the end-to-end ebook delivery flow—catalog metadata, purchase gating
 - [ ] Lifecycle notifications and profile access paths operational.
 - [ ] Documentation updated (PRD notes, runbooks, support SOP).
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

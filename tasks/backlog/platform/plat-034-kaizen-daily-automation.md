@@ -10,7 +10,7 @@ collaborators:
   - Analytics Lead
 effort: small
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/observability/feature-requirements.md
   - docs/adr/ADR-016-ci-cd-platform.md
@@ -30,10 +30,10 @@ tags:
 Ship a GitHub Actions workflow that opens the daily Kaizen Minute issue on weekdays, avoiding duplicates and tagging the right owners so the team can reliably capture slowdowns and guardrails without manual coordination.
 
 ## Definition of Ready
-- [ ] Schedule and ownership confirmed (weekdays 09:00 team timezone, Platform owns, backup owner named).
-- [ ] Issue template and labels finalized (Kaizen Minute template, `kaizen-daily` label, checklist fields) from `docs/AGENTS.md`.
-- [ ] Permissions scoped (GitHub OIDC workflow with `issues: write`, no PAT usage).
-- [ ] Failure alert plan defined (Slack webhook on failure, retry logic, dry-run validated).
+- [x] Schedule/ownership set: weekdays 09:00 team timezone with Platform as primary and named backup.
+- [x] Issue template/labels finalized: reuse `Kaizen Minute` template with `kaizen-daily` label and required fields.
+- [x] Permissions scoped: GitHub Actions via OIDC with `issues:write`, avoiding PATs.
+- [x] Failure alerts planned: Slack webhook notifications, retry with jitter, dry-run validated.
 
 ## Definition of Done
 - [ ] Workflow committed under `.github/workflows/kaizen-daily.yml` with schedule + manual trigger, using configuration from playbook.

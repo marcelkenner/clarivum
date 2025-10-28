@@ -81,7 +81,7 @@ They are sized for ~360–400 px mobile viewports and cover the core states requ
 │   └──────────────┘   {{risk_copy}}           │
 │                                              │
 │   UV max dziś: 6.8                           │
-│   Źródło: Open‑Meteo                         │
+│   Źródło: Wttr.in                            │
 │   Ostatnia akt.: 10:30  ⏱ Auto: 29:12        │
 │                                              │
 │  [Kalkulator dawki SPF]  [Timer reaplikacji] │
@@ -116,7 +116,7 @@ Bindings:
 │   └──────────────┘   Nałóż SPF 50 co 2h.     │
 │                                              │
 │   UV max dziś: 4.9                           │
-│   Źródło: Open‑Meteo                         │
+│   Źródło: Wttr.in                            │
 │                                              │
 │  [Kalkulator dawki SPF]  [Timer reaplikacji] │
 │                                              │
@@ -188,7 +188,7 @@ Bindings:
 │                      SPF 50+, kapelusz, cień.│
 │                                              │
 │   UV max dziś: 12.0+                          │
-│   Źródło: Open‑Meteo                         │
+│   Źródło: Wttr.in                            │
 │                                              │
 │  [Kalkulator dawki SPF]  [Timer reaplikacji] │
 │                                              │
@@ -228,7 +228,7 @@ Bindings:
 │   └──────────────┘   Apply SPF 50 every 2h.   │
 │                                              │
 │   UV max today: 7.1                           │
-│   Source: Open‑Meteo                          │
+│   Source: Wttr.in                             │
 │                                              │
 │  [SPF dose calculator] [Reapplication timer]  │
 │                                              │
@@ -264,7 +264,7 @@ Bindings:
 
 1. **Bindings:**
 
-   * `{{uv_now}}`, `{{uv_max_today}}`, `{{risk_level}}`, `{{risk_copy}}`, `{{city_label}}`, `{{observed_at}}`, `{{source}}="Open‑Meteo"`, `{{fallback.is_fallback_city}}`, `{{fallback.message}}`.
+   * `{{uv_now}}`, `{{uv_max_today}}`, `{{risk_level}}`, `{{risk_copy}}`, `{{city_label}}`, `{{observed_at}}`, `{{source}}="Wttr.in"`, `{{fallback.is_fallback_city}}`, `{{fallback.message}}`.
 2. **WHO color map → badge token:**
 
    * low→`[GRN]`, moderate→`[YEL]`, high→`[ORG]`, very_high→`[RED]`, extreme→`[PUR]`.

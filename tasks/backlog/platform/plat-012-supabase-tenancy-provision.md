@@ -9,7 +9,7 @@ collaborators:
   - Backend Lead
 effort: medium
 created_at: 2025-10-25
-updated_at: 2025-10-25
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/supabase-platform/feature-requirements.md
   - docs/PRDs/technology-stack-catalog.md
@@ -30,10 +30,10 @@ tags:
 Provision Supabase projects for dev and prod, configure storage buckets, and distribute service credentials through secrets management so the Clarivum app, Strapi, and background jobs can rely on an EU-hosted data backbone.
 
 ## Definition of Ready
-- [ ] Inventory required Supabase projects, organizations, and add-on services with architecture lead.
-- [ ] Confirm Terraform module boundaries from `TSK-PLAT-001` and required outputs for dependent services.
-- [ ] Align secrets management flow (AWS Secrets Manager naming, CI integration) with security baseline.
-- [ ] Capture storage bucket structure and retention requirements from product and content stakeholders.
+- [x] Supabase project inventory set: per-environment projects with add-ons `pg_cron`, storage, functions.
+- [x] Terraform module boundaries defined: modules `supabase_project`, `supabase_bucket` emitting anon/service_role keys and DB URL for downstream use.
+- [x] Secrets flow confirmed: names `/clarivum/supabase/<env>/{anon_key|service_role|db_url}` with CI limited to dev anon key.
+- [x] Bucket structure/retention captured: `ebooks-public` (signed URLs limited) and `ebooks-private` (signed only) with 180d infrequent access and 365d glacier lifecycle.
 
 ## Definition of Done
 - [ ] Supabase dev/prod projects created with Postgres 16, Storage buckets, and PITR enabled per ADR-001.
@@ -42,4 +42,3 @@ Provision Supabase projects for dev and prod, configure storage buckets, and dis
 - [ ] Connectivity validated from Next.js dev environment and Strapi webhooks using limited-scope keys.
 - [ ] Follow-up tickets logged for schema migration automation and monitoring dashboards.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

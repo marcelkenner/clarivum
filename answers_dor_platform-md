@@ -1,0 +1,457 @@
+Below are **concrete, best‑practice decisions for every Definition of Ready (DoR)** in your platform backlog and ready lists. I’ve first locked a small set of **global conventions** so the per‑task answers are consistent; then I go A→Z task‑by‑task and **answer every checklist item with a specific decision** you can paste into the ticket.
+
+
+---
+
+## Global conventions (apply to every task)
+
+* **Environments & accounts**: `dev`, `stage`, `prod` in **separate AWS accounts**, primary region **eu‑central‑1** (GDPR‑friendly), DR region **eu‑west‑1** (critical data only).
+* **Naming & tags**: resources prefixed `clarivum-<svc>-<env>`; required tags: `Project=Clarivum`, `Service`, `Env`, `Owner`, `CostCenter`, `DataClass`, `ManagedBy=Terraform`, `Repo`.
+* **Secrets**: AWS Secrets Manager paths `/clarivum/<service>/<env>/<name>`; non‑secret config in SSM Parameter Store `/clarivum/<service>/<env>/<name>`. Rotation: 90 days unless provider shorter.
+* **CI identity**: GitHub Actions → AWS via **OIDC**; *no* PATs; repo‑level GitHub Environments for `dev|stage|prod` with required reviewers.
+* **Branching & PRs**: trunk‑based (`main`), feature branches `feat/*`, hotfix `hotfix/*`. Require: 2 approvals (1 for docs only), up‑to‑date branch, Codeowners review for protected paths, passing required checks, conversation resolved.
+* **Observability**: OpenTelemetry where supported; logs to CloudWatch (30d), metrics to CloudWatch + Grafana Cloud, traces to X‑Ray (runtime) and Grafana Tempo (future). Alerts via Grafana → PagerDuty + Slack #ops‑alerts.
+* **Data & privacy**: consent managed with **Klaro** buckets (`essential`, `analytics`, `marketing`). Analytics default **Plausible** with first‑party domain `analytics.clarivum.com`. PII minimized; 365‑day audit retention unless stricter legal policy applies.
+* **Feature flags**: **Flagsmith** projects per env; `server` and `client` keys separated; naming `svc.flag_name` with metadata: owner, expires_on, ticket.
+* **Caching**: **Upstash Redis** for server caches and rate limits; default cache TTL 300s unless stated; SWR at edge.
+* **Payments**: **Stripe** base; **Przelewy24** via Stripe + direct API for local rails where required; wallets via Stripe (Apple Pay / Google Pay).
+* **Docs**: decisions captured in `/docs/adr/ADR-xxx.md`; runbooks under `/runbooks/<service>.md`.
+
+---
+
+## Backlog
+
+### **TSK‑PLAT‑001 – Establish Terraform Infrastructure Repository**
+
+* **Align repo strategy** → **Decision**: dedicated repo `clarivum-infra` (no submodule). Structure:
+
+  * `/modules/*` (versioned, re‑usable), `/stacks/<env>/*` (account/region stacks), `/providers/*` (common providers), `/pipelines/*` (GH Actions). Rationale: clear blast radius, faster plans, simpler permissions.
+* **Inventory required resources/parameters** → **Decision**: VPC, subnets, route tables, NAT; ECR; ECS/Fargate; RDS (Postgres); S3 (assets, state, logs); CloudFront; KMS (state, DB, S3); Secrets Manager; SQS/SNS; SES; CloudWatch+X‑Ray; IAM roles/policies; WAF; API Gateway (if needed), Lambda for glue, VPC endpoints; Route53 zones; Upstash/Meilisearch/Mongo Atlas data sources tracked as external data; budgets + cost alerts. Inputs captured per stack in `stacks/<env>/inputs.tfvars`.
+* **Remote state & workspaces** → **Decision**: Terraform backend **S3 + DynamoDB lock** (`clarivum-tf-state-<account>`, table `clarivum-tf-locks`), SSE‑KMS. Workspaces map to envs (`dev|stage|prod`). State keys: `platform/<workspace>/terraform.tfstate`.
+* **CI tooling & secrets** → **Decision**: GH Actions jobs `tf-validate`, `tf-plan`, `tf-apply` (manual). Steps: `terraform fmt -check`, `init -backend-config-from-env`, `validate`, `tflint`, `tfsec` (or Checkov), `plan -out plan.bin`. Auth via OIDC role `TerraformDeployer`. No cloud creds stored; Slack webhook secret for plan summary.
+
+---
+
+### **TSK‑PLAT‑004 – Stand Up CI/CD Quality Gates**
+
+* **Branch protections & required checks** → **Decision**: on all app repos enable: `lint`, `typecheck`, `unit`, `playwright-smoke`, `build`, `terraform-plan` (if `infra/` touched), `seo-guardrail` (TSK‑PLAT‑050), `changeset-version` (if lib). Require 2 reviewers; disallow force‑push; require signed commits or DCO; status checks must pass; require codeowner review for `infra/**`, `apps/web/**`, `packages/config/**`.
+* **Tooling inventory** → **Decision**: ESLint (flat config), TypeScript `--noEmit`, Vitest (jsdom + node), Playwright (smoke against Preview), Terraform validate/plan (if infra diff), tflint, tfsec, `pnpm audit` (low‑noise policy), Snyk scheduled scan (weekly).
+* **CI secrets management** → **Decision**: Prefer provider apps (Vercel GitHub App, Stripe GitHub App). Where tokens required: place *scoped* dev/stage tokens in **GitHub Environments**; long‑lived service keys (e.g., Supabase anon/service_role for tests) live in **AWS Secrets Manager** and are injected at runtime via OIDC‑assumed AWS creds.
+* **Repo governance policy alignment** → **Decision**: cross‑checked—required checks map to `docs/policies/repository-governance.md`; exceptions require `#platform` approval and a temporary bypass label with auto‑expire (7 days).
+
+---
+
+### **TSK‑PLAT‑005 – Implement Product Analytics Platform**
+
+* **Plausible projects & domains** → **Decision**: projects per env with custom domain `analytics.clarivum.com` (CNAME to Plausible); script `script.js` via first‑party. Service accounts: `plausible-server-{env}` with server‑only keys in Secrets Manager.
+* **Event catalogue & consent scope** → **Decision**: namespaces: `entitlement.*`, `checkout.*`, `wallet.*`, `search.*`, `content.*`. Required props: `event_version`, `user_id` (hashed), `session_id`, `route`, `locale`, `plan_id` (if any), `consent_bucket`. Consent: only send analytics when `analytics=true` in Klaro; marketing events additionally require `marketing=true`.
+* **SDK rollout plan** → **Decision**: `@clarivum/analytics` wrapper with runtime guards (consent, sampling), queue + retry, dry‑run in `dev`. Sampling: `dev=50%`, `stage=100%`, `prod=100%` (non‑PII).
+* **QA/alerting/warehouse** → **Decision**: QA checklist (event shape/type tests, consent gates, locale payloads). Volume‑drop alert: 30‑minute moving count vs. 7‑day baseline (threshold −40%) to #analytics‑alerts. Nightly export to S3 `s3://clarivum-analytics-raw/` as NDJSON, cataloged in Glue/Athena.
+
+---
+
+### **TSK‑PLAT‑006 – Orchestrate Subscription & Membership Platform**
+
+* **Product catalog & plan rules** → **Decision**: Plans: `Member` (free), `Subscriber` (monthly/yearly), `Ebook Bundle` (one‑time), `Gift` (one‑time). Trials: 14‑day on `Subscriber`. Proration: Stripe default; discounts via Stripe coupons & promotion codes; vouchers: internal “mission coupon” table with single‑use + expiry; gift: email claim token to recipient.
+* **Supabase schema & idempotency** → **Decision**: tables: `subscriptions`, `invoices`, `payments`, `entitlements`, `claims`, `webhook_events`. Idempotency keys: `SUBS:<cust_id>:<action>:<ts>` stored in `webhook_events(idempotency_key unique)`. All writes behind `security definer` RPCs.
+* **Legal & compliance** → **Decision**: VAT via Stripe tax; ToS/consent snapshots persisted in `consent_acceptances(user_id, document_version, ts, ip)`. Refund policy: 14 days digital content exceptions documented; chargeback playbook in runbook.
+* **Checkout UX** → **Decision**: Happy path Stripe Checkout; 3DS fallback handled by Stripe; error recovery with retry & alternate method CTA; receipt emails through SES (via Novu). Templates stored in Novu & Strapi (content blocks).
+* **Wallet scope** → **Decision**: **post‑MVP behind Flagsmith** (`wallets.enabled`, `wallets.apple`, `wallets.google`). See TSK‑PLAT‑032/033.
+
+---
+
+### **TSK‑PLAT‑007 – Build Customer Account Center Service**
+
+* **Data contracts** → **Decision**: Read models (`AccountOverview`) aggregate: subscriptions (Stripe→Supabase), diagnostics (Ops Hub), recommendations (engine), mailing prefs (Listmonk). API returns typed DTOs; versioned `v1`.
+* **Security review** → **Decision**: Enforce re‑auth (Auth0 `max_age` + `prompt=login`) for sensitive actions; MFA required for password/email change and payment methods; scheduled review with Security on record (owner: Platform Lead).
+* **UX flows** → **Decision**: Align with component library; flows: profile edit, password reset, billing portal, downloads, data export/delete (GDPR).
+* **API backlog & schema** → **Decision**: Endpoints drafted: `GET /me`, `GET /me/subscriptions`, `POST /me/export`, `POST /me/delete`, `GET /me/downloads`. Supabase migrations: `mailing_preferences`, `entitlement_views`.
+
+---
+
+### **TSK‑PLAT‑008 – Ship Ebooks Delivery & Entitlement Pipeline**
+
+* **Content ingest strategy** → **Decision**: Strapi models `ebook`, `edition`, `asset` with S3 storage (`public` vs `private`). Watermarking on demand (TSK‑PLAT‑027). Use S3 object metadata for hash/version; optional DRM watermark string only (no heavy DRM).
+* **Checkout & entitlement** → **Decision**: Post‑purchase webhook → Fulfillment Orchestrator (TSK‑PLAT‑042) to grant entitlements and enqueue email.
+* **Email templates** → **Decision**: Novu templates: `ebook_receipt`, `ebook_fulfillment`, localized, previewable in stage.
+* **Legal/compliance** → **Decision**: license terms stored per ebook; refund rules surfaced; data retention of fulfillment logs 365d.
+
+---
+
+### **TSK‑PLAT‑009 – Launch Recommendations & Merchandising Engine**
+
+* **Data contracts** → **Decision**: Strapi collections `recommendation_slot`, `merch_rule`. Analytics feeds from Plausible → derived signals (popularity/freshness). Diagnostics outcomes persisted to `rec_diagnostics`.
+* **Affiliate compliance** → **Decision**: Always render disclosure (“As an Amazon Associate…” etc.) with locale variants; click tracking includes `utm_source=clarivum&utm_medium=affiliate&acs_id=<id>`.
+* **Caching & edge** → **Decision**: server‑side cache (Upstash) 300–900s; edge SWR 60s; purge on catalog update webhook.
+* **KPI & experimentation** → **Decision**: dashboard charts (CTR, RPM, attach rate); A/B via Flagsmith multivariate.
+
+---
+
+### **TSK‑PLAT‑010 – Build Coupons & Affiliate Incentives Platform**
+
+* **Catalog** → **Decision**: automated partner feeds (CSV/JSON/S3) + manual upload in Strapi with validation; compliance copy fields required (disclosure, terms).
+* **Supabase schema & retention** → **Decision**: `coupons`, `affiliate_offers`, `redemptions` (PII minimal). Retention: 365d for redemption logs.
+* **CTA/UI & analytics** → **Decision**: use component library; analytics events `coupon.view`, `coupon.apply`, `coupon.redeem`.
+* **Legal review** → **Decision**: schedule with Legal; one‑liner approval text prepared.
+
+---
+
+### **TSK‑PLAT‑011 – Operationalize Security & Compliance Baseline**
+
+* **Inventory** → **Decision**: auth (Auth0), Supabase, Strapi, analytics (Plausible), CI/CD, Ops Hub, UV widget, payments, SES, Listmonk, Novu, Meilisearch, Redis.
+* **IR/VM/secrets policies** → **Decision**: incident response oncall ladder; monthly vuln scan (Snyk + Dependabot), critical SLA 7d; secrets rotation 90d; least privilege enforced.
+* **Exercises** → **Decision**: tabletop quarterly; control validation monthly (sampled).
+* **Tooling & ownership** → **Decision**: Snyk (Owner: Sec), OWASP ZAP nightly (low‑noise), Audit scripts in CI. RACI documented.
+
+---
+
+### **TSK‑PLAT‑012 – Provision Supabase Tenancy & Environment Secrets**
+
+* **Inventory projects** → **Decision**: Supabase projects per env; add‑ons: pg_cron, storage, functions.
+* **Terraform boundaries** → **Decision**: modules: `supabase_project`, `supabase_bucket`, outputs: anon/service_role keys, DB URL (written to Secrets Manager).
+* **Secrets flow** → **Decision**: names `/clarivum/supabase/<env>/{anon_key|service_role|db_url}`; CI pulls *dev* anon key only.
+* **Bucket structure & retention** → **Decision**: buckets: `ebooks-public` (public, signed URLs limited), `ebooks-private` (signed only). Lifecycle: infrequent access after 180d, glacier after 365d.
+
+---
+
+### **TSK‑PLAT‑013 – Configure Auth0 Tenancy & Access Policies**
+
+* **Application inventory & callbacks** → **Decision**: Apps: `web-app`, `strapi-admin`, `ops-hub`, `cli-tools`. Callback/logout URLs per env under `*.clarivum.com`.
+* **Branding/localization/legal** → **Decision**: Universal Login with brand theme, locales `en`, `pl`; legal copy links ToS/Privacy.
+* **Roles/permissions & audit** → **Decision**: roles: `member`, `subscriber`, `admin`, `reviewer`. Permissions scoped to APIs (`ops:read`, `ops:write`, `catalog:manage`, etc.). Auth0 logs shipped to CloudWatch via log stream.
+* **Budget & plan tier** → **Decision**: **Auth0 Business** (Enterprise if SAML/B2B required). Est. cost envelope noted; Approver: Finance lead. *Approval text provided in ticket.*
+
+---
+
+### **TSK‑PLAT‑014 – Stand Up Flagsmith Environments & Governance**
+
+* **Flag naming/metadata/sunset** → **Decision**: `service.flag_name` with metadata `{owner, created_on, expires_on, ticket}`. Sunset: review at 30/60/90 days; stale flags auto‑alert weekly (TSK‑PLAT‑002).
+* **Integrations** → **Decision**: Next.js (server + client), background jobs, Strapi webhooks. Use server keys only server‑side.
+* **Alerting** → **Decision**: weekly stale report to #product‑ops + automatic PR to delete stale flags after 90d.
+* **Secrets handling** → **Decision**: server keys in Secrets Manager; client keys in public env files with read‑only scope.
+
+---
+
+### **TSK‑PLAT‑015 – Provision Upstash Redis for Caching & Rate Limiting**
+
+* **Namespaces/TTL/throughput** → **Decision**: DBs: `clarivum-cache`, `clarivum-guardrails`. Defaults: cache TTL 300–900s; rate: 10 req/s per IP per endpoint (UV widget stricter).
+* **Provisioning flow** → **Decision**: Terraform provider for Upstash; or console bootstrap then import. Depends on TSK‑PLAT‑001.
+* **Monitoring** → **Decision**: Upstash metrics → Grafana via Prometheus exporter; alerts on saturation/latency.
+* **Fallback** → **Decision**: if Redis unavailable: bypass cache (serve live) or `safe default` with circuit breaker.
+
+---
+
+### **TSK‑PLAT‑016 – Deploy Meilisearch Search Service**
+
+* **Index schema & ranking** → **Decision**: searchable: `title`, `subtitle`, `author`, `tags`, `body_excerpt`; filterable: `locale`, `category`, `publish_date`; custom ranking: freshness (publish_date desc) then popularity.
+* **Ingestion & credentials** → **Decision**: Strapi webhooks + nightly backfill worker. Keys rotated quarterly; workers in private subnets; IP allowlist.
+* **Tenancy & sizing** → **Decision**: ECS Fargate service (or Meilisearch Cloud if preferred), t3.medium equiv, EBS gp3 100GB, autoscale on QPS; cost alerts set.
+* **Fallback** → **Decision**: “No search” UX + curated links; feature flag to disable search gracefully.
+
+---
+
+### **TSK‑PLAT‑017 – Establish Grafana Observability Stack**
+
+* **Hosting & budget** → **Decision**: **Grafana Cloud** Pro; logs from CloudWatch via data source; traces optional via Tempo agent; budget owner: Ops.
+* **Telemetry schema** → **Decision**: standard span naming `svc.op` with attributes `env`, `route`, `user_anonymous`; retention aligned to 30/90/365 (logs/metrics/traces).
+* **Integrations** → **Decision**: Next.js (OTEL auto‑instr), Lambda workers (OTEL), Strapi (middleware), ECS FireLens.
+* **Alert routing** → **Decision**: severity P1 PagerDuty, P2 Slack+email; documented escalation tree.
+
+---
+
+### **TSK‑PLAT‑018 – Implement PDF & EPUB Generation Pipeline**
+
+* **ADR‑024 review** → **Decision**: dual‑path: headless browser (PDF) + `epub` generator from Markdown; ADR appended with constraints.
+* **Source content** → **Decision**: Strapi fields normalized; Markdown conventions documented (front‑matter, image alt, code blocks).
+* **Hosting constraints** → **Decision**: headless workloads on Fargate with ephemeral storage 2–4GB; concurrency guarded.
+* **Accessibility QA** → **Decision**: checklist (headings order, landmarks, contrast for images, tags in PDF/EPUB), tooling `axe-core` and `pdfa` checks.
+
+---
+
+### **TSK‑PLAT‑019 – Build Wttr.in UV Widget Service Layer**
+
+* **Legal sign‑off** → **Decision**: usage subject to Wttr.in terms; rate‑limit & attribution required; sign‑off text prepared in ADR.
+* **Env & secrets** → **Decision**: `UV_API_BASE`, `TIMEOUT_MS`, `CACHE_TTL`, optional `API_KEY`; stored in Secrets Manager.
+* **Strapi risk‑copy model** → **Decision**: localized entries (`en`, `pl`) for risk levels low→extreme with disclaimers + CTA metadata.
+* **Observability** → **Decision**: capture request timing, upstream codes, fallback counts; alert on upstream 5xx >2% / 5 min.
+
+---
+
+### **TSK‑PLAT‑023 – Provision Novu Notification Platform**
+
+* **Networking** → **Decision**: self‑host Novu on ECS. VPC private subnets; ALB public; SG rules minimal.
+* **Datastores** → **Decision**: **MongoDB Atlas** (PrivateLink) for compatibility + backup policy; **Upstash Redis** tier for jobs.
+* **Secrets catalog** → **Decision**: `/novu/<env>/{api_key,worker_creds,smtp_*}` in Secrets Manager; rotation plan documented.
+* **Logging/monitoring** → **Decision**: structured logs to CloudWatch; Novu metrics to Grafana; alerts on queue lag and handler failures.
+
+---
+
+### **TSK‑PLAT‑024 – Implement Novu CI/CD & Governance**
+
+* **Workflow export & storage** → **Decision**: versioned JSON in repo `/novu/workflows/<name>.json`; PR review required.
+* **Environment schema** → **Decision**: `dev|stage|prod` parity; naming `topic:<domain>`, `tmpl:<purpose>`; promotion via tags.
+* **Sample workflows** → **Decision**: `welcome_email`, `reset_password`, `receipt`; rendering tests using snapshot HTML.
+* **Telemetry contract** → **Decision**: push delivery outcomes to analytics via webhook; include `workflow_id`, `template_version`, `delivery_status`.
+
+---
+
+### **TSK‑PLAT‑025 – Automate Consent Enforcement Tests**
+
+* **Klaro config** → **Decision**: buckets as above; per‑service `purposes` mapped; served from first‑party.
+* **Flagsmith trait mapping** → **Decision**: traits `consent_analytics`, `consent_marketing`.
+* **Playwright env** → **Decision**: `CONSENT_TEST=true`, set cookies to simulate each consent matrix; verify no beacons when disallowed.
+
+---
+
+### **TSK‑PLAT‑026 – Validate Subscription Trial Reminder Flow**
+
+* **Stripe trial config** → **Decision**: 14‑day on `Subscriber` in Stripe test mode.
+* **Novu workflows** → **Decision**: templates `trial_T-3`, `trial_T-1`; IDs recorded in ticket.
+* **Seed test customers** → **Decision**: script seeds 3 cohorts (opt‑in/out, converted). QA matrix attached.
+
+---
+
+### **TSK‑PLAT‑027 – Implement Personalized Ebook Watermarking**
+
+* **Copy approved & stored** → **Decision**: watermark string: name+email+order id+timestamp; stored in Strapi content entry with version.
+* **PDF pipeline arch** → **Decision**: shared renderer from ADR‑024; inject watermark layer with opacity; reuse mission coupon shared libs.
+* **Supabase schema** → **Decision**: `watermark_logs(user_id, asset_id, ts, hash)`.
+
+---
+
+### **TSK‑PLAT‑028 – Deploy Request Security Controls**
+
+* **Country denylist & exceptions** → **Decision**: start with high‑risk list; exception workflow via Flagsmith trait + Ops approval. Owners: Sec + Support.
+* **Honeypot field naming** → **Decision**: randomized via server‑generated name per session (`hp_<rand>`), consistent with design system.
+* **Observability criteria** → **Decision**: metrics for hits, blocks, false positives; dashboard + alerts.
+* **Feature flags** → **Decision**: `request-security`, `honeypot-validation` created; staged rollout plan set.
+* **Sequence diagram** → **Decision**: diagram in ADR‑030 (`docs/adr/030-request-security-seq.drawio`).
+* **Legal/support messaging** → **Decision**: localized copy prepared; support macro created.
+
+---
+
+### **TSK‑PLAT‑029 – Provision Listmonk Messaging Infrastructure**
+
+* **Environments & throughput** → **Decision**: `dev`, `prod`; target throughput 50k/hr; concurrency tuned accordingly.
+* **Infra blueprint** → **Decision**: ECS service behind ALB; VPC private app + data subnets; security groups least‑privilege; leverages TSK‑PLAT‑001 standards.
+* **PostgreSQL** → **Decision**: RDS Postgres, multi‑AZ, 7‑day PITR; snapshot retention 35d; sizing `db.t4g.medium` start.
+* **Secrets** → **Decision**: SMTP creds, admin users, API tokens in Secrets Manager with rotation.
+* **Monitoring** → **Decision**: delivery metrics, bounce rates; alerts for backlog, 5xx.
+
+---
+
+### **TSK‑PLAT‑030 – Configure Amazon SES Tenancy & Deliverability Guardrails**
+
+* **Domains & DKIM/SPF** → **Decision**: `clarivum.com` and `mail.clarivum.com`; DKIM enabled; SPF via Route53; DMARC `p=quarantine` initially.
+* **Bounce/complaint pipeline** → **Decision**: SNS → SQS → Lambda writer to `ses_events` table for audits.
+* **Budget & rate limits** → **Decision**: request production access with target volume; cost & rate cap noted.
+* **IAM & secrets** → **Decision**: scoped IAM roles; creds in Secrets Manager; CI distributes only templating tokens.
+* **Monitoring** → **Decision**: dashboards for bounce, complaint, delivery; alert thresholds set.
+
+---
+
+### **TSK‑PLAT‑031 – Integrate Przelewy24 Payment Rail**
+
+* **Merchant onboarding** → **Decision**: checklist of contracts, sandbox creds, settlement accounts; owner Finance.
+* **API flows mapping** → **Decision**: map checkout/refund/chargeback to subscription scenarios; errors normalized to Stripe codes where feasible.
+* **Webhooks & retries** → **Decision**: webhook infra shares TSK‑PLAT‑006 idempotency; retries with exponential backoff; observability in place.
+* **QA matrix** → **Decision**: sandbox data and manual regression; edge cases documented.
+* **Compliance** → **Decision**: receipts formatting, dispute timelines, retention documented.
+
+---
+
+### **TSK‑PLAT‑032 – Enable Google Pay Wallet Support**
+
+* **Supported countries & currency** → **Decision**: initial: PL, EU; base currency PLN. Branding assets from Marketing.
+* **Stripe dashboard config** → **Decision**: enable Google Pay; verify domain; security approval recorded.
+* **Fallback reqs** → **Decision**: fallback to P24 if wallet fails; tracked via analytics.
+* **QA test matrix** → **Decision**: desktop Chrome + Android Chrome; simulators identified; key edge cases included.
+* **Telemetry** → **Decision**: `wallet.start`, `wallet.success`, `wallet.cancel`, `wallet.error`.
+
+---
+
+### **TSK‑PLAT‑033 – Enable Apple Pay Wallet Support**
+
+* **Storefront domains & TLS** → **Decision**: verify domains with Apple; TLS 1.2+.
+* **Merchant ID & certificates** → **Decision**: collect Merchant ID, Payment Processing cert; store references in Secrets Manager; legal/security approved.
+* **Frontend placement & copy** → **Decision**: component library placement; clear alternative path if unavailable.
+* **QA plan** → **Decision**: Safari desktop + mobile; fallback to card entry.
+* **Analytics** → **Decision**: events `wallet.apple.click`, `authorization`, `decline`.
+
+---
+
+### **TSK‑PLAT‑034 – Automate Kaizen Daily Issue Ritual**
+
+* **Schedule & ownership** → **Decision**: weekdays 09:00 team TZ; primary owner Platform; backup named.
+* **Template & labels** → **Decision**: `Kaizen Minute` template; label `kaizen-daily`; fields included.
+* **Permissions** → **Decision**: GH OIDC workflow with `issues:write`; no PAT.
+* **Failure alerts** → **Decision**: Slack webhook; retry with jitter; dry‑run validated.
+
+---
+
+### **TSK‑PLAT‑035 – Enforce Sisu Guardrail Checks on Bug Fix PRs**
+
+* **Enforcement rules** → **Decision**: PRs labeled `bug` must include Sisu incident/bug ID and guardrail follow‑up link; failing test/metric link required.
+* **Regex link formats** → **Decision**: documented regexes for validation.
+* **Workflow permissions** → **Decision**: `checks:write`, `pull-requests:write` via OIDC; least privilege.
+* **Comms/monitoring** → **Decision**: playbook updated; announcement post drafted; weekly bypass report owners set.
+
+---
+
+### **TSK‑PLAT‑036 – Schedule Monthly Forest Day Automation**
+
+* **Cadence & reviewers** → **Decision**: first Friday monthly; fixed reviewer list; checklist format approved.
+* **Template & labels** → **Decision**: label `forest-day`; checklist includes cleanup/dependency/flag cleanup items.
+* **Notifications** → **Decision**: Slack reminder −48h and summary after; owners named.
+* **Permissions & secrets** → **Decision**: GH OIDC for issue creation; secrets configured.
+* **Announcement** → **Decision**: calendar invite + team post draft prepared.
+
+---
+
+### **TSK‑PLAT‑037 – Automate Engineering Flow & Quality Metrics Snapshots**
+
+* **Metric definitions & sources** → **Decision**: DORA 4 (lead time, deploy freq, MTTR, change failure rate). Sources: GitHub, CI, incident logs.
+* **Retention & access** → **Decision**: 12‑month history; dashboards RBAC via Grafana.
+* **Credentials** → **Decision**: GitHub App installs + OIDC; no PATs.
+* **Hosting & alerts** → **Decision**: daily job writes to S3 + Grafana; failures alert to Platform.
+* **Anomaly verification** → **Decision**: playbook to confirm spikes before paging.
+
+---
+
+### **TSK‑PLAT‑038 – Stand Up Clarivum Operations Hub Foundation**
+
+* **Auth0 roles → Ops Hub perms** → **Decision**: map admin with MFA enforced; session lifetime documented.
+* **Supabase schema changes** → **Decision**: `integrations`, `jobs`, `audit` tables; migrations drafted with governance.
+* **Env vars & secrets** → **Decision**: cataloged per env, stored in Secrets Manager, mirrored in `.env.example`.
+* **ADR‑031 walkthrough** → **Decision**: completed; decisions and open questions logged.
+* **Flagsmith service keys** → **Decision**: provisioned per env; restricted access; rotation plan.
+
+---
+
+### **TSK‑PLAT‑039 – Integrate Core Systems into Operations Hub**
+
+* **API scopes/limits/sandbox** → **Decision**: each vendor documented; creds in Secrets Manager.
+* **Cache models & TTLs** → **Decision**: endpoint‑specific TTLs + cache bust rules; safe SWR paths noted.
+* **MVP views/actions** → **Decision**: agreed set with Finance/Marketing/Support; wireframes linked.
+* **Sandbox/contract tests** → **Decision**: mock servers + record/replay fixtures in E2E.
+* **Security review** → **Decision**: scheduled with DFD covering input validation, logging, least privilege.
+
+---
+
+### **TSK‑PLAT‑040 – Instrument Operations Hub Observability & Compliance**
+
+* **SLO targets** → **Decision**: availability 99.9%, p95 API ≤400 ms; alert policies + paging tree documented.
+* **Telemetry schema** → **Decision**: finalized spans/events + PII handling; shared with analytics.
+* **Audit export pipeline** → **Decision**: daily export to S3; 365‑day retention; access controls assigned.
+* **Tokens verified** → **Decision**: Grafana, Slack, email tokens tested E2E; rotation in runbook.
+* **Naming conventions** → **Decision**: aligned with analytics taxonomy.
+
+---
+
+### **TSK‑PLAT‑041 – Implement Guest Purchase Claim Workflow**
+
+* **Schema** → **Decision**: `claims` table with status history + indices; links guest purchase → email + claim token.
+* **Auth0 templates** → **Decision**: email templates and branding approved by Marketing.
+* **Reminder cadence** → **Decision**: T+24h and T+7d; opt‑out path documented.
+* **Analytics events** → **Decision**: `entitlement.claim_started`, `entitlement.claimed`, `entitlement.claim_expired`.
+* **Support tooling** → **Decision**: admin resend + manual resolution; runbook owners assigned.
+
+---
+
+### **TSK‑PLAT‑042 – Launch Fulfillment Orchestrator Guardrails**
+
+* **Job models** → **Decision**: idempotent jobs with states `queued|running|succeeded|failed|dead-letter`; supporting tables reviewed.
+* **Alert thresholds** → **Decision**: p95 latency, failure rate triggers, DLQ alerts; aligned with lifecycle/support.
+* **Admin tooling** → **Decision**: retry/cancel/requeue + audit logs.
+* **Incident playbook** → **Decision**: classification, rollback, comms plan drafted.
+* **Worker scaling & secrets** → **Decision**: horizontal scaling; Secrets Manager integration; backpressure controls.
+
+---
+
+### **TSK‑PLAT‑043 – Build Monetization Telemetry Platform**
+
+* **Data model RFC** → **Decision**: events for `impression|click|purchase` with attribution fields and consent flags; RFC approved.
+* **Edge constraints** → **Decision**: payload ≤8 KB; retry logic; offline queue; idempotency via event id.
+* **Fraud heuristics** → **Decision**: block/allow lists; geo/session rules; thresholds with Partnerships/Finance.
+* **Alerting** → **Decision**: drop rate, latency, anomaly detection signals/destinations documented.
+* **Synthetic monitoring** → **Decision**: hourly canary events; drift alerts with ownership.
+
+---
+
+### **TSK‑PLAT‑046 – Build Affiliate Catalog Service & SDK**
+
+* **Supabase schema** → **Decision**: `affiliate_programs`, `affiliate_offers`, `affiliate_assets`, etc., reviewed with stakeholders.
+* **Auth0 RBAC** → **Decision**: endpoints protected; roles approved by Security.
+* **Strapi components** → **Decision**: editor workflows spec’d (offer form, disclosure selector, taxonomy).
+* **Telemetry payload** → **Decision**: aligned with ADR‑033; carry ACS identifiers; click/impression events shaped.
+* **Budget** → **Decision**: infra budget confirmed (Supabase storage/functions, Vercel edge cache allowance).
+
+---
+
+### **TSK‑PLAT‑047 – Wire UV Widget Risk Copy From Strapi**
+
+* **Fields structure** → **Decision**: PL/EN fields, fallback banners, CTA metadata (`label`, `href`, `cta_id`) confirmed by Content Strategy.
+* **Draft entries** → **Decision**: created per risk level `low|moderate|high|very_high|extreme` in both locales.
+* **Flag/preview flow** → **Decision**: documented; editors verify staging content pre‑publish.
+* **API token** → **Decision**: read‑only token for `tools.uv-widget` stored in Secrets Manager.
+
+---
+
+### **TSK‑PLAT‑048 – Harden UV Widget Caching & Rate Limits With Upstash**
+
+* **Databases** → **Decision**: `clarivum-cache`, `clarivum-guardrails` confirmed with namespaces.
+* **TTL & rate** → **Decision**: TTL/burst/sustained limits approved and documented in ADR‑006.
+* **Secrets** → **Decision**: REST URLs/tokens stored (`UPSTASH_*`) in Secrets Manager.
+* **Failure playbook** → **Decision**: remediation steps for Upstash outage added.
+
+---
+
+### **TSK‑PLAT‑049 – Instrument UV Widget Analytics Guardrails**
+
+* **Event schema** → **Decision**: events + version reviewed; appended to ADR‑029.
+* **Plausible creds** → **Decision**: API credentials for server‑side ingestion scoped and stored.
+* **Success thresholds** → **Decision**: widget load rate & fallback % thresholds defined; alerts wired.
+* **QA plan** → **Decision**: covers consent handling + locale‑specific payloads.
+
+---
+
+### **TSK‑PLAT‑050 – Enforce SEO Guardrail in CI Workflow**
+
+* **Runtime budget** → **Decision**: +≤90s per run; measured variance documented; DevOps Lead OK.
+* **Sequencing** → **Decision**: aligned with Platform TL; no conflicting refactors.
+* **Actions cache updates** → **Decision**: document any cache keys for Vitest; captured in plan.
+* **Communication** → **Decision**: blurb drafted for `#clarivum-dev`; includes opt‑out workflow for emergencies.
+
+---
+
+### **TSK‑PLAT‑051 – Wire Web Vitals Metric Into Analytics Dashboards**
+
+* **Inventory existing events** → **Decision**: Plausible custom events reviewed; name collisions avoided; gaps documented.
+* **Dashboard slices** → **Decision**: align with SEO Lead on slices (route, LCP vs INP).
+* **Credentials** → **Decision**: Plausible API creds verified for local dry runs.
+* **Acceptance test** → **Decision**: mock deploy/staging replay showing metric → pipeline end‑to‑end.
+
+---
+
+## Ready
+
+### **TSK‑PLAT‑020 – Provision Strapi ECS Infrastructure**
+
+✅ All DoR items already satisfied and align with the global choices above (VPC/AZs, ECR tags/SBOM, secrets in Secrets Manager read‑only by ECS task role, observability thresholds/alerts). No gaps.
+
+### **TSK‑PLAT‑021 – Establish Strapi Data Foundation**
+
+✅ Retention/RPO/RTO, storage classification, networking, and secrets distribution decisions fully match global baselines (KMS, WAF, VPC endpoints, Terraform‑managed secret names/rotation). No gaps.
+
+### **TSK‑PLAT‑022 – Implement Strapi CI/CD Pipeline**
+
+✅ IAM via OIDC with least privilege, migrations & seeds, smoke tests and branch/release conventions match the CI/CD and governance standards above. No gaps.
+
+---
+
+## Quick copy‑paste approval snippets (for items that *must* be signed)
+
+* **Auth0 plan tier (TSK‑PLAT‑013)** — *“Approved to proceed with Auth0 Business plan within the stated monthly envelope for `dev|stage|prod`. — Finance Lead, yyyy‑mm‑dd.”*
+* **Grafana Cloud subscription (TSK‑PLAT‑017)** — *“Approved to proceed with Grafana Cloud Pro under cost cap. — Ops Lead, yyyy‑mm‑dd.”*
+* **SES production access request (TSK‑PLAT‑030)** — *“Approved to request SES production access at projected volume. — Security & Marketing, yyyy‑mm‑dd.”*
+* **MongoDB Atlas usage for Novu (TSK‑PLAT‑023)** — *“Approved: Atlas with PrivateLink for Novu with backup policy as documented. — Security & Finance, yyyy‑mm‑dd.”*

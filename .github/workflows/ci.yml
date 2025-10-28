@@ -79,6 +79,23 @@ jobs:
             exit "$status"
           fi
 
+      - name: Run SEO metadata guardrail
+        id: seo
+        run: |
+          start=$(date +%s)
+          set +e
+          echo "::group::Running npm run check:seo"
+          npm run check:seo
+          status=$?
+          echo "::endgroup::"
+          end=$(date +%s)
+          echo "duration=$((end-start))" >> "$GITHUB_OUTPUT"
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          if [ "$status" -ne 0 ]; then
+            echo "::error::SEO guardrail failed. Review Vitest output above for failing metadata assertions."
+            exit "$status"
+          fi
+
       - name: Run unit tests (Vitest + coverage)
         id: vitest
         run: |
@@ -200,6 +217,7 @@ jobs:
                 lint: stage("lint", "${{ steps.lint.outputs.duration || '0' }}", "${{ steps.lint.outputs.status || '1' }}"),
                 typecheck: stage("typecheck", "${{ steps.typecheck.outputs.duration || '0' }}", "${{ steps.typecheck.outputs.status || '1' }}"),
                 format: stage("format", "${{ steps.format.outputs.duration || '0' }}", "${{ steps.format.outputs.status || '1' }}"),
+                seo: stage("seo", "${{ steps.seo.outputs.duration || '0' }}", "${{ steps.seo.outputs.status || '1' }}"),
                 vitest: stage("vitest", "${{ steps.vitest.outputs.duration || '0' }}", "${{ steps.vitest.outputs.status || '1' }}"),
                 playwright_smoke: stage("playwright_smoke", "${{ steps.smoke.outputs.duration || '0' }}", "${{ steps.smoke.outputs.status || '0' }}")
               }

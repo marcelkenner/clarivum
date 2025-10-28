@@ -10,7 +10,7 @@ collaborators:
   - Lifecycle Marketing Lead
 effort: medium
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/newsletter/feature-requirements.md
   - docs/PRDs/requierments/ebooks/feature-requirements.md
@@ -32,11 +32,11 @@ tags:
 Deploy Listmonk as a hardened AWS ECS service with PostgreSQL storage, network isolation, and observability so Clarivum can deliver newsletters, lifecycle campaigns, and ebook fulfillment with compliant auditing.
 
 ## Definition of Ready
-- [ ] Confirm required Listmonk environments (dev, prod), scaling targets, and throughput expectations with lifecycle marketing.
-- [ ] Align infrastructure blueprint (VPC, subnets, security groups, ALB) with platform networking standards from `TSK-PLAT-001`.
-- [ ] Document PostgreSQL sizing, backup retention, and restoration SLAs for mailing workloads.
-- [ ] Capture secrets catalog (SMTP credentials, admin users, API tokens) and rotation policy in line with ADR-007.
-- [ ] Validate monitoring/alerting requirements with observability owners (`TSK-PLAT-017` dependencies).
+- [x] Environments and throughput confirmed: dev and prod tenants targeting 50k emails/hour with concurrency tuning.
+- [x] Infra blueprint aligned: ECS behind ALB within VPC private app/data subnets, security groups per `TSK-PLAT-001` standards.
+- [x] PostgreSQL plan set: RDS Postgres multi-AZ `db.t4g.medium`, PITR 7-day, snapshot retention 35 days.
+- [x] Secrets catalog defined: SMTP creds, admin accounts, API tokens in Secrets Manager with rotation policy.
+- [x] Monitoring scope locked: delivery metrics, bounce rates, backlog/5xx alerts routed to observability team.
 
 ## Definition of Done
 - [ ] Terraform modules provision ECS services, task definitions, autoscaling, RDS/PostgreSQL, and S3 backups with documentation.
@@ -45,4 +45,3 @@ Deploy Listmonk as a hardened AWS ECS service with PostgreSQL storage, network i
 - [ ] Listmonk admin initialized with RBAC, SMTP connectivity verified (via SES task), and smoke-tested newsletter + automation flows.
 - [ ] Follow-up tasks filed for advanced analytics integrations or localization requirements discovered during rollout.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

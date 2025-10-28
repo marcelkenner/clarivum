@@ -337,7 +337,7 @@ Great—below is a concise, “ready‑to‑check‑off” set of **Definition o
 
 ## Sprint 08 — Stretch
 
-### TSK‑PLAT‑019 — Open‑Meteo UV Widget Service Layer
+### TSK‑PLAT‑019 — Wttr.in UV Widget Service Layer
 
 - ✅ **Legal cleared terms:** Legal sign‑off recorded; rate limits and attribution noted.
 - ✅ **Env vars/secrets:** API base, timeouts, cache TTL; secrets stored.
@@ -348,7 +348,7 @@ Great—below is a concise, “ready‑to‑check‑off” set of **Definition o
 
 ## Sprint 09
 
-### TSK‑PLAT‑019 — Open‑Meteo UV (continued)
+### TSK‑PLAT‑019 — Wttr.in UV (continued)
 
 - ✅ All stretch DoR items above remain the acceptance binder for Sprint 09.
 

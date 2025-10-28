@@ -29,27 +29,32 @@ links:
 | Task | Status Lane | Notes |
 |------|-------------|-------|
 | [`tasks/backlog/platform/plat-006-subscriptions-orchestration.md`](../../backlog/platform/plat-006-subscriptions-orchestration.md) | Backlog → Ready → In-progress | Stripe/PayU checkout, entitlements + renewals |
+| [`tasks/backlog/platform/plat-025-consent-test-automation.md`](../../backlog/platform/plat-025-consent-test-automation.md) | Backlog → Ready → In-progress | Automate Klaro consent enforcement tests |
+| [`tasks/backlog/platform/plat-026-trial-reminder-validation.md`](../../backlog/platform/plat-026-trial-reminder-validation.md) | Backlog → Ready → In-progress | Validate trial reminders via Stripe + Novu workflows |
 | [`tasks/backlog/platform/plat-041-guest-account-claim-workflow.md`](../../backlog/platform/plat-041-guest-account-claim-workflow.md) | Backlog → Ready → In-progress | Guest purchase claim automation + reminders |
 | [`tasks/backlog/platform/plat-042-fulfillment-orchestrator-guardrails.md`](../../backlog/platform/plat-042-fulfillment-orchestrator-guardrails.md) | Backlog → Ready → In-progress | Durable fulfillment jobs, reconciliation, alerts |
 | [`tasks/backlog/frontend/fe-017-entitlement-shelf-ui.md`](../../backlog/frontend/fe-017-entitlement-shelf-ui.md) | Backlog → Ready → In-progress | Account Center shelf UX for downloads + status |
 
 ### Stretch
 
-- `tasks/backlog/platform/plat-025-consent-test-automation.md` for checkout/legal follow-up if subscriptions land faster than expected.
-- Begin `tasks/backlog/shared/shared-004-newsletter-lifecycle.md` capture flows tied to post-purchase onboarding.
+- [`tasks/backlog/shared/shared-004-newsletter-lifecycle.md`](../../backlog/shared/shared-004-newsletter-lifecycle.md) — draft onboarding automation if revenue work wraps early.
+- [`tasks/backlog/platform/plat-030-amazon-ses-tenancy.md`](../../backlog/platform/plat-030-amazon-ses-tenancy.md) — prep SES production request ahead of Sprint 08.
 
 ## Definition of Success
 
 - Unified checkout handles subscriptions + digital products with resilient retries and telemetry; Supabase entitlements stay in sync.
+- Consent tests block regressions in CI; Klaro buckets + Flagsmith traits validated via automation.
+- Trial reminder workflows verified end-to-end (Stripe events → Novu templates → metrics).
 - Guest claim workflow runs end-to-end (webhooks → reminder automation → claim API) with audit trail + metrics.
 - Fulfillment orchestrator queue exposes retries, dashboards, and reconciliation jobs; alerts wired to on-call + support.
 - Entitlement shelf surfaces real-time status, download cards, and claim prompts with accessibility + analytics coverage.
-- Runbooks (payments, fulfillment, account-claiming) updated and support team trained via recorded session.
+- Runbooks (payments, fulfillment, account-claiming, consent ops) updated and support team trained via recorded session.
 
 ## Dependencies & Prep
 
 - Confirm product catalog (plans, coupons) + legal copy by 2026-01-30.
-- Align Auth0 magic-link templates + Novu/Listmonk reminder content with marketing/legal.
+- Align consent record storage + Klaro config with legal/privacy before automation.
+- Ensure Novu templates + Listmonk cohorts available for trial reminders and guest claim nudges.
 - Validate Supabase schema migrations + RLS changes in staging before sprint start.
 - Ensure instrumentation hooks from Sprint 05 Ops Hub are available for monitoring fulfillment signals.
 

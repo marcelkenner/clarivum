@@ -40,7 +40,7 @@
 
 ## Integrations & Dependencies
 - Internal: diagnostics (for pre-filled inputs), ebooks/recommendations, profile service (saved results), analytics, component library.
-- External: Open-Meteo weather APIs for UV index widget (`docs/PRDs/requierments/tools/widget_indeks_uv.md`), additional third-party feeds as defined per tool, email service for result delivery.
+- External: Wttr.in weather API for UV index widget (`docs/PRDs/requierments/tools/widget_indeks_uv.md`), additional third-party feeds as defined per tool, email service for result delivery.
 
 ## Analytics & KPIs
 - Tool start vs completion rate, conversion to related CTA, average time spent, repeat usage frequency.

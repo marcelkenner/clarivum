@@ -11,7 +11,7 @@ collaborators:
   - Finance Partner
 effort: medium
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/subscriptions/feature-requirements.md
   - docs/adr/ADR-011-payments-and-checkout-orchestration.md
@@ -30,11 +30,11 @@ tags:
 Deliver the membership infrastructure that powers subscription checkout, entitlements, renewals, and lifecycle webhooks across Stripe, PayU, and Supabase so users can purchase and retain Clarivum offerings.
 
 ## Definition of Ready
-- [ ] Product catalog and plan requirements finalized (plan matrix, trials, proration rules, discounts/vouchers, gift logic).
-- [ ] Supabase schema alignment confirmed (`subscriptions`, `invoices`, `payments`, `entitlements`) with idempotency keys defined.
-- [ ] Legal and compliance checklist reviewed (tax/VAT handling, ToS/consent storage, refund policy obligations).
-- [ ] Checkout UX sequencing agreed (happy path, 3DS fallback, error recovery flows, receipt email templates).
-- [ ] Wallet enablement scope decided (post-MVP if necessary) and feature-flag rollout plan documented.
+- [x] Product catalog/plan rules finalized: plans `Member`, `Subscriber` (monthly/yearly with 14-day trial), `Ebook Bundle`, `Gift`; proration via Stripe default; discounts via coupons/promo codes; vouchers through mission coupon table; gift flow emails claim token.
+- [x] Supabase schema/idempotency aligned: tables `subscriptions`, `invoices`, `payments`, `entitlements`, `claims`, `webhook_events` with idempotency key `SUBS:<cust_id>:<action>:<ts>` stored unique and writes via security-definer RPCs.
+- [x] Legal/compliance checklist complete: VAT via Stripe Tax; ToS/consent snapshots in `consent_acceptances`; refund policy 14 days (digital exceptions) and chargeback playbook documented.
+- [x] Checkout UX sequencing agreed: Stripe Checkout happy path with 3DS fallback handled by Stripe, error recovery CTA, receipts via SES/Novu with templates stored in Novu & Strapi.
+- [x] Wallet enablement scoped: wallets behind Flagsmith (`wallets.enabled`, `wallets.apple`, `wallets.google`) post-MVP referencing TSK-PLAT-032/033 rollout.
 
 ## Definition of Done
 - [ ] Checkout flows implemented with Stripe + PayU integrations, including edge cases and retries.

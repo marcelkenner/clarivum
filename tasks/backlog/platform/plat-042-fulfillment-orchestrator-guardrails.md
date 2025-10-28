@@ -11,7 +11,7 @@ collaborators:
   - Support Ops Lead
 effort: medium
 created_at: 2025-10-27
-updated_at: 2025-10-27
+updated_at: 2025-10-28
 links:
   - docs/adr/ADR-032-guest-entitlements-and-account-claiming.md
   - docs/PRDs/requierments/ebooks/feature-requirements.md
@@ -43,11 +43,11 @@ Implement a durable fulfillment orchestrator, monitoring, and reconciliation too
 - Supabase admin role available for job table access.
 
 ## Definition of Ready
-- [ ] Job models confirmed (idempotent jobs with states queued/running/succeeded/failed/dead-letter and supporting tables reviewed).
-- [ ] Alert thresholds aligned (p95 latency, failure rate trigger, DLQ alerts) with lifecycle and support teams.
-- [ ] Admin tooling scope captured (retry, cancel, requeue actions plus audit log requirements).
-- [ ] Incident playbook draft prepared with classification, rollback steps, and communications plan.
-- [ ] Worker scaling and secrets strategy validated (horizontal scaling, secrets manager integration, backpressure controls).
+- [x] Job models defined: idempotent jobs with states `queued|running|succeeded|failed|dead-letter` and supporting tables reviewed.
+- [x] Alert thresholds aligned: p95 latency, failure rate, and DLQ alerts agreed with lifecycle/support.
+- [x] Admin tooling scope captured: retry, cancel, requeue actions with audit logging expectations.
+- [x] Incident playbook drafted covering classification, rollback, and comms plan.
+- [x] Worker scaling/secrets strategy validated: horizontal scaling with Secrets Manager integration and backpressure controls.
 
 ## Definition of Done
 - [ ] Fulfillment orchestrator service persists job records, runs idempotent steps, and handles retries with jitter.

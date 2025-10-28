@@ -11,7 +11,7 @@ collaborators:
   - Support Lead
 effort: large
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/operations-hub/feature-requirements.md
   - docs/adr/ADR-031-admin-operations-hub.md
@@ -33,11 +33,11 @@ tags:
 Wire the Ops Hub proxy layer to Strapi, Supabase, Listmonk, SES, Novu, Stripe, PayU, Przelewy24, Plausible, and Grafana APIs so operators get unified dashboards, action buttons, and health signals without leaving `/ops`.
 
 ## Definition of Ready
-- [ ] API scopes, rate limits, and sandbox credentials documented for each vendor integration and stored in Secrets Manager.
-- [ ] Cache models and TTLs defined per endpoint, including cache-busting rules and safe stale-while-revalidate paths.
-- [ ] MVP data views and actions agreed with finance, marketing, and support stakeholders, with wireframes linked in the task.
-- [ ] Sandbox and contract testing strategy established (mock servers and record/replay fixtures for E2E coverage).
-- [ ] Security review scheduled with data flow diagram covering input validation, logging, and least-privilege controls.
+- [x] API scopes/limits and sandbox credentials documented for each vendor with storage in Secrets Manager.
+- [x] Cache models defined: endpoint-specific TTLs, cache bust rules, and SWR safety paths agreed.
+- [x] MVP views/actions aligned: Finance, Marketing, Support signed off with wireframes linked.
+- [x] Sandbox/contract testing plan set: mock servers plus record/replay fixtures for E2E coverage.
+- [x] Security review scheduled with DFD covering validation, logging, and least privilege.
 
 ## Definition of Done
 - [ ] Proxy services fetch and normalize data for each module with caching and error states.

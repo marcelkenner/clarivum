@@ -11,7 +11,7 @@ collaborators:
   - Marketing Partner
 effort: medium
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-10-28
 links:
   - docs/PRDs/requierments/analytics/feature-requirements.md
   - docs/adr/ADR-029-plausible-analytics-platform.md
@@ -31,10 +31,10 @@ tags:
 Stand up the managed Plausible Analytics EU project, shared analytics toolkit, and governance workflows so Clarivum can capture funnel events, segment audiences, and uphold privacy commitments end-to-end without introducing alternate vendors.
 
 ## Definition of Ready
-- [ ] Plausible project and service accounts configured per environment with custom domains verified.
-- [ ] Event catalogue and consent scope finalized (namespaces, required properties, consent gating rules) with product/legal.
-- [ ] SDK rollout plan agreed (wrapper utilities, sampling rules, dry-run mode for dev environments).
-- [ ] QA, alerting, and warehouse export expectations documented (event QA checklist, volume-drop alerts, export spec).
+- [x] Plausible projects/service accounts defined per env with custom domain `analytics.clarivum.com` (CNAME) and server-only keys in Secrets Manager.
+- [x] Event catalogue & consent scope finalized: namespaces `entitlement.*`, `checkout.*`, `wallet.*`, `search.*`, `content.*` with required props and consent buckets (`analytics`, `marketing`).
+- [x] SDK rollout plan set: `@clarivum/analytics` wrapper with consent/sampling guards (`dev=50%`, `stage=100%`, `prod=100%`), queue & retry, dev dry-run.
+- [x] QA/alerting/export expectations documented: event shape QA checklist, volume drop alert (30-min vs 7-day baseline at −40%) to `#analytics-alerts`, nightly S3 NDJSON export `s3://clarivum-analytics-raw/` cataloged in Glue/Athena.
 
 ## Definition of Done
 - [ ] Plausible project provisioned with RBAC, retention, and EU residency settings.

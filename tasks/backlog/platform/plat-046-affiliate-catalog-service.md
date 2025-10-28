@@ -11,7 +11,7 @@ collaborators:
   - Finance Analyst
 effort: medium
 created_at: 2025-10-27
-updated_at: 2025-10-27
+updated_at: 2025-10-28
 links:
   - docs/adr/ADR-035-affiliate-catalog-and-offer-management.md
   - docs/PRDs/requierments/affiliate/feature-requirements.md
@@ -33,11 +33,11 @@ tags:
 Deliver the Affiliate Catalog Service (ACS) that centralizes partner programs, offers, disclosures, and link templates, plus the APIs/SDK used by tools, glossary entries, recommendations, and Ops Hub.
 
 ## Definition of Ready
-- [ ] Supabase schema outline (`affiliate_programs`, `affiliate_offers`, `affiliate_assets`, etc.) reviewed with data and finance stakeholders.
-- [ ] Auth0 RBAC model for catalog management endpoints approved by security.
-- [ ] Strapi component spec drafted for editor workflows (offer form, disclosure selector, taxonomy tagging).
-- [ ] Telemetry payload contract aligned with ADR-033 so click/impression events carry ACS identifiers.
-- [ ] Infrastructure budget confirmed (Supabase storage/functions, Vercel edge cache allowances).
+- [x] Supabase schema outline reviewed: `affiliate_programs`, `affiliate_offers`, `affiliate_assets`, etc., signed off with stakeholders.
+- [x] Auth0 RBAC model approved by Security for catalog management endpoints.
+- [x] Strapi component spec drafted covering editor workflows (offer form, disclosure selector, taxonomy).
+- [x] Telemetry payload contract aligned with ADR-033 to carry ACS identifiers on click/impression events.
+- [x] Infrastructure budget confirmed for Supabase storage/functions and Vercel edge cache allowance.
 
 ## Definition of Done
 - [ ] Supabase schema + migrations deployed with row-level security and audit logging.

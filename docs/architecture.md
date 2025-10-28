@@ -123,6 +123,7 @@ Operational tooling:
 
 - **Environments:** `dev` (shared testing), `prod` (customer-facing). Vercel preview deployments continue to spin up per pull request for isolated QA.
 - **Hosting:** Vercel handles web build/deploy with GitHub Actions orchestrating linting, tests, and SLO guardrails before promotion. Strapi and Novu run on AWS ECS Fargate with Terraform-managed services; Lambda jobs are deployed via Terraform-driven GitHub Actions workflows.
+- **Strapi cluster:** `infra/strapi` provisions the Strapi ECS cluster (Fargate + Fargate Spot), ALB ingress (`cms.<env>.clarivum.com`), IAM roles with Secrets Manager/S3 access, and autoscaling policies. CloudWatch log groups (`/aws/ecs/strapi-<env>`, `/aws/ecs/strapi-<env>/exec`) plus alarms (`strapi-<env>-target-response-latency`, `strapi-<env>-target-5xx`) funnel alerts to the on-call SNS topic. The module now also manages the multi-AZ Postgres instance (`strapi-<env>-db`), Enhanced Monitoring role, versioned media buckets (`clarivum-strapi-<env>-media-{public,private}`) with SSE-KMS, and Secrets Manager entries (`clarivum/strapi/<env>/database-{password,url}`) that feed ECS tasks.
 - **Release model:** Trunk-based development with feature flags and automated smoke tests. Rollbacks prefer redeploying the last known good build rather than hotfix branches (documented in the deployment runbook).
 
 ## Alignment with non-functional requirements

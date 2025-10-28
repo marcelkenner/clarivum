@@ -11,7 +11,7 @@ collaborators:
   - Partnerships Manager
 effort: large
 created_at: 2025-10-27
-updated_at: 2025-10-27
+updated_at: 2025-10-28
 links:
   - docs/adr/ADR-033-advertising-and-affiliate-telemetry.md
   - docs/adr/ADR-026-coupons-and-affiliate-incentives.md
@@ -43,11 +43,11 @@ Deliver the edge services, background workers, and reconciliation tooling that c
 - Consent gating logic aligned with ADR-014 and analytics SDK.
 
 ## Definition of Ready
-- [ ] Data model RFC approved (event schema for impressions/clicks/purchases, attribution fields, user-consent flags).
-- [ ] Edge constraints validated (payload size, retry logic, offline queue behavior, idempotency guarantees).
-- [ ] Fraud heuristics and thresholds agreed with partnerships/finance (block/allow lists, geo/session rules).
-- [ ] Alerting requirements documented (drop rate, latency, anomaly detection signals and destinations).
-- [ ] Synthetic monitoring plan defined (hourly canary events with drift alerts and ownership).
+- [x] Data model RFC approved: events `impression|click|purchase` with attribution fields and consent flags.
+- [x] Edge constraints validated: payload ≤8 KB, retry logic, offline queue, idempotency via event id agreed.
+- [x] Fraud heuristics defined: block/allow lists plus geo/session rules with Partnerships/Finance thresholds.
+- [x] Alerting requirements documented for drop rate, latency, and anomaly detection destinations.
+- [x] Synthetic monitoring plan set: hourly canary events with drift alerts and assigned owners.
 
 ## Definition of Done
 - [ ] Impression + click services deployed with HMAC-signed parameters, allowlists, and consent-aware logging.

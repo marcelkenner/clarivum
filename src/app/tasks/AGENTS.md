@@ -10,6 +10,8 @@ Renders Markdown from the `tasks/` board using the Atrament document styles (`Do
   filesystem at request time.
 - Update `tasks/README.md` or `tasks/status-summary.md` together with UI tweaks if behavior or paths
   change.
+- Production access is disabled by default via `assertInternalDocsAccess()`. Set
+  `INTERNAL_DOCS_ALLOW=true` only when the documentation should be temporarily exposed.
 
 ## Local checks
 

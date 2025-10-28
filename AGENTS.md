@@ -1,3 +1,5 @@
+ALWAYS USE CONTEXT7
+
 # AGENTS.md
 
 Audience: coding agents, CI bots, and maintainers who ship Clarivum software.
@@ -104,6 +106,7 @@ Run from the repo root unless stated otherwise:
 - Playwright regression suite: `npm run test:e2e:regression`
 - Format source: `npm run format`
 - Ensure agent files exist: `npm run ensure:agents`
+- Strapi infrastructure plan: `terraform -chdir=infra/strapi plan -var-file=env/dev.tfvars` (use workspace per environment; see `infra/AGENTS.md`)
 - Run stale flag audit (requires Flagsmith Admin API creds + Slack webhook): `npm run flags:stale`
 
 When new tooling is introduced (e.g., Vitest), extend `package.json` and update this section.
@@ -315,9 +318,10 @@ jobs:
       - run: npm run lint:code
       - run: npm run typecheck
       - run: npm run format:check
+      - run: npm run check:seo
 ```
 
-Extend with additional commands (e.g., `npm run lint:tasks`) as the repo matures.
+Extend with additional commands (e.g., `npm run lint:tasks`) as the repo matures. The SEO guardrail gate (`npm run check:seo`) is mandatory on every push/PR (TSK-PLAT-050).
 
 ### `.github/workflows/check-pr-size.yml`
 

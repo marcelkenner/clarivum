@@ -15,6 +15,8 @@ Single route that renders the Atrament “library” index. It is a **server com
   changes require sign-off from the brand design ADR (ADR-018).
 - Navigation discoverability lives in `src/app/(marketing)/layout.tsx`. Update that header (and any
   other shells) if the library URL changes.
+- Production access is disabled by default via `assertInternalDocsAccess()`. Only set
+  `INTERNAL_DOCS_ALLOW=true` when you intentionally expose the index (e.g., secure preview).
 
 ## Local QA
 
@@ -22,4 +24,4 @@ Single route that renders the Atrament “library” index. It is a **server com
 2. `npm run typecheck`
 3. `npm run dev` → open `/library`, verify search/filter, counts, and links.
 
-Update this file whenever the library gains new behaviors (filters, tags, permissions, etc.).\*\*\* End Patch
+Update this file whenever the library gains new behaviors (filters, tags, permissions, etc.).

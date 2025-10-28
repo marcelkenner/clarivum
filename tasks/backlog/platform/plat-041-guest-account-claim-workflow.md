@@ -11,7 +11,7 @@ collaborators:
   - Support Ops Lead
 effort: medium
 created_at: 2025-10-27
-updated_at: 2025-10-27
+updated_at: 2025-10-28
 links:
   - docs/adr/ADR-032-guest-entitlements-and-account-claiming.md
   - docs/PRDs/requierments/ebooks/feature-requirements.md
@@ -43,11 +43,11 @@ Build the backend and automation required to support guest ebook purchases that 
 - Listmonk/Listmonk SMTP throughput confirmed for reminder cadence.
 
 ## Definition of Ready
-- [ ] Schema review completed for linking guest purchases to email plus claim token table (status history + indices).
-- [ ] Auth0 email templates and branding for claim/reminder flows approved by marketing.
-- [ ] Reminder cadence locked (e.g., 24 h and 7 d) with opt-out path documented for lifecycle + support.
-- [ ] Analytics events (`entitlement.claim_started`, `entitlement.claimed`, `entitlement.claim_expired`) defined in tracking plan.
-- [ ] Support tooling requirements captured (admin resend, manual claim resolution) with runbook owners assigned.
+- [x] Schema review complete: `claims` table with status history and indices linking guest purchases to email/claim token.
+- [x] Auth0 templates/branding approved by Marketing for claim and reminder flows.
+- [x] Reminder cadence set: T+24h and T+7d with documented opt-out path.
+- [x] Analytics events defined: `entitlement.claim_started`, `entitlement.claimed`, `entitlement.claim_expired`.
+- [x] Support tooling requirements captured: admin resend/manual resolution with runbook owners assigned.
 
 ## Definition of Done
 - [ ] Webhook handlers create pending profiles and entitlements with `pending_claim` status when checkout completes without authenticated context.

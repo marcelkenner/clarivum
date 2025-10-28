@@ -41,7 +41,7 @@
 ## 2) Users & workflows
 
 - **SEO Lead:** defines keyword strategies, monitors search console alerts, and curates schema patterns.
-- **Frontend Platform Team:** implements reusable metadata + structured data primitives, validates during CI (`npm run validate`).
+- **Frontend Platform Team:** implements reusable metadata + structured data primitives, validates during CI (`npm run validate`). Implementation reference: `src/lib/seo/metadata.ts`, `src/lib/seo/structured-data.ts`, and `src/lib/seo/routes/**` with guardrail tests executed via `npm run check:seo`.
 - **Content Editors:** follow runbook checklists, supply brief inputs, and review automated preview diffs before publish.
 - **Analytics & Data:** maintain pipelines feeding metrics JSON snapshots, ensuring SEO KPIs surface in flow/quality dashboards.
 
