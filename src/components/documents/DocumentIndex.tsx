@@ -45,9 +45,7 @@ export function DocumentIndex({ documents }: Props) {
       <header className="flex flex-col gap-4 border-b border-slate-200 pb-6">
         <div>
           <p className="text-xs tracking-[0.3em] text-slate-500 uppercase">Clarivum Library</p>
-          <h1 className="mt-2 text-4xl font-semibold text-slate-900">
-            Atrament knowledge on premium paper
-          </h1>
+          <h1 className="mt-2 text-4xl font-semibold text-slate-900">Atrament knowledge index</h1>
           <p className="mt-3 text-base text-slate-600">
             Browse every PRD, ADR, task lane, and Sisu note with the Atrament ink treatment.
           </p>

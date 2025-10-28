@@ -1,6 +1,6 @@
 # src/app/(marketing) · AGENTS Guide
 
-The `(marketing)` route group owns `/`, `/ebooks`, `/narzedzia`, `/blog`, and future brand experiences. Pages are server components that compose ViewModels built by coordinators in `./_home/**` or neighboring modules.
+The `(marketing)` route group owns `/ebooks`, `/narzedzia`, `/blog`, and future brand experiences. The root `/` route is currently a lightweight placeholder defined in `src/app/page.tsx` while the refreshed homepage is scoped.
 
 ## Required commands
 
@@ -11,7 +11,7 @@ The `(marketing)` route group owns `/`, `/ebooks`, `/narzedzia`, `/blog`, and fu
 
 ## Implementation notes
 
-- Always build page data via a coordinator (e.g., `createHomeExperienceCoordinator`) to keep dependency injection intact. Never import managers or content maps directly inside components.
+- When the homepage rebuild begins, prefer coordinators/managers within a dedicated directory (previously `_home/`) so view logic stays testable. Delete any legacy patterns and document the structure in a local `AGENTS.md`.
 - Revalidate cadence defaults to 30 minutes for marketing routes (`export const revalidate = 1800`). Adjust only with product + SEO sign-off, and update `docs/runbooks/seo-operations.md` if cadence changes.
 - Metadata (title, description, Open Graph) must align with `docs/PRDs/clarivum_brand.md`. Keep TODO callouts referencing ASCII designs until copy is final.
 - When introducing new marketing subroutes, add them to `src/app/sitemaps/pages.xml/route.ts` and the sitemap index.

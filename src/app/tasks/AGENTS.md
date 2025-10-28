@@ -1,6 +1,6 @@
 # src/app/tasks · AGENTS Guide
 
-Renders Markdown from the `tasks/` board using the Atrament theme (`DocumentScreen root="tasks"`).
+Renders Markdown from the `tasks/` board using the Atrament document styles (`DocumentScreen root="tasks"`).
 
 ## Guardrails
 

@@ -6,6 +6,8 @@ A tools‑first homepage proves value in ≤20 s, builds **mental availability**
 
 ### Implementation snapshot (Feb 2026)
 
+> **Status update (Feb 2027):** The `_home` implementation referenced below was removed when the homepage reverted to a placeholder (`src/app/page.tsx`). Use this spec when rebuilding the experience and reintroducing coordinators/view models.
+
 - **Nav & shell:** `src/app/(marketing)/layout.tsx` now mirrors the ASCII nav (tools-first top bar, utility strip, CMP button) using brand typography tokens from ADR-018.
 - **Hero flow:** `HomeHeroWizard` implements the three-step diagnostic, inline UV widget prompt, and plan reveal behaviour described below; analytics events map 1:1 with the “Tracking & UTM” section.
 - **Plan reveal:** `HomeLandingView` renders the post-hero plan section with pillar accents, CTA buttons (`Zapisz plan jako PDF`, `Pobierz rozszerzony przewodnik`), and the tool/resource shelves called out in the ASCII spec.

@@ -11,8 +11,8 @@ Contains the Atrament documentation components:
   `react-markdown` + `fs` helpers into the browser.
 - Heading parsing, slug generation, and TOC behavior belong in `DocumentScreen`. If you need new
   elements (callouts, alerts), add them here so all doc surfaces benefit.
-- For any new Markdown feature, update both the renderer and `src/styles/document-theme.css` to keep
-  the ink-on-paper visual consistent.
+- For any new Markdown feature, update both the renderer and `src/styles/document-theme.css` so the
+  Atrament typography stays consistent.
 - `DocumentIndex` is the single client surface; keep it lightweight (search filter only) and avoid
   direct filesystem imports. All data should arrive via props from `/library`.
 - Commands: `npm run lint:code -- src/components/documents src/lib/documents`, `npm run typecheck`.

@@ -1,19 +1,12 @@
 import { test, expect } from "@playwright/test";
 
-import { createHomeExperienceCoordinator } from "@/app/(marketing)/_home/coordinator/HomeExperienceCoordinator";
-
-test.describe("Marketing home smoke", () => {
-  test("renders the hero copy and CTA from the coordinator", async ({ page }) => {
-    const coordinator = createHomeExperienceCoordinator();
-    const landingViewModel = coordinator.buildLandingViewModel();
-
+test.describe("Homepage smoke", () => {
+  test("renders the placeholder homepage message", async ({ page }) => {
     await page.goto("/");
 
     await expect(
-      page.getByRole("heading", { name: landingViewModel.heroWizard.headline }),
+      page.getByRole("heading", { name: /Homepage refresh in progress/i }),
     ).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: landingViewModel.heroWizard.primaryActionLabel }),
-    ).toBeVisible();
+    await expect(page.getByText(/we're rebuilding the clarivum introduction/i)).toBeVisible();
   });
 });

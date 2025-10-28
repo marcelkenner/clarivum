@@ -1,7 +1,7 @@
 # src/app/library · AGENTS Guide
 
 Single route that renders the Atrament “library” index. It is a **server component** that wraps
-`<DocumentIndex />` (client) in the document-paper shell so every PRD/ADR/task/Sisu note is searchable.
+`<DocumentIndex />` (client) in the document styles shell so every PRD/ADR/task/Sisu note is searchable.
 
 ## Expectations
 

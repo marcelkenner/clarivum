@@ -1,27 +1,14 @@
 :root {
   --doc-ink: #0c0b0a;
-  --doc-paper: #fefbf4;
-  --doc-paper-edge: #f2e7d7;
   --doc-accent: #2e6b5a;
   --doc-muted: #7b6f60;
-  --doc-drop: 0 40px 80px -50px rgba(10, 7, 2, 0.8), 0 20px 40px -30px rgba(15, 11, 6, 0.45);
 }
 
 .document-shell {
   min-height: 100vh;
-  padding: 4rem 1rem 6rem;
-  background: radial-gradient(circle at 20% 20%, #fefcf7, #f5ecdf 45%, #f0e5d6 80%);
-  background-color: #f3e8d7;
-}
-
-.document-shell::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cpath fill='%23e7ddcc' fill-opacity='0.35' d='M0 0h160v160H0z'/%3E%3Cpath d='M0 0h160v160H0z' fill='none' stroke='%23d2c3ad' stroke-opacity='0.2' stroke-width='0.15'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-  opacity: 0.3;
-  pointer-events: none;
+  padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 5vw, 3rem) clamp(4rem, 8vw, 5rem);
+  background: none;
+  background-color: transparent;
 }
 
 .document-stage {
@@ -32,24 +19,15 @@
 
 .document-paper {
   position: relative;
-  background: var(--doc-paper);
   color: var(--doc-ink);
-  border-radius: 32px;
-  border: 1px solid rgba(33, 24, 16, 0.08);
-  padding: 3.5rem clamp(1.5rem, 4vw, 3.5rem);
-  box-shadow: var(--doc-drop);
+  padding: 0;
   font-family: var(--font-document-serif, var(--font-geist-sans)), "Times New Roman", serif;
   letter-spacing: 0.005em;
   line-height: 1.65;
 }
 
 .document-paper::before {
-  content: "";
-  position: absolute;
-  inset: 10px;
-  border-radius: 24px;
-  border: 1px solid rgba(12, 8, 4, 0.05);
-  pointer-events: none;
+  content: none;
 }
 
 .document-header {

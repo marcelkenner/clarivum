@@ -1,6 +1,6 @@
 # src/app/docs · AGENTS Guide
 
-Catch-all route group that renders Markdown from `docs/` with the Atrament paper theme.
+Catch-all route group that renders Markdown from `docs/` using the Atrament document styles.
 
 ## Build/Test
 
@@ -17,7 +17,7 @@ Catch-all route group that renders Markdown from `docs/` with the Atrament paper
 - Slug segments map directly to files under `docs/`. Keep relative paths aligned with actual
   filenames (respecting case) so deep links and the `/library` index stay in sync.
 - When adding MDX features, update `DocumentScreen` + `document-theme.css` so styling stays
-  consistent with ADR-018 (brand) and the “Atrament ink on paper” brief.
+  consistent with ADR-018 (brand) and the Atrament typography guidance.
 
 ## Ops
 

@@ -9,7 +9,7 @@ export default function DocsRoute({ params }: { params: { slug?: string[] } }) {
       slug={params.slug}
       collectionLabel="PRDs · ADRs"
       displayRoot="docs"
-      footerHint="Docs render in the Atrament paper theme. Commit updates under docs/ to change this view."
+      footerHint="Docs render with the Atrament typography styles. Commit updates under docs/ to change this view."
     />
   );
 }

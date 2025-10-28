@@ -2,7 +2,7 @@
 
 Shared utilities for reading and indexing Markdown documents:
 
-- `fonts.ts` registers the Cormorant Garamond font used by the Atrament theme.
+- `fonts.ts` registers the Cormorant Garamond font used by the Atrament document styles.
 - `get-document.ts` reads a single Markdown file from `docs/`, `tasks/`, or `sisu-log/`.
 - `list-documents.ts` indexes all docs + caches metadata for the `/library` page.
 

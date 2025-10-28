@@ -26,7 +26,7 @@ Clarifies the immediate follow-up work for `TSK-SEO-001` once the Tools-first ho
 3. **Hero CTA actions** — model as `PotentialAction` (`Action` + `target`) to help search engines connect generative answers with our on-site funnels.
 4. **Structured tools** — when hero goals map to tool pages, embed `ItemList` referencing the top three tools (slug + name) surfaced in the generated plan.
 
-Store fixtures under `src/app/(marketing)/_home/seo/` with `.ts` exports returning typed objects. Add unit tests (Vitest) that validate the shapes using `Ajv` once the schema package lands.
+Store fixtures under a dedicated homepage module (reintroduced alongside the rebuild) with `.ts` exports returning typed objects. Add unit tests (Vitest) that validate the shapes using `Ajv` once the schema package lands.
 
 ## Guardrails & follow-up tasks
 
@@ -40,4 +40,3 @@ Store fixtures under `src/app/(marketing)/_home/seo/` with `.ts` exports returni
 - ADR-034: SEO Foundation & Governance (`docs/adr/ADR-034-seo-foundation-and-governance.md`)
 - PRD: SEO Platform Foundation (`docs/PRDs/seo-foundation.md`)
 - Context7 `/vercel/next.js` metadata API documentation (generateMetadata, metadata object examples)
-
