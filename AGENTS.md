@@ -108,6 +108,7 @@ Run from the repo root unless stated otherwise:
 - Ensure agent files exist: `npm run ensure:agents`
 - Strapi infrastructure plan: `terraform -chdir=infra/strapi plan -var-file=env/dev.tfvars` (use workspace per environment; see `infra/AGENTS.md`)
 - Run stale flag audit (requires Flagsmith Admin API creds + Slack webhook): `npm run flags:stale`
+- Strapi deployment pipeline: GitHub Actions → **Strapi CI/CD** (`.github/workflows/strapi-ci-cd.yml`; see `docs/runbooks/deployment.md` for inputs and environment configuration)
 
 When new tooling is introduced (e.g., Vitest), extend `package.json` and update this section.
 

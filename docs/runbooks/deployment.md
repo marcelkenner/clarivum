@@ -49,6 +49,36 @@ This runbook defines the process for promoting changes from trunk to production 
 
 Strapi infrastructure lives in Terraform under `infra/strapi`. Follow this sequence whenever updating container images, scaling policies, or infrastructure modules:
 
+#### GitHub Actions pipeline (TSK-PLAT-022)
+
+- Workflow: `.github/workflows/strapi-ci-cd.yml`
+  - **PRs (`cms/**`, `infra/strapi/**`)** – run `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build` inside `cms/`.
+  - **Push to `main`** – build `cms/Dockerfile`, push the image to ECR (`${STRAPI_ECR_REGISTRY}/${STRAPI_ECR_REPOSITORY}:${GITHUB_SHA::12}`), retag `:dev`, run optional migrations, update the dev ECS service, wait for stability, and invoke the configured health check + revalidation webhook.
+  - **Manual deploy (`workflow_dispatch`)** – supply:
+    - `environment` (`dev` | `prod`)
+    - `image_tag` (immutable tag/sha to promote)
+    - `run_migrations` (default `true`)
+    - `promote_only` (`true` skips ECS rollout; retags image alias only)
+    - Workflow assumes `AWS_STRAPI_DEPLOY_ROLE_ARN` secret (OIDC) and repository variables `STRAPI_AWS_REGION`, `STRAPI_ECR_REGISTRY`, `STRAPI_ECR_REPOSITORY`.
+- **Quality guardrails:** The freshly scaffolded Strapi workspace provides placeholder `npm run lint` and `npm test` commands (simple pass-through scripts) to satisfy automation while real linters/tests are wired. Replace them with ESLint/Vitest (or equivalent) suites as content logic lands.
+- GitHub environments:
+  - `strapi-dev` / `strapi-prod` **variables**: `STRAPI_CLUSTER_ARN`, `STRAPI_SERVICE_NAME`, optional `STRAPI_HEALTHCHECK_URL`, `STRAPI_REVALIDATE_URL`, `STRAPI_MIGRATION_COMMAND`.
+  - `strapi-dev` / `strapi-prod` **secrets**: `STRAPI_REVALIDATE_SECRET` (bearer token), optional `STRAPI_MIGRATION_COMMAND` if it relies on sensitive values.
+- Repository variables (Settings → Actions → Variables) required by every run:
+  - `STRAPI_AWS_REGION`
+  - `STRAPI_ECR_REGISTRY`
+  - `STRAPI_ECR_REPOSITORY`
+- Validation steps after configuring secrets/variables:
+  1. Open a PR that touches `cms/**` to observe the quality gate succeed.
+  2. Push a commit to `main` (or a protected test branch) to confirm the image build + dev ECS rollout.
+  3. Trigger the manual workflow for both `strapi-dev` and `strapi-prod` to verify promotion + health check behaviour.
+- Migration hook:
+  - Preferred approach is a one-off ECS task (`aws ecs run-task ... --overrides '{"containerOverrides":[{"name":"strapi","command":["npm","run","migrate"]}]}'`) defined in `STRAPI_MIGRATION_COMMAND`. If unset, the workflow falls back to `cms/scripts/predeploy.sh` when present. Keep commands idempotent and add the backout plan to this runbook.
+- Health check webhook:
+  - `STRAPI_HEALTHCHECK_URL` should point to `https://cms-<env>.<domain>/_health` once ALB DNS is live. The workflow retries 6× (10 s backoff) before failing.
+- Frontend revalidation:
+  - Set `STRAPI_REVALIDATE_URL` to the internal proxy (e.g., `https://app.<env>.clarivum.com/api/revalidate?scope=strapi`) and `STRAPI_REVALIDATE_SECRET` to the shared bearer token managed alongside other observability secrets.
+
 1. **Plan:** `terraform -chdir=infra/strapi init` (supply backend config), select the workspace (`dev` or `prod`), then run `terraform -chdir=infra/strapi plan -var-file=env/<env>.tfvars`. Attaching the plan output to the PR keeps reviewers in sync. Always include the `-var-file` flag—without it Terraform will prompt interactively for every required variable (region, subnets, ACM cert, etc.).
 2. **Promote image:** Push the new container image to ECR with immutable tag (`strapi:<git-sha>`). Update the corresponding `container_image` in the environment tfvars or promote by retagging (`staging` → `prod`).
 3. **Apply dev:** On approval, run `terraform -chdir=infra/strapi apply -var-file=env/dev.tfvars`. Observe ECS service deployment in the console; tasks should pass health check `/api/healthz` within 60 seconds.

@@ -1,0 +1,445 @@
+name: Strapi CI/CD
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "cms/**"
+      - "infra/strapi/**"
+      - ".github/workflows/strapi-ci-cd.yml"
+  push:
+    branches: [main]
+    paths:
+      - "cms/**"
+      - ".github/workflows/strapi-ci-cd.yml"
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Deploy environment
+        options:
+          - dev
+          - prod
+        required: true
+      image_tag:
+        type: string
+        description: Image tag (git SHA or semantic) to deploy
+        required: true
+      run_migrations:
+        type: boolean
+        description: Run the configured migration command before deploying?
+        default: true
+      promote_only:
+        type: boolean
+        description: Skip the ECS service rollout (retag image alias only)
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: strapi-${{ github.event_name == 'workflow_dispatch' && inputs.environment || github.ref }}
+  cancel-in-progress: false
+
+env:
+  STRAPI_AWS_REGION: ${{ vars.STRAPI_AWS_REGION }}
+  STRAPI_ECR_REGISTRY: ${{ vars.STRAPI_ECR_REGISTRY }}
+  STRAPI_ECR_REPOSITORY: ${{ vars.STRAPI_ECR_REPOSITORY }}
+
+jobs:
+  detect:
+    name: Detect Strapi workspace
+    runs-on: ubuntu-latest
+    outputs:
+      ready: ${{ steps.inspect.outputs.ready }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure required repository variables exist
+        run: |
+          set -euo pipefail
+          missing=0
+          for name in STRAPI_AWS_REGION STRAPI_ECR_REGISTRY STRAPI_ECR_REPOSITORY; do
+            if [ -z "${!name:-}" ]; then
+              echo "::error::$name is not defined. Add a repository variable named $name before running this workflow."
+              missing=1
+            fi
+          done
+          if [ "$missing" -eq 1 ]; then
+            exit 1
+          fi
+
+      - name: Inspect Strapi workspace
+        id: inspect
+        run: |
+          if [ -f cms/package.json ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice title=Strapi workspace missing::cms/package.json was not found. Skipping Strapi CI/CD jobs."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  ci:
+    name: Strapi quality gate
+    needs: detect
+    if: needs.detect.outputs.ready == 'true' && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: "cms/package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: cms
+        env:
+          CI: "true"
+
+      - name: Lint
+        run: npm run lint --if-present
+        working-directory: cms
+        env:
+          CI: "true"
+
+      - name: Typecheck
+        run: npm run typecheck --if-present
+        working-directory: cms
+        env:
+          CI: "true"
+
+      - name: Tests
+        run: npm run test --if-present
+        working-directory: cms
+        env:
+          CI: "true"
+
+      - name: Build admin bundle
+        run: npm run build --if-present
+        working-directory: cms
+        env:
+          CI: "true"
+
+  build:
+    name: Build and push image
+    needs: detect
+    if: needs.detect.outputs.ready == 'true' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      image-tag: ${{ steps.metadata.outputs.image_tag }}
+      image-digest: ${{ steps.metadata.outputs.image_digest }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_STRAPI_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.STRAPI_AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build image
+        id: build-image
+        run: |
+          set -euo pipefail
+          IMAGE_TAG="${GITHUB_SHA::12}"
+          echo "IMAGE_TAG=${IMAGE_TAG}" >> "$GITHUB_ENV"
+          docker build \
+            --file Dockerfile \
+            --tag "${STRAPI_ECR_REGISTRY}/${STRAPI_ECR_REPOSITORY}:${IMAGE_TAG}" \
+            .
+        working-directory: cms
+
+      - name: Push image
+        run: |
+          set -euo pipefail
+          docker push "${STRAPI_ECR_REGISTRY}/${STRAPI_ECR_REPOSITORY}:${IMAGE_TAG}"
+
+      - name: Query image digest
+        id: digest
+        run: |
+          set -euo pipefail
+          DIGEST=$(aws ecr describe-images \
+            --repository-name "${STRAPI_ECR_REPOSITORY}" \
+            --image-ids imageTag="${IMAGE_TAG}" \
+            --query 'imageDetails[0].imageDigest' \
+            --output text)
+          if [ -z "${DIGEST}" ] || [ "${DIGEST}" = "None" ]; then
+            echo "::error::Failed to resolve image digest for ${IMAGE_TAG}"
+            exit 1
+          fi
+          echo "image_digest=${DIGEST}" >> "$GITHUB_OUTPUT"
+
+      - name: Record metadata outputs
+        id: metadata
+        run: |
+          echo "image_tag=${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
+          echo "image_digest=${{ steps.digest.outputs.image_digest }}" >> "$GITHUB_OUTPUT"
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ env.STRAPI_ECR_REGISTRY }}/${{ env.STRAPI_ECR_REPOSITORY }}
+          subject-digest: ${{ steps.digest.outputs.image_digest }}
+
+  deploy-dev:
+    name: Deploy to dev
+    needs: build
+    if: needs.build.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: strapi-dev
+    env:
+      IMAGE_TAG: ${{ needs.build.outputs.image-tag }}
+      RUN_MIGRATIONS: "true"
+      STRAPI_CLUSTER_ARN: ${{ vars.STRAPI_CLUSTER_ARN }}
+      STRAPI_SERVICE_NAME: ${{ vars.STRAPI_SERVICE_NAME }}
+      STRAPI_HEALTHCHECK_URL: ${{ vars.STRAPI_HEALTHCHECK_URL }}
+      STRAPI_REVALIDATE_URL: ${{ vars.STRAPI_REVALIDATE_URL }}
+      STRAPI_MIGRATION_COMMAND: ${{ secrets.STRAPI_MIGRATION_COMMAND != '' && secrets.STRAPI_MIGRATION_COMMAND || vars.STRAPI_MIGRATION_COMMAND }}
+      STRAPI_REVALIDATE_SECRET: ${{ secrets.STRAPI_REVALIDATE_SECRET }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate environment configuration
+        run: |
+          set -euo pipefail
+          required_env=(
+            STRAPI_CLUSTER_ARN
+            STRAPI_SERVICE_NAME
+          )
+          for name in "${required_env[@]}"; do
+            if [ -z "${!name:-}" ]; then
+              echo "::error::$name is not defined for environment ${{ job.environment.name }}."
+              exit 1
+            fi
+          done
+          if [ -z "${IMAGE_TAG:-}" ]; then
+            echo "::error::Missing image tag from build job output."
+            exit 1
+          fi
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_STRAPI_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.STRAPI_AWS_REGION }}
+
+      - name: Promote image alias
+        run: |
+          set -euo pipefail
+          MANIFEST=$(aws ecr batch-get-image \
+            --repository-name "${STRAPI_ECR_REPOSITORY}" \
+            --image-ids imageTag="${IMAGE_TAG}" \
+            --query 'images[0].imageManifest' \
+            --output text)
+          if [ -z "${MANIFEST}" ] || [ "${MANIFEST}" = "None" ]; then
+            echo "::error::Unable to pull image manifest for ${IMAGE_TAG}"
+            exit 1
+          fi
+          aws ecr put-image \
+            --repository-name "${STRAPI_ECR_REPOSITORY}" \
+            --image-tag "dev" \
+            --image-manifest "${MANIFEST}"
+
+      - name: Run pre-deploy migrations
+        if: env.RUN_MIGRATIONS == 'true'
+        run: |
+          set -euo pipefail
+          if [ -n "${STRAPI_MIGRATION_COMMAND:-}" ]; then
+            echo "::group::Executing migration command"
+            bash -lc "${STRAPI_MIGRATION_COMMAND}"
+            echo "::endgroup::"
+          elif [ -x "cms/scripts/predeploy.sh" ]; then
+            echo "::group::Executing cms/scripts/predeploy.sh"
+            cms/scripts/predeploy.sh
+            echo "::endgroup::"
+          else
+            echo "No migration command configured; skipping."
+          fi
+
+      - name: Update ECS service
+        run: |
+          set -euo pipefail
+          aws ecs update-service \
+            --cluster "${STRAPI_CLUSTER_ARN}" \
+            --service "${STRAPI_SERVICE_NAME}" \
+            --force-new-deployment >/tmp/deploy.json
+          cat /tmp/deploy.json
+
+      - name: Wait for service stability
+        run: |
+          set -euo pipefail
+          aws ecs wait services-stable \
+            --cluster "${STRAPI_CLUSTER_ARN}" \
+            --services "${STRAPI_SERVICE_NAME}"
+
+      - name: Health check
+        run: |
+          if [ -z "${STRAPI_HEALTHCHECK_URL:-}" ]; then
+            echo "No STRAPI_HEALTHCHECK_URL configured; skipping."
+            exit 0
+          fi
+          echo "Polling ${STRAPI_HEALTHCHECK_URL}"
+          curl --fail --silent --show-error \
+            --retry 6 --retry-all-errors --retry-delay 10 \
+            "${STRAPI_HEALTHCHECK_URL}"
+
+      - name: Trigger frontend revalidation
+        run: |
+          if [ -z "${STRAPI_REVALIDATE_URL:-}" ]; then
+            echo "No STRAPI_REVALIDATE_URL configured; skipping."
+            exit 0
+          fi
+          if [ -z "${STRAPI_REVALIDATE_SECRET:-}" ]; then
+            echo "::warning::STRAPI_REVALIDATE_SECRET not set; skipping revalidation call."
+            exit 0
+          fi
+          curl --fail --silent --show-error \
+            -X POST \
+            -H "Authorization: Bearer ${STRAPI_REVALIDATE_SECRET}" \
+            "${STRAPI_REVALIDATE_URL}"
+
+  deploy-manual:
+    name: Deploy to ${{ inputs.environment }}
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: strapi-${{ inputs.environment }}
+    env:
+      IMAGE_TAG: ${{ inputs.image_tag }}
+      RUN_MIGRATIONS: ${{ inputs.run_migrations && 'true' || 'false' }}
+      PROMOTE_ONLY: ${{ inputs.promote_only && 'true' || 'false' }}
+      STRAPI_CLUSTER_ARN: ${{ vars.STRAPI_CLUSTER_ARN }}
+      STRAPI_SERVICE_NAME: ${{ vars.STRAPI_SERVICE_NAME }}
+      STRAPI_HEALTHCHECK_URL: ${{ vars.STRAPI_HEALTHCHECK_URL }}
+      STRAPI_REVALIDATE_URL: ${{ vars.STRAPI_REVALIDATE_URL }}
+      STRAPI_MIGRATION_COMMAND: ${{ secrets.STRAPI_MIGRATION_COMMAND != '' && secrets.STRAPI_MIGRATION_COMMAND || vars.STRAPI_MIGRATION_COMMAND }}
+      STRAPI_REVALIDATE_SECRET: ${{ secrets.STRAPI_REVALIDATE_SECRET }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate environment configuration
+        run: |
+          set -euo pipefail
+          if [ -z "${IMAGE_TAG:-}" ]; then
+            echo "::error::workflow_dispatch requires the image_tag input."
+            exit 1
+          fi
+          required_env=(
+            STRAPI_CLUSTER_ARN
+            STRAPI_SERVICE_NAME
+          )
+          for name in "${required_env[@]}"; do
+            if [ -z "${!name:-}" ]; then
+              echo "::error::$name is not defined for environment ${{ job.environment.name }}."
+              exit 1
+            fi
+          done
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_STRAPI_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.STRAPI_AWS_REGION }}
+
+      - name: Promote image alias
+        run: |
+          set -euo pipefail
+          MANIFEST=$(aws ecr batch-get-image \
+            --repository-name "${STRAPI_ECR_REPOSITORY}" \
+            --image-ids imageTag="${IMAGE_TAG}" \
+            --query 'images[0].imageManifest' \
+            --output text)
+          if [ -z "${MANIFEST}" ] || [ "${MANIFEST}" = "None" ]; then
+            echo "::error::Unable to pull image manifest for ${IMAGE_TAG}"
+            exit 1
+          fi
+          aws ecr put-image \
+            --repository-name "${STRAPI_ECR_REPOSITORY}" \
+            --image-tag "${{ inputs.environment }}" \
+            --image-manifest "${MANIFEST}"
+
+      - name: Run pre-deploy migrations
+        if: env.RUN_MIGRATIONS == 'true'
+        run: |
+          set -euo pipefail
+          if [ -n "${STRAPI_MIGRATION_COMMAND:-}" ]; then
+            echo "::group::Executing migration command"
+            bash -lc "${STRAPI_MIGRATION_COMMAND}"
+            echo "::endgroup::"
+          elif [ -x "cms/scripts/predeploy.sh" ]; then
+            echo "::group::Executing cms/scripts/predeploy.sh"
+            cms/scripts/predeploy.sh
+            echo "::endgroup::"
+          else
+            echo "No migration command configured; skipping."
+          fi
+
+      - name: Update ECS service
+        if: env.PROMOTE_ONLY != 'true'
+        run: |
+          set -euo pipefail
+          aws ecs update-service \
+            --cluster "${STRAPI_CLUSTER_ARN}" \
+            --service "${STRAPI_SERVICE_NAME}" \
+            --force-new-deployment >/tmp/deploy.json
+          cat /tmp/deploy.json
+
+      - name: Wait for service stability
+        if: env.PROMOTE_ONLY != 'true'
+        run: |
+          set -euo pipefail
+          aws ecs wait services-stable \
+            --cluster "${STRAPI_CLUSTER_ARN}" \
+            --services "${STRAPI_SERVICE_NAME}"
+
+      - name: Health check
+        if: env.PROMOTE_ONLY != 'true'
+        run: |
+          if [ -z "${STRAPI_HEALTHCHECK_URL:-}" ]; then
+            echo "No STRAPI_HEALTHCHECK_URL configured; skipping."
+            exit 0
+          fi
+          echo "Polling ${STRAPI_HEALTHCHECK_URL}"
+          curl --fail --silent --show-error \
+            --retry 6 --retry-all-errors --retry-delay 10 \
+            "${STRAPI_HEALTHCHECK_URL}"
+
+      - name: Trigger frontend revalidation
+        run: |
+          if [ -z "${STRAPI_REVALIDATE_URL:-}" ]; then
+            echo "No STRAPI_REVALIDATE_URL configured; skipping."
+            exit 0
+          fi
+          if [ -z "${STRAPI_REVALIDATE_SECRET:-}" ]; then
+            echo "::warning::STRAPI_REVALIDATE_SECRET not set; skipping revalidation call."
+            exit 0
+          fi
+          curl --fail --silent --show-error \
+            -X POST \
+            -H "Authorization: Bearer ${STRAPI_REVALIDATE_SECRET}" \
+            "${STRAPI_REVALIDATE_URL}"
