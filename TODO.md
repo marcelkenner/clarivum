@@ -34,6 +34,8 @@ Centralized follow-up list for sprint guardrails and CI hygiene. Keep items conc
 28. **Document Strapi field mapping:** Once the `tools-uv-widget` collection is live, append the final field schema to the runbook changelog and notify the content team in `#clarivum-tools`. (Source: TSK-PLAT-047 follow-up)
 29. **Strapi observability dashboards:** Stand up dashboards/alerts for Strapi health, latency, and error rates in Grafana (reuse OTLP streams from ADR-004) and document links in `docs/runbooks/deployment.md`. (Source: TSK-SHARED-003 follow-up)
 30. **Strapi autoscaling policy:** Implement and document ECS Service autoscaling for Strapi (CPU/memory + request-based), updating Terraform and `docs/infra/cms-aws-overview.md` plus noting the guardrail in `docs/runbooks/deployment.md`. (Source: TSK-SHARED-003 follow-up)
+31. **Plausible CI guardrail:** Once Plausible API credentials are stored in GitHub secrets, wire `npm run analytics:health` into a scheduled GitHub Action (daily) so Web Vitals ingestion failures page the team automatically. Document the workflow link in `docs/runbooks/seo-operations.md`. (Source: TSK-PLAT-051 follow-up)
+32. **Web Vitals dashboard link:** Create the Plausible dashboard segmenting LCP/INP/CLS by route and attach the permanent link in `docs/runbooks/seo-operations.md` §Tooling once ready. (Source: TSK-PLAT-051 follow-up)
 
 ## Nice-to-haves
 

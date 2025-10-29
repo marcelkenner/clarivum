@@ -68,7 +68,6 @@ Generated 2025-10-29 via `npm run tasks:summary`.
 - `TSK-PLAT-046` · Build Affiliate Catalog Service & SDK — Owner: Platform Tech Lead; Effort: medium; Updated: 2025-10-28 ([link](docs/adr/ADR-035-affiliate-catalog-and-offer-management.md))
 - `TSK-PLAT-048` · Harden UV Widget Caching & Rate Limits With Upstash — Owner: Platform Engineer; Effort: small; Updated: 2025-11-07 ([link](docs/adr/ADR-006-edge-cache-and-rate-limiting-platform.md))
 - `TSK-PLAT-049` · Instrument UV Widget Analytics Guardrails — Owner: Analytics Engineer; Effort: small; Updated: 2025-11-07 ([link](docs/adr/ADR-029-plausible-analytics-platform.md))
-- `TSK-PLAT-051` · Wire Web Vitals Metric Into Analytics Dashboards — Owner: Analytics Engineer; Effort: small; Updated: 2025-11-07 ([link](docs/runbooks/seo-operations.md))
 - `TSK-PLAT-052` · Run Autumn Feature Flag Retirement Audit — Owner: Platform Tech Lead; Effort: small; Updated: 2025-10-29 ([link](docs/PRDs/requierments/operations-hub/feature-requirements.md))
 - `TSK-PLAT-053` · Enable Cross-Region Replication for Strapi Backups — Owner: DevOps Lead; Effort: small; Updated: 2025-11-05 ([link](docs/adr/ADR-010-content-management-platform.md))
 - `TSK-PLAT-054` · Design Strapi Canary Release Strategy — Owner: DevOps Lead; Effort: small; Updated: 2025-10-29 ([link](docs/PRDs/requierments/strapi/setup.md))
@@ -156,6 +155,7 @@ _No tasks._
 - `TSK-PLAT-044` · Integrate Testing Suites into CI Pipeline — Owner: Platform Tech Lead; Effort: medium; Updated: 2025-10-25 ([link](docs/adr/ADR-015-testing-strategy.md))
 - `TSK-PLAT-047` · Wire UV Widget Risk Copy From Strapi — Owner: Platform Engineer; Effort: small; Updated: 2025-11-08 ([link](docs/PRDs/requierments/tools/skin/widget_indeks_uv.md))
 - `TSK-PLAT-050` · Enforce SEO Guardrail in CI Workflow — Owner: Platform Tech Lead; Effort: small; Updated: 2025-10-28 ([link](docs/PRDs/seo-foundation.md))
+- `TSK-PLAT-051` · Wire Web Vitals Metric Into Analytics Dashboards — Owner: Analytics Engineer; Effort: small; Updated: 2025-11-10 ([link](docs/runbooks/seo-operations.md))
 - `TSK-SEO-001` · Ship SEO Platform Foundation — Owner: Frontend Platform Lead; Effort: large; Updated: 2025-11-04 ([link](docs/PRDs/seo-foundation.md))
 
 ### Qa

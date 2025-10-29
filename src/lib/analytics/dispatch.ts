@@ -23,6 +23,15 @@ declare global {
 }
 
 export type AnalyticsEventName = keyof AnalyticsEventPayloadMap;
+export type AnalyticsEventRequest<EventName extends AnalyticsEventName = AnalyticsEventName> = {
+  name: EventName;
+  url?: string;
+  referrer?: string;
+  props: AnalyticsEventPayloadMap[EventName];
+  timestamp?: string;
+};
+
+const ANALYTICS_EVENT_ENDPOINT = "/api/analytics/events";
 
 export function dispatchAnalyticsEvent<EventName extends AnalyticsEventName>(
   name: EventName,
@@ -35,8 +44,66 @@ export function dispatchAnalyticsEvent<EventName extends AnalyticsEventName>(
   const plausible = window.plausible;
   if (typeof plausible === "function") {
     plausible(name, { props: properties });
-  } else if (process.env.NODE_ENV !== "production") {
+    return;
+  }
+
+  if (name === "WebVitalsMetric") {
+    queueMicrotask(() => {
+      postAnalyticsEvent({ name, props: properties });
+    });
+  }
+
+  if (process.env.NODE_ENV !== "production") {
     // eslint-disable-next-line no-console -- Safe for development diagnostics.
     console.debug(`[analytics] ${name}`, properties);
+  }
+}
+
+function postAnalyticsEvent<EventName extends AnalyticsEventName>(
+  event: AnalyticsEventRequest<EventName>,
+): void {
+  try {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const url = window.location?.href;
+    const referrer = typeof document !== "undefined" ? document.referrer : undefined;
+    const payload: AnalyticsEventRequest<EventName> = {
+      name: event.name,
+      props: event.props,
+      url: event.url ?? url,
+      timestamp: new Date().toISOString(),
+    };
+
+    if (event.referrer) {
+      payload.referrer = event.referrer;
+    } else if (referrer) {
+      payload.referrer = referrer;
+    }
+
+    const serialized = JSON.stringify(payload);
+
+    if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
+      const blob = new Blob([serialized], { type: "application/json" });
+      const sent = navigator.sendBeacon(ANALYTICS_EVENT_ENDPOINT, blob);
+      if (sent) {
+        return;
+      }
+    }
+
+    void fetch(ANALYTICS_EVENT_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: serialized,
+      keepalive: true,
+    });
+  } catch (error) {
+    if (process.env.NODE_ENV !== "production") {
+      // eslint-disable-next-line no-console -- Allowed for development diagnostics.
+      console.debug("[analytics] failed to queue event", error);
+    }
   }
 }

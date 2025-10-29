@@ -63,6 +63,7 @@ Before shipping SEO-impacting changes (`src/app/**`, metadata libraries, CMS sch
 - **CI enforcement (`TSK-PLAT-050`):** `.github/workflows/ci.yml` runs `npm run check:seo` on every push and pull request. Failures surface as a dedicated “Run SEO metadata guardrail” step with explicit annotations—treat red runs as merge blockers and follow the guardrail playbook before retrying.
 - **Search Console API:** nightly ingestion job writes coverage metrics (impressions, clicks, CTR, average position) to `metrics/flow.json`; alert if API fails >24h.
 - **Web Vitals library (`web-vitals`):** captured via `WebVitalsReporter` (`src/app/_components/WebVitalsReporter.tsx`). Metrics dispatch as the `WebVitalsMetric` analytics event and flow into Plausible dashboards; threshold breaches trigger Kaizen guardrail tasks.
+- **Web Vitals ingestion guardrail (`TSK-PLAT-051`):** Plausible events are proxied through `/api/analytics/events` and verified with `npm run analytics:health`. The script exits non-zero when Web Vitals metrics are missing from the last six hours or the Plausible API is unreachable—treat failures as merge blockers and log a Kaizen item.
 - **Broken link monitor:** part of CI; manual rerun via `npm run validate -- --only broken-links` (script to be added during implementation).
 - **Schema validator:** Ajv-based tests under `src/lib/seo/__tests__/structured-data.spec.ts`; update schemas when Google releases guideline changes.
 

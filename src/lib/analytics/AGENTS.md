@@ -6,6 +6,7 @@ This module owns the frontend analytics shims that will be replaced by the full 
 
 - Define typed client helpers for Plausible until the shared package ships. Every helper must enforce the event catalogue in ADR-029 and stay free of PII.
 - Centralize event names here—page/view code should import helpers instead of calling `window.plausible` directly.
+- When the Plausible script is unavailable (ad-blockers, preview environments), fall back to the `/api/analytics/events` route so Web Vitals continue to ingest. Guard the server handler with proper logging and keep it side-effect free.
 - Guard against missing Plausible script in development by logging to the console only when `NODE_ENV !== "production"`.
 
 ## Development workflow
@@ -13,6 +14,7 @@ This module owns the frontend analytics shims that will be replaced by the full 
 - Lint + type-check: `npm run lint:code && npm run typecheck`
 - Targeted tests (Vitest): `npx vitest run tests/home/HomeExperienceManager.test.ts`
 - Full suite (before PR): `npm run validate`
+- Verify Plausible ingestion: `npm run analytics:health` (requires Plausible API access). Script fails if Web Vitals metrics have not landed in six hours.
 - Run `npm run ensure:agents` after adding folders or moving files so agent docs stay in sync.
 
 ## Adding or changing events
