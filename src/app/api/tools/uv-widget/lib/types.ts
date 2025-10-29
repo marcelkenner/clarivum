@@ -100,6 +100,13 @@ export type UVWidgetManagerConfig = {
   };
 };
 
+export type UVWidgetCopyBundle = {
+  riskCopy: Record<RiskLevel, string>;
+  fallbackMessage: string;
+  nextSteps: UVWidgetNextStep[];
+  source: "fallback" | "strapi";
+};
+
 export type UVWidgetManagerDependencies = {
   fetchForecast: (input: {
     language: LocaleLanguage;
@@ -109,4 +116,5 @@ export type UVWidgetManagerDependencies = {
     timeoutMs: number;
   }) => Promise<WttrResponse>;
   now: () => number;
+  loadCopy: (language: LocaleLanguage) => Promise<UVWidgetCopyBundle>;
 };

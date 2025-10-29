@@ -37,7 +37,6 @@ Generated 2025-10-29 via `npm run tasks:summary`.
 - `TSK-PLAT-009` · Launch Recommendations & Merchandising Engine — Owner: Personalization Lead; Effort: medium; Updated: 2025-10-28 ([link](docs/PRDs/requierments/recommendations/feature-requirements.md))
 - `TSK-PLAT-010` · Build Coupons & Affiliate Incentives Platform — Owner: Platform Engineer; Effort: medium; Updated: 2025-10-28 ([link](docs/PRDs/requierments/coupons/feature-requirements.md))
 - `TSK-PLAT-011` · Operationalize Security & Compliance Baseline — Owner: Security Champion; Effort: medium; Updated: 2025-10-28 ([link](docs/PRDs/requierments/security/feature-requirements.md))
-- `TSK-PLAT-012` · Provision Supabase Tenancy & Environment Secrets — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-28 ([link](docs/PRDs/requierments/supabase-platform/feature-requirements.md))
 - `TSK-PLAT-013` · Configure Auth0 Tenancy & Access Policies — Owner: Security Lead; Effort: medium; Updated: 2025-10-28 ([link](docs/PRDs/requierments/login/feature-requirements.md))
 - `TSK-PLAT-014` · Stand Up Flagsmith Environments & Governance — Owner: Platform Engineer; Effort: small; Updated: 2025-10-28 ([link](docs/PRDs/requierments/feature-flags/feature-requirements.md))
 - `TSK-PLAT-015` · Provision Upstash Redis for Caching & Rate Limiting — Owner: Edge Platform Manager; Effort: small; Updated: 2025-10-28 ([link](docs/PRDs/requierments/frontend-platform/feature-requirements.md))
@@ -67,7 +66,6 @@ Generated 2025-10-29 via `npm run tasks:summary`.
 - `TSK-PLAT-042` · Launch Fulfillment Orchestrator Guardrails — Owner: Platform Engineer; Effort: medium; Updated: 2025-10-28 ([link](docs/adr/ADR-032-guest-entitlements-and-account-claiming.md))
 - `TSK-PLAT-043` · Build Monetization Telemetry Platform — Owner: Platform Engineer; Effort: large; Updated: 2025-10-28 ([link](docs/adr/ADR-033-advertising-and-affiliate-telemetry.md))
 - `TSK-PLAT-046` · Build Affiliate Catalog Service & SDK — Owner: Platform Tech Lead; Effort: medium; Updated: 2025-10-28 ([link](docs/adr/ADR-035-affiliate-catalog-and-offer-management.md))
-- `TSK-PLAT-047` · Wire UV Widget Risk Copy From Strapi — Owner: Platform Engineer; Effort: small; Updated: 2025-11-07 ([link](docs/PRDs/requierments/tools/skin/widget_indeks_uv.md))
 - `TSK-PLAT-048` · Harden UV Widget Caching & Rate Limits With Upstash — Owner: Platform Engineer; Effort: small; Updated: 2025-11-07 ([link](docs/adr/ADR-006-edge-cache-and-rate-limiting-platform.md))
 - `TSK-PLAT-049` · Instrument UV Widget Analytics Guardrails — Owner: Analytics Engineer; Effort: small; Updated: 2025-11-07 ([link](docs/adr/ADR-029-plausible-analytics-platform.md))
 - `TSK-PLAT-051` · Wire Web Vitals Metric Into Analytics Dashboards — Owner: Analytics Engineer; Effort: small; Updated: 2025-11-07 ([link](docs/runbooks/seo-operations.md))
@@ -130,6 +128,9 @@ Generated 2025-10-29 via `npm run tasks:summary`.
 ### Frontend
 - `TSK-FE-005` · Build Tools-First Homepage MVP — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-27 ([link](docs/PRDs/requierments/homepage/feature-requirements.md))
 
+### Platform
+- `TSK-PLAT-012` · Provision Supabase Tenancy & Environment Secrets — Owner: DevOps Lead; Effort: medium; Updated: 2025-11-05 ([link](docs/PRDs/requierments/supabase-platform/feature-requirements.md))
+
 ### Qa
 - `TSK-QA-004` · Monetization Telemetry Validation & Synthetic Monitoring — Owner: QA Lead; Effort: medium; Updated: 2025-11-03 ([link](docs/PRDs/requierments/analytics/feature-requirements.md))
 
@@ -153,6 +154,7 @@ _No tasks._
 - `TSK-PLAT-020` · Provision Strapi ECS Infrastructure — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-PLAT-021` · Establish Strapi Data Foundation — Owner: DevOps Lead; Effort: medium; Updated: 2025-11-05 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-PLAT-022` · Implement Strapi CI/CD Pipeline — Owner: DevOps Lead; Effort: medium; Updated: 2025-11-06 ([link](docs/PRDs/requierments/strapi/setup.md))
+- `TSK-PLAT-047` · Wire UV Widget Risk Copy From Strapi — Owner: Platform Engineer; Effort: small; Updated: 2025-11-08 ([link](docs/PRDs/requierments/tools/skin/widget_indeks_uv.md))
 - `TSK-PLAT-044` · Integrate Testing Suites into CI Pipeline — Owner: Platform Tech Lead; Effort: medium; Updated: 2025-10-25 ([link](docs/adr/ADR-015-testing-strategy.md))
 - `TSK-PLAT-050` · Enforce SEO Guardrail in CI Workflow — Owner: Platform Tech Lead; Effort: small; Updated: 2025-10-28 ([link](docs/PRDs/seo-foundation.md))
 - `TSK-SEO-001` · Ship SEO Platform Foundation — Owner: Frontend Platform Lead; Effort: large; Updated: 2025-11-04 ([link](docs/PRDs/seo-foundation.md))

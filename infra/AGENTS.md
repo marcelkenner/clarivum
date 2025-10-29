@@ -17,6 +17,17 @@ This directory stores Terraform configurations for Clarivum platform services. A
 - `terraform -chdir=infra/strapi apply -var-file=env/prod.tfvars` — apply changes for prod (requires release approval).
 - `terraform -chdir=infra/strapi fmt` and `terraform -chdir=infra/strapi validate` — formatting and validation guardrails (mirrors CI expectations).
 
+## Supabase tenancy (TSK-PLAT-012)
+
+- Terraform code under `infra/supabase` provisions Supabase projects, storage buckets, and AWS secrets.
+- Supply a Supabase access token at runtime: `export SUPABASE_ACCESS_TOKEN=$(pass show clarivum/supabase/pat)`.
+- Usage mirrors the Strapi flow:
+  - `terraform -chdir=infra/supabase init`
+  - `terraform -chdir=infra/supabase workspace select dev || terraform -chdir=infra/supabase workspace new dev`
+  - `terraform -chdir=infra/supabase plan -var-file=env/dev.tfvars -var="supabase_access_token=$SUPABASE_ACCESS_TOKEN"`
+  - `terraform -chdir=infra/supabase apply -var-file=env/prod.tfvars -var="supabase_access_token=$SUPABASE_ACCESS_TOKEN"`
+- Outputs surface Supabase URLs, project refs, and Secrets Manager ARNs for downstream wiring (Next.js, Strapi webhooks, background workers).
+
 ## Strapi data foundation (TSK-PLAT-021)
 
 - Terraform now provisions the Strapi RDS instance (`aws_db_instance.strapi`), Secrets Manager entries `clarivum/strapi/<env>/database-{password,url}`, and paired media buckets (`clarivum-strapi-<env>-media-public`, `clarivum-strapi-<env>-media-private`). Do not create or rename these in the console—drive changes through code so IAM policies stay in sync.

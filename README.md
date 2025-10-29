@@ -6,7 +6,7 @@ This repository hosts the Clarivum web experience (Next.js App Router, React 19,
 - **Observability:** OpenTelemetry scaffolding (`instrumentation*.ts`, `observability/`) is checked in; set the OTLP credentials described in `docs/runbooks/observability-operations.md` before deploying to capture spans/metrics.
 - **Testing & QA:** Vitest + Testing Library cover the home/coordinator/content-library flows (≈15.5 % statements today). `scripts/write-coverage-metrics.mjs` emits `metrics/coverage.json`, and the Playwright smoke suite (`PLAYWRIGHT_BASE_URL=http://127.0.0.1:3310 npm run test:e2e:smoke`) validates the hero CTA while writing `metrics/quality.json` for dashboards.
 - **Automation:** `.github/workflows/ci.yml` runs `npm run validate`, Vitest coverage, metrics export, and the Playwright smoke project. All runs upload `qa-metrics`, `vitest-coverage`, `playwright-report`, and `ci-metrics` artifacts per ADR-015.
-- **Outstanding work:** Finish the Strapi hookup (`src/app/_vertical-experience`) plus Supabase data loaders, raise coverage toward the ≥80 % goal, and continue populating Kaizen guardrails (see `tasks/ready/**`).
+- **Outstanding work:** Finish the Strapi hookup (`src/app/_vertical-experience`), apply the Supabase tenancy stack in `infra/supabase` with real credentials, raise coverage toward the ≥80 % goal, and continue populating Kaizen guardrails (see `tasks/ready/**`).
 
 ## Local development
 

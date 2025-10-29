@@ -21,6 +21,7 @@
    - Owner approves and assigns IAM permissions.
 2. **Creation steps:**
    - Define name using `/clarivum/<env>/<service>/<secretName>` convention.
+     - Supabase provisioning (`infra/supabase`) automatically creates `/clarivum/supabase/<env>/{anon_key|service_role|db_url|db_password|url|project_ref|next_public_*}`. Do not edit these manually; rotate via Terraform apply + Supabase API.
    - Store value via AWS CLI:
      ```bash
      aws secretsmanager create-secret \
@@ -78,4 +79,5 @@
 - Ensure GDPR-related integrations (Auth0, Plausible Analytics) have rotation logs accessible.
 
 ## Change log
+- **2025-11-05:** Documented Supabase secret paths managed by Terraform (TSK-PLAT-012).
 - **2025-10-23:** Initial secrets management runbook covering lifecycle, rotation, CI sync, and incident handling.

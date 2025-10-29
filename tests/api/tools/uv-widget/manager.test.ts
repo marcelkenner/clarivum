@@ -37,6 +37,31 @@ const BASE_REQUEST: ParsedRequestInput = {
   location: { latitude: 50.0614, longitude: 19.9372 },
 };
 
+const COPY_FIXTURE = {
+  riskCopy: {
+    low: "UV jest niskie. SPF 30 wystarczy, ale pamiętaj o reaplikacji.",
+    moderate: "Nałóż SPF 50 i powtarzaj co 2 godziny.",
+    high: "UV jest wysokie - użyj SPF 50+ i unikaj słońca w południe.",
+    very_high: "UV jest bardzo wysokie. Szukaj cienia i noś odzież ochronną.",
+    extreme: "UV ekstremalne! Zostań w pomieszczeniu, jeśli możesz, i stosuj ochronę 360°.",
+  },
+  fallbackMessage:
+    "Pokazujemy Warszawę. Udostępnij lokalizację, aby zobaczyć dane dla Twojego miasta.",
+  nextSteps: [
+    {
+      label: "Kalkulator dawki SPF",
+      href: "/skin/narzedzia/kalkulator-dawki-spf",
+      cta_id: "spf-dose-calculator",
+    },
+    {
+      label: "Timer reaplikacji SPF",
+      href: "/skin/narzedzia/timer-reaplikacji",
+      cta_id: "spf-reapply-timer",
+    },
+  ],
+  source: "fallback" as const,
+};
+
 describe("UV Widget Manager", () => {
   let createUvWidgetManager: typeof import("@/app/api/tools/uv-widget/lib/manager").createUvWidgetManager;
 
@@ -61,7 +86,11 @@ describe("UV Widget Manager", () => {
   it("maps Wttr response into widget payload", async () => {
     const fetchForecast = vi.fn().mockResolvedValue(SAMPLE_RESPONSE);
     const manager = createUvWidgetManager(
-      { fetchForecast, now: () => Date.now() },
+      {
+        fetchForecast,
+        now: () => Date.now(),
+        loadCopy: vi.fn().mockResolvedValue(COPY_FIXTURE),
+      },
       { cacheTtlMs: 300000 },
     );
 
@@ -82,7 +111,11 @@ describe("UV Widget Manager", () => {
   it("reuses cached value within TTL", async () => {
     const fetchForecast = vi.fn().mockResolvedValue(SAMPLE_RESPONSE);
     const manager = createUvWidgetManager(
-      { fetchForecast, now: () => Date.now() },
+      {
+        fetchForecast,
+        now: () => Date.now(),
+        loadCopy: vi.fn().mockResolvedValue(COPY_FIXTURE),
+      },
       { cacheTtlMs: 300000 },
     );
 
@@ -101,7 +134,11 @@ describe("UV Widget Manager", () => {
   it("returns fallback payload when upstream fails", async () => {
     const fetchForecast = vi.fn().mockRejectedValue(new Error("timeout"));
     const manager = createUvWidgetManager(
-      { fetchForecast, now: () => Date.now() },
+      {
+        fetchForecast,
+        now: () => Date.now(),
+        loadCopy: vi.fn().mockResolvedValue(COPY_FIXTURE),
+      },
       { cacheTtlMs: 300000 },
     );
 
@@ -119,7 +156,11 @@ describe("UV Widget Manager", () => {
       .mockResolvedValueOnce(SAMPLE_RESPONSE)
       .mockRejectedValueOnce(new Error("wttr outage"));
     const manager = createUvWidgetManager(
-      { fetchForecast, now: () => Date.now() },
+      {
+        fetchForecast,
+        now: () => Date.now(),
+        loadCopy: vi.fn().mockResolvedValue(COPY_FIXTURE),
+      },
       { cacheTtlMs: 1_000 },
     );
 

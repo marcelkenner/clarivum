@@ -72,6 +72,7 @@
 - Cache policy: 5 minute TTL backed by Upstash Redis (`UPSTASH_CACHE_REST_URL`/`TOKEN`) so multiple instances share warm data. Cache keys follow `<lang>:geo:<lat>:<lon>` (rounded to 2 decimals) or `<lang>:city:<query>` and record hit/miss/stale metrics via OpenTelemetry (`clarivum.tools.uv_widget.cache.*`).
 - Rate limiting: default 30 req/min per hashed client IP using `@upstash/ratelimit` (`UPSTASH_RATELIMIT_REST_URL`/`TOKEN`). Metrics emit under `clarivum.tools.uv_widget.rate_limit.*`. Update monitoring alerts alongside any env change.
 - Failover knobs: set `UV_WIDGET_CACHE_MODE=memory` to bypass Upstash, `UV_WIDGET_CACHE_ALLOW_STALE=false` to disable stale replays, and `UV_WIDGET_RATE_LIMIT_MODE=memory` for maintenance windows. All modes serve stale-but-safe payloads when upstreams fail.
+- Copy sourcing: Risk copy, CTA metadata, and fallback banners hydrate from the Strapi collection `tools-uv-widget`. Provide `STRAPI_API_URL` (or `STRAPI_BASE_URL`) plus a read-only delivery token via `STRAPI_TOOLS_UV_WIDGET_TOKEN` (fallback `STRAPI_DELIVERY_API_TOKEN`). Payloads are cached in-process for 5 minutes per locale; if Strapi is unavailable the route falls back to the baked copy documented in ADR-038.
 - Debug tip: `curl 'https://wttr.in/52.2297,21.0122?format=j1&lang=pl'` (respect cadence) and compare the `uvIndex` fields with `/api/tools/uv-widget` output.
 
 ## Observability Metrics

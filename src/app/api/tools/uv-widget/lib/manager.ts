@@ -1,12 +1,14 @@
 import { SpanStatusCode, trace } from "@opentelemetry/api";
 
 import { readCache, writeCache } from "./cache";
+import { loadCopyBundle } from "./copy-loader";
 import { fetchWttrForecast } from "./wttr-client";
 
 import type {
   LocaleLanguage,
   ParsedRequestInput,
   RiskLevel,
+  UVWidgetCopyBundle,
   UVWidgetManagerConfig,
   UVWidgetManagerDependencies,
   UVWidgetPayload,
@@ -31,55 +33,6 @@ const DEFAULT_CONFIG: UVWidgetManagerConfig = {
 type CacheStatus = "hit" | "miss" | "stale";
 type CacheSource = "upstash" | "memory";
 
-const RISK_COPY: Record<LocaleLanguage, Record<RiskLevel, string>> = {
-  pl: {
-    low: "UV jest niskie. SPF 30 wystarczy, ale pamiętaj o reaplikacji.",
-    moderate: "Nałóż SPF 50 i powtarzaj co 2 godziny.",
-    high: "UV jest wysokie - użyj SPF 50+ i unikaj słońca w południe.",
-    very_high: "UV jest bardzo wysokie. Szukaj cienia i noś odzież ochronną.",
-    extreme: "UV ekstremalne! Zostań w pomieszczeniu, jeśli możesz, i stosuj ochronę 360°.",
-  },
-  en: {
-    low: "UV risk is low. SPF 30 is enough; reapply every 2 hours.",
-    moderate: "Apply SPF 50 and reapply every 2 hours.",
-    high: "UV is high - use SPF 50+ and stay in the shade around noon.",
-    very_high: "Very high UV. Seek shade and wear protective clothing.",
-    extreme: "Extreme UV! Stay indoors if possible and apply full protection.",
-  },
-};
-
-const FALLBACK_MESSAGES: Record<LocaleLanguage, string> = {
-  pl: "Pokazujemy Warszawę. Udostępnij lokalizację, aby zobaczyć dane dla Twojego miasta.",
-  en: "Showing Warsaw. Share your location to see your city's UV index.",
-};
-
-const CTA_STEPS: Record<LocaleLanguage, { label: string; href: string; cta_id: string }[]> = {
-  pl: [
-    {
-      label: "Kalkulator dawki SPF",
-      href: "/skin/narzedzia/kalkulator-dawki-spf",
-      cta_id: "spf-dose-calculator",
-    },
-    {
-      label: "Timer reaplikacji SPF",
-      href: "/skin/narzedzia/timer-reaplikacji",
-      cta_id: "spf-reapply-timer",
-    },
-  ],
-  en: [
-    {
-      label: "SPF Dose Calculator",
-      href: "/skin/tools/spf-dose-calculator",
-      cta_id: "spf-dose-calculator",
-    },
-    {
-      label: "SPF Reapply Timer",
-      href: "/skin/tools/spf-reapply-timer",
-      cta_id: "spf-reapply-timer",
-    },
-  ],
-};
-
 function computeRiskLevel(uvIndex: number): RiskLevel {
   if (!Number.isFinite(uvIndex) || uvIndex <= 0) {
     return "low";
@@ -90,15 +43,6 @@ function computeRiskLevel(uvIndex: number): RiskLevel {
   if (uvIndex <= 7) return "high";
   if (uvIndex <= 10) return "very_high";
   return "extreme";
-}
-
-function getRiskCopy(language: LocaleLanguage, level: RiskLevel) {
-  const languageCopy = RISK_COPY[language] ?? RISK_COPY.en;
-  return languageCopy[level] ?? RISK_COPY.en[level];
-}
-
-function selectNextSteps(language: LocaleLanguage) {
-  return (CTA_STEPS[language] ?? CTA_STEPS.en).map((step) => ({ ...step }));
 }
 
 function normaliseCityLabel(area: WttrNearestArea | undefined, fallbackLabel: string) {
@@ -256,6 +200,7 @@ export function createUvWidgetManager(
   const dependencies: UVWidgetManagerDependencies = {
     fetchForecast: deps?.fetchForecast ?? fetchWttrForecast,
     now: deps?.now ?? (() => Date.now()),
+    loadCopy: deps?.loadCopy ?? loadCopyBundle,
   };
 
   const mergedConfig: UVWidgetManagerConfig = {
@@ -294,6 +239,8 @@ export function createUvWidgetManager(
         input.cityQuery ? "city" : input.location ? "geo" : "fallback",
       );
 
+      const copyPromise: Promise<UVWidgetCopyBundle> = dependencies.loadCopy(input.language);
+
       try {
         const response = await dependencies.fetchForecast({
           language: input.language,
@@ -306,6 +253,7 @@ export function createUvWidgetManager(
         const area = response.nearest_area?.[0];
         const { uvNow, uvMax, current, day } = extractUvValues(response);
         const riskLevel = computeRiskLevel(uvNow);
+        const copyBundle = await copyPromise;
 
         const fallbackDetails: UVWidgetPayload["fallback"] = {
           is_fallback_city: input.cityQuery
@@ -313,7 +261,7 @@ export function createUvWidgetManager(
             : !input.location ||
               (input.location?.latitude === mergedConfig.fallbackCoordinates.latitude &&
                 input.location?.longitude === mergedConfig.fallbackCoordinates.longitude),
-          message: FALLBACK_MESSAGES[input.language] ?? FALLBACK_MESSAGES.en,
+          message: copyBundle.fallbackMessage,
         };
 
         if (!input.cityQuery) {
@@ -340,8 +288,8 @@ export function createUvWidgetManager(
           uv_now: Number(uvNow.toFixed(1)),
           uv_max_today: Number(uvMax.toFixed(1)),
           risk_level: riskLevel,
-          risk_copy: getRiskCopy(input.language, riskLevel),
-          next_steps: selectNextSteps(input.language),
+          risk_copy: copyBundle.riskCopy[riskLevel] ?? copyBundle.riskCopy.low,
+          next_steps: copyBundle.nextSteps.map((step) => ({ ...step })),
           fallback: fallbackDetails,
           meta,
         };
@@ -355,9 +303,11 @@ export function createUvWidgetManager(
           "clarivum.tools.cache_status",
           cacheLookup.status === "hit" ? "hit" : "miss",
         );
+        span.setAttribute("clarivum.tools.copy_source", copyBundle.source);
         span.end();
         return withCacheMetadata(payload, "miss");
       } catch (error) {
+        const copyBundle = await copyPromise;
         span.recordException(error as Error);
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -377,11 +327,11 @@ export function createUvWidgetManager(
           uv_now: 0,
           uv_max_today: 0,
           risk_level: "low",
-          risk_copy: getRiskCopy(input.language, "low"),
-          next_steps: selectNextSteps(input.language),
+          risk_copy: copyBundle.riskCopy.low,
+          next_steps: copyBundle.nextSteps.map((step) => ({ ...step })),
           fallback: {
             is_fallback_city: true,
-            message: FALLBACK_MESSAGES[input.language] ?? FALLBACK_MESSAGES.en,
+            message: copyBundle.fallbackMessage,
             reason: "error",
           },
           meta: {

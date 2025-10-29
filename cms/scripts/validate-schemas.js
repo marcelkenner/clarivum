@@ -20,7 +20,9 @@ const contentTypeSchemas = collectSchemas(contentTypesDir, "schema.json");
 const componentSchemas = collectSchemas(componentsDir, "component.json");
 
 if (contentTypeSchemas.length === 0 && componentSchemas.length === 0) {
-  console.log("No Strapi schemas found (create content types or components to enforce validation).");
+  console.log(
+    "No Strapi schemas found (create content types or components to enforce validation).",
+  );
   process.exit(0);
 }
 
@@ -100,7 +102,10 @@ function validateContentTypeSchema(filePath, schema) {
   if (!schema.info || typeof schema.info !== "object") {
     issues.push({ path: rel, message: "info block is required." });
   } else {
-    if (typeof schema.info.displayName !== "string" || schema.info.displayName.trim().length === 0) {
+    if (
+      typeof schema.info.displayName !== "string" ||
+      schema.info.displayName.trim().length === 0
+    ) {
       issues.push({ path: rel, message: "info.displayName must be a non-empty string." });
     }
   }
@@ -114,7 +119,10 @@ function validateComponentSchema(filePath, schema) {
   }
   if (!schema.info || typeof schema.info !== "object") {
     issues.push({ path: rel, message: "info block is required." });
-  } else if (typeof schema.info.displayName !== "string" || schema.info.displayName.trim().length === 0) {
+  } else if (
+    typeof schema.info.displayName !== "string" ||
+    schema.info.displayName.trim().length === 0
+  ) {
     issues.push({ path: rel, message: "info.displayName must be a non-empty string." });
   }
   validateAttributes(rel, schema.attributes);
@@ -122,7 +130,10 @@ function validateComponentSchema(filePath, schema) {
 
 function validateAttributes(relPath, attributes) {
   if (!attributes || typeof attributes !== "object" || Array.isArray(attributes)) {
-    issues.push({ path: relPath, message: "attributes must be an object mapping field names to definitions." });
+    issues.push({
+      path: relPath,
+      message: "attributes must be an object mapping field names to definitions.",
+    });
     return;
   }
 

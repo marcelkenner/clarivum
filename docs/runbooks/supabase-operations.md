@@ -22,6 +22,26 @@
 - Supabase access roles provisioned: `service_role`, `anon`, `member`, `subscriber`, `admin`.
 - Secrets stored in AWS Secrets Manager; rotation schedule documented.
 - `db/migrations` folder contains versioned SQL migrations with rollback scripts.
+- Supabase projects provisioned via `terraform -chdir=infra/supabase` with latest bucket/secrets definitions committed.
+
+## Provisioning & Secrets
+1. Authenticate and export the Supabase PAT (personal access token) locally:  
+   `export SUPABASE_ACCESS_TOKEN="$(pass show clarivum/supabase/pat)"`
+2. Select the target workspace (`dev`, `prod`) and apply the Terraform module:
+   ```bash
+   terraform -chdir=infra/supabase init
+   terraform -chdir=infra/supabase workspace select dev || terraform -chdir=infra/supabase workspace new dev
+   terraform -chdir=infra/supabase apply \
+     -var-file=infra/supabase/env/dev.tfvars \
+     -var="supabase_access_token=$SUPABASE_ACCESS_TOKEN"
+   ```
+3. Terraform outputs:
+   - Supabase project URL + ref (used by Next.js and Strapi webhooks).
+   - Storage buckets `ebooks-public`, `ebooks-private` provisioned with private access (signed URLs only). Enforce lifecycle policy manually if Supabase introduces retention controls; target 180 d transition and 365 d archive per DoR.
+   - AWS Secrets Manager entries under `/clarivum/supabase/<env>/`:
+     - `anon_key`, `service_role`, `db_url`, `db_password`, `url`, `project_ref`, `next_public_url`, `next_public_anon_key`.
+4. Sync secrets to runtimes following `docs/runbooks/secrets-management.md`. CI may only read the `dev` anon key; production access is restricted to runtime principals.
+5. Record the apply timestamp and plan URL in the weekly ops log.
 
 ## Tooling & References
 - Supabase Dashboard (`https://app.supabase.com`).
@@ -122,4 +142,5 @@
 - Record changes in changelog with date and summary.
 
 ## Changelog
+- 2025-11-05 — Added Terraform provisioning workflow, AWS secret paths, and bucket guardrails (TSK-PLAT-012).
 - 2025-10-26 — Initial runbook outlining migration, backup, and incident workflows.

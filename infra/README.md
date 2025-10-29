@@ -6,6 +6,7 @@ Infrastructure-as-code for Clarivum platform services lives under this directory
 
 - `modules/` — reusable Terraform modules shared across workloads.
 - `strapi/` — environment-specific configuration for Strapi ECS (TSK-PLAT-020).
+- `supabase/` — Supabase tenancy, storage buckets, and secrets wiring (TSK-PLAT-012).
 - Future services should create their own subdirectories (e.g., `supabase/`, `novu/`) and reuse shared modules when possible.
 
 ## Naming and tagging
