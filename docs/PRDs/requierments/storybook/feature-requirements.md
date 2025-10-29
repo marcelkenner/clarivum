@@ -56,6 +56,8 @@
 - Accessibility addon enabled with baseline checks passing.
 - Developer onboarding guide updated with Storybook usage instructions.
 
+> Status update (2025-11-10): `npm run storybook` launches the live workbench with accessibility and interactions addons, UI primitives are documented in `src/components/ui/__stories__/`, and `npm run storybook:test` currently acts as a placeholder build guard until the hosted workflow restores a real static build (TODO.md #35).
+
 ## Open Questions & Assumptions
 - Decide on hosting (Chromatic vs Vercel preview) and access controls.
 - Determine schedule for design QA sessions using Storybook (e.g., weekly review).

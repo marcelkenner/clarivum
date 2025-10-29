@@ -27,7 +27,9 @@
 ## Provisioning & Secrets
 1. Authenticate and export the Supabase PAT (personal access token) locally:  
    `export SUPABASE_ACCESS_TOKEN="$(pass show clarivum/supabase/pat)"`
-2. Select the target workspace (`dev`, `prod`) and apply the Terraform module:
+2. Confirm the tfvars point at the correct organisation slug:  
+   `supabase orgs list | grep clarivum` (update `supabase_organization_slug` or set `supabase_organization_id_override` if the slug differs).
+3. Select the target workspace (`dev`, `prod`) and apply the Terraform module:
    ```bash
    terraform -chdir=infra/supabase init
    terraform -chdir=infra/supabase workspace select dev || terraform -chdir=infra/supabase workspace new dev
@@ -35,13 +37,13 @@
      -var-file=infra/supabase/env/dev.tfvars \
      -var="supabase_access_token=$SUPABASE_ACCESS_TOKEN"
    ```
-3. Terraform outputs:
+4. Terraform outputs:
    - Supabase project URL + ref (used by Next.js and Strapi webhooks).
    - Storage buckets `ebooks-public`, `ebooks-private` provisioned with private access (signed URLs only). Enforce lifecycle policy manually if Supabase introduces retention controls; target 180 d transition and 365 d archive per DoR.
    - AWS Secrets Manager entries under `/clarivum/supabase/<env>/`:
      - `anon_key`, `service_role`, `db_url`, `db_password`, `url`, `project_ref`, `next_public_url`, `next_public_anon_key`.
-4. Sync secrets to runtimes following `docs/runbooks/secrets-management.md`. CI may only read the `dev` anon key; production access is restricted to runtime principals.
-5. Record the apply timestamp and plan URL in the weekly ops log.
+5. Sync secrets to runtimes following `docs/runbooks/secrets-management.md`. CI may only read the `dev` anon key; production access is restricted to runtime principals.
+6. Record the apply timestamp and plan URL in the weekly ops log.
 
 ## Tooling & References
 - Supabase Dashboard (`https://app.supabase.com`).

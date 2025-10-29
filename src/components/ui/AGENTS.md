@@ -9,6 +9,9 @@ ADR-027 (component library governance).
   events without duplicating logic.
 - Accept accents via `accent="jade" | "skin" | "fuel" | "habits"` wherever relevant. All styling
   flows through CSS variables defined in `tokens.ts` to keep palette adjustments centralized.
+- Document each component in Storybook under `src/components/ui/__stories__/`. Use `npm run storybook`
+  to review locally and `npm run storybook:test` (static build guard invoked by `npm run lint`) to
+  ensure the workbench compiles.
 - Containers and section spacing follow the brand layout system: default max width 1120 px, narrow
   740 px, wide 1280 px, inline padding `clamp(16px, 4vw, 64px)`, section spacing `clamp(64px, 12vw,
 96px)`. Use the `.container`, `.container--narrow`, `.container--wide`, `.section`, `.full-bleed`,

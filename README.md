@@ -22,6 +22,7 @@ Common scripts:
 | ---------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
 | Start dev server       | `npm run dev`                                                      | Uses Turbopack; hot reload enabled.                                                |
 | Build production       | `npm run build`                                                    | Generates the production bundle (Turbopack).                                       |
+| Run Storybook          | `npm run storybook`                                                | Opens the component workbench at `http://localhost:6006` with Next.js integration. |
 | Run quality gate       | `npm run validate`                                                 | Executes lint (tasks + code), typecheck, and Prettier format check.                |
 | Lint tasks only        | `npm run lint:tasks`                                               | Validates task board metadata/schema.                                              |
 | Lint code only         | `npm run lint:code`                                                | ESLint with zero warnings allowed.                                                 |
@@ -30,6 +31,7 @@ Common scripts:
 | Refresh AGENTS docs    | `npm run ensure:agents`                                            | Regenerates directory-specific agent guidance files.                               |
 | Task status digest     | `npm run tasks:summary`                                            | Rebuilds `tasks/status-summary.md`.                                                |
 | Update coverage metric | `npm run test:coverage && npm run metrics:coverage`                | Produces `coverage/` HTML + refreshes `metrics/coverage.json` for dashboards.      |
+| Storybook build check  | `npm run storybook:test`                                           | Placeholder guard (see TODO.md #35) invoked by `npm run lint`.                     |
 | Smoke test + QA metric | `PLAYWRIGHT_BASE_URL=http://127.0.0.1:3310 npm run test:e2e:smoke` | Requires a running dev server on the same base URL; writes `metrics/quality.json`. |
 | Stale flag audit       | `npm run flags:stale`                                              | Requires Flagsmith Admin API creds; posts Slack + GitHub alerts when configured.   |
 

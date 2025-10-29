@@ -13,6 +13,8 @@ Atrament documentation UI (see `documents/`), but keep this guidance general for
   under `src/components/__tests__/` as soon as a component gains logic.
 - `ui/` holds the Clarivum component library primitives. Follow `src/components/ui/AGENTS.md`
   before adding or modifying shared UI pieces.
+- Document changes in Storybook (`npm run storybook`); stories live under `src/components/ui/__stories__/`
+  and the static bundle is checked automatically via `npm run storybook:test` during `npm run lint`.
 - When composing layouts, rely on the global `.container`, `.section`, `.full-bleed`, and `.safe`
   helpers defined in `src/app/globals.css` so spacing aligns with the site-wide 4‑pt scale and
   container widths (740 / 1120 / 1280 px).

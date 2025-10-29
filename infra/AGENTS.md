@@ -21,6 +21,7 @@ This directory stores Terraform configurations for Clarivum platform services. A
 
 - Terraform code under `infra/supabase` provisions Supabase projects, storage buckets, and AWS secrets.
 - Supply a Supabase access token at runtime: `export SUPABASE_ACCESS_TOKEN=$(pass show clarivum/supabase/pat)`.
+- Configuration expects an organisation slug in each tfvars (`supabase_organization_slug`); the module resolves the UUID automatically via the Management API unless an override is supplied.
 - Usage mirrors the Strapi flow:
   - `terraform -chdir=infra/supabase init`
   - `terraform -chdir=infra/supabase workspace select dev || terraform -chdir=infra/supabase workspace new dev`

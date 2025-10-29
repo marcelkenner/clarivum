@@ -33,6 +33,7 @@ const config = [
       "coverage/**",
       "playwright-report/**",
       "playwright-results/**",
+      "storybook-static/**",
     ],
   },
   js.configs.recommended,

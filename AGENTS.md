@@ -79,6 +79,8 @@ Each feature area must include its own `AGENTS.md` describing local build/test/l
 - Install Playwright browsers locally: `npm run playwright:install`
 - Regenerate agent scaffolding: `npm run ensure:agents`
 - Tasks summary: `npm run tasks:summary`
+- Storybook workbench (Next.js integration): `npm run storybook`
+- Storybook static build check: `npm run storybook:test` (invoked by `npm run lint`; currently a placeholder until TODO.md #35 replaces it with a real build)
 
 If a package-level override uses pnpm/turbo/vitest, map to the local scripts or create npm equivalents. Document any deviations in the package-level `AGENTS.md`.
 

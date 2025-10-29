@@ -5,7 +5,6 @@ Generated 2025-10-29 via `npm run tasks:summary`.
 ## Backlog
 
 ### Frontend
-- `TSK-FE-004` · Stand Up Storybook Workbench — Owner: Frontend Engineer; Effort: small; Updated: 2025-10-24 ([link](docs/PRDs/requierments/storybook/feature-requirements.md))
 - `TSK-FE-006` · Roll Out Tools & Calculators Platform — Owner: Frontend Engineer; Effort: large; Updated: 2025-10-24 ([link](docs/PRDs/requierments/tools/skin/feature-requirements.md))
 - `TSK-FE-007` · Launch Diagnostics & Quiz Experience — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/diagnostics/feature-requirements.md))
 - `TSK-FE-008` · Deliver Authentication & Login Experience — Owner: Frontend Engineer; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/login/feature-requirements.md))
@@ -142,6 +141,7 @@ _No tasks._
 - `TSK-FE-001` · Bootstrap Vitest Unit Testing — Owner: Frontend Lead; Effort: medium; Updated: 2025-11-03 ([link](AGENTS.md))
 - `TSK-FE-002` · Scaffold App Router Information Architecture — Owner: Frontend Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/PRDs/first_configuration.md))
 - `TSK-FE-003` · Build Component Library Foundations — Owner: Frontend Lead; Effort: medium; Updated: 2025-11-04 ([link](docs/PRDs/requierments/components/feature-requirements.md))
+- `TSK-FE-004` · Stand Up Storybook Workbench — Owner: Frontend Engineer; Effort: small; Updated: 2025-11-10 ([link](docs/PRDs/requierments/storybook/feature-requirements.md))
 
 ### Backend
 - `TSK-BE-001` · Model Supabase Schema v0 — Owner: Marcel (Backend Engineer); Effort: medium; Updated: 2025-10-27 ([link](docs/PRDs/first_steps.md#4))

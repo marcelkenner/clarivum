@@ -98,6 +98,7 @@ async function main() {
     new LintCommand("lint:diagrams", "lint:diagrams"),
     new LintCommand("lint:tasks", "lint:tasks"),
     new LintCommand("lint:code", "lint:code"),
+    new LintCommand("storybook:test", "storybook:test"),
   ];
   const runner = new LintRunner(commands);
   await runner.run();

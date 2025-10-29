@@ -33,6 +33,17 @@ provider "aws" {
   region = var.aws_region
 }
 
+data "http" "organizations" {
+  count = var.supabase_organization_id_override == "" ? 1 : 0
+
+  url = "https://api.supabase.com/v1/organizations"
+
+  request_headers = {
+    Authorization = "Bearer ${var.supabase_access_token}"
+    Accept        = "application/json"
+  }
+}
+
 locals {
   tags = merge(
     {
@@ -53,6 +64,20 @@ locals {
     },
     var.secret_tags
   )
+
+  organization_lookup_enabled = var.supabase_organization_id_override == ""
+  organizations_response_body = local.organization_lookup_enabled ? data.http.organizations[0].response_body : "[]"
+  organizations               = local.organization_lookup_enabled ? jsondecode(local.organizations_response_body) : []
+  organization_from_slug = local.organization_lookup_enabled ? try(
+    one([
+      for organization in local.organizations : organization
+      if try(organization.slug, "") == var.supabase_organization_slug
+    ]),
+    null,
+  ) : null
+  supabase_organization_id = local.organization_lookup_enabled ? (
+    local.organization_from_slug != null ? local.organization_from_slug.id : error("Supabase organization slug '${var.supabase_organization_slug}' not found for supplied access token")
+  ) : var.supabase_organization_id_override
 }
 
 module "project" {
@@ -63,7 +88,7 @@ module "project" {
   }
 
   name                          = "clarivum-${var.environment}"
-  organization_id               = var.supabase_organization_id
+  organization_id               = local.supabase_organization_id
   region                        = var.supabase_region
   plan                          = var.supabase_plan
   management_access_token       = var.supabase_access_token

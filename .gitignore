@@ -22,6 +22,8 @@ blob-report
 
 # production
 /build
+/storybook-static/**
+!/storybook-static/**/AGENTS.md
 
 # terraform
 .terraform/

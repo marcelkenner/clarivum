@@ -1,9 +1,19 @@
 # src/lib/analytics/server/**tests** · AGENTS Guide
 
-This directory does not yet have tailored agent guidance. Use these defaults until you add project-specific notes.
+Vitest specs for Plausible server helpers. These tests simulate Plausible’s HTTP responses so we can verify retry/skip logic without hitting the network.
 
-- Keep changes aligned with the PTRD (`docs/PRDs/first_steps.md`) and relevant ADRs.
-- Run `npm run ensure:agents` after restructuring to keep agent docs in sync.
-- Follow coding standards from the root `AGENTS.md`.
-- Always resolve library and framework questions via Context7 (`context7__resolve-library-id` + `context7__get-library-docs`).
-- Update this file with localized best practices as soon as the directory gains dedicated responsibilities.
+## Structure
+
+- `plausible.spec.ts` covers: no API key (`skipped`), success, non-OK response (failed with captured body).
+- Stub `global.fetch` with `vi.stubGlobal` and call `vi.unstubAllGlobals()` in `afterEach`.
+- Reset `process.env` to the original snapshot before/after each test to avoid cross-suite leakage.
+
+## Commands
+
+- Run suite: `npm run test -- src/lib/analytics/server/__tests__/plausible.spec.ts`
+- Pair with route tests when updating request/response types.
+
+## Tips
+
+- Assert on headers (`Authorization`, `content-type`, `user-agent`) and parse the JSON body to verify payload shape.
+- When Plausible adds new fields, extend the helper first, then update these tests to cover the change.

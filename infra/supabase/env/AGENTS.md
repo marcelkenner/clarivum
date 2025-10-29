@@ -7,7 +7,8 @@ Recommended fields:
 - `environment` — `dev`, `prod`, etc.
 - `aws_region` — Secrets Manager region (defaults to `eu-central-1`)
 - `supabase_region` — Supabase project region slug (e.g. `eu-central-1`)
-- `supabase_organization_id` — Organisation UUID from the Supabase dashboard
+- `supabase_organization_slug` — Organisation slug (from the dashboard URL or `supabase orgs list`)
+- `supabase_organization_id_override` — Optional explicit organisation UUID when the slug lookup should be skipped
 - `supabase_plan` — Plan slug (`pro`, `team`, ...)
 - `storage_buckets` — Optional overrides for bucket policies/limits
 

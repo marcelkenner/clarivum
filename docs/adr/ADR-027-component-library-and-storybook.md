@@ -40,3 +40,4 @@ Status: Accepted
   - Implement automated coverage reports for story/test presence.
   - Add design token synchronization from Figma once available.
   - Evaluate visual regression tooling integration by Q1 2026.
+- **Current status (2025-11-10):** Storybook workbench scaffolded via `npm run storybook` with a11y + interactions addons, UI primitives documented under `src/components/ui/__stories__`, lint excludes generated `storybook-static/**` bundles, and a temporary build placeholder remains wired into `npm run lint` (`npm run storybook:test`) until the hosted workflow is ready (see TODO.md #35).

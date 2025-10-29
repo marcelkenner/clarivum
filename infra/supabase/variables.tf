@@ -14,9 +14,15 @@ variable "supabase_access_token" {
   sensitive   = true
 }
 
-variable "supabase_organization_id" {
-  description = "Supabase organization identifier that will own the project"
+variable "supabase_organization_slug" {
+  description = "Supabase organization slug (e.g., clarivum) that will own the project"
   type        = string
+}
+
+variable "supabase_organization_id_override" {
+  description = "Optional explicit Supabase organization identifier; when set, skips slug lookup"
+  type        = string
+  default     = ""
 }
 
 variable "supabase_region" {
