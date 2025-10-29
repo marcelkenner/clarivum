@@ -10,6 +10,7 @@
     "dev": "strapi develop",
     "develop": "strapi develop",
     "lint": "node ./scripts/run-lint.js",
+    "schema:validate": "node ./scripts/validate-schemas.js",
     "start": "strapi start",
     "strapi": "strapi",
     "test": "node ./scripts/run-tests.js",

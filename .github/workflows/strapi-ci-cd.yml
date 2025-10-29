@@ -115,6 +115,12 @@ jobs:
         env:
           CI: "true"
 
+      - name: Validate Strapi schemas
+        run: npm run schema:validate --if-present
+        working-directory: cms
+        env:
+          CI: "true"
+
       - name: Tests
         run: npm run test --if-present
         working-directory: cms

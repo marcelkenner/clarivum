@@ -6,7 +6,7 @@
 
 - Install dependencies: `npm install` (Node 20 LTS minimum). Keep the generated `package-lock.json` committed so CI caching stays effective.
 - Start the admin: `npm run develop` (hot reload with SQLite or your local Postgres target).
-- Lint / typecheck: `npm run lint` and `npm run typecheck` (pipeline blocks PRs if these fail).
+- Lint / typecheck / schema validation: `npm run lint`, `npm run typecheck`, and `npm run schema:validate` keep content-type JSON healthy (fails when malformed or missing `attributes` / `kind` definitions).
 - Unit / integration tests: `npm test` (Vitest runs in `vmThreads` pool to stay compatible with Node 22—avoid overriding the test pool unless you validate on CI).
 - Build production bundle: `NODE_ENV=production npm run build`.
 - Preview production start: `NODE_ENV=production npm run start`.
@@ -23,8 +23,8 @@ Use `.env.example` to document required variables; keep actual values in 1Passwo
 
 ## CI/CD expectations
 
-- The GitHub Actions workflow `.github/workflows/strapi-ci-cd.yml` runs lint → typecheck → tests → build on every PR touching `cms/**` or `infra/strapi/**`.
-- Developers can mirror that sequence locally with `npm run strapi:ci` from the repository root (uses generated SQLite + secret defaults).
+- The GitHub Actions workflow `.github/workflows/strapi-ci-cd.yml` runs lint → typecheck → schema validation → tests → build on every PR touching `cms/**` or `infra/strapi/**`.
+- Developers can mirror that sequence locally with `npm run strapi:ci` from the repository root (uses generated SQLite + secret defaults and includes the schema validator).
 - Post-deploy smoke checks run via `npm run strapi:smoke`; configure URLs through GitHub environment variables so the workflow validates admin/API health after each rollout.
 - Pushes to `main` build a container via `cms/Dockerfile`, push it to ECR, retag `:dev`, and redeploy the dev ECS service. Manual `workflow_dispatch` runs promote deployments for `dev`/`prod`.
 - Configure GitHub repository variables:

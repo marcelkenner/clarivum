@@ -13,7 +13,7 @@ if (!fs.existsSync(cmsPackageJson)) {
   process.exit(0);
 }
 
-const commands = ["lint", "typecheck", "test", "build"];
+const commands = ["lint", "typecheck", "schema:validate", "test", "build"];
 const results = [];
 
 for (const command of commands) {

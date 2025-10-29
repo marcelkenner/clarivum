@@ -52,9 +52,10 @@ Strapi infrastructure lives in Terraform under `infra/strapi`. Follow this seque
 #### GitHub Actions pipeline (TSK-PLAT-022)
 
 - Workflow: `.github/workflows/strapi-ci-cd.yml`
-  - **PRs (`cms/**`, `infra/strapi/**`)** – run `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build` inside `cms/`.
+  - **PRs (`cms/**`, `infra/strapi/**`)** – run `npm run lint`, `npm run typecheck`, `npm run schema:validate`, `npm test`, and `npm run build` inside `cms/`.
   - **Push to `main`** – build `cms/Dockerfile`, push the image to ECR (`${STRAPI_ECR_REGISTRY}/${STRAPI_ECR_REPOSITORY}:${GITHUB_SHA::12}`), retag `:dev`, run optional migrations, update the dev ECS service (or trigger CodeDeploy blue/green if configured), wait for stability, and invoke health + revalidation hooks.
   - After every rollout the workflow executes `scripts/strapi-smoke.mjs` to hit the configured smoke URLs (defaults to `/api/healthz`) and fail fast on regressions.
+  - Build artefacts are attested via `actions/attest-build-provenance@v1` before deployment so downstream consumers can verify the pushed digest.
   - **Manual deploy (`workflow_dispatch`)** – supply:
     - `environment` (`dev` | `prod`)
     - `image_tag` (immutable tag/sha to promote)
@@ -62,8 +63,8 @@ Strapi infrastructure lives in Terraform under `infra/strapi`. Follow this seque
     - `promote_only` (`true` skips ECS rollout; retags image alias only)
     - Workflow assumes `AWS_STRAPI_DEPLOY_ROLE_ARN` secret (OIDC) and repository variables `STRAPI_AWS_REGION`, `STRAPI_ECR_REGISTRY`, `STRAPI_ECR_REPOSITORY`.
   - **Optional blue/green rollouts** – provide `STRAPI_CODEDEPLOY_APPLICATION`, `STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP`, and `STRAPI_TASK_DEFINITION_FAMILY` in the GitHub environment (plus optional `STRAPI_CONTAINER_NAME` / `STRAPI_CONTAINER_PORT`). When present, the workflow registers a new task definition revision with the fresh image, creates an AWS CodeDeploy deployment, and waits for the deployment to succeed before running post-deploy checks.
-- **Quality guardrails:** The freshly scaffolded Strapi workspace provides placeholder `npm run lint` and `npm test` commands (simple pass-through scripts) to satisfy automation while real linters/tests are wired. Replace them with ESLint/Vitest (or equivalent) suites as content logic lands.
-- Local dry-run: `npm run strapi:ci` mirrors the workflow’s lint → typecheck → test → build sequence with generated SQLite + secret defaults, so CMS changes are reproducible without AWS credentials.
+- **Quality guardrails:** `cms/scripts/run-lint.js`, `cms/scripts/run-tests.js`, and `cms/scripts/validate-schemas.js` wrap the repo-level ESLint/Vitest/JSON tooling so Strapi code and content-type definitions fail fast when they drift. Keep those helpers aligned with repository-wide config changes.
+- Local dry-run: `npm run strapi:ci` mirrors the workflow’s lint → typecheck → schema validation → test → build sequence with generated SQLite + secret defaults, so CMS changes are reproducible without AWS credentials.
 - GitHub environments:
   - `strapi-dev` / `strapi-prod` **variables**: `STRAPI_CLUSTER_ARN`, `STRAPI_SERVICE_NAME`, optional `STRAPI_HEALTHCHECK_URL`, `STRAPI_REVALIDATE_URL`, `STRAPI_MIGRATION_COMMAND`, `STRAPI_SMOKE_TEST_URLS`.
   - Optional blue/green variables: `STRAPI_CODEDEPLOY_APPLICATION`, `STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP`, `STRAPI_TASK_DEFINITION_FAMILY`, plus optional overrides `STRAPI_CONTAINER_NAME`, `STRAPI_CONTAINER_PORT`.

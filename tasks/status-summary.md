@@ -1,6 +1,6 @@
 # Task Status Summary
 
-Generated 2025-10-28 via `npm run tasks:summary`.
+Generated 2025-10-29 via `npm run tasks:summary`.
 
 ## Backlog
 
@@ -72,6 +72,10 @@ Generated 2025-10-28 via `npm run tasks:summary`.
 - `TSK-PLAT-049` · Instrument UV Widget Analytics Guardrails — Owner: Analytics Engineer; Effort: small; Updated: 2025-11-07 ([link](docs/adr/ADR-029-plausible-analytics-platform.md))
 - `TSK-PLAT-051` · Wire Web Vitals Metric Into Analytics Dashboards — Owner: Analytics Engineer; Effort: small; Updated: 2025-11-07 ([link](docs/runbooks/seo-operations.md))
 - `TSK-PLAT-052` · Run Autumn Feature Flag Retirement Audit — Owner: Platform Tech Lead; Effort: small; Updated: 2025-10-29 ([link](docs/PRDs/requierments/operations-hub/feature-requirements.md))
+- `TSK-PLAT-053` · Enable Cross-Region Replication for Strapi Backups — Owner: DevOps Lead; Effort: small; Updated: 2025-11-05 ([link](docs/adr/ADR-010-content-management-platform.md))
+- `TSK-PLAT-054` · Design Strapi Canary Release Strategy — Owner: DevOps Lead; Effort: small; Updated: 2025-10-29 ([link](docs/PRDs/requierments/strapi/setup.md))
+- `TSK-PLAT-055` · Establish Strapi Load & Stress Testing Guardrail — Owner: Performance Lead; Effort: medium; Updated: 2025-10-29 ([link](docs/PRDs/requierments/strapi/setup.md))
+- `TSK-PLAT-056` · Expand Strapi Automated Test Coverage — Owner: QA Lead; Effort: medium; Updated: 2025-10-29 ([link](docs/PRDs/requierments/strapi/setup.md))
 
 ### Qa
 - `TSK-QA-001` · Establish Playwright E2E Smoke Suite — Owner: QA Lead; Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md#8))
@@ -117,9 +121,6 @@ Generated 2025-10-28 via `npm run tasks:summary`.
 
 ## Ready
 
-### Platform
-- `TSK-PLAT-022` · Implement Strapi CI/CD Pipeline — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/strapi/setup.md))
-
 ### Shared
 - `TSK-SEO-002` · Roll Out SEO Governance & Operations — Owner: SEO Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/seo-foundation.md))
 - `TSK-SHARED-003` · Roll Out Strapi Content Platform — Owner: Content Platform Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/strapi/feature-requirements.md))
@@ -149,10 +150,11 @@ _No tasks._
 ### Platform
 - `TSK-PLAT-002` · Automate Stale Feature Flag Detection — Owner: Platform Engineer; Effort: small; Updated: 2025-10-26 ([link](docs/adr/ADR-005-feature-flags.md))
 - `TSK-PLAT-003` · Implement OpenTelemetry Baseline — Owner: Observability Champion; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-004-observability-stack.md))
-- `TSK-PLAT-021` · Establish Strapi Data Foundation — Owner: DevOps Lead; Effort: medium; Updated: 2025-11-05 ([link](tasks/done/platform/plat-021-strapi-data-foundation.md))
-- `TSK-PLAT-050` · Enforce SEO Guardrail in CI Workflow — Owner: Platform Tech Lead; Effort: small; Updated: 2025-10-28 ([link](tasks/done/platform/plat-050-seo-guardrail-ci.md))
 - `TSK-PLAT-020` · Provision Strapi ECS Infrastructure — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/PRDs/requierments/strapi/setup.md))
+- `TSK-PLAT-021` · Establish Strapi Data Foundation — Owner: DevOps Lead; Effort: medium; Updated: 2025-11-05 ([link](docs/PRDs/requierments/strapi/setup.md))
+- `TSK-PLAT-022` · Implement Strapi CI/CD Pipeline — Owner: DevOps Lead; Effort: medium; Updated: 2025-11-06 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-PLAT-044` · Integrate Testing Suites into CI Pipeline — Owner: Platform Tech Lead; Effort: medium; Updated: 2025-10-25 ([link](docs/adr/ADR-015-testing-strategy.md))
+- `TSK-PLAT-050` · Enforce SEO Guardrail in CI Workflow — Owner: Platform Tech Lead; Effort: small; Updated: 2025-10-28 ([link](docs/PRDs/seo-foundation.md))
 - `TSK-SEO-001` · Ship SEO Platform Foundation — Owner: Frontend Platform Lead; Effort: large; Updated: 2025-11-04 ([link](docs/PRDs/seo-foundation.md))
 
 ### Qa

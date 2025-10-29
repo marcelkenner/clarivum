@@ -22,6 +22,10 @@ const child = spawn(
   {
     cwd: repoRoot,
     stdio: "inherit",
+    env: {
+      ...process.env,
+      TSESTREE_ALLOW_DEFAULT_PROJECT: "1",
+    },
   },
 );
 
