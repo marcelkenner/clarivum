@@ -1,6 +1,6 @@
-// import type { Core } from '@strapi/strapi';
+// import type { Core } from "@strapi/strapi";
 
-export default {
+const strapiAppLifecycle = {
   /**
    * An asynchronous register function that runs before
    * your application is initialized.
@@ -18,3 +18,5 @@ export default {
    */
   bootstrap(/* { strapi }: { strapi: Core.Strapi } */) {},
 };
+
+export default strapiAppLifecycle;

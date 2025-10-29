@@ -1,1 +1,3 @@
-export default () => ({});
+const pluginConfig = () => ({});
+
+export default pluginConfig;

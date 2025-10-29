@@ -1,37 +1,39 @@
-import type { StrapiApp } from '@strapi/strapi/admin';
+import type { StrapiApp } from "@strapi/strapi/admin";
 
-export default {
+const strapiAdminConfig = {
   config: {
     locales: [
-      // 'ar',
-      // 'fr',
-      // 'cs',
-      // 'de',
-      // 'dk',
-      // 'es',
-      // 'he',
-      // 'id',
-      // 'it',
-      // 'ja',
-      // 'ko',
-      // 'ms',
-      // 'nl',
-      // 'no',
-      // 'pl',
-      // 'pt-BR',
-      // 'pt',
-      // 'ru',
-      // 'sk',
-      // 'sv',
-      // 'th',
-      // 'tr',
-      // 'uk',
-      // 'vi',
-      // 'zh-Hans',
-      // 'zh',
+      // "ar",
+      // "fr",
+      // "cs",
+      // "de",
+      // "dk",
+      // "es",
+      // "he",
+      // "id",
+      // "it",
+      // "ja",
+      // "ko",
+      // "ms",
+      // "nl",
+      // "no",
+      // "pl",
+      // "pt-BR",
+      // "pt",
+      // "ru",
+      // "sk",
+      // "sv",
+      // "th",
+      // "tr",
+      // "uk",
+      // "vi",
+      // "zh-Hans",
+      // "zh",
     ],
   },
   bootstrap(app: StrapiApp) {
-    console.log(app);
+    console.warn("[strapi-admin] bootstrap called", app);
   },
 };
+
+export default strapiAdminConfig;

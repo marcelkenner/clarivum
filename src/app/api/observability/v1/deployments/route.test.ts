@@ -1,11 +1,12 @@
-import type { NextRequest } from "next/server";
 import { afterEach, describe, expect, test, vi } from "vitest";
+
+type NextRequest = import("next/server").NextRequest;
 
 const endpoint = "https://clarivum.test/api/observability/v1/deployments";
 
 async function loadHandler() {
-  const module = await import("./route");
-  return module.POST;
+  const { POST } = await import("./route");
+  return POST;
 }
 
 function toNextRequest(request: Request): NextRequest {

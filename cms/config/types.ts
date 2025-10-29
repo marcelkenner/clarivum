@@ -8,4 +8,3 @@ export interface StrapiEnv {
 export interface ConfigContext {
   env: StrapiEnv;
 }
-

@@ -1,5 +1,7 @@
 import { SpanStatusCode, trace } from "@opentelemetry/api";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+
+type NextRequest = import("next/server").NextRequest;
 
 type DeploymentEventPayload = {
   service: string;
