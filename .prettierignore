@@ -12,3 +12,5 @@ aws
 answers.md
 scripts/ensure-agents.mjs
 supabase/types.ts
+cms/dist
+cms/.strapi*

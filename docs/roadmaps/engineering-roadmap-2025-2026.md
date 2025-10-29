@@ -4,17 +4,19 @@
 
 ## Nov–Dec 2025 · Foundation Launch Window
 > **Sprints:** [Sprint 01](../../tasks/sprints/sprint-01/plan.md) (2025-11-03 → 2025-11-14), [Sprint 02](../../tasks/sprints/sprint-02/plan.md) (2025-11-17 → 2025-11-28), [Sprint 03](../../tasks/sprints/sprint-03/plan.md) (2025-12-01 → 2025-12-12)
-- **Platform:** Launch the Strapi backbone — infrastructure, data, CI/CD (`TSK-PLAT-020`, `TSK-PLAT-021`, `TSK-PLAT-022`) plus Supabase tenancy (`TSK-PLAT-012`); lock SEO guardrail + Web Vitals ingestion (`TSK-PLAT-050`, `TSK-PLAT-051`); finish UV service + CMS copy to unblock January guardrails (`TSK-PLAT-019`, `TSK-PLAT-047`).
-- **Frontend:** Stand up Storybook and component coverage baselines (`TSK-FE-004`, `TSK-FE-019`); deliver App Router loaders and global navigation data (`TSK-FE-021`, `TSK-FE-022`); align trust page ASCII layouts and Lighthouse guardrails (`TSK-FE-014`, `TSK-FE-015`).
+- **Platform:** Launch the Strapi backbone — infrastructure, data, CI/CD (`TSK-PLAT-020`, `TSK-PLAT-021`, `TSK-PLAT-022`) plus Supabase tenancy (`TSK-PLAT-012`); lock SEO guardrail + Web Vitals ingestion (`TSK-PLAT-050`, `TSK-PLAT-051`); finish UV service + CMS copy to unblock January guardrails (`TSK-PLAT-019`, `TSK-PLAT-047`); wire feature-flag automation, observability baseline, and CI guardrails (`TSK-PLAT-002`, `TSK-PLAT-003`, `TSK-PLAT-044`).
+- **Backend:** Model Supabase schema v0 with migrations, seeds, and RLS guardrails for personas, leads, and entitlements (`TSK-BE-001`).
+- **Frontend:** Bootstrap Vitest, the App Router skeleton, and component library foundations (`TSK-FE-001`, `TSK-FE-002`, `TSK-FE-003`); build the tools-first homepage MVP (`TSK-FE-005`); stand up Storybook and component coverage baselines (`TSK-FE-004`, `TSK-FE-019`); deliver App Router loaders and global navigation data (`TSK-FE-021`, `TSK-FE-022`); align trust page ASCII layouts and Lighthouse guardrails while shipping the SEO platform foundation (`TSK-FE-014`, `TSK-FE-015`, `TSK-SEO-001`).
 - **Shared:** Close intake prerequisites (`TSK-SHARED-001`, `TSK-SHARED-002`, `TSK-SHARED-005`, `TSK-SHARED-007`, `TSK-SHARED-008`); execute Strapi rollout playbook and SEO governance launch (`TSK-SHARED-003`, `TSK-SEO-002`).
-- **QA:** Secure environments, data, and selectors for upcoming smoke/UV suites (`TSK-QA-001`, `TSK-QA-002`).
+- **Enablement:** Complete documentation & governance bootstrap for the repository (`TSK-BIZ-000`).
+- **QA:** Secure environments, data, and selectors for upcoming smoke/UV suites while wiring testing coverage + flake metrics into dashboards (`TSK-QA-001`, `TSK-QA-002`, `TSK-QA-005`).
 - **Reference docs:** ADR-010, ADR-001, ADR-007, ADR-036, ADR-034, ADR-037, ADR-038; PRDs `docs/PRDs/requierments/strapi/feature-requirements.md`, `docs/PRDs/requierments/strapi/setup.md`, `docs/PRDs/requierments/supabase-platform/feature-requirements.md`, `docs/PRDs/requierments/frontend-platform/feature-requirements.md`; runbooks `docs/runbooks/deployment.md`, `docs/runbooks/secrets-management.md`, `docs/runbooks/seo-operations.md`.
 
 ## Jan 2026 (Winter) · Guardrails & Observability
 > **Sprints:** [Sprint 04](../../tasks/sprints/sprint-04/plan.md) (2026-01-06 → 2026-01-17), [Sprint 05](../../tasks/sprints/sprint-05/plan.md) (2026-01-20 → 2026-01-31)
-- **Platform:** Harden UV caching + analytics and feature-flag platform (`TSK-PLAT-015`, `TSK-PLAT-048`, `TSK-PLAT-049`, `TSK-PLAT-014`), complete service + copy delivery (`TSK-PLAT-019`, `TSK-PLAT-047`); roll out security & bug guardrails (`TSK-PLAT-028`, `TSK-PLAT-035`); keep fulfillment protections tracking (`TSK-PLAT-042`); stand up observability + metrics baselines (`TSK-PLAT-017`, `TSK-PLAT-040`, `TSK-PLAT-037`).
+- **Platform:** Harden UV caching + analytics and feature-flag platform (`TSK-PLAT-015`, `TSK-PLAT-048`, `TSK-PLAT-049`, `TSK-PLAT-014`), complete service + copy delivery (`TSK-PLAT-019`, `TSK-PLAT-047`); roll out security & bug guardrails (`TSK-PLAT-028`, `TSK-PLAT-035`); keep fulfillment protections tracking (`TSK-PLAT-042`); stand up observability + metrics baselines (`TSK-PLAT-017`, `TSK-PLAT-040`, `TSK-PLAT-037`); enable cross-region Strapi backup replication (`TSK-PLAT-053`).
 - **Frontend:** Ship UV widget hero experience and shared form engine foundations (`TSK-FE-010`, `TSK-FE-009`); add interaction smoke coverage (`TSK-FE-020`).
-- **QA:** Execute Playwright smoke and UV validation suites with analytics + accessibility checks (`TSK-QA-001`, `TSK-QA-002`).
+- **QA:** Execute Playwright smoke and UV validation suites with analytics + accessibility checks while delivering monetization telemetry validation + synthetic monitoring guardrails (`TSK-QA-001`, `TSK-QA-002`, `TSK-QA-004`).
 - **Reference docs:** ADR-005, ADR-006, ADR-004, ADR-020, ADR-028, ADR-030; PRDs `docs/PRDs/requierments/feature-flags/feature-requirements.md`, `docs/PRDs/requierments/observability/feature-requirements.md`; runbooks `docs/runbooks/feature-flags-operations.md`, `docs/runbooks/observability-operations.md`, `docs/runbooks/incident-response.md`, `docs/runbooks/background-jobs.md`.
 
 ## Feb 2026 · Notifications & Privacy
@@ -64,7 +66,8 @@
 
 ## Oct 2026 (Autumn) · Stabilize & Plan Next Cycle
 > **Sprints:** [Sprint 23](../../tasks/sprints/sprint-23/plan.md) (2026-09-29 → 2026-10-10), [Sprint 24](../../tasks/sprints/sprint-24/plan.md) (2026-10-13 → 2026-10-24)
-- Consolidate Ops Hub observability learnings, retire stale flags, and log retrospectives ahead of 2027 planning (`TSK-PLAT-040`, `TSK-PLAT-036`, Kaizen backlog updates).
+- Consolidate Ops Hub observability learnings, retire stale flags, and log retrospectives ahead of 2027 planning (`TSK-PLAT-040`, `TSK-PLAT-036`, `TSK-PLAT-052`, Kaizen backlog updates).
+- Publish roadmap retrospective and produce the 2027 planning packet plus guardrail backlog seeding (`TSK-SHARED-011`, `TSK-SHARED-012`, `TSK-SHARED-013`).
 - Update this roadmap after Autumn review and archive completed milestones in `tasks/status-summary.md`.
 - **Reference docs:** ADR-031, ADR-005, ADR-004; PRDs `docs/PRDs/first_steps.md`, `docs/PRDs/requierments/operations-hub/feature-requirements.md`; runbooks `docs/runbooks/ops-hub.md`, `docs/runbooks/observability-operations.md`, `docs/runbooks/feature-flags-operations.md`, `docs/runbooks/cost-review.md`.
 

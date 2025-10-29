@@ -11,6 +11,12 @@
 - Applies to Postgres database, Storage buckets (ebooks, evidence), Realtime channels used by mission progress.
 - Excludes analytics warehouse ETL (covered elsewhere).
 
+## Clarivum Workloads
+- **Postgres transactional core** — Per ADR-036, Supabase Postgres is the single source of truth for `profiles`, `personas`, `leads`, `content_items`, `entitlements`, and `entitlement_status_history`. Next.js API routes, the Account Center flows (ADR-023), and the Operations Hub audit trail (`ops_audit`) all depend on these tables for user identity, personalization, incentive tracking, and historical playback.
+- **Storage buckets** — The `ebooks` bucket stores generated PDF/EPUB deliverables (ADR-024) and exposes them via signed URLs, while the `evidence` bucket keeps mission submission uploads for moderation. Bucket policies stay private by default; surface access only through signed links or server proxies.
+- **Realtime channels** — Mission progress indicators and upcoming Ops Hub live views stream over Supabase Realtime so dashboards update without polling. Guard channel usage with role checks to avoid exposing member-only data.
+- **Why storage lives here** — Keeping ebooks/evidence alongside Postgres in Supabase means entitlement checks, signed URL minting, and audit logging all happen within one tenancy. If these assets moved to AWS S3, we would lose the built-in row-level security hooks and would need cross-cloud plumbing for every download guardrail. Treat Supabase Storage as the default for assets whose access rules depend on database state.
+
 ## Preconditions
 - Terraform state current; latest apply timestamp recorded in infra repo README.
 - Supabase access roles provisioned: `service_role`, `anon`, `member`, `subscriber`, `admin`.

@@ -3,6 +3,7 @@
 Environment-specific Terraform configuration for Strapi ECS (TSK-PLAT-020). Use this directory to plan/apply infrastructure changes across `dev` and `prod`.
 
 ## Commands
+
 Run from repo root with AWS credentials sourced (`aws sso login` or `aws-vault exec clarivum-devops -- bash`):
 
 ```bash
@@ -20,12 +21,14 @@ terraform -chdir=infra/strapi apply -var-file=env/dev.tfvars
 Switch to `prod` by selecting the workspace and using `env/prod.tfvars`. Always capture plan output in PR discussions per ADR-001.
 
 ## Files
+
 - `main.tf` wires the Strapi cluster, ALB, IAM, and ECS service modules.
 - `variables.tf` defines environment knobs (subnets, image, scaling thresholds).
 - `outputs.tf` exposes ARNs and SG IDs for integration with other stacks (e.g., observability).
 - `env/*.tfvars` store environment overrides—replace placeholder subnets/ARNs with real values via secrets manager or SSM, not hard-coded commits.
 
 ## Expectations
+
 - Align changes with ADR-010 and `docs/PRDs/requierments/strapi/setup.md`.
 - Update `docs/runbooks/deployment.md` and `docs/architecture.md` when topology or alarms change.
 - Run `terraform fmt infra/strapi` and `terraform validate infra/strapi` before submitting a PR (ensure Terraform CLI available locally).

@@ -7,7 +7,7 @@
 - Install dependencies: `npm install` (Node 20 LTS minimum). Keep the generated `package-lock.json` committed so CI caching stays effective.
 - Start the admin: `npm run develop` (hot reload with SQLite or your local Postgres target).
 - Lint / typecheck: `npm run lint` and `npm run typecheck` (pipeline blocks PRs if these fail).
-- Unit / integration tests: `npm test` (wire new suites as content logic lands).
+- Unit / integration tests: `npm test` (Vitest runs in `vmThreads` pool to stay compatible with Node 22—avoid overriding the test pool unless you validate on CI).
 - Build production bundle: `NODE_ENV=production npm run build`.
 - Preview production start: `NODE_ENV=production npm run start`.
 
@@ -24,6 +24,7 @@ Use `.env.example` to document required variables; keep actual values in 1Passwo
 ## CI/CD expectations
 
 - The GitHub Actions workflow `.github/workflows/strapi-ci-cd.yml` runs lint → typecheck → tests → build on every PR touching `cms/**` or `infra/strapi/**`.
+- Developers can mirror that sequence locally with `npm run strapi:ci` from the repository root (uses generated SQLite + secret defaults).
 - Pushes to `main` build a container via `cms/Dockerfile`, push it to ECR, retag `:dev`, and redeploy the dev ECS service. Manual `workflow_dispatch` runs promote deployments for `dev`/`prod`.
 - Configure GitHub repository variables:
   - `STRAPI_AWS_REGION`
@@ -31,15 +32,18 @@ Use `.env.example` to document required variables; keep actual values in 1Passwo
   - `STRAPI_ECR_REPOSITORY` (e.g., `clarivum/strapi`)
 - Configure secrets:
   - `AWS_STRAPI_DEPLOY_ROLE_ARN` (IAM role with `ecr:*Image*`, `ecs:Describe*`, `ecs:UpdateService`, `iam:PassRole`, `secretsmanager:GetSecretValue`).
-- Configure GitHub environments `strapi-dev` / `strapi-prod` with variables/secrets:
+- Configure GitHub environments `strapi-dev` / `strapi-prod` with variables:
   - `STRAPI_CLUSTER_ARN`, `STRAPI_SERVICE_NAME`
   - `STRAPI_HEALTHCHECK_URL`
+    - Use `https://cms-<env>.clarivum.com/api/healthz`; the endpoint verifies database connectivity and returns structured JSON for automation.
   - `STRAPI_REVALIDATE_URL`
   - `STRAPI_DEPLOYMENT_WEBHOOK_URL` (Next.js deployment telemetry endpoint)
-  - Secret `STRAPI_REVALIDATE_SECRET`
-  - Secret `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN` (matches `OBSERVABILITY_DEPLOYMENT_SECRET` in the target Next.js environment)
   - Optional `STRAPI_MIGRATION_COMMAND` (shell command that runs migrations/seeds, e.g., `aws ecs run-task ...`).
+  - `STRAPI_REVALIDATE_SECRET_ARN` pointing to the AWS Secrets Manager entry that holds the bearer token consumed by `/api/revalidate`.
+  - `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN_ARN` pointing to the Secrets Manager record that mirrors `OBSERVABILITY_DEPLOYMENT_SECRET`.
+  - Optional `STRAPI_MIGRATION_COMMAND_SECRET_ARN` when the migration command should be sourced from Secrets Manager instead of a plain variable.
   - Optional `STRAPI_DEPLOY_SUBNETS`, `STRAPI_DEPLOY_SECURITY_GROUPS` if migration helpers rely on them.
+- Keep the underlying secret values in AWS Secrets Manager (`clarivum/strapi/<env>/*`). The workflow resolves the ARNs above at runtime so nothing sensitive lives in GitHub Actions configuration.
 
 The workflow skips automatically when `cms/package.json` is absent, so add the Strapi project before expecting builds to succeed.
 

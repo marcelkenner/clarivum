@@ -6,6 +6,11 @@ const serverConfig = ({ env }: ConfigContext) => ({
   app: {
     keys: env.array("APP_KEYS"),
   },
+  logger: {
+    updates: {
+      enabled: false,
+    },
+  },
 });
 
 export default serverConfig;

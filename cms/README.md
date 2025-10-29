@@ -13,15 +13,15 @@ Refer to `cms/AGENTS.md` for the authoritative operational checklists, deploymen
 
 ## Scripts
 
-| Command | Purpose |
-| --- | --- |
-| `npm run develop` | Start the admin in watch mode (aliases: `npm run dev`). |
-| `npm run start` | Serve the compiled admin without hot reload. |
-| `npm run build` | Compile the admin panel assets. |
-| `npm run typecheck` | Perform TypeScript checks (`tsc --noEmit`). |
-| `npm run lint` | Placeholder lint step. Replace with ESLint once rules are defined. |
-| `npm run test` | Placeholder test runner while suites are under construction. |
-| `npm run deploy` | Hooks into the Strapi deploy CLI for future automation. |
+| Command             | Purpose                                                            |
+| ------------------- | ------------------------------------------------------------------ |
+| `npm run develop`   | Start the admin in watch mode (aliases: `npm run dev`).            |
+| `npm run start`     | Serve the compiled admin without hot reload.                       |
+| `npm run build`     | Compile the admin panel assets.                                    |
+| `npm run typecheck` | Perform TypeScript checks (`tsc --noEmit`).                        |
+| `npm run lint`      | Placeholder lint step. Replace with ESLint once rules are defined. |
+| `npm run test`      | Placeholder test runner while suites are under construction.       |
+| `npm run deploy`    | Hooks into the Strapi deploy CLI for future automation.            |
 
 ## CI/CD alignment
 
@@ -36,8 +36,9 @@ Refer to `cms/AGENTS.md` for the authoritative operational checklists, deploymen
    - `STRAPI_ECR_REGISTRY` (e.g., `123456789012.dkr.ecr.eu-central-1.amazonaws.com`)
    - `STRAPI_ECR_REPOSITORY` (e.g., `clarivum/strapi`)
 2. Environment configuration (Settings → Environments → `strapi-dev` / `strapi-prod`):
-   - Variables: `STRAPI_CLUSTER_ARN`, `STRAPI_SERVICE_NAME`, `STRAPI_HEALTHCHECK_URL`, `STRAPI_REVALIDATE_URL`, optional `STRAPI_MIGRATION_COMMAND`
-   - Secrets: `AWS_STRAPI_DEPLOY_ROLE_ARN`, `STRAPI_REVALIDATE_SECRET`, plus any credentials needed by the migration command
+   - Variables: `STRAPI_CLUSTER_ARN`, `STRAPI_SERVICE_NAME`, `STRAPI_HEALTHCHECK_URL`, `STRAPI_REVALIDATE_URL`, `STRAPI_DEPLOYMENT_WEBHOOK_URL`, optional `STRAPI_MIGRATION_COMMAND`
+   - Secret reference variables: `STRAPI_REVALIDATE_SECRET_ARN`, `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN_ARN`, optional `STRAPI_MIGRATION_COMMAND_SECRET_ARN`
+   - Secret: `AWS_STRAPI_DEPLOY_ROLE_ARN` (shared across environments). Store every other sensitive value in AWS Secrets Manager and point the ARNs above at those records so GitHub Actions only ever reads ephemeral credentials.
 3. Validate automation:
    - Open a PR touching `cms/**` to watch the quality gate job complete.
    - Push to `main` (or simulate via a protected branch) to confirm the image build + ECS rollout path.

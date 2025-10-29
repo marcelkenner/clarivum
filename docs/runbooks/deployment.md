@@ -61,15 +61,18 @@ Strapi infrastructure lives in Terraform under `infra/strapi`. Follow this seque
     - `promote_only` (`true` skips ECS rollout; retags image alias only)
     - Workflow assumes `AWS_STRAPI_DEPLOY_ROLE_ARN` secret (OIDC) and repository variables `STRAPI_AWS_REGION`, `STRAPI_ECR_REGISTRY`, `STRAPI_ECR_REPOSITORY`.
 - **Quality guardrails:** The freshly scaffolded Strapi workspace provides placeholder `npm run lint` and `npm test` commands (simple pass-through scripts) to satisfy automation while real linters/tests are wired. Replace them with ESLint/Vitest (or equivalent) suites as content logic lands.
+- Local dry-run: `npm run strapi:ci` mirrors the workflow’s lint → typecheck → test → build sequence with generated SQLite + secret defaults, so CMS changes are reproducible without AWS credentials.
 - GitHub environments:
   - `strapi-dev` / `strapi-prod` **variables**: `STRAPI_CLUSTER_ARN`, `STRAPI_SERVICE_NAME`, optional `STRAPI_HEALTHCHECK_URL`, `STRAPI_REVALIDATE_URL`, `STRAPI_MIGRATION_COMMAND`.
   - `strapi-dev` / `strapi-prod` **variables** (observability): `STRAPI_DEPLOYMENT_WEBHOOK_URL` pointing to `https://app.<env>.clarivum.com/api/observability/v1/deployments`.
-  - `strapi-dev` / `strapi-prod` **secrets**: `STRAPI_REVALIDATE_SECRET` (bearer token), optional `STRAPI_MIGRATION_COMMAND` if it relies on sensitive values, and `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN` which matches the Next.js secret below.
+  - `strapi-dev` / `strapi-prod` **secret reference variables**: `STRAPI_REVALIDATE_SECRET_ARN`, `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN_ARN`, optional `STRAPI_MIGRATION_COMMAND_SECRET_ARN` when migration commands carry credentials. These ARNs must point at Secrets Manager entries (`clarivum/strapi/<env>/*`) so GitHub never stores the plaintext tokens.
 - Repository variables (Settings → Actions → Variables) required by every run:
   - `STRAPI_AWS_REGION`
   - `STRAPI_ECR_REGISTRY`
   - `STRAPI_ECR_REPOSITORY`
-- Next.js environments (`preview`, `dev`, `prod`) must define `OBSERVABILITY_DEPLOYMENT_SECRET`; CI uses the matching `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN` to authenticate when emitting deployment spans.
+- Secrets handling:
+  - Store Strapi deployment tokens, revalidation tokens, and migration credentials in AWS Secrets Manager (`clarivum/strapi/<env>/*`). The GitHub Actions jobs assume `AWS_STRAPI_DEPLOY_ROLE_ARN`, resolve the ARNs provided via `STRAPI_REVALIDATE_SECRET_ARN` / `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN_ARN` / `STRAPI_MIGRATION_COMMAND_SECRET_ARN`, and hydrate environment variables just-in-time.
+- Next.js environments (`preview`, `dev`, `prod`) must define `OBSERVABILITY_DEPLOYMENT_SECRET`; the Strapi workflow fetches the matching deployment token from Secrets Manager via `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN_ARN` before emitting deployment spans.
 - Validation steps after configuring secrets/variables:
   1. Open a PR that touches `cms/**` to observe the quality gate succeed.
   2. Push a commit to `main` (or a protected test branch) to confirm the image build + dev ECS rollout.
@@ -77,12 +80,12 @@ Strapi infrastructure lives in Terraform under `infra/strapi`. Follow this seque
 - Migration hook:
   - Preferred approach is a one-off ECS task (`aws ecs run-task ... --overrides '{"containerOverrides":[{"name":"strapi","command":["npm","run","migrate"]}]}'`) defined in `STRAPI_MIGRATION_COMMAND`. If unset, the workflow falls back to `cms/scripts/predeploy.sh` when present. Keep commands idempotent and add the backout plan to this runbook.
 - Health check webhook:
-  - `STRAPI_HEALTHCHECK_URL` should point to `https://cms-<env>.<domain>/_health` once ALB DNS is live. The workflow retries 6× (10 s backoff) before failing.
+  - Strapi exposes an unauthenticated `GET /api/healthz` endpoint that pings the database and reports uptime. Point the ALB `health_check_path` (Terraform default) and `STRAPI_HEALTHCHECK_URL` to `https://cms-<env>.<domain>/api/healthz`. The workflow retries 6× (10 s backoff) before failing.
 - Frontend revalidation:
-  - Set `STRAPI_REVALIDATE_URL` to the internal proxy (e.g., `https://app.<env>.clarivum.com/api/revalidate?scope=strapi`) and `STRAPI_REVALIDATE_SECRET` to the shared bearer token managed alongside other observability secrets.
+- Next.js ships a protected proxy at `POST /api/revalidate` that accepts Bearer-authenticated payloads with `paths`, `tags`, and optional `scope=strapi`. The default scope revalidates `/` and `/library`; extend `scopeRegistry` in `src/app/api/revalidate/route.ts` as more Strapi-driven pages arrive. Set `STRAPI_REVALIDATE_URL` to this endpoint (e.g., `https://app.<env>.clarivum.com/api/revalidate?scope=strapi`) and place the shared token in AWS Secrets Manager. Reference it from the workflow via `STRAPI_REVALIDATE_SECRET_ARN`. The route now reads `STRAPI_REVALIDATE_SECRET` first and falls back to `REVALIDATE_TOKEN` so older automation keeps working—update both secrets together when rotating credentials.
 - Observability event hook:
   - `STRAPI_DEPLOYMENT_WEBHOOK_URL` calls the Next.js deployment webhook. The workflow posts `{service, environment, status, version, sha, image, metadata}` to `/api/observability/v1/deployments` so Grafana dashboards see deployment activity.
-  - Store the bearer token for that endpoint in `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN`; it must equal `OBSERVABILITY_DEPLOYMENT_SECRET` in the target environment.
+  - Store the bearer token for that endpoint in Secrets Manager and surface it to GitHub Actions through `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN_ARN`; the underlying value must equal `OBSERVABILITY_DEPLOYMENT_SECRET` in the target environment.
   - Verify events land by checking the `Deployment Timeline` panel in Grafana after each rollout; missing data indicates bad credentials or networking.
 
 1. **Plan:** `terraform -chdir=infra/strapi init` (supply backend config), select the workspace (`dev` or `prod`), then run `terraform -chdir=infra/strapi plan -var-file=env/<env>.tfvars`. Attaching the plan output to the PR keeps reviewers in sync. Always include the `-var-file` flag—without it Terraform will prompt interactively for every required variable (region, subnets, ACM cert, etc.).
@@ -97,6 +100,14 @@ Incident alerts for Strapi route to the `clarivum-oncall` SNS topic; acknowledge
 ### Strapi data foundation (TSK-PLAT-021)
 
 Use this procedure when modifying Strapi database or media storage infrastructure. All changes live in `infra/strapi/main.tf`; never hand-create RDS instances or buckets.
+
+#### AWS S3 bucket responsibilities
+- `clarivum-strapi-<env>-media-public` — Hosts editorial and marketing assets (images, hero media) published through Strapi. Objects remain private at rest (SSE-KMS) and are surfaced to end users via the CDN/Next.js image proxy; never expose raw bucket URLs.
+- `clarivum-strapi-<env>-media-private` — Stores mission evidence uploads, watermarked ebook deliverables, and other gated assets. Access always flows through signed URLs issued by Strapi plugins or Next.js API routes so entitlement checks remain server-side.
+- `clarivum-tf-state-<account>` + DynamoDB table `clarivum-tf-locks` — Provide Terraform remote state and state locking for all infrastructure applies. Do not repurpose these buckets for application data.
+- Optional ALB access-log bucket — When compliance requires (`access_logs_bucket` variable), the Strapi ALB publishes request logs to the designated bucket prefix for retention analysis.
+- Ops Hub backup job (`npm run ops:audit:backup`) writes monthly snapshots of the Supabase `ops_audit` table to the compliance archive bucket. Coordinate rotations with the Ops Hub runbook so IAM access and retention windows stay documented.
+- **Why keep Strapi media on AWS** — Strapi, Terraform, and the associated IAM/KMS policies all execute inside AWS. Parking media/state in native S3 keeps latency low, lets us enforce bucket policy/lifecycle controls through infrastructure-as-code, and avoids coupling Strapi deployments to Supabase tenancy limits. Supabase Storage stays dedicated to app-facing assets whose access is governed by Postgres entitlements.
 
 1. **Plan the change:**
    - Update Terraform variables as needed (`db_*` settings or `database_subnet_ids`).

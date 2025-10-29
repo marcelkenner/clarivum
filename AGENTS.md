@@ -95,7 +95,8 @@ Observability instrumentation guardrails (TSK-PLAT-003):
 
 Run from the repo root unless stated otherwise:
 
-- Full CI mirror: `npm run validate` (runs lint, typecheck, and format check)
+- Full CI mirror: `npm run validate` (runs lint, typecheck, format check, SEO guardrail, Strapi quality gate)
+- Strapi workspace quality gate: `npm run strapi:ci` (executes `cms/` lint, typecheck, test, and build with local default secrets)
 - Code lint only: `npm run lint:code`
 - Task lint only: `npm run lint:tasks`
 - Docs lint (if defined): `npm run lint:docs`
