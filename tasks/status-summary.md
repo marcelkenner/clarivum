@@ -121,7 +121,6 @@ Generated 2025-10-29 via `npm run tasks:summary`.
 
 ### Shared
 - `TSK-SEO-002` · Roll Out SEO Governance & Operations — Owner: SEO Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/seo-foundation.md))
-- `TSK-SHARED-003` · Roll Out Strapi Content Platform — Owner: Content Platform Lead; Effort: medium; Updated: 2025-10-24 ([link](docs/PRDs/requierments/strapi/feature-requirements.md))
 
 ## In Progress
 
@@ -154,8 +153,8 @@ _No tasks._
 - `TSK-PLAT-020` · Provision Strapi ECS Infrastructure — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-PLAT-021` · Establish Strapi Data Foundation — Owner: DevOps Lead; Effort: medium; Updated: 2025-11-05 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-PLAT-022` · Implement Strapi CI/CD Pipeline — Owner: DevOps Lead; Effort: medium; Updated: 2025-11-06 ([link](docs/PRDs/requierments/strapi/setup.md))
-- `TSK-PLAT-047` · Wire UV Widget Risk Copy From Strapi — Owner: Platform Engineer; Effort: small; Updated: 2025-11-08 ([link](docs/PRDs/requierments/tools/skin/widget_indeks_uv.md))
 - `TSK-PLAT-044` · Integrate Testing Suites into CI Pipeline — Owner: Platform Tech Lead; Effort: medium; Updated: 2025-10-25 ([link](docs/adr/ADR-015-testing-strategy.md))
+- `TSK-PLAT-047` · Wire UV Widget Risk Copy From Strapi — Owner: Platform Engineer; Effort: small; Updated: 2025-11-08 ([link](docs/PRDs/requierments/tools/skin/widget_indeks_uv.md))
 - `TSK-PLAT-050` · Enforce SEO Guardrail in CI Workflow — Owner: Platform Tech Lead; Effort: small; Updated: 2025-10-28 ([link](docs/PRDs/seo-foundation.md))
 - `TSK-SEO-001` · Ship SEO Platform Foundation — Owner: Frontend Platform Lead; Effort: large; Updated: 2025-11-04 ([link](docs/PRDs/seo-foundation.md))
 
@@ -164,6 +163,9 @@ _No tasks._
 
 ### Business
 - `TSK-BIZ-000` · Documentation & Governance Foundation — Owner: Repository Bootstrap Team; Effort: large; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md))
+
+### Shared
+- `TSK-SHARED-003` · Roll Out Strapi Content Platform — Owner: Content Platform Lead; Effort: medium; Updated: 2025-11-09 ([link](docs/PRDs/requierments/strapi/feature-requirements.md))
 
 ---
 

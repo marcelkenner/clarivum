@@ -32,6 +32,8 @@ Centralized follow-up list for sprint guardrails and CI hygiene. Keep items conc
 26. **Supabase secret sync:** After terraform apply, sync `/clarivum/supabase/<env>/*` secrets into Vercel, Lambda, and local `.env` files per `docs/runbooks/secrets-management.md`, then validate Next.js + Strapi connectivity using the new anon/service role keys. (Source: TSK-PLAT-012 provisioning)
 27. **UV widget env wiring:** Populate `STRAPI_API_URL` (or `STRAPI_BASE_URL`) and `STRAPI_TOOLS_UV_WIDGET_TOKEN` / `STRAPI_DELIVERY_API_TOKEN` for preview/staging/prod so the Strapi-backed copy loader stays online when the feature flag ships. Track completion per environment in `docs/runbooks/tools-platform-operations.md`. (Source: TSK-PLAT-047 follow-up)
 28. **Document Strapi field mapping:** Once the `tools-uv-widget` collection is live, append the final field schema to the runbook changelog and notify the content team in `#clarivum-tools`. (Source: TSK-PLAT-047 follow-up)
+29. **Strapi observability dashboards:** Stand up dashboards/alerts for Strapi health, latency, and error rates in Grafana (reuse OTLP streams from ADR-004) and document links in `docs/runbooks/deployment.md`. (Source: TSK-SHARED-003 follow-up)
+30. **Strapi autoscaling policy:** Implement and document ECS Service autoscaling for Strapi (CPU/memory + request-based), updating Terraform and `docs/infra/cms-aws-overview.md` plus noting the guardrail in `docs/runbooks/deployment.md`. (Source: TSK-SHARED-003 follow-up)
 
 ## Nice-to-haves
 

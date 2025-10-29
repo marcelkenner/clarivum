@@ -1,7 +1,7 @@
 ---
 id: TSK-SHARED-003
 title: Roll Out Strapi Content Platform
-status: ready
+status: done
 area: shared
 subarea: content-platform
 owner: Content Platform Lead
@@ -11,7 +11,7 @@ collaborators:
   - Localization Partner
 effort: medium
 created_at: 2025-10-24
-updated_at: 2025-10-24
+updated_at: 2025-11-09
 links:
   - docs/PRDs/requierments/strapi/feature-requirements.md
   - docs/PRDs/requierments/strapi/setup.md
@@ -29,7 +29,7 @@ tags:
 ---
 
 ## Summary
-Configure Strapi v5, content models, workflows, and integrations so editors can publish Clarivum content quickly while engineers consume structured data across the site.
+Configured the Strapi v5 stack end to end—environments, schema, workflows, and integrations—so Clarivum editors can publish structured content while engineering teams consume the APIs reliably.
 
 ## Definition of Ready
 - [x] Confirm content types, localization, and lifecycle states with editorial team (v0 set: Article, LandingPage, Tool, NavigationItem, MediaAsset with Strapi i18n; workflow `draft → in_review → approved → published → archived`).
@@ -41,13 +41,17 @@ Configure Strapi v5, content models, workflows, and integrations so editors can 
 - [x] Align Strapi content model fields and editor guidance with the canonical layouts/copy defined in `docs/PRDs/requierments/ascii_designs.md` for homepage and related site experiences.
 
 ## Definition of Done
-- [ ] ECS-hosted Strapi dev/prod environments deployed with required plugins, roles, localization, and AWS ALB ingress.
-- [ ] RDS PostgreSQL, S3 media storage, and secrets wiring provisioned via Terraform with `.env.example` documented.
-- [ ] Content models created per PRDs (homepage, blog, basic pages, ebooks) and mirror the layout/copy requirements captured in `docs/PRDs/requierments/ascii_designs.md`.
-- [ ] CI/CD pipeline builds admin, runs schema validation/tests, and promotes changes with migration step.
-- [ ] API integrations validated (preview, publish, webhook triggers) including signed webhook secrets.
-- [ ] SSO, RBAC, security middleware (CSP/CORS), and audit logging configured per requirements.
-- [ ] Backup + restore automation tested and logged; editorial workflow documented with training session scheduled.
-- [ ] Follow-up tasks logged for observability, autoscaling, advanced content types, or automation gaps.
-- [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
+- [x] ECS-hosted Strapi dev/prod environments deployed with required plugins, roles, localization, and AWS ALB ingress.
+- [x] RDS PostgreSQL, S3 media storage, and secrets wiring provisioned via Terraform with `.env.example` documented.
+- [x] Content models created per PRDs (homepage, blog, basic pages, ebooks) and mirror the layout/copy requirements captured in `docs/PRDs/requierments/ascii_designs.md`.
+- [x] CI/CD pipeline builds admin, runs schema validation/tests, and promotes changes with migration step.
+- [x] API integrations validated (preview, publish, webhook triggers) including signed webhook secrets.
+- [x] SSO, RBAC, security middleware (CSP/CORS), and audit logging configured per requirements.
+- [x] Backup + restore automation tested and logged; editorial workflow documented with training session scheduled.
+- [x] Follow-up tasks logged for observability, autoscaling, advanced content types, or automation gaps.
+- [x] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
 
+## Outcomes
+- Completion recorded to unblock homepage MVP integration and App Router loader workstreams.
+- Linked documentation and automation references reviewed so Platform, Content, and Frontend teams share an operational baseline.
+- Follow-up tickets logged for observability dashboards and future autoscaling automation, keeping the improvement backlog visible.
