@@ -13,6 +13,7 @@ created_at: 2025-11-05
 updated_at: 2025-11-05
 links:
   - docs/adr/ADR-010-content-management-platform.md
+  - docs/PRDs/requierments/strapi/setup.md
   - docs/runbooks/incident-response.md
   - infra/AGENTS.md
 context7:

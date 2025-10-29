@@ -9,6 +9,13 @@ Contains proxy routes that forward telemetry payloads to Grafana Cloud.
 - Keep the handler minimal: validate headers, forward bytes, return 204 on success, bubble up error text if Grafana rejects the payload.
 - If you add new proxy routes (metrics/logs), mirror this structure and update `docs/runbooks/observability-operations.md`.
 
+## `/api/observability/v1/deployments`
+
+- Called by CI/CD workflows after Strapi deployments. Authenticate with `Authorization: Bearer <OBSERVABILITY_DEPLOYMENT_SECRET>`.
+- Required fields: `service`, `environment`, `status`. Optional metadata (version, digest, image, workflowUrl) is attached as span attributes for Grafana dashboards.
+- The handler emits spans via the shared Node SDK—do not bootstrap additional SDK instances or leak Grafana credentials. Update `observability/config.ts` if you introduce new environment toggles.
+- Record any contract or attribute changes in `docs/runbooks/deployment.md` and `docs/runbooks/observability-operations.md` so responders can trace deployments.
+
 ## Testing & tooling
 
 - Run `npm run lint:code` and `npm run typecheck` after modifying a proxy route.

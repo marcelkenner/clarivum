@@ -35,7 +35,9 @@ Use `.env.example` to document required variables; keep actual values in 1Passwo
   - `STRAPI_CLUSTER_ARN`, `STRAPI_SERVICE_NAME`
   - `STRAPI_HEALTHCHECK_URL`
   - `STRAPI_REVALIDATE_URL`
+  - `STRAPI_DEPLOYMENT_WEBHOOK_URL` (Next.js deployment telemetry endpoint)
   - Secret `STRAPI_REVALIDATE_SECRET`
+  - Secret `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN` (matches `OBSERVABILITY_DEPLOYMENT_SECRET` in the target Next.js environment)
   - Optional `STRAPI_MIGRATION_COMMAND` (shell command that runs migrations/seeds, e.g., `aws ecs run-task ...`).
   - Optional `STRAPI_DEPLOY_SUBNETS`, `STRAPI_DEPLOY_SECURITY_GROUPS` if migration helpers rely on them.
 

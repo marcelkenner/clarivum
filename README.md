@@ -42,7 +42,7 @@ CI relies on `npm run validate`; ensure it passes before pushing. Task changes a
 - The Next.js runtime auto-loads `instrumentation.ts` / `instrumentation.node.ts` to bootstrap OpenTelemetry (ADR-004). Do not import `@opentelemetry/*` ad hoc—extend the helpers in `observability/`.
 - Browser spans flow through `POST /api/observability/v1/traces`, which relays payloads to Grafana Cloud using server-side credentials. Keep this proxy route lightweight; client code must only hit `/api/observability/...`.
 - Dashboards and alert definitions live under `docs/observability/`. Import `dashboards/baseline.json` and `alerts/baseline.yaml` into Grafana Cloud whenever telemetry labels change, and update the runbook to match.
-- Required env vars: `GRAFANA_OTLP_USERNAME`/`GRAFANA_OTLP_PASSWORD` (or `GRAFANA_OTLP_BASIC_AUTH`), `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_TRACE_RATIO`, and `NEXT_PUBLIC_OTEL_PROXY_URL`. Set them per environment before deploying.
+- Required env vars: `GRAFANA_OTLP_USERNAME`/`GRAFANA_OTLP_PASSWORD` (or `GRAFANA_OTLP_BASIC_AUTH`), `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_TRACE_RATIO`, `NEXT_PUBLIC_OTEL_PROXY_URL`, and `OBSERVABILITY_DEPLOYMENT_SECRET`. Set them per environment before deploying and share the deployment secret with Strapi CI via `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN`.
 
 ## Documentation map
 

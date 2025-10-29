@@ -63,11 +63,13 @@ Strapi infrastructure lives in Terraform under `infra/strapi`. Follow this seque
 - **Quality guardrails:** The freshly scaffolded Strapi workspace provides placeholder `npm run lint` and `npm test` commands (simple pass-through scripts) to satisfy automation while real linters/tests are wired. Replace them with ESLint/Vitest (or equivalent) suites as content logic lands.
 - GitHub environments:
   - `strapi-dev` / `strapi-prod` **variables**: `STRAPI_CLUSTER_ARN`, `STRAPI_SERVICE_NAME`, optional `STRAPI_HEALTHCHECK_URL`, `STRAPI_REVALIDATE_URL`, `STRAPI_MIGRATION_COMMAND`.
-  - `strapi-dev` / `strapi-prod` **secrets**: `STRAPI_REVALIDATE_SECRET` (bearer token), optional `STRAPI_MIGRATION_COMMAND` if it relies on sensitive values.
+  - `strapi-dev` / `strapi-prod` **variables** (observability): `STRAPI_DEPLOYMENT_WEBHOOK_URL` pointing to `https://app.<env>.clarivum.com/api/observability/v1/deployments`.
+  - `strapi-dev` / `strapi-prod` **secrets**: `STRAPI_REVALIDATE_SECRET` (bearer token), optional `STRAPI_MIGRATION_COMMAND` if it relies on sensitive values, and `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN` which matches the Next.js secret below.
 - Repository variables (Settings → Actions → Variables) required by every run:
   - `STRAPI_AWS_REGION`
   - `STRAPI_ECR_REGISTRY`
   - `STRAPI_ECR_REPOSITORY`
+- Next.js environments (`preview`, `dev`, `prod`) must define `OBSERVABILITY_DEPLOYMENT_SECRET`; CI uses the matching `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN` to authenticate when emitting deployment spans.
 - Validation steps after configuring secrets/variables:
   1. Open a PR that touches `cms/**` to observe the quality gate succeed.
   2. Push a commit to `main` (or a protected test branch) to confirm the image build + dev ECS rollout.
@@ -78,6 +80,10 @@ Strapi infrastructure lives in Terraform under `infra/strapi`. Follow this seque
   - `STRAPI_HEALTHCHECK_URL` should point to `https://cms-<env>.<domain>/_health` once ALB DNS is live. The workflow retries 6× (10 s backoff) before failing.
 - Frontend revalidation:
   - Set `STRAPI_REVALIDATE_URL` to the internal proxy (e.g., `https://app.<env>.clarivum.com/api/revalidate?scope=strapi`) and `STRAPI_REVALIDATE_SECRET` to the shared bearer token managed alongside other observability secrets.
+- Observability event hook:
+  - `STRAPI_DEPLOYMENT_WEBHOOK_URL` calls the Next.js deployment webhook. The workflow posts `{service, environment, status, version, sha, image, metadata}` to `/api/observability/v1/deployments` so Grafana dashboards see deployment activity.
+  - Store the bearer token for that endpoint in `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN`; it must equal `OBSERVABILITY_DEPLOYMENT_SECRET` in the target environment.
+  - Verify events land by checking the `Deployment Timeline` panel in Grafana after each rollout; missing data indicates bad credentials or networking.
 
 1. **Plan:** `terraform -chdir=infra/strapi init` (supply backend config), select the workspace (`dev` or `prod`), then run `terraform -chdir=infra/strapi plan -var-file=env/<env>.tfvars`. Attaching the plan output to the PR keeps reviewers in sync. Always include the `-var-file` flag—without it Terraform will prompt interactively for every required variable (region, subnets, ACM cert, etc.).
 2. **Promote image:** Push the new container image to ECR with immutable tag (`strapi:<git-sha>`). Update the corresponding `container_image` in the environment tfvars or promote by retagging (`staging` → `prod`).

@@ -1,9 +1,23 @@
 import path from 'path';
+import type { ConfigContext } from './types';
 
-export default ({ env }) => {
-  const client = env('DATABASE_CLIENT', 'postgres');
+type DatabaseClient = 'mysql' | 'postgres' | 'sqlite';
 
-  const connections = {
+export default ({ env }: ConfigContext) => {
+  const rawClient = env('DATABASE_CLIENT', 'postgres');
+  const client: DatabaseClient =
+    rawClient === 'mysql' || rawClient === 'sqlite' || rawClient === 'postgres'
+      ? rawClient
+      : 'postgres';
+
+  const connections: Record<
+    DatabaseClient,
+    {
+      connection: Record<string, unknown>;
+      pool?: { min: number; max: number };
+      useNullAsDefault?: boolean;
+    }
+  > = {
     mysql: {
       connection: {
         host: env('DATABASE_HOST', 'localhost'),

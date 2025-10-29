@@ -1,4 +1,6 @@
-export default ({ env }) => ({
+import type { ConfigContext } from './types';
+
+export default ({ env }: ConfigContext) => ({
   auth: {
     secret: env('ADMIN_JWT_SECRET'),
   },

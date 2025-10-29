@@ -9,6 +9,7 @@
 ## Scope
 - Next.js app, background workers, Strapi webhooks, and mission services instrumented with OpenTelemetry.
 - Grafana Cloud tenants (preview, dev, prod) including Tempo, Prometheus, Loki, and Synthetic Monitoring.
+- `OBSERVABILITY_DEPLOYMENT_SECRET` configured for every Next.js runtime; Strapi CI/CD workflows use the matching `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN` to publish deployment events.
 
 ## Preconditions
 - OpenTelemetry config package published (`packages/ot-sdk`).
@@ -24,6 +25,7 @@
 - Loki search helpers: `service_name`, `deployment_environment`, `clarivum_vertical`.
 - Next.js OTLP proxy: `POST /api/observability/v1/traces` forwards browser spans to Grafana with secrets stored server-side.
 - Lambda worker template: `backend/workers/otel-lambda-template.ts` shows the canonical span/metric/log helpers for queue consumers.
+- Deployment event webhook: `POST /api/observability/v1/deployments` accepts CI/CD notifications (authenticated via `OBSERVABILITY_DEPLOYMENT_SECRET`) and emits spans with rollout metadata.
 
 ## Daily Operational Checklist
 - [ ] Review Grafana alert summary for overnight incidents; ensure acknowledgements closed.
@@ -83,6 +85,7 @@
 - Browser traces are collected via `instrumentation.client.ts` (DocumentLoad + Fetch instrumentation) and relayed through `/api/observability/v1/traces`, so Grafana credentials never reach the client.
 - AWS Lambda + background workers must wrap handlers with `withTelemetry` from `backend/workers/otel-lambda-template.ts` to ensure queue depth metrics and span context are emitted consistently.
 - Environment variables: `GRAFANA_OTLP_USERNAME`, `GRAFANA_OTLP_PASSWORD`, `OTEL_TRACE_RATIO`, `OTEL_EXPORTER_OTLP_ENDPOINT`, and `NEXT_PUBLIC_OTEL_PROXY_URL` must be set per environment; see `docs/observability/dashboards/baseline.json` for expected labels.
+- Deployment spans originate from `/api/observability/v1/deployments` (CI/CD webhook) with attributes `deployment.service`, `deployment.environment`, `deployment.status`, `deployment.version`, `deployment.sha`, and JSON metadata—use them to drive the `Deployment Timeline` dashboard.
 
 ## Knowledge Share
 - Session: **2025-10-28 09:00 EET** (`Clarivum Observability Baseline Walkthrough`) — platform + frontend teams; recording stored in `knowledge/2025-10-28-otel-baseline.mp4`.
