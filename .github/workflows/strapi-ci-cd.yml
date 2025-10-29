@@ -11,6 +11,7 @@ on:
     branches: [main]
     paths:
       - "cms/**"
+      - "infra/strapi/**"
       - ".github/workflows/strapi-ci-cd.yml"
   workflow_dispatch:
     inputs:
@@ -220,6 +221,12 @@ jobs:
       STRAPI_REVALIDATE_SECRET_ARN: ${{ vars.STRAPI_REVALIDATE_SECRET_ARN }}
       STRAPI_DEPLOYMENT_WEBHOOK_URL: ${{ vars.STRAPI_DEPLOYMENT_WEBHOOK_URL }}
       STRAPI_DEPLOYMENT_WEBHOOK_TOKEN_ARN: ${{ vars.STRAPI_DEPLOYMENT_WEBHOOK_TOKEN_ARN }}
+      STRAPI_CODEDEPLOY_APPLICATION: ${{ vars.STRAPI_CODEDEPLOY_APPLICATION }}
+      STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP: ${{ vars.STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP }}
+      STRAPI_TASK_DEFINITION_FAMILY: ${{ vars.STRAPI_TASK_DEFINITION_FAMILY }}
+      STRAPI_CONTAINER_NAME: ${{ vars.STRAPI_CONTAINER_NAME }}
+      STRAPI_CONTAINER_PORT: ${{ vars.STRAPI_CONTAINER_PORT }}
+      STRAPI_SMOKE_TEST_URLS: ${{ vars.STRAPI_SMOKE_TEST_URLS }}
       STRAPI_DEPLOYMENT_WEBHOOK_TOKEN: ""
       DEPLOYMENT_ENVIRONMENT: "dev"
       PROMOTE_ONLY: "false"
@@ -254,6 +261,19 @@ jobs:
           fi
           if [ -z "${STRAPI_HEALTHCHECK_URL:-}" ]; then
             echo "::warning::STRAPI_HEALTHCHECK_URL not configured; health verification step will be skipped."
+          fi
+
+      - name: Determine deployment strategy
+        run: |
+          set -euo pipefail
+          if [ -n "${STRAPI_CODEDEPLOY_APPLICATION:-}" ] && [ -n "${STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP:-}" ] && [ -n "${STRAPI_TASK_DEFINITION_FAMILY:-}" ]; then
+            echo "Using CodeDeploy blue/green rollout."
+            echo "USE_CODEDEPLOY=true" >> "$GITHUB_ENV"
+          else
+            if [ -n "${STRAPI_CODEDEPLOY_APPLICATION:-}" ] || [ -n "${STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP:-}" ] || [ -n "${STRAPI_TASK_DEFINITION_FAMILY:-}" ]; then
+              echo "::warning::Partial CodeDeploy configuration detected. Provide STRAPI_CODEDEPLOY_APPLICATION, STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP, and STRAPI_TASK_DEFINITION_FAMILY to enable blue/green rollouts."
+            fi
+            echo "USE_CODEDEPLOY=false" >> "$GITHUB_ENV"
           fi
 
       - name: Configure AWS credentials
@@ -321,6 +341,109 @@ jobs:
             --image-tag "dev" \
             --image-manifest "${MANIFEST}"
 
+      - name: Register task definition revision (CodeDeploy)
+        id: register_task_definition
+        if: env.PROMOTE_ONLY != 'true' && env.USE_CODEDEPLOY == 'true'
+        run: |
+          set -euo pipefail
+
+          if ! command -v jq >/dev/null 2>&1; then
+            echo "::error::jq is required for CodeDeploy rollouts."
+            exit 1
+          fi
+
+          if [ -z "${STRAPI_TASK_DEFINITION_FAMILY:-}" ]; then
+            echo "::error::STRAPI_TASK_DEFINITION_FAMILY must be set when using CodeDeploy."
+            exit 1
+          fi
+
+          IMAGE_REFERENCE="${STRAPI_ECR_REGISTRY}/${STRAPI_ECR_REPOSITORY}:${IMAGE_TAG}"
+          CONTAINER_NAME="${STRAPI_CONTAINER_NAME:-strapi}"
+
+          aws ecs describe-task-definition \
+            --task-definition "${STRAPI_TASK_DEFINITION_FAMILY}" \
+            --query 'taskDefinition' \
+            --output json > task-definition.json
+
+          if [ ! -s task-definition.json ]; then
+            echo "::error::Failed to resolve base task definition ${STRAPI_TASK_DEFINITION_FAMILY}"
+            exit 1
+          fi
+
+          jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy, .deregisteredAt, .inferenceAccelerators)' task-definition.json \
+            | jq --arg image "${IMAGE_REFERENCE}" --arg name "${CONTAINER_NAME}" '
+              if (.containerDefinitions[] | select(.name == $name)) then
+                (.containerDefinitions[] | select(.name == $name) | .image) = $image
+              else
+                error("Container named " + $name + " not found in task definition.")
+              end
+            ' > sanitized-task-definition.json
+
+          NEW_TASK_DEFINITION=$(aws ecs register-task-definition \
+            --cli-input-json file://sanitized-task-definition.json \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+
+          if [ -z "${NEW_TASK_DEFINITION}" ] || [ "${NEW_TASK_DEFINITION}" = "None" ]; then
+            echo "::error::Task definition registration returned empty ARN."
+            exit 1
+          fi
+
+          echo "REGISTERED_TASK_DEFINITION=${NEW_TASK_DEFINITION}" >> "$GITHUB_ENV"
+          echo "registered-task-definition=${NEW_TASK_DEFINITION}" >> "$GITHUB_OUTPUT"
+
+          rm -f task-definition.json sanitized-task-definition.json
+
+      - name: Create CodeDeploy deployment
+        id: create_codedeploy
+        if: env.PROMOTE_ONLY != 'true' && env.USE_CODEDEPLOY == 'true'
+        run: |
+          set -euo pipefail
+
+          if [ -z "${REGISTERED_TASK_DEFINITION:-}" ]; then
+            echo "::error::REGISTERED_TASK_DEFINITION is not set."
+            exit 1
+          fi
+
+          CONTAINER_NAME="${STRAPI_CONTAINER_NAME:-strapi}"
+          CONTAINER_PORT="${STRAPI_CONTAINER_PORT:-1337}"
+
+          APP_SPEC=$(jq -n \
+            --arg taskDef "${REGISTERED_TASK_DEFINITION}" \
+            --arg containerName "${CONTAINER_NAME}" \
+            --argjson containerPort "${CONTAINER_PORT:-1337}" \
+            '{version:1, Resources:[{TargetService:{Type:"AWS::ECS::Service", Properties:{TaskDefinition:$taskDef, LoadBalancerInfo:{ContainerName:$containerName, ContainerPort:$containerPort}}}}]}')
+
+          jq -n \
+            --arg app "${STRAPI_CODEDEPLOY_APPLICATION}" \
+            --arg group "${STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP}" \
+            --arg desc "Clarivum Strapi ${DEPLOYMENT_ENVIRONMENT} ${IMAGE_TAG}" \
+            --arg content "${APP_SPEC}" \
+            '{applicationName:$app, deploymentGroupName:$group, description:$desc, revision:{revisionType:"AppSpecContent", appSpecContent:{content:$content}}}' \
+            > create-deployment.json
+
+          DEPLOYMENT_ID=$(aws deploy create-deployment \
+            --cli-input-json file://create-deployment.json \
+            --query 'deploymentId' \
+            --output text)
+
+          if [ -z "${DEPLOYMENT_ID}" ] || [ "${DEPLOYMENT_ID}" = "None" ]; then
+            echo "::error::Failed to create CodeDeploy deployment."
+            exit 1
+          fi
+
+          echo "CODEDEPLOY_DEPLOYMENT_ID=${DEPLOYMENT_ID}" >> "$GITHUB_ENV"
+          echo "codedeploy-deployment-id=${DEPLOYMENT_ID}" >> "$GITHUB_OUTPUT"
+
+          rm -f create-deployment.json
+
+      - name: Wait for CodeDeploy deployment
+        if: env.PROMOTE_ONLY != 'true' && env.USE_CODEDEPLOY == 'true'
+        run: |
+          set -euo pipefail
+          aws deploy wait deployment-successful --deployment-id "${CODEDEPLOY_DEPLOYMENT_ID}"
+          aws deploy get-deployment --deployment-id "${CODEDEPLOY_DEPLOYMENT_ID}"
+
       - name: Run pre-deploy migrations
         if: env.RUN_MIGRATIONS == 'true'
         run: |
@@ -338,6 +461,7 @@ jobs:
           fi
 
       - name: Update ECS service
+        if: env.PROMOTE_ONLY != 'true' && env.USE_CODEDEPLOY != 'true'
         run: |
           set -euo pipefail
           aws ecs update-service \
@@ -347,6 +471,7 @@ jobs:
           cat /tmp/deploy.json
 
       - name: Wait for service stability
+        if: env.PROMOTE_ONLY != 'true' && env.USE_CODEDEPLOY != 'true'
         run: |
           set -euo pipefail
           aws ecs wait services-stable \
@@ -378,6 +503,13 @@ jobs:
             -X POST \
             -H "Authorization: Bearer ${STRAPI_REVALIDATE_SECRET}" \
             "${STRAPI_REVALIDATE_URL}"
+
+      - name: Run post-deploy smoke tests
+        if: env.PROMOTE_ONLY != 'true'
+        run: node scripts/strapi-smoke.mjs
+        env:
+          STRAPI_SMOKE_TEST_URLS: ${{ env.STRAPI_SMOKE_TEST_URLS }}
+          STRAPI_HEALTHCHECK_URL: ${{ env.STRAPI_HEALTHCHECK_URL }}
 
       - name: Emit deployment observability event
         if: env.STRAPI_DEPLOYMENT_WEBHOOK_URL != '' && env.STRAPI_DEPLOYMENT_WEBHOOK_TOKEN != ''
@@ -438,6 +570,12 @@ jobs:
       STRAPI_MIGRATION_COMMAND_SECRET_ARN: ${{ vars.STRAPI_MIGRATION_COMMAND_SECRET_ARN }}
       STRAPI_REVALIDATE_SECRET_ARN: ${{ vars.STRAPI_REVALIDATE_SECRET_ARN }}
       STRAPI_DEPLOYMENT_WEBHOOK_TOKEN_ARN: ${{ vars.STRAPI_DEPLOYMENT_WEBHOOK_TOKEN_ARN }}
+      STRAPI_CODEDEPLOY_APPLICATION: ${{ vars.STRAPI_CODEDEPLOY_APPLICATION }}
+      STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP: ${{ vars.STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP }}
+      STRAPI_TASK_DEFINITION_FAMILY: ${{ vars.STRAPI_TASK_DEFINITION_FAMILY }}
+      STRAPI_CONTAINER_NAME: ${{ vars.STRAPI_CONTAINER_NAME }}
+      STRAPI_CONTAINER_PORT: ${{ vars.STRAPI_CONTAINER_PORT }}
+      STRAPI_SMOKE_TEST_URLS: ${{ vars.STRAPI_SMOKE_TEST_URLS }}
       STRAPI_DEPLOYMENT_WEBHOOK_TOKEN: ""
       DEPLOYMENT_ENVIRONMENT: ${{ inputs.environment }}
     steps:
@@ -471,6 +609,19 @@ jobs:
           fi
           if [ -z "${STRAPI_HEALTHCHECK_URL:-}" ]; then
             echo "::warning::STRAPI_HEALTHCHECK_URL not configured; health verification step will be skipped."
+          fi
+
+      - name: Determine deployment strategy
+        run: |
+          set -euo pipefail
+          if [ -n "${STRAPI_CODEDEPLOY_APPLICATION:-}" ] && [ -n "${STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP:-}" ] && [ -n "${STRAPI_TASK_DEFINITION_FAMILY:-}" ]; then
+            echo "Using CodeDeploy blue/green rollout."
+            echo "USE_CODEDEPLOY=true" >> "$GITHUB_ENV"
+          else
+            if [ -n "${STRAPI_CODEDEPLOY_APPLICATION:-}" ] || [ -n "${STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP:-}" ] || [ -n "${STRAPI_TASK_DEFINITION_FAMILY:-}" ]; then
+              echo "::warning::Partial CodeDeploy configuration detected. Provide STRAPI_CODEDEPLOY_APPLICATION, STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP, and STRAPI_TASK_DEFINITION_FAMILY to enable blue/green rollouts."
+            fi
+            echo "USE_CODEDEPLOY=false" >> "$GITHUB_ENV"
           fi
 
       - name: Configure AWS credentials
@@ -538,6 +689,109 @@ jobs:
             --image-tag "${{ inputs.environment }}" \
             --image-manifest "${MANIFEST}"
 
+      - name: Register task definition revision (CodeDeploy)
+        id: register_task_definition_manual
+        if: env.PROMOTE_ONLY != 'true' && env.USE_CODEDEPLOY == 'true'
+        run: |
+          set -euo pipefail
+
+          if ! command -v jq >/dev/null 2>&1; then
+            echo "::error::jq is required for CodeDeploy rollouts."
+            exit 1
+          fi
+
+          if [ -z "${STRAPI_TASK_DEFINITION_FAMILY:-}" ]; then
+            echo "::error::STRAPI_TASK_DEFINITION_FAMILY must be set when using CodeDeploy."
+            exit 1
+          fi
+
+          IMAGE_REFERENCE="${STRAPI_ECR_REGISTRY}/${STRAPI_ECR_REPOSITORY}:${IMAGE_TAG}"
+          CONTAINER_NAME="${STRAPI_CONTAINER_NAME:-strapi}"
+
+          aws ecs describe-task-definition \
+            --task-definition "${STRAPI_TASK_DEFINITION_FAMILY}" \
+            --query 'taskDefinition' \
+            --output json > task-definition.json
+
+          if [ ! -s task-definition.json ]; then
+            echo "::error::Failed to resolve base task definition ${STRAPI_TASK_DEFINITION_FAMILY}"
+            exit 1
+          fi
+
+          jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy, .deregisteredAt, .inferenceAccelerators)' task-definition.json \
+            | jq --arg image "${IMAGE_REFERENCE}" --arg name "${CONTAINER_NAME}" '
+              if (.containerDefinitions[] | select(.name == $name)) then
+                (.containerDefinitions[] | select(.name == $name) | .image) = $image
+              else
+                error("Container named " + $name + " not found in task definition.")
+              end
+            ' > sanitized-task-definition.json
+
+          NEW_TASK_DEFINITION=$(aws ecs register-task-definition \
+            --cli-input-json file://sanitized-task-definition.json \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+
+          if [ -z "${NEW_TASK_DEFINITION}" ] || [ "${NEW_TASK_DEFINITION}" = "None" ]; then
+            echo "::error::Task definition registration returned empty ARN."
+            exit 1
+          fi
+
+          echo "REGISTERED_TASK_DEFINITION=${NEW_TASK_DEFINITION}" >> "$GITHUB_ENV"
+          echo "registered-task-definition=${NEW_TASK_DEFINITION}" >> "$GITHUB_OUTPUT"
+
+          rm -f task-definition.json sanitized-task-definition.json
+
+      - name: Create CodeDeploy deployment
+        id: create_codedeploy_manual
+        if: env.PROMOTE_ONLY != 'true' && env.USE_CODEDEPLOY == 'true'
+        run: |
+          set -euo pipefail
+
+          if [ -z "${REGISTERED_TASK_DEFINITION:-}" ]; then
+            echo "::error::REGISTERED_TASK_DEFINITION is not set."
+            exit 1
+          fi
+
+          CONTAINER_NAME="${STRAPI_CONTAINER_NAME:-strapi}"
+          CONTAINER_PORT="${STRAPI_CONTAINER_PORT:-1337}"
+
+          APP_SPEC=$(jq -n \
+            --arg taskDef "${REGISTERED_TASK_DEFINITION}" \
+            --arg containerName "${CONTAINER_NAME}" \
+            --argjson containerPort "${CONTAINER_PORT:-1337}" \
+            '{version:1, Resources:[{TargetService:{Type:"AWS::ECS::Service", Properties:{TaskDefinition:$taskDef, LoadBalancerInfo:{ContainerName:$containerName, ContainerPort:$containerPort}}}}]}')
+
+          jq -n \
+            --arg app "${STRAPI_CODEDEPLOY_APPLICATION}" \
+            --arg group "${STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP}" \
+            --arg desc "Clarivum Strapi ${DEPLOYMENT_ENVIRONMENT} ${IMAGE_TAG}" \
+            --arg content "${APP_SPEC}" \
+            '{applicationName:$app, deploymentGroupName:$group, description:$desc, revision:{revisionType:"AppSpecContent", appSpecContent:{content:$content}}}' \
+            > create-deployment.json
+
+          DEPLOYMENT_ID=$(aws deploy create-deployment \
+            --cli-input-json file://create-deployment.json \
+            --query 'deploymentId' \
+            --output text)
+
+          if [ -z "${DEPLOYMENT_ID}" ] || [ "${DEPLOYMENT_ID}" = "None" ]; then
+            echo "::error::Failed to create CodeDeploy deployment."
+            exit 1
+          fi
+
+          echo "CODEDEPLOY_DEPLOYMENT_ID=${DEPLOYMENT_ID}" >> "$GITHUB_ENV"
+          echo "codedeploy-deployment-id=${DEPLOYMENT_ID}" >> "$GITHUB_OUTPUT"
+
+          rm -f create-deployment.json
+
+      - name: Wait for CodeDeploy deployment
+        if: env.PROMOTE_ONLY != 'true' && env.USE_CODEDEPLOY == 'true'
+        run: |
+          set -euo pipefail
+          aws deploy wait deployment-successful --deployment-id "${CODEDEPLOY_DEPLOYMENT_ID}"
+          aws deploy get-deployment --deployment-id "${CODEDEPLOY_DEPLOYMENT_ID}"
+
       - name: Run pre-deploy migrations
         if: env.RUN_MIGRATIONS == 'true'
         run: |
@@ -555,7 +809,7 @@ jobs:
           fi
 
       - name: Update ECS service
-        if: env.PROMOTE_ONLY != 'true'
+        if: env.PROMOTE_ONLY != 'true' && env.USE_CODEDEPLOY != 'true'
         run: |
           set -euo pipefail
           aws ecs update-service \
@@ -565,7 +819,7 @@ jobs:
           cat /tmp/deploy.json
 
       - name: Wait for service stability
-        if: env.PROMOTE_ONLY != 'true'
+        if: env.PROMOTE_ONLY != 'true' && env.USE_CODEDEPLOY != 'true'
         run: |
           set -euo pipefail
           aws ecs wait services-stable \
@@ -598,6 +852,13 @@ jobs:
             -X POST \
             -H "Authorization: Bearer ${STRAPI_REVALIDATE_SECRET}" \
             "${STRAPI_REVALIDATE_URL}"
+
+      - name: Run post-deploy smoke tests
+        if: env.PROMOTE_ONLY != 'true'
+        run: node scripts/strapi-smoke.mjs
+        env:
+          STRAPI_SMOKE_TEST_URLS: ${{ env.STRAPI_SMOKE_TEST_URLS }}
+          STRAPI_HEALTHCHECK_URL: ${{ env.STRAPI_HEALTHCHECK_URL }}
 
       - name: Emit deployment observability event
         if: env.STRAPI_DEPLOYMENT_WEBHOOK_URL != '' && env.STRAPI_DEPLOYMENT_WEBHOOK_TOKEN != ''

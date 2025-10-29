@@ -26,6 +26,7 @@
     "strapi:test": "node scripts/with-strapi-env.mjs test",
     "strapi:build": "node scripts/with-strapi-env.mjs build",
     "strapi:ci": "node scripts/strapi-ci.mjs",
+    "strapi:smoke": "node scripts/strapi-smoke.mjs",
     "lint:code": "eslint . --max-warnings=0",
     "lint": "node scripts/run-lints.mjs",
     "typecheck": "tsc --noEmit",

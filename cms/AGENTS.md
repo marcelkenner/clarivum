@@ -25,6 +25,7 @@ Use `.env.example` to document required variables; keep actual values in 1Passwo
 
 - The GitHub Actions workflow `.github/workflows/strapi-ci-cd.yml` runs lint → typecheck → tests → build on every PR touching `cms/**` or `infra/strapi/**`.
 - Developers can mirror that sequence locally with `npm run strapi:ci` from the repository root (uses generated SQLite + secret defaults).
+- Post-deploy smoke checks run via `npm run strapi:smoke`; configure URLs through GitHub environment variables so the workflow validates admin/API health after each rollout.
 - Pushes to `main` build a container via `cms/Dockerfile`, push it to ECR, retag `:dev`, and redeploy the dev ECS service. Manual `workflow_dispatch` runs promote deployments for `dev`/`prod`.
 - Configure GitHub repository variables:
   - `STRAPI_AWS_REGION`
@@ -38,11 +39,17 @@ Use `.env.example` to document required variables; keep actual values in 1Passwo
     - Use `https://cms-<env>.clarivum.com/api/healthz`; the endpoint verifies database connectivity and returns structured JSON for automation.
   - `STRAPI_REVALIDATE_URL`
   - `STRAPI_DEPLOYMENT_WEBHOOK_URL` (Next.js deployment telemetry endpoint)
+  - Optional `STRAPI_SMOKE_TEST_URLS` (newline/comma-separated list hit after deploy; defaults to the health endpoint when omitted).
   - Optional `STRAPI_MIGRATION_COMMAND` (shell command that runs migrations/seeds, e.g., `aws ecs run-task ...`).
   - `STRAPI_REVALIDATE_SECRET_ARN` pointing to the AWS Secrets Manager entry that holds the bearer token consumed by `/api/revalidate`.
   - `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN_ARN` pointing to the Secrets Manager record that mirrors `OBSERVABILITY_DEPLOYMENT_SECRET`.
   - Optional `STRAPI_MIGRATION_COMMAND_SECRET_ARN` when the migration command should be sourced from Secrets Manager instead of a plain variable.
   - Optional `STRAPI_DEPLOY_SUBNETS`, `STRAPI_DEPLOY_SECURITY_GROUPS` if migration helpers rely on them.
+- Optional blue/green rollout configuration (requires matching CodeDeploy resources in AWS):
+  - `STRAPI_CODEDEPLOY_APPLICATION`
+  - `STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP`
+  - `STRAPI_TASK_DEFINITION_FAMILY` (family or ARN of the baseline ECS task definition)
+  - Optional overrides: `STRAPI_CONTAINER_NAME` (defaults to `strapi`) and `STRAPI_CONTAINER_PORT` (defaults to `1337`).
 - Keep the underlying secret values in AWS Secrets Manager (`clarivum/strapi/<env>/*`). The workflow resolves the ARNs above at runtime so nothing sensitive lives in GitHub Actions configuration.
 
 The workflow skips automatically when `cms/package.json` is absent, so add the Strapi project before expecting builds to succeed.

@@ -53,17 +53,20 @@ Strapi infrastructure lives in Terraform under `infra/strapi`. Follow this seque
 
 - Workflow: `.github/workflows/strapi-ci-cd.yml`
   - **PRs (`cms/**`, `infra/strapi/**`)** – run `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build` inside `cms/`.
-  - **Push to `main`** – build `cms/Dockerfile`, push the image to ECR (`${STRAPI_ECR_REGISTRY}/${STRAPI_ECR_REPOSITORY}:${GITHUB_SHA::12}`), retag `:dev`, run optional migrations, update the dev ECS service, wait for stability, and invoke the configured health check + revalidation webhook.
+  - **Push to `main`** – build `cms/Dockerfile`, push the image to ECR (`${STRAPI_ECR_REGISTRY}/${STRAPI_ECR_REPOSITORY}:${GITHUB_SHA::12}`), retag `:dev`, run optional migrations, update the dev ECS service (or trigger CodeDeploy blue/green if configured), wait for stability, and invoke health + revalidation hooks.
+  - After every rollout the workflow executes `scripts/strapi-smoke.mjs` to hit the configured smoke URLs (defaults to `/api/healthz`) and fail fast on regressions.
   - **Manual deploy (`workflow_dispatch`)** – supply:
     - `environment` (`dev` | `prod`)
     - `image_tag` (immutable tag/sha to promote)
     - `run_migrations` (default `true`)
     - `promote_only` (`true` skips ECS rollout; retags image alias only)
     - Workflow assumes `AWS_STRAPI_DEPLOY_ROLE_ARN` secret (OIDC) and repository variables `STRAPI_AWS_REGION`, `STRAPI_ECR_REGISTRY`, `STRAPI_ECR_REPOSITORY`.
+  - **Optional blue/green rollouts** – provide `STRAPI_CODEDEPLOY_APPLICATION`, `STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP`, and `STRAPI_TASK_DEFINITION_FAMILY` in the GitHub environment (plus optional `STRAPI_CONTAINER_NAME` / `STRAPI_CONTAINER_PORT`). When present, the workflow registers a new task definition revision with the fresh image, creates an AWS CodeDeploy deployment, and waits for the deployment to succeed before running post-deploy checks.
 - **Quality guardrails:** The freshly scaffolded Strapi workspace provides placeholder `npm run lint` and `npm test` commands (simple pass-through scripts) to satisfy automation while real linters/tests are wired. Replace them with ESLint/Vitest (or equivalent) suites as content logic lands.
 - Local dry-run: `npm run strapi:ci` mirrors the workflow’s lint → typecheck → test → build sequence with generated SQLite + secret defaults, so CMS changes are reproducible without AWS credentials.
 - GitHub environments:
-  - `strapi-dev` / `strapi-prod` **variables**: `STRAPI_CLUSTER_ARN`, `STRAPI_SERVICE_NAME`, optional `STRAPI_HEALTHCHECK_URL`, `STRAPI_REVALIDATE_URL`, `STRAPI_MIGRATION_COMMAND`.
+  - `strapi-dev` / `strapi-prod` **variables**: `STRAPI_CLUSTER_ARN`, `STRAPI_SERVICE_NAME`, optional `STRAPI_HEALTHCHECK_URL`, `STRAPI_REVALIDATE_URL`, `STRAPI_MIGRATION_COMMAND`, `STRAPI_SMOKE_TEST_URLS`.
+  - Optional blue/green variables: `STRAPI_CODEDEPLOY_APPLICATION`, `STRAPI_CODEDEPLOY_DEPLOYMENT_GROUP`, `STRAPI_TASK_DEFINITION_FAMILY`, plus optional overrides `STRAPI_CONTAINER_NAME`, `STRAPI_CONTAINER_PORT`.
   - `strapi-dev` / `strapi-prod` **variables** (observability): `STRAPI_DEPLOYMENT_WEBHOOK_URL` pointing to `https://app.<env>.clarivum.com/api/observability/v1/deployments`.
   - `strapi-dev` / `strapi-prod` **secret reference variables**: `STRAPI_REVALIDATE_SECRET_ARN`, `STRAPI_DEPLOYMENT_WEBHOOK_TOKEN_ARN`, optional `STRAPI_MIGRATION_COMMAND_SECRET_ARN` when migration commands carry credentials. These ARNs must point at Secrets Manager entries (`clarivum/strapi/<env>/*`) so GitHub never stores the plaintext tokens.
 - Repository variables (Settings → Actions → Variables) required by every run:
