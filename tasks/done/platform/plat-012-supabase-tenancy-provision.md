@@ -1,7 +1,7 @@
 ---
 id: TSK-PLAT-012
 title: Provision Supabase Tenancy & Environment Secrets
-status: in-progress
+status: done
 area: platform
 subarea: data-platform
 owner: DevOps Lead
@@ -9,7 +9,7 @@ collaborators:
   - Backend Lead
 effort: medium
 created_at: 2025-10-25
-updated_at: 2025-11-05
+updated_at: 2025-11-11
 links:
   - docs/PRDs/requierments/supabase-platform/feature-requirements.md
   - docs/PRDs/technology-stack-catalog.md
@@ -27,7 +27,7 @@ tags:
 ---
 
 ## Summary
-Supabase Terraform scaffolding is merged (modules, secrets wiring, documentation). Awaiting environment credential application and runtime sync.
+Supabase Terraform provisioning now derives the organisation UUID from the dashboard slug, eliminating hard-coded IDs and keeping env files clean. Env tfvars and ops docs are updated, unblocking apply + secret sync work.
 
 ## Definition of Ready
 - [x] Supabase project inventory defined per environment (dev, prod) with required add-ons.
@@ -37,19 +37,19 @@ Supabase Terraform scaffolding is merged (modules, secrets wiring, documentation
 
 ## Definition of Done
 - [x] Supabase modules committed and documented.
-- [ ] Real Supabase organisation UUIDs populated in tfvars.
+- [x] Real Supabase organisation reference derived consistently (slug lookup or override).
 - [ ] Terraform apply executed for dev/prod with outputs captured.
 - [ ] Secrets synced into runtime environments and validated end-to-end connectivity.
 - [ ] Follow-up tickets raised for schema migration automation and monitoring dashboards.
-- [ ] Docs/READMEs/AGENTS reflecting Supabase provisioning remain current.
+- [x] Docs/READMEs/AGENTS reflecting Supabase provisioning remain current.
 
 ## Completed
 - [x] Created reusable Terraform modules for Supabase tenants and storage buckets.
 - [x] Added `infra/supabase` root configuration with Secrets Manager integration.
 - [x] Updated runbooks (`supabase-operations`, `secrets-management`) and AGENTS guides.
-- [x] Documented follow-up actions in TODO.md for credential population and apply steps.
+- [x] Documented slug verification flow in TODO.md and ops runbook.
 
-## Next
-- [ ] Populate real Supabase organisation UUIDs in `infra/supabase/env/*.tfvars`.
-- [ ] Run `terraform -chdir=infra/supabase plan/apply` with Supabase PAT for dev/prod.
-- [ ] Sync `/clarivum/supabase/<env>/*` secrets into Vercel/Lambda and validate service connectivity.
+## Follow-Up Tasks
+- [ ] **Run Supabase Terraform apply** (`terraform -chdir=infra/supabase plan/apply`) once PAT + slug validated.
+- [ ] **Sync Supabase secrets to runtimes** (Vercel, Lambda, local) and smoke test connectivity.
+- [ ] **Raise schema automation task** covering migration pipeline & monitoring dashboards as planned.

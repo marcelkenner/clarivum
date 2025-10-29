@@ -14,6 +14,33 @@ export type AnalyticsEventPayloadMap = {
   HomepageNewsletterDismissed: Record<string, never>;
   HomepageUvWidgetPermissionRequested: Record<string, never>;
   WebVitalsMetric: { id: string; name: string; value: number; navigationType: string };
+  uv_widget_load: {
+    has_consent: "yes" | "no" | "unknown";
+    request_kind: "geo" | "city" | "fallback";
+    cache_status: "hit" | "miss" | "stale";
+    locale: string;
+    source_city: string;
+    risk_level: string;
+    uv_now: number;
+    uv_max: number;
+    fallback_reason?: string;
+    cache_source?: "upstash" | "memory";
+  };
+  uv_widget_error: {
+    error: string;
+    locale: string;
+    request_kind: "geo" | "city" | "fallback";
+    cache_status?: "hit" | "miss" | "stale";
+    fallback_reason?: string;
+  };
+  uv_widget_rate_limited: {
+    locale: string;
+    request_kind: "geo" | "city" | "fallback";
+    scope: "ip" | "global";
+    limit: number;
+    remaining: number;
+    retry_after: number;
+  };
 };
 
 declare global {

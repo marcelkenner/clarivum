@@ -12,7 +12,10 @@ export type PlausibleDispatchResult =
   | { status: "skipped"; reason: string }
   | { status: "failed"; reason: string; statusCode?: number; body?: string };
 
-type SupportedEventName = Extract<AnalyticsEventName, "WebVitalsMetric">;
+type SupportedEventName = Extract<
+  AnalyticsEventName,
+  "WebVitalsMetric" | "uv_widget_load" | "uv_widget_error" | "uv_widget_rate_limited"
+>;
 export type SupportedAnalyticsEvent = AnalyticsEventRequest<SupportedEventName>;
 
 type PlausibleConfig = {

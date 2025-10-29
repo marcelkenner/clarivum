@@ -32,6 +32,22 @@ const DEFAULT_CONFIG: UVWidgetManagerConfig = {
 
 type CacheStatus = "hit" | "miss" | "stale";
 type CacheSource = "upstash" | "memory";
+const MAX_FETCH_ATTEMPTS = Number.parseInt(process.env["UV_WIDGET_FETCH_ATTEMPTS"] ?? "2", 10);
+
+function isRetryableError(error: unknown) {
+  if (!(error instanceof Error)) {
+    return false;
+  }
+
+  const message = error.message?.toLowerCase() ?? "";
+  return (
+    message === "wttr_request_timeout" ||
+    message.includes("fetch failed") ||
+    message.includes("failed to fetch") ||
+    message.startsWith("wttr_response_not_ok:5") ||
+    message.startsWith("wttr_response_not_ok:429")
+  );
+}
 
 function computeRiskLevel(uvIndex: number): RiskLevel {
   if (!Number.isFinite(uvIndex) || uvIndex <= 0) {
@@ -242,13 +258,39 @@ export function createUvWidgetManager(
       const copyPromise: Promise<UVWidgetCopyBundle> = dependencies.loadCopy(input.language);
 
       try {
-        const response = await dependencies.fetchForecast({
-          language: input.language,
-          ...(input.location ? { location: input.location } : {}),
-          ...(input.cityQuery ? { cityQuery: input.cityQuery } : {}),
-          revalidateSeconds: Math.floor(mergedConfig.cacheTtlMs / 1000),
-          timeoutMs: mergedConfig.fetchTimeoutMs,
-        });
+        const maxAttempts =
+          Number.isFinite(MAX_FETCH_ATTEMPTS) && MAX_FETCH_ATTEMPTS > 0 ? MAX_FETCH_ATTEMPTS : 1;
+        let attempt = 0;
+        let response: WttrResponse | undefined;
+        let lastError: unknown;
+
+        while (attempt < maxAttempts) {
+          attempt += 1;
+          try {
+            response = await dependencies.fetchForecast({
+              language: input.language,
+              ...(input.location ? { location: input.location } : {}),
+              ...(input.cityQuery ? { cityQuery: input.cityQuery } : {}),
+              revalidateSeconds: Math.floor(mergedConfig.cacheTtlMs / 1000),
+              timeoutMs: mergedConfig.fetchTimeoutMs,
+            });
+            span.setAttribute("clarivum.tools.fetch_attempt", attempt);
+            break;
+          } catch (fetchError) {
+            lastError = fetchError;
+            span.addEvent("uv_widget.fetch.retry", {
+              attempt,
+              message: fetchError instanceof Error ? fetchError.message : "unknown_error",
+            });
+            if (attempt >= maxAttempts || !isRetryableError(fetchError)) {
+              throw fetchError;
+            }
+          }
+        }
+
+        if (!response) {
+          throw lastError instanceof Error ? lastError : new Error("wttr_fetch_failed");
+        }
 
         const area = response.nearest_area?.[0];
         const { uvNow, uvMax, current, day } = extractUvValues(response);

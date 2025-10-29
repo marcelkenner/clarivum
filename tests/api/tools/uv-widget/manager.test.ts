@@ -70,6 +70,7 @@ describe("UV Widget Manager", () => {
     process.env["UV_WIDGET_CACHE_MODE"] = "memory";
     process.env["UV_WIDGET_CACHE_ALLOW_STALE"] = "true";
     process.env["UV_WIDGET_RATE_LIMIT_MODE"] = "memory";
+    delete process.env["UV_WIDGET_FETCH_ATTEMPTS"];
     ({ createUvWidgetManager } = await import("@/app/api/tools/uv-widget/lib/manager"));
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2025-01-17T09:30:00.000Z"));
@@ -81,6 +82,7 @@ describe("UV Widget Manager", () => {
     delete process.env["UV_WIDGET_CACHE_MODE"];
     delete process.env["UV_WIDGET_CACHE_ALLOW_STALE"];
     delete process.env["UV_WIDGET_RATE_LIMIT_MODE"];
+    delete process.env["UV_WIDGET_FETCH_ATTEMPTS"];
   });
 
   it("maps Wttr response into widget payload", async () => {
@@ -175,5 +177,30 @@ describe("UV Widget Manager", () => {
     expect(fallback.meta.cache_status).toBe("stale");
     expect(fallback.meta.cache_source).toBeDefined();
     expect(fallback.city_label).toBe("Warszawa, Poland");
+  });
+
+  it("retries fetching the forecast when the first attempt times out", async () => {
+    process.env["UV_WIDGET_FETCH_ATTEMPTS"] = "3";
+    vi.resetModules();
+    ({ createUvWidgetManager } = await import("@/app/api/tools/uv-widget/lib/manager"));
+
+    const fetchForecast = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("wttr_request_timeout"))
+      .mockResolvedValueOnce(SAMPLE_RESPONSE);
+    const manager = createUvWidgetManager(
+      {
+        fetchForecast,
+        now: () => Date.now(),
+        loadCopy: vi.fn().mockResolvedValue(COPY_FIXTURE),
+      },
+      { cacheTtlMs: 300000 },
+    );
+
+    const payload = await manager.getPayload(BASE_REQUEST);
+
+    expect(fetchForecast).toHaveBeenCalledTimes(2);
+    expect(payload.meta.cache_status).toBe("miss");
+    expect(payload.uv_now).toBeCloseTo(5.3, 1);
   });
 });
