@@ -4,7 +4,7 @@
 - **Owners:** Commerce Engineering
 
 ## Overview
-These diagrams capture the multi-provider payments strategy spanning Stripe, PayU, and Przelewy24. They illustrate routing logic, normalized data stored in Supabase, service collaborators, and the operational workflow for handling confirmations, failures, and reconciliations.
+These diagrams capture the multi-provider payments strategy spanning Stripe, PayU, and Przelewy24. They illustrate routing logic, normalized data stored in Aurora, service collaborators, and the operational workflow for handling confirmations, failures, and reconciliations.
 
 ## Files
 - `architecture-overview.mmd` — Checkout coordinator, provider integrations, and webhooks.

@@ -3,7 +3,7 @@
 Each guide helps a specific discipline ramp quickly on Clarivum. Start here, then dive into the guide for your role.
 
 - `frontend.md` – App Router structure, branding alignment, UI workflow.
-- `backend.md` – API and data modelling approach, Supabase/SQS integration plans.
+- `backend.md` – API and data modelling approach, Aurora/SQS integration plans.
 - `architecture.md` – Decision records, review cadence, and modelling expectations.
 - `devops.md` – IaC, environments, deployments, observability, cost controls.
 - `qa.md` – Testing strategy, tooling, and CI guardrails.

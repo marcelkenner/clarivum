@@ -4,7 +4,7 @@
 - **Owners:** Growth Monetization
 
 ## Overview
-These diagrams capture the ebook platform architecture, including Strapi catalog management, Supabase storage, payment flows, generation tooling for PDF/EPUB outputs, and fulfillment automation. They track the relationships between content sources, rendering managers, entitlements, and analytics.
+These diagrams capture the ebook platform architecture, including Strapi catalog management, Amazon S3 storage, payment flows, generation tooling for PDF/EPUB outputs, and fulfillment automation. They track the relationships between content sources, rendering managers, entitlements, and analytics.
 
 ## Files
 - `architecture-overview.mmd` — Catalog, storage, payment, and delivery integrations.

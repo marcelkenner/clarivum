@@ -8,19 +8,19 @@
 
 ## Scope
 - Auth0 magic-link invitation workflow.
-- Supabase `profiles` table (`status`, `pending_claim_token`, `last_claim_email_sent_at`).
+- Aurora `profiles` table (`status`, `pending_claim_token`, `last_claim_email_sent_at`).
 - Entitlement aggregation API powering the Account Center shelf.
 - Notification automations (Listmonk/Novu) for claim reminders.
 
 ## Preconditions
-- ADR-032 adopted; Supabase schema migrations deployed (`profiles.status`, `entitlement_status_history`).
+- ADR-032 adopted; Aurora schema migrations deployed (`profiles.status`, `entitlement_status_history`).
 - Auth0 tenant configured with passwordless email connection and email templates for `claim-library`.
 - Novu/Listmonk templates published for claim reminder (24h, 7d) and confirmation.
 - Support tooling exposes "Send claim email" and "Merge entitlements" actions.
 
 ## Tooling & References
 - `npm run ebooks:claim-smoke` — full guest purchase → claim regression test.
-- Supabase SQL snippets (`scripts/sql/entitlement-pending.sql`) for reconciling pending claims.
+- Aurora SQL snippets (`scripts/sql/entitlement-pending.sql`) for reconciling pending claims.
 - Auth0 Management API (`POST /jobs/verification-email`) via CLI or internal admin UI.
 - Analytics dashboards tracking `entitlement.claim_initiated` / `entitlement.claim_success`.
 
@@ -41,7 +41,7 @@
 
 ## Common Procedures
 ### Resend Claim Email
-1. Locate profile by email in Supabase; verify `status = pending_claim`.
+1. Locate profile by email in Aurora; verify `status = pending_claim`.
 2. Trigger claim email via support UI or run:
    ```bash
    auth0 jobs verification-email --email user@example.com --client-id <claim-client>
@@ -51,13 +51,13 @@
 ### Merge Entitlements Across Emails
 1. Authenticate user requesting merge; gather proof of purchase (order ID, last four digits, billing zip).
 2. Run reconciliation script to list entitlements for both emails.
-3. Update Supabase to transfer entitlements and set canonical email; send confirmation to both addresses.
+3. Update Aurora to transfer entitlements and set canonical email; send confirmation to both addresses.
 4. Invalidate previous pending tokens; issue new claim email if second email lacked an account.
 
 ### Shelf Debug — Missing Entitlement
 1. Check entitlement service logs for the user’s Auth0 ID.
 2. Ensure `entitlement_status_history` has a recent `activated` entry; if absent, rerun background reconciliation job.
-3. Verify Supabase RLS policies allow the Auth0 ID; adjust policy if new role introduced.
+3. Verify Aurora RLS policies allow the Auth0 ID; adjust policy if new role introduced.
 4. Confirm the frontend cache (SWR/React Query) refreshed; instruct user to reload or clear session if stale.
 
 ### Shelf Debug — Download Failure

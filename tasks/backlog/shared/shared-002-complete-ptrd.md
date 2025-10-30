@@ -19,7 +19,7 @@ links:
   - docs/adr/ADR-005-feature-flags.md
 context7:
   - /vercel/next.js
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /flagsmith/flagsmith
   - /open-telemetry/opentelemetry-js
 tags:

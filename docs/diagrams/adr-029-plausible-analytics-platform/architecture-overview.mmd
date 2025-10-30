@@ -7,16 +7,16 @@ flowchart LR
 
     Consent["AnalyticsConsentGuard\n(consent traits)"]
     ScriptMgr["PlausibleScriptManager"]
-    ProxyScript["/analytics/js/script.js\n(Vercel Proxy)"]
+    ProxyScript["/analytics/js/script.js\n(CloudFront Proxy)"]
     PlausibleJS["Plausible Script Loader"]
 
     ServerDispatcher["PlausibleEventDispatcher\n(server actions, jobs)"]
-    ProxyAPI["/analytics/api/event\n(Vercel Proxy)"]
+    ProxyAPI["/analytics/api/event\n(CloudFront Proxy)"]
     PlausibleIngest["Plausible Ingestion API (EU)"]
     PlausibleApp["Plausible Dashboards & Alerts"]
     SlackAlerts["Slack Funnel Alerts"]
     NightlyExport["Nightly Export Job"]
-    SupabaseWarehouse["Supabase Warehouse Tables"]
+    AuroraWarehouse["Aurora Warehouse Tables"]
 
     Client --> Consent
     Consent --> ScriptMgr
@@ -26,5 +26,5 @@ flowchart LR
     ServerDispatcher --> ProxyAPI --> PlausibleIngest
 
     PlausibleIngest --> PlausibleApp --> SlackAlerts
-    PlausibleIngest --> NightlyExport --> SupabaseWarehouse
+    PlausibleIngest --> NightlyExport --> AuroraWarehouse
 ```

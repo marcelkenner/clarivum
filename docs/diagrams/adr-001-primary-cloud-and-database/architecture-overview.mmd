@@ -1,11 +1,11 @@
 ```mermaid
 flowchart TD
-    Visitors["Global visitors"] --> VercelEdge["Vercel Edge Network"]
-    VercelEdge --> NextApp["Next.js App Router"]
-    NextApp --> SupabasePostgres["Supabase Postgres 16"]
-    NextApp --> SupabaseStorage["Supabase Storage (S3-compatible)"]
-    Terraform["Terraform IaC"] --> VercelEdge
-    Terraform --> SupabasePostgres
-    Terraform --> SupabaseStorage
-    SupabasePostgres --> PITR["Point-in-time recovery snapshots"]
+    Visitors["Global visitors"] --> CloudFrontEdge["CloudFront Edge Network"]
+    CloudFrontEdge --> NextApp["Next.js App Router (ECS Fargate + ALB)"]
+    NextApp --> AuroraPostgres["Aurora Postgres 16"]
+    NextApp --> AuroraStorage["Amazon S3 Storage (S3-compatible)"]
+    Terraform["Terraform IaC"] --> CloudFrontEdge
+    Terraform --> AuroraPostgres
+    Terraform --> AuroraStorage
+    AuroraPostgres --> PITR["Point-in-time recovery snapshots"]
 ```

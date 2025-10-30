@@ -44,7 +44,7 @@ This policy codifies how engineers work with Git so no change reaches `main` wit
 ## CI/CD enforcement
 
 - GitHub Actions publish required statuses that gate merges. The platform task `TSK-PLAT-004` tracks implementing these workflows and branch protections.
-- Vercel remains the deployment engine; successful merges trigger preview/production builds automatically. A failing status check prevents deployment because the PR cannot merge.
+- AWS remains the deployment engine; successful merges push container images to ECR and update the ECS services behind CloudFront. A failing status check prevents deployment because the PR cannot merge.
 - Add new status checks through code owners in `ci.yml` so the branch protection rule stays aligned.
 
 ## Exceptions

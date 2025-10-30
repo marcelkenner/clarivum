@@ -1,6 +1,8 @@
 # Supabase Provisioning · AGENTS Guide
 
-Terraform configuration for Clarivum Supabase projects lives in this directory. Follow the secrets and guardrails outlined in `docs/runbooks/supabase-operations.md` and ADR-001.
+**Status:** legacy. Aurora and CloudFront now serve production traffic; this module stays in the repo only to support final data exports and controlled teardown. Do not create new Supabase environments. Before running any command here, open a decommission task and confirm the scope with the platform owner.
+
+Terraform configuration for the remaining Supabase projects lives in this directory. Follow the secrets and guardrails outlined in `docs/runbooks/supabase-operations.md` and ADR-001 until the service is fully retired.
 
 ## Prerequisites
 

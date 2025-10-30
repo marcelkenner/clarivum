@@ -8,7 +8,7 @@ classDiagram
         +seedFlags(config)
         +resetFlags()
     }
-    class SupabaseFixtureManager {
+    class AuroraFixtureManager {
         +applyFixtures()
         +cleanup()
     }
@@ -17,7 +17,7 @@ classDiagram
         +runSmokeSuite()
     }
     TestEnvironmentFactory --> FeatureFlagSeeder
-    TestEnvironmentFactory --> SupabaseFixtureManager
+    TestEnvironmentFactory --> AuroraFixtureManager
     PlaywrightRunner --> FeatureFlagSeeder
-    PlaywrightRunner --> SupabaseFixtureManager
+    PlaywrightRunner --> AuroraFixtureManager
 ```

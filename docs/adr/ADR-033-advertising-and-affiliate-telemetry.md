@@ -10,10 +10,10 @@ Status: Proposed
 
 ## Decision
 - Establish an **Outbound Monetization Telemetry** subsystem with the following components:
-  - **Impression Service** (Edge function) records ad/affiliate impressions with de-identified session identifiers, consent state, placement metadata, and experiment flags. Stores events in Supabase (`monetization_impressions`) and emits Plausible goals when consented.
+  - **Impression Service** (Edge function) records ad/affiliate impressions with de-identified session identifiers, consent state, placement metadata, and experiment flags. Stores events in Aurora (`monetization_impressions`) and emits Plausible goals when consented.
   - **Click Redirect Service** issues short-lived signed redirect URLs (`/go/<partner>/<slug>/<event-id>`) that log click metadata (timestamp, placement, partner, hashed user/session, source article) before forwarding to partner URLs. Enforce allowlists and per-partner throttling.
   - **Fraud Detection Worker** (background job) runs hourly to flag anomalies (CTR spikes, repetitive IPs, bot signatures) and publishes alerts to `#clarivum-partnerships`.
-  - **Reconciliation Pipeline** exports daily aggregates (impressions, clicks, conversions, revenue) to Supabase analytics schemas for finance to cross-check partner statements; discrepancies raise Kaizen guardrail issues automatically.
+  - **Reconciliation Pipeline** exports daily aggregates (impressions, clicks, conversions, revenue) to Aurora analytics schemas for finance to cross-check partner statements; discrepancies raise Kaizen guardrail issues automatically.
   - **Dashboard Suite** in Plausible + Looker/Metabase providing CTR, RPM, revenue-per-session, and seasonal trend analysis segmented by vertical, partner, and placement.
 - All monetization events adopt a shared schema (`MonetizationEvent`) with typed clients inside `@clarivum/analytics` to ensure compile-time validation and consent gating.
 - Blog and recommendation modules must instrument both impressions and clicks; ads load lazily and only after consent but impressions are logged using IntersectionObserver thresholds to avoid inflated counts.
@@ -30,7 +30,7 @@ Status: Proposed
 - **Benefits:** Provides audit-ready monetization data, deters fraud, and enables optimization for high-performing placements and partners.
 - **Trade-offs:** Adds complexity (edge functions, background workers, reconciliation scripts) and demands consistent consent handling to remain compliant.
 - **Follow-ups:**
-  - Implement Supabase schema migrations for impressions, clicks, and reconciliation tables.
+  - Implement Aurora schema migrations for impressions, clicks, and reconciliation tables.
   - Update analytics event registry (ADR-029) with `AffiliateLinkClicked`, `AffiliateLinkRedirected`, `AdPlacementViewed`, `AdPlacementClicked`.
   - Extend runbooks for partnerships/ads to cover monitoring, dispute resolution, and fraud response.
   - Collaborate with finance to define import format for partner revenue statements.

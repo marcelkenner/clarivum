@@ -4,11 +4,11 @@
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-013-mailing-platform-and-campaign-automation.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with Lifecycle Marketing Engineering before changing scope, integration points, or lifecycle assumptions documented here.
-- Keep coverage aligned: These diagrams describe the Listmonk-based mailing stack, including infrastructure on AWS, synchronization with Supabase, and automation services that coordinate campaigns.
+- Keep coverage aligned: These diagrams describe the Listmonk-based mailing stack, including infrastructure on AWS, synchronization with Aurora, and automation services that coordinate campaigns.
 
 ## Diagram Responsibilities
 - `architecture-overview.mmd`: Keep eCS Fargate deployment, integrations, and feedback loops accurate and synchronized with the latest implementation notes and shared vocabulary.
-- `data-lineage.mmd`: Keep subscriber records, consent flags, and event tracking across Supabase and Listmonk accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `data-lineage.mmd`: Keep subscriber records, consent flags, and event tracking across Aurora and Listmonk accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `uml-services.mmd`: Keep coordinator, sync manager, and webhook processors managing email automation accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `bpmn-campaign.mmd`: Keep campaign planning, approval, sending, and feedback workflow accurate and synchronized with the latest implementation notes and shared vocabulary.
 

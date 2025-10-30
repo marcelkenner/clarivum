@@ -4,7 +4,7 @@
 - **Owners:** Growth Analytics
 
 ## Overview
-These diagrams illustrate the Plausible-first analytics architecture adopted in ADR-029. They cover script proxying, event dispatch, consent governance, and data exports to Supabase.
+These diagrams illustrate the Plausible-first analytics architecture adopted in ADR-029. They cover script proxying, event dispatch, consent governance, and data exports to Aurora.
 
 ## Files
 - `architecture-overview.mmd` — End-to-end event flow across clients, proxies, Plausible ingestion, and downstream alerts.

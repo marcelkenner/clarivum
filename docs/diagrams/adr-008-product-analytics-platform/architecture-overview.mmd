@@ -7,6 +7,6 @@ flowchart LR
     PostHogIngest --> PostHogApp["PostHog Dashboards & Alerts"]
     PostHogApp --> SlackAlerts["Slack Funnel Alerts"]
     PostHogIngest --> WarehouseSync["PostHog Warehouse Sync"]
-    WarehouseSync --> SupabaseWarehouse["Supabase Analytics Schema"]
-    SupabaseWarehouse --> FinanceReports["Finance & Reporting"]
+    WarehouseSync --> AuroraWarehouse["Aurora Analytics Schema"]
+    AuroraWarehouse --> FinanceReports["Finance & Reporting"]
 ```

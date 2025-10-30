@@ -31,7 +31,7 @@ When uncertain, start here. Every document cross-links back to its owners; if in
 
 ## Business logic ownership
 
-- **Lead capture & entitlements**: Documented in PTRD §5–§9 with supporting tasks (`TSK-010`, `TSK-014`, `TSK-015`). Supabase schema design resides in ADR-001 + future ADR addenda.
+- **Lead capture & entitlements**: Documented in PTRD §5–§9 with supporting tasks (`TSK-010`, `TSK-014`, `TSK-015`). Aurora schema design resides in ADR-001 + future ADR addenda.
 - **Feature flags & rollout**: ADR-005 defines policy; verify new features list owner, rollout stages, and sunset path.
 - **Background processes**: ADR-003 governs SQS/Lambda jobs (lead enrichment, sitemap regeneration). Ensure runbooks cover failure handling.
 - **Cost & compliance**: `docs/policies/error-budget-policy.md` and `security-baseline.md`. Confirm business features respect budgets and security controls before launch.
@@ -53,14 +53,14 @@ When uncertain, start here. Every document cross-links back to its owners; if in
    - Move tasks to Done only when documentation, tests, and monitoring are updated.
 5. **Continuous improvement**  
    - Note missing assets (e.g., diagrams, checklists) and create follow-up tasks.  
-   - Leverage Context7 (Next.js, Supabase, Auth0, Flagsmith) to confirm implementation details before codifying them.
+   - Leverage Context7 (Next.js, Aurora PostgreSQL, Auth0, Flagsmith) to confirm implementation details before codifying them.
 
 ## Definition of Ready checklist
 
 - [ ] User outcome and business value articulated (reference PRD section).  
 - [ ] Success metrics / KPIs defined (activation, lead conversions, etc.).  
 - [ ] UX specs (button sizes, routes, content) confirmed in design system or sitemap.  
-- [ ] Dependencies and integrations (Auth0, Supabase, SQS) mapped to ADRs.  
+- [ ] Dependencies and integrations (Auth0, Aurora/PostgreSQL, SQS) mapped to ADRs.  
 - [ ] Acceptance criteria and test approach captured in task + QA plan.  
 - [ ] Risks or open questions documented with owners.
 

@@ -19,7 +19,7 @@ context7:
   - /hashicorp/terraform
   - /aws/lambda
   - /aws/sqs
-  - /vercel/cli
+  - /aws/aws-cli
 tags:
   - terraform
   - infrastructure
@@ -27,7 +27,7 @@ tags:
 ---
 
 ## Summary
-Create and configure the Terraform codebase that provisions Vercel, Supabase, AWS (SQS/Lambda/Secrets Manager) per ADR-001 and ADR-003.
+Create and configure the Terraform codebase that provisions AWS foundations (CloudFront, ECS, Aurora, SQS/Lambda/Secrets Manager) per ADR-001 and ADR-003.
 
 ## Definition of Ready
 - [x] Repository strategy confirmed: dedicated repo `clarivum-infra` with `/modules`, `/stacks/<env>`, `/providers`, and `/pipelines` layout (no submodule) approved by architecture.
@@ -37,7 +37,7 @@ Create and configure the Terraform codebase that provisions Vercel, Supabase, AW
 
 ## Definition of Done
 - [ ] Terraform project scaffolded with remote state configuration committed.
-- [ ] Baseline modules for Vercel, Supabase, SQS, Lambda authored and documented.
+- [ ] Baseline modules for CloudFront/ECS, Aurora, SQS, and Lambda authored and documented.
 - [ ] CI workflow validating format/plan merged.
 - [ ] Deployment runbook and platform role guide updated with IaC usage instructions.
 - [ ] Knowledge-transfer walkthrough scheduled/recorded for engineers.

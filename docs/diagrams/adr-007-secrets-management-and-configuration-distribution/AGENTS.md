@@ -4,7 +4,7 @@
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-007-secrets-management-and-configuration-distribution.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with Security Engineering before changing scope, integration points, or lifecycle assumptions documented here.
-- Keep coverage aligned: These diagrams show how Clarivum centralizes secrets in AWS Secrets Manager and propagates configuration to Vercel, Lambda, and CI pipelines.
+- Keep coverage aligned: These diagrams show how Clarivum centralizes secrets in AWS Secrets Manager and propagates configuration to CloudFront, Lambda, and CI pipelines.
 
 ## Diagram Responsibilities
 - `architecture-overview.mmd`: Keep secrets Manager as the source of truth feeding runtimes and CI accurate and synchronized with the latest implementation notes and shared vocabulary.

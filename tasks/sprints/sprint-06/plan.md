@@ -42,7 +42,7 @@ links:
 
 ## Definition of Success
 
-- Unified checkout handles subscriptions + digital products with resilient retries and telemetry; Supabase entitlements stay in sync.
+- Unified checkout handles subscriptions + digital products with resilient retries and telemetry; Aurora entitlements stay in sync.
 - Consent tests block regressions in CI; Klaro buckets + Flagsmith traits validated via automation.
 - Trial reminder workflows verified end-to-end (Stripe events → Novu templates → metrics).
 - Guest claim workflow runs end-to-end (webhooks → reminder automation → claim API) with audit trail + metrics.
@@ -55,7 +55,7 @@ links:
 - Confirm product catalog (plans, coupons) + legal copy by 2026-01-30.
 - Align consent record storage + Klaro config with legal/privacy before automation.
 - Ensure Novu templates + Listmonk cohorts available for trial reminders and guest claim nudges.
-- Validate Supabase schema migrations + RLS changes in staging before sprint start.
+- Validate Aurora schema migrations + RLS changes in staging before sprint start.
 - Ensure instrumentation hooks from Sprint 05 Ops Hub are available for monitoring fulfillment signals.
 
 ## Risks & Mitigations

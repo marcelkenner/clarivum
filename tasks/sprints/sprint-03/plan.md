@@ -45,7 +45,7 @@ links:
 
 - Finalize DoR checkboxes: networking conventions, secrets catalog, schema design, permissions matrix (due 2025-11-26).
 - Coordinate Terraform module reviews with platform/infra maintainers to avoid blocking approvals.
-- Ensure Sprint 02 outputs (routing schema, Supabase types, SEO utilities) are available to integrate with Strapi webhooks and content contracts.
+- Ensure Sprint 02 outputs (routing schema, Aurora types, SEO utilities) are available to integrate with Strapi webhooks and content contracts.
 - Secure temporary sandbox credentials for Strapi plugins before sprint start.
 
 ## Risks & Mitigations

@@ -39,7 +39,7 @@ Implement tracing, metrics, logging, alerting, and compliance hooks for the Ops 
 
 ## Definition of Done
 - [ ] Ops Hub instrumented with OTel spans + metrics (latency, error rate, action counts) shipped to Grafana Cloud.
-- [ ] Supabase audit exports automated via GitHub Action or scheduled script with retention policies.
+- [ ] Aurora audit exports automated via GitHub Action or scheduled script with retention policies.
 - [ ] Alerting configured for SLO breaches, audit anomalies, and vendor API rate limits; Slack notifications validated.
 - [ ] Access review automation created (monthly GitHub Action posting to `#clarivum-ops` and logging to audit trail).
 - [ ] Metrics JSON files updated (flow, quality, sustainability) to include Ops Hub KPIs; documentation refreshed.

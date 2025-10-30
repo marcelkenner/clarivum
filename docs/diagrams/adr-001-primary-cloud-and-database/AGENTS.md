@@ -8,7 +8,7 @@
 
 ## Diagram Responsibilities
 - `architecture-overview.mmd`: Keep container-level view of web delivery, database, and storage services accurate and synchronized with the latest implementation notes and shared vocabulary.
-- `data-lineage.mmd`: Keep entity relationships that describe how content and leads live inside Supabase accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `data-lineage.mmd`: Keep entity relationships that describe how content and leads live inside Aurora accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `uml-service-boundaries.mmd`: Keep domain classes for provisioning and runtime adapters used by the platform team accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `bpmn-provisioning.mmd`: Keep provisioning and disaster-recovery workflow for infrastructure operations accurate and synchronized with the latest implementation notes and shared vocabulary.
 

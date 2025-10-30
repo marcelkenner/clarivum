@@ -4,11 +4,11 @@
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-014-cookie-consent-and-preference-management.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with Legal & Compliance Engineering before changing scope, integration points, or lifecycle assumptions documented here.
-- Keep coverage aligned: These diagrams summarize the Klaro!-based consent management approach, showing how consent categories map to Flagsmith traits, how audit events flow into Supabase, and how application code respects consent gates.
+- Keep coverage aligned: These diagrams summarize the Klaro!-based consent management approach, showing how consent categories map to Flagsmith traits, how audit events flow into Aurora, and how application code respects consent gates.
 
 ## Diagram Responsibilities
 - `architecture-overview.mmd`: Keep klaro loader integration, consent storage, and downstream consumers accurate and synchronized with the latest implementation notes and shared vocabulary.
-- `data-lineage.mmd`: Keep consent records, Supabase audit logs, and category mappings accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `data-lineage.mmd`: Keep consent records, Aurora audit logs, and category mappings accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `uml-components.mmd`: Keep initialization, consent state, and trait synchronization classes accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `bpmn-consent.mmd`: Keep consent capture, update, and revocation workflow accurate and synchronized with the latest implementation notes and shared vocabulary.
 

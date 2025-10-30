@@ -2,15 +2,15 @@
 sequenceDiagram
     participant Dev as Developer
     participant Repo as Repo
-    participant Supabase as Supabase CLI
+    participant Aurora as Migration Runner
     participant Database as Postgres
 
     Dev->>Repo: Draft migration 20251027090000_core_schema.sql
-    Dev->>Supabase: supabase db reset
-    Supabase->>Database: Apply schema v0 + seed fixtures
+    Dev->>Aurora: supabase db reset
+    Aurora->>Database: Apply schema v0 + seed fixtures
     Dev->>Repo: Commit migration + seed files
     Dev->>Repo: Update ADR-036, architecture & runbooks
-    Dev->>Supabase: supabase db push (staging)
-    Supabase->>Database: Verify expand/migrate/contract
+    Dev->>Aurora: supabase db push (staging)
+    Aurora->>Database: Verify expand/migrate/contract
     Dev->>Repo: Open PR with guardrail checks
 ```

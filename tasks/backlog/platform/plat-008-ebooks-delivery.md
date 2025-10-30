@@ -17,7 +17,7 @@ links:
   - docs/adr/ADR-024-ebooks-and-digital-products.md
   - docs/runbooks/mailing-operations.md
 context7:
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /stripe/stripe
   - /listmonk/docs
 tags:
@@ -36,7 +36,7 @@ Implement the end-to-end ebook delivery flow—catalog metadata, purchase gating
 - [x] Legal/compliance requirements documented: license terms stored per ebook, refund rules surfaced, fulfillment logs retained 365 days.
 
 ## Definition of Done
-- [ ] Strapi models + Supabase storage configured for ebooks with localization.
+- [ ] Strapi models wired to S3 storage and Aurora entitlements configured for ebooks with localization.
 - [ ] Checkout + entitlement API flow implemented with analytics + observability.
 - [ ] Signed URL delivery with configurable TTL and watermarking verified.
 - [ ] Lifecycle notifications and profile access paths operational.

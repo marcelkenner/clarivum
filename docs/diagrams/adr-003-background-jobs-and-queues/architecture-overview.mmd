@@ -4,7 +4,7 @@ flowchart TD
     JobsLib --> SQSQueue["Amazon SQS Queue"]
     EventBridge["EventBridge Scheduler"] --> SQSQueue
     SQSQueue --> LambdaWorkers["AWS Lambda Workers"]
-    LambdaWorkers --> Services["External APIs / Supabase"]
+    LambdaWorkers --> Services["External APIs / Aurora"]
     LambdaWorkers --> DLQ["SQS Dead-Letter Queue"]
     DLQ --> CloudWatch["CloudWatch Alarms & On-call"]
 ```

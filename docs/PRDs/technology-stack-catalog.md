@@ -1,5 +1,5 @@
 # Technology Stack Catalog
-Last Updated: 2025-10-24
+Last Updated: 2025-10-28
 
 Clarivum relies on a curated mix of open source projects, managed platforms, and vendor services to satisfy functional requirements while staying compliant with EU residency, privacy, and performance guardrails. This catalog inventories every adopted or planned tool so teams can align roadmaps, runbooks, and procurement. Update this file whenever we introduce, retire, or materially change a dependency.
 
@@ -9,15 +9,15 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 - **Mission alignment:** Supports modular funnels described across `docs/PRDs/first_steps.md` and `docs/PRDs/clarivum_brand.md`.
 - **SLA awareness:** Well-documented reliability plus clear runbook coverage before launch.
 - **Compliance first:** EU hosting or regional data controls, GDPR-ready exports, and audit logging.
-- **Operational leverage:** Active communities, automation hooks, and compatibility with Next.js 15, React 19, and Vercel serverless runtimes.
+- **Operational leverage:** Active communities, automation hooks, and compatibility with Next.js 15, React 19, and AWS ECS Fargate runtimes.
 
 ## Adopted tooling
 
 ### Core web platform
-- **Next.js 15 (MIT)** – Primary application framework (App Router, ISR) running on Vercel. Referenced throughout marketing and diagnostics requirements.
+- **Next.js 15 (MIT)** – Primary application framework (App Router, ISR) deployed on AWS CloudFront + ECS Fargate. Referenced throughout marketing and diagnostics requirements.
 - **React 19 (MIT)** – UI composition layer leveraging Server Components and concurrent rendering.
 - **TypeScript 5 (Apache 2.0)** – Strict typing baseline for frontend, API routes, and shared packages.
-- **Node.js 20 + Turbopack** – CI, local development, and Vercel build tooling.
+- **Node.js 20 + Turbopack** – CI, local development, and container build tooling (GitHub Actions → ECR).
 
 ### UI experience & styling
 - **Tailwind CSS 4 (MIT)** – Utility-first styling mapped to Clarivum design tokens in `docs/PRDs/brand_design_system.md`.
@@ -44,7 +44,8 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 - See `docs/runbooks/communication-channel-selection.md` for when to route messages through Novu versus Listmonk.
 
 ### Data, storage & integration
-- **Supabase (Apache 2.0 managed)** – Primary Postgres + storage with Row Level Security (ADR-001). Implementation tracked in `tasks/backlog/platform/plat-012-supabase-tenancy-provision.md` (TSK-PLAT-012).
+- **Amazon Aurora PostgreSQL Serverless v2 (Commercial)** – Primary application database with row-level security, PITR, and Secrets Manager rotation (ADR-001). Implementation tracked through the AWS migration follow-ups in `TODO.md` and forthcoming platform tasks.
+- **Amazon S3 (Commercial)** – Media, static asset origins, and artifact storage for the web app, Strapi, and supporting services.
 - **Upstash Redis (Commercial)** – Serverless Redis backing caching, rate limiting, and locks (ADR-006, `docs/runbooks/cache-invalidation.md`). Implementation tracked in `tasks/backlog/platform/plat-015-upstash-platform.md` (TSK-PLAT-015).
 - **Amazon RDS Postgres (Commercial)** – Dedicated database for Listmonk workloads.
 - **AWS ECS Fargate / S3** – Container runtime and asset storage for auxiliary services.
@@ -61,7 +62,7 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 - **Lighthouse CI (Apache 2.0)** – Performance regression checks within CI pipelines. Implementation tracked in `tasks/backlog/frontend/fe-015-lighthouse-ci-automation.md` (TSK-FE-015).
 
 ### Internal operations & governance
-- **Clarivum Operations Hub (Next.js `/ops`)** – Unified internal console aggregating Supabase, Strapi, Listmonk, Grafana, Stripe, PayU, Przelewy24, Plausible, and GitHub signals. Guided by ADR-031 and `docs/PRDs/requierments/operations-hub/feature-requirements.md`; implementation sequenced via `tasks/backlog/platform/plat-038-ops-hub-foundation.md`, `plat-039`, `plat-040`, and `tasks/backlog/frontend/fe-016-ops-hub-interface.md`.
+- **Clarivum Operations Hub (Next.js `/ops`)** – Unified internal console aggregating Aurora Postgres, Strapi, Listmonk, Grafana, Stripe, PayU, Przelewy24, Plausible, and GitHub signals. Guided by ADR-031 and `docs/PRDs/requierments/operations-hub/feature-requirements.md`; implementation sequenced via `tasks/backlog/platform/plat-038-ops-hub-foundation.md`, `plat-039`, `plat-040`, and `tasks/backlog/frontend/fe-016-ops-hub-interface.md`.
 
 ### Payments & revenue operations
 - **Stripe (Commercial)** – Global card payments, subscriptions, and taxes (ADR-011, `docs/runbooks/payments-operations.md`).
@@ -71,9 +72,9 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 - **Apple Pay (Stripe Payment Element)** – Wallet checkout for Safari/iOS customers. Implementation tracked in `tasks/backlog/platform/plat-033-apple-pay-wallet.md` (TSK-PLAT-033).
 
 ### Deployment & infrastructure automation
-- **Vercel (Commercial)** – Primary hosting platform for the Next.js application.
+- **AWS CloudFront, Application Load Balancer, ECS Fargate (Commercial)** – Hosting and delivery platform for the Next.js application and supporting services (ADR-001, docs/runbooks/deployment.md).
 - **Terraform (MPL 2.0)** – Infrastructure as code for AWS, Upstash, and Listmonk resources.
-- **GitHub Actions (MIT)** – CI/CD automation enforcing lint, type-check, and validation steps.
+- **GitHub Actions (MIT)** – CI/CD automation enforcing lint, type-check, validation, container build, and deploy steps.
 
 ## Maintenance expectations
 - Track security advisories monthly; patch high-severity issues within two weeks.

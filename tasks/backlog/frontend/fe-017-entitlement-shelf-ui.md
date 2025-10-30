@@ -19,7 +19,7 @@ links:
   - docs/diagrams/adr-032-guest-entitlements-and-account-claiming/uml-components.mmd
 context7:
   - /vercel/next.js
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /auth0/docs
 tags:
   - account-center
@@ -40,7 +40,7 @@ Design and implement the Account Center entitlement shelf with downloadable card
 - Platform claim workflow (`TSK-PLAT-041`) must expose finalized API contract.
 - Account Center navigation shell available (from `TSK-PLAT-007`/`TSK-FE-002`).
 - Design tokens & card patterns ready from component library work.
-- Supabase policies verified for shelf endpoints.
+- Aurora policies verified for shelf endpoints.
 
 ## Definition of Ready
 - [ ] UX mocks approved with interaction specs frozen and responsive states (empty, pending claim, pagination) documented.

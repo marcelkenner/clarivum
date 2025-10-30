@@ -18,7 +18,7 @@ links:
   - docs/runbooks/mailing-operations.md
 context7:
   - /listmonk/docs
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /klaro/docs
 tags:
   - newsletter
@@ -32,13 +32,13 @@ Deliver the newsletter capture flow, double opt-in, segmentation, and automation
 ## Definition of Ready
 - [ ] Value props and lifecycle sequences finalized (welcome, nurture, re-engagement) with content owners assigned.
 - [ ] Consent/GDPR requirements confirmed (double opt-in, one-click unsubscribe, DSAR flow linked in runbook).
-- [ ] Integrations mapped end-to-end (Forms → Strapi → Supabase → Listmonk) with failure handling and retries documented.
+- [ ] Integrations mapped end-to-end (Forms → Strapi → Aurora → Listmonk) with failure handling and retries documented.
 - [ ] Analytics and experiment plan agreed (open/click reporting, subject line A/B tests, frequency guardrails).
 
 ## Definition of Done
 - [ ] Capture components implemented with consent + analytics instrumentation.
 - [ ] Listmonk configured with segments, templates, automations, and webhooks.
-- [ ] Data synchronization (Supabase + analytics) verified end-to-end.
+- [ ] Data synchronization (Aurora + analytics) verified end-to-end.
 - [ ] Runbooks and onboarding docs updated; training session completed.
 - [ ] Backlog created for experimentation and ongoing content contributions.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.

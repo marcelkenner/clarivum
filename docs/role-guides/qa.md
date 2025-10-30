@@ -16,7 +16,7 @@ Quality is everyone’s job, but this guide focuses on tooling and expectations 
    - Encourage teams to add Vitest (planned) for pure logic and React component tests.  
    - Track gaps in a testing backlog; prioritize authentication, pricing, CTA flows.
 2. **Integration/contract tests**  
-   - Validate API routes and Supabase interactions. Use mocked Auth0 tokens as needed.  
+   - Validate API routes and Aurora interactions. Use mocked Auth0 tokens as needed.  
    - Ensure idempotent job handlers have contract coverage.
 3. **E2E smoke**  
    - Playwright-based smoke suite runs on preview/dev builds.  

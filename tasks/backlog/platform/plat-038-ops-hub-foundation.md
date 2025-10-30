@@ -20,7 +20,7 @@ links:
 context7:
   - /vercel/next.js
   - /auth0/nextjs-auth0
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
 tags:
   - internal-tools
   - auth
@@ -28,18 +28,18 @@ tags:
 ---
 
 ## Summary
-Bootstrap the `/ops` namespace inside the Next.js app, enforce Auth0-based RBAC, provision the Supabase `ops_audit` schema, and wire feature flags so the Clarivum Operations Hub can ship behind controlled gates.
+Bootstrap the `/ops` namespace inside the Next.js app, enforce Auth0-based RBAC, provision the Aurora `ops_audit` schema, and wire feature flags so the Clarivum Operations Hub can ship behind controlled gates.
 
 ## Definition of Ready
 - [x] Auth0 role mapping defined: Ops Hub admins require MFA with session lifetime documented per security review.
-- [x] Supabase schema changes locked: `integrations`, `jobs`, and `audit` tables with governance-approved migrations.
+- [x] Aurora schema changes locked: `integrations`, `jobs`, and `audit` tables with governance-approved migrations.
 - [x] Env vars/secrets cataloged: per-env secrets stored in Secrets Manager and mirrored in `.env.example`.
 - [x] ADR-031 walkthrough complete with decisions recorded and open questions tracked.
 - [x] Flagsmith service keys plan set: per-environment keys with restricted access and rotation following governance standards.
 
 ## Definition of Done
 - [ ] Next.js middleware enforces Auth0 RBAC for `/ops` routes with session timeout handling.
-- [ ] Supabase migration adds `ops_audit` table, RLS policies, helper functions, and daily backup job.
+- [ ] Aurora migration adds `ops_audit` table, RLS policies, helper functions, and daily backup job.
 - [ ] API proxy scaffold deployed (server-side route handlers with credential vault integration and structured logging).
 - [ ] Feature flag scaffolding in place; default modules hidden until integration tasks complete.
 - [ ] Observability (OTel spans + Grafana metrics) and alert baseline configured for the new namespace.

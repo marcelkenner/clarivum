@@ -20,7 +20,7 @@ links:
   - metrics/quality.json
 context7:
   - /vercel/next.js
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
 tags:
   - planning
   - strategy

@@ -1,6 +1,8 @@
 # ADR-036: Supabase Schema v0
 Date: 2025-10-27
-Status: Accepted
+Status: Superseded
+
+> ⚠️ **Superseded:** Aurora PostgreSQL now owns the canonical schema (see ADR-001 and `docs/runbooks/aurora-operations.md`). Retain this document for historical context around the retired Supabase implementation.
 
 ## Context
 - Sprint 02 requires a durable data backbone so homepage view models, App Router content loaders, and the Operations Hub can ship against stable IDs (`TSK-FE-005`, `TSK-PLAT-038`).

@@ -18,8 +18,8 @@ links:
   - docs/PRDs/requierments/analytics/feature-requirements.md
   - docs/runbooks/affiliate-ad-ops.md
 context7:
-  - /supabase/supabase
-  - /vercel/edge-functions
+  - /websites/aws_amazon-amazonrds-aurorauserguide
+  - /awsdocs/aws-lambda-developer-guide
   - /plausible/docs
 tags:
   - monetization
@@ -31,8 +31,8 @@ tags:
 Deliver the edge services, background workers, and reconciliation tooling that capture ad/affiliate impressions and clicks, detect fraud, and reconcile partner revenue so Clarivum can audit every payout.
 
 ## Scope
-- Edge APIs for impressions (`/api/monetization/impression`) and signed redirect links (`/go/:partner/:slug/:eventId`).
-- Supabase schemas & migrations for immutable click/impression logs and reconciliation tables.
+- Edge APIs for impressions (`/api/monetization/impression`) and signed redirect links (`/go/:partner/:slug/:eventId`) running on CloudFront Functions/Lambda@Edge.
+- Aurora schemas & migrations for immutable click/impression logs and reconciliation tables.
 - Background workers for fraud detection, nightly reconciliation, and alerting.
 - CLI/admin tooling for partner report imports and job monitoring.
 
@@ -51,7 +51,7 @@ Deliver the edge services, background workers, and reconciliation tooling that c
 
 ## Definition of Done
 - [ ] Impression + click services deployed with HMAC-signed parameters, allowlists, and consent-aware logging.
-- [ ] Supabase tables populated with immutable events; migrations and RLS policies reviewed.
+- [ ] Aurora tables populated with immutable events; migrations and RLS policies reviewed.
 - [ ] Background workers detect anomalies, enqueue alerts, and expose reconciliation outputs for finance.
 - [ ] Admin tooling (CLI/UI) supports partner report import, job status review, and manual retries.
 - [ ] Metrics/dashboards live (Grafana, Plausible, Looker) with CTR, RPM, and revenue variance tracking.
@@ -61,7 +61,7 @@ Deliver the edge services, background workers, and reconciliation tooling that c
 
 
 ## Work Plan
-- [ ] **Schema & Infrastructure** — Implement Supabase migrations, secrets, and edge deployment scaffolding.
+- [ ] **Schema & Infrastructure** — Implement Aurora migrations, Secrets Manager wiring, and CloudFront/Lambda@Edge deployment scaffolding.
 - [ ] **Impression Logging** — Build IntersectionObserver-based SDK, edge endpoint, and consent guards.
 - [ ] **Click Redirect** — Implement signed URL generator, redirect handler, and fallback UI.
 - [ ] **Fraud Detection** — Develop worker to score events, throttle via Flagsmith, and alert.

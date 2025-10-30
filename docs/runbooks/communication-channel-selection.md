@@ -40,12 +40,12 @@ Both platforms are deployed on AWS ECS but serve different communication needs. 
 ## Implementation Guidance
 - **Novu workflows**
   - Trigger via `NotificationManager` or backend jobs.
-  - Store subscriber identifiers derived from Supabase user IDs.
+- Store subscriber identifiers derived from Aurora user IDs.
   - Log success/failure using `notification.delivered` telemetry for incident triage.
 - **Listmonk campaigns**
   - Sync audiences nightly via `AudienceSyncManager`.
   - Use dedicated templates referencing localized legal copy.
-  - Respect unsubscribe events pushed back to Supabase and Flagsmith.
+- Respect unsubscribe events pushed back to Aurora and Flagsmith.
 
 ## Escalation
 - Routing ambiguity? Open a task tagged `notifications` and loop in UI Platform Manager + Platform Notifications Owner.

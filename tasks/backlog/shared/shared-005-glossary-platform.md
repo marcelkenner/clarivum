@@ -18,7 +18,7 @@ links:
   - docs/adr/ADR-010-content-management-platform.md
 context7:
   - /strapi/documentation
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /vercel/next.js
 tags:
   - glossary

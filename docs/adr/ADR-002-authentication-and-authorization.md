@@ -5,7 +5,7 @@ Status: Accepted
 ## Context
 - Clarivum requires secure access for two cohorts: public members (for gated assets) and internal editors/ops users.
 - Compliance expectations include MFA for privileged roles, GDPR consent capture, and the ability to revoke access centrally.
-- Next.js runs primarily on Vercel (serverless/edge constraints), so bespoke auth services would increase maintenance cost.
+- Next.js runs on AWS (CloudFront + ECS) with server components and API routes, so bespoke auth services would increase maintenance cost.
 - We must support social sign-in (Google, Apple) for members while keeping SSO/MFA enforceable for staff.
 - Product requirements originate in `docs/PRDs/requierments/login/feature-requirements.md` and `docs/PRDs/requierments/security/feature-requirements.md`.
 
@@ -20,7 +20,7 @@ Status: Accepted
 - For internal tooling (background workers, scripts), use Auth0 Machine-to-Machine applications with client credentials, rotated via AWS Secrets Manager.
 
 ## Diagrams
-- [Architecture Overview](../diagrams/adr-002-authentication-and-authorization/architecture-overview.mmd) — OIDC integration between Auth0, NextAuth.js, and Supabase.
+- [Architecture Overview](../diagrams/adr-002-authentication-and-authorization/architecture-overview.mmd) — OIDC integration between Auth0, NextAuth.js, and Aurora.
 - [Data Lineage](../diagrams/adr-002-authentication-and-authorization/data-lineage.mmd) — Identity, session, and role synchronization across providers.
 - [UML Domain Model](../diagrams/adr-002-authentication-and-authorization/uml-domain.mmd) — Collaborators that manage tokens, sessions, and RBAC claims.
 - [BPMN Access Governance](../diagrams/adr-002-authentication-and-authorization/bpmn-access-governance.mmd) — Joiner-mover-leaver workflow for granting and revoking access.

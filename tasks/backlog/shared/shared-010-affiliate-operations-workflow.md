@@ -19,7 +19,7 @@ links:
   - docs/PRDs/requierments/glossary/cosmetic-ingredients-glossary.md
 context7:
   - /strapi/documentation
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /airtable/product-guru
 tags:
   - affiliate

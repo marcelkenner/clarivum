@@ -17,7 +17,7 @@ links:
   - docs/adr/ADR-019-frontend-platform.md
 context7:
   - /vercel/next.js
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
 tags:
   - content-loader
   - app-router
@@ -33,7 +33,7 @@ Replace the static `content-map.ts` used by the App Router skeleton with a Strap
 - [ ] Observability requirements captured in docs/runbooks/ops-hub.md (trace/span names, failure alerts).
 
 ## Definition of Done
-- [ ] `ContentLibrary` accepts a data-source interface with Strapi/Supabase implementations plus fixtures for tests.
+- [ ] `ContentLibrary` accepts a data-source interface with Strapi/Aurora implementations plus fixtures for tests.
 - [ ] Static generation helpers (`collectCategoryParams`, `collectArticleParams`, sitemaps, RSS) call the new loader.
 - [ ] Cache + revalidation plan documented (ISR cadence, fallback behavior, edge tags).
 - [ ] Docs updated: `docs/architecture.md` (data flow), `docs/runbooks/ops-hub.md` (operational steps), and nearest `AGENTS.md`.

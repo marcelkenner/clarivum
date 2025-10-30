@@ -4,7 +4,7 @@
 - **Owners:** Diagnostics Squad
 
 ## Overview
-These diagrams depict the diagnostic engine architecture, including question management, scoring workflows, state persistence, and telemetry. They document data flow from Strapi to Supabase, the class collaborations that deliver quizzes, and the lifecycle for running and monitoring diagnostics.
+These diagrams depict the diagnostic engine architecture, including question management, scoring workflows, state persistence, and telemetry. They document data flow from Strapi to Aurora, the class collaborations that deliver quizzes, and the lifecycle for running and monitoring diagnostics.
 
 ## Files
 - `architecture-overview.mmd` — Question bank, evaluation engine, and presentation layers.

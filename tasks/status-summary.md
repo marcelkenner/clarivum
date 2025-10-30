@@ -1,6 +1,6 @@
 # Task Status Summary
 
-Generated 2025-10-29 via `npm run tasks:summary`.
+Generated 2025-10-30 via `npm run tasks:summary`.
 
 ## Backlog
 
@@ -72,8 +72,8 @@ Generated 2025-10-29 via `npm run tasks:summary`.
 - `TSK-PLAT-054` · Design Strapi Canary Release Strategy — Owner: DevOps Lead; Effort: small; Updated: 2025-10-29 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-PLAT-055` · Establish Strapi Load & Stress Testing Guardrail — Owner: Performance Lead; Effort: medium; Updated: 2025-10-29 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-PLAT-056` · Expand Strapi Automated Test Coverage — Owner: QA Lead; Effort: medium; Updated: 2025-10-29 ([link](docs/PRDs/requierments/strapi/setup.md))
-- `TSK-PLAT-057` · Apply Supabase Tenancy and Sync Secrets — Owner: DevOps Lead; Effort: small; Updated: 2025-11-11 ([link](docs/runbooks/supabase-operations.md))
-- `TSK-PLAT-058` · Automate Supabase Schema Migration & Monitoring Guardrails — Owner: Backend Lead; Effort: medium; Updated: 2025-11-11 ([link](docs/runbooks/supabase-operations.md))
+- `TSK-PLAT-057` · Apply Aurora Cluster Provisioning and Sync Secrets — Owner: DevOps Lead; Effort: small; Updated: 2025-11-11 ([link](docs/PRDs/technology-stack-catalog.md))
+- `TSK-PLAT-058` · Automate Aurora Schema Migration & Monitoring Guardrails — Owner: Backend Lead; Effort: medium; Updated: 2025-11-11 ([link](docs/runbooks/aurora-operations.md))
 
 ### Qa
 - `TSK-QA-001` · Establish Playwright E2E Smoke Suite — Owner: QA Lead; Effort: medium; Updated: 2025-10-21 ([link](docs/PRDs/first_steps.md#8))
@@ -143,12 +143,12 @@ _No tasks._
 - `TSK-FE-004` · Stand Up Storybook Workbench — Owner: Frontend Engineer; Effort: small; Updated: 2025-11-10 ([link](docs/PRDs/requierments/storybook/feature-requirements.md))
 
 ### Backend
-- `TSK-BE-001` · Model Supabase Schema v0 — Owner: Marcel (Backend Engineer); Effort: medium; Updated: 2025-10-27 ([link](docs/PRDs/first_steps.md#4))
+- `TSK-BE-001` · Model Aurora Schema v0 — Owner: Marcel (Backend Engineer); Effort: medium; Updated: 2025-10-27 - docs/PRDs/first_steps.md#4 - docs/architecture.md - docs/adr/ADR-001-primary-cloud-and-database.md - docs/adr/ADR-036-supabase-schema-v0.md
 
 ### Platform
 - `TSK-PLAT-002` · Automate Stale Feature Flag Detection — Owner: Platform Engineer; Effort: small; Updated: 2025-10-26 ([link](docs/adr/ADR-005-feature-flags.md))
 - `TSK-PLAT-003` · Implement OpenTelemetry Baseline — Owner: Observability Champion; Effort: medium; Updated: 2025-10-27 ([link](docs/adr/ADR-004-observability-stack.md))
-- `TSK-PLAT-012` · Provision Supabase Tenancy & Environment Secrets — Owner: DevOps Lead; Effort: medium; Updated: 2025-11-11 ([link](docs/PRDs/requierments/supabase-platform/feature-requirements.md))
+- `TSK-PLAT-012` · Provision Aurora Cluster & Environment Secrets — Owner: DevOps Lead; Effort: medium; Updated: 2025-11-11 ([link](docs/PRDs/technology-stack-catalog.md))
 - `TSK-PLAT-020` · Provision Strapi ECS Infrastructure — Owner: DevOps Lead; Effort: medium; Updated: 2025-10-27 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-PLAT-021` · Establish Strapi Data Foundation — Owner: DevOps Lead; Effort: medium; Updated: 2025-11-05 ([link](docs/PRDs/requierments/strapi/setup.md))
 - `TSK-PLAT-022` · Implement Strapi CI/CD Pipeline — Owner: DevOps Lead; Effort: medium; Updated: 2025-11-06 ([link](docs/PRDs/requierments/strapi/setup.md))

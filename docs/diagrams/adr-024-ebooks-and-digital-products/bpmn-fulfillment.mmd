@@ -1,9 +1,9 @@
 ```mermaid
 flowchart TD
     start([Purchase or lead capture])
-    entitlement[Create entitlement in Supabase]
+    entitlement[Create entitlement in Aurora]
     render[Generate PDF/EPUB + watermark if needed]
-    store[Upload to Supabase Storage]
+    store[Upload to Amazon S3 Storage]
     deliver[Listmonk sends download link]
     profileAccess[Enable download from Account Center]
     telemetry[Record analytics + FinOps metrics]

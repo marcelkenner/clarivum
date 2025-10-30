@@ -3,8 +3,8 @@ Date: 2025-10-24
 Status: Accepted
 
 ## Context
-- Clarivum’s customer experience lives in a Next.js 15 App Router application targeting Vercel edge/serverless runtimes.
-- We must support modular verticals (Skin, Fuel, Habits), reusable view models/managers per the OOP-first mandate, and rapid content iteration fed by Strapi and Supabase.
+- Clarivum’s customer experience lives in a Next.js 15 App Router application deployed on AWS (CloudFront + ECS Fargate).
+- We must support modular verticals (Skin, Fuel, Habits), reusable view models/managers per the OOP-first mandate, and rapid content iteration fed by Strapi and Aurora.
 - The platform needs predictable file conventions, dependency boundaries, styling tokens, and testing hooks so feature squads can ship without collisions.
 - Prior spikes compared alternative stacks (Remix, Astro, plain React). The team already invested in Next.js App Router primitives, Tailwind 4 tokens, and React 19 concurrency.
 - Product requirements are tracked in `docs/PRDs/requierments/frontend-platform/feature-requirements.md`; this ADR codifies the selected approach.
@@ -12,7 +12,7 @@ Status: Accepted
 ## Decision
 - Use **Next.js 15 App Router** as the core UI framework.
   - Route groups segment verticals; server components host data loading with strict separation between view models, managers, coordinators.
-  - Dynamic rendering (ISR + Route Handlers) pairs with Vercel Edge cache policy per ADR-006.
+- Dynamic rendering (ISR + Route Handlers) pairs with CloudFront cache policy per ADR-006.
 - Adopt **React 19** with Server Components and the latest concurrency features.
   - Client components isolate interactive surfaces; shared hooks live under `src/view-models/` with single responsibility.
 - Standardize **Tailwind CSS 4** for styling:
@@ -49,4 +49,4 @@ Status: Accepted
   - Automate lint rules for banned CSS patterns and cross-vertical imports.
   - Publish a `frontend-platform` handbook under `docs/role-guides/frontend.md`.
   - Review performance budgets quarterly as new dependencies land.
-  - Track future work for Strapi/Supabase loaders via `TSK-FE-021` and document changes in this ADR when ContentLibrary swaps sources.
+- Track future work for Strapi/Aurora loaders via `TSK-FE-021` and document changes in this ADR when ContentLibrary swaps sources.

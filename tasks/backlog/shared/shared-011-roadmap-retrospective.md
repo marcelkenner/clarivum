@@ -20,7 +20,7 @@ links:
   - docs/adr/ADR-016-ci-cd-platform.md
 context7:
   - /vercel/next.js
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
 tags:
   - retrospective
   - documentation

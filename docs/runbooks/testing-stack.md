@@ -20,7 +20,7 @@ This runbook explains how to operate the Vitest, Testing Library, and Playwright
 
 ## Standard Operation
 1. **Setup**
-   - Ensure `.env.test` has required keys (Flagsmith, Supabase anon, Stripe test, etc.).
+   - Ensure `.env.test` has required keys (Flagsmith, database connection string, Stripe test, etc.).
    - Run `npm run ensure:agents` after pulling latest changes.
 2. **Run Sequencing**
    - Unit/integration first (`npm run test -- --coverage` locally to mirror CI output), then run `npm run metrics:coverage` to refresh `metrics/coverage.json`.

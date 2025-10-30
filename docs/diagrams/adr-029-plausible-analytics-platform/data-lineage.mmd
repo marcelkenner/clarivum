@@ -11,8 +11,8 @@ flowchart LR
     ProxyEvent["/analytics/api/event"]
     PlausibleStore["Plausible EU Storage"]
     AggregateCache["Plausible Aggregates"]
-    SupabaseExport["Nightly Supabase Export"]
-    Warehouse["Supabase Analytics Schema"]
+    AuroraExport["Nightly Aurora Export"]
+    Warehouse["Aurora Analytics Schema"]
     Dashboards["Plausible Dashboards"]
     FinanceReports["Revenue / KPI Reports"]
 
@@ -23,5 +23,5 @@ flowchart LR
     ClientEvents --> ProxyScript --> PlausibleStore
     ServerEvents --> ProxyEvent --> PlausibleStore
     PlausibleStore --> AggregateCache --> Dashboards
-    PlausibleStore --> SupabaseExport --> Warehouse --> FinanceReports
+    PlausibleStore --> AuroraExport --> Warehouse --> FinanceReports
 ```

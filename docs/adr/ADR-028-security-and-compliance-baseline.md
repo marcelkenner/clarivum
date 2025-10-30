@@ -11,7 +11,7 @@ Status: Accepted
 - Adopt the following security posture:
   - **Identity & Access:** Auth0 (ADR-002) for customer auth, GitHub SSO + enforced MFA for staff, AWS IAM roles limited via least privilege.
   - **Secrets & Config:** Centralized in AWS Secrets Manager with rotation automation (ADR-007).
-  - **Data Protection:** Supabase RLS enforced (ADR-001), encryption at rest (managed services), TLS 1.2+ in transit, deterministic encryption for sensitive fields where necessary.
+  - **Data Protection:** Aurora RLS enforced (ADR-001), encryption at rest (managed services), TLS 1.2+ in transit, deterministic encryption for sensitive fields where necessary.
   - **Observability & Incident Response:** Use OpenTelemetry + Grafana (ADR-004) for security signal monitoring; follow incident runbook.
   - **Vulnerability Management:** Monthly dependency scanning, automated npm audit + Snyk; patch high severity within 7 days.
   - **Privacy & Consent:** Klaro! CMP (ADR-014), data subject rights fulfilled within 30 days, audit trail retained per policy.

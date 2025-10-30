@@ -5,7 +5,7 @@ Status: Accepted
 ## Context
 - Clarivum must comply with EU GDPR, ePrivacy Directive, and Polish national requirements by collecting explicit consent before setting non-essential cookies or triggering marketing analytics (per legal PRD requirements).
 - The experience must provide multilingual disclosures, granular categories (essential, analytics, marketing, functional), audit logging for regulators, and a “manage cookies” interface accessible from the footer and legal hub.
-- Next.js 15 + Vercel edge runtime constraints mean the solution must load asynchronously, avoid blocking rendering, and expose hooks so feature flags/analytics respect consent state.
+- Next.js 15 running on AWS (CloudFront + ECS) must load asynchronously, avoid blocking rendering, and expose hooks so feature flags/analytics respect consent state across server and client components.
 - Building a bespoke Consent Management Platform (CMP) would require significant engineering and legal effort (consent state storage, proof of consent, geo-targeted behavior, accessibility), increasing compliance risk.
 - Legal and compliance expectations are catalogued in `docs/PRDs/requierments/legal/feature-requirements.md`.
 
@@ -14,13 +14,13 @@ Status: Accepted
   - Self-host the loader script and configuration JSON within Clarivum’s assets to keep data inside EU infrastructure.
   - Configure consent categories (`essential`, `analytics`, `marketing`, `personalization`) mapped to Flagsmith traits so services (Plausible Analytics, Sonner notifications, marketing pixels) respect user preferences.
   - Localize consent copy via Strapi-managed strings and Klaro’s translation hooks (Polish + English initial rollout).
-- Persist consent decisions in browser storage (Klaro default) and emit a server-side event (`consent.updated`) for audit logs stored in Supabase.
+- Persist consent decisions in browser storage (Klaro default) and emit a server-side event (`consent.updated`) for audit logs stored in Aurora (compliance schema).
 - Expose a global “Manage cookies” entry point via Klaro’s modal API, anchored in the footer and legal pages.
 - Integrate Klaro initialization into the Next.js client entry point with lazy loading; default to blocking non-essential scripts until Klaro resolves consent.
 
 ## Diagrams
 - [Architecture Overview](../diagrams/adr-014-cookie-consent-and-preference-management/architecture-overview.mmd) — Klaro loader, consent storage, Flagsmith trait sync, and audit logging.
-- [Data Lineage](../diagrams/adr-014-cookie-consent-and-preference-management/data-lineage.mmd) — Consent events, categories, and Supabase audit records.
+- [Data Lineage](../diagrams/adr-014-cookie-consent-and-preference-management/data-lineage.mmd) — Consent events, categories, and Aurora audit records.
 - [UML Components](../diagrams/adr-014-cookie-consent-and-preference-management/uml-components.mmd) — Initialization, consent state, trait synchronization, and auditing classes.
 - [BPMN Consent Lifecycle](../diagrams/adr-014-cookie-consent-and-preference-management/bpmn-consent.mmd) — Capture, persist, manage, and update flow for consent preferences.
 

@@ -7,7 +7,7 @@
 - Keep coverage aligned: These diagrams describe the managed PostHog analytics stack previously adopted in ADR-008 and are retained for provenance only.
 
 ## Diagram Responsibilities
-- `architecture-overview.mmd`: Historical event producers and sinks across PostHog, Supabase, and alerting tools.
+- `architecture-overview.mmd`: Historical event producers and sinks across PostHog, Aurora, and alerting tools.
 - `data-lineage.mmd`: Historical canonical event schema relationships and warehouse sync mapping.
 - `uml-instrumentation.mmd`: Historical analytics SDK facades providing consent gating and type-safe event emission.
 - `bpmn-governance.mmd`: Historical workflow for publishing schema changes and remediation of funnel regressions.

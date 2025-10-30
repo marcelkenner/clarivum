@@ -15,10 +15,10 @@ This runbook defines the process for promoting changes from trunk to production 
    - Installs deps via `npm ci --ignore-scripts`, runs `npm run ensure:agents`, installs Playwright browsers (`PLAYWRIGHT_BROWSERS_PATH=0`).
    - Executes `npm run lint`, `npm run typecheck`, `npm run format:check`, and `npm run test -- --coverage`.
    - Runs `npm run test:e2e:smoke`, uploads `vitest-coverage`, `playwright-report`, and `ci-metrics` artifacts, and posts Slack + PR notifications when smoke fails.
-   - The job does not build production artifacts; Vercel handles build/promote after CI passes.
-2. On success, artifacts are promoted to **Vercel preview** and integration smoke tests run against the preview URL.
+   - The job does not build production artifacts; the deploy workflow builds/pushes containers and updates ECS after CI passes.
+2. On success, GitHub Actions builds the preview image, launches a temporary ECS Fargate service in the dev account, and runs integration smoke tests against the preview URL.
 3. On manual approval (release captain), the pipeline promotes the build to the persistent **dev** environment:
-   - Run database migrations via Supabase CLI.
+   - Run Aurora migrations via the migration runner (`database/migrations` applied through GitHub Actions using `psql` + `migrate.ts`).
    - Execute dev smoke test suite + synthetic SLO probes (Checkly).
 4. Production deployment is triggered via a protected GitHub Actions workflow (`deploy-production.yml`) requiring approvals from:
    - Release captain (engineering).
@@ -37,8 +37,8 @@ This runbook defines the process for promoting changes from trunk to production 
    - Provide the commit SHA and changelog summary.
    - Workflow executes:
      - Pre-deploy health checks (Grafana SLO API call, Flagsmith API availability).
-     - `supabase db push` to apply migrations.
-     - Vercel production deployment.
+     - Run Aurora migrations (apply pending SQL under `database/migrations`).
+     - ECS Fargate production deployment (update service/task definition, invalidate CloudFront).
      - Lambda job package deployment via Terraform Cloud run.
 3. **Post-deploy verification (within 15 minutes):**
    - Validate core journeys (home → vertical start → CTA) using scripted Playwright smoke.
@@ -110,8 +110,8 @@ Use this procedure when modifying Strapi database or media storage infrastructur
 - `clarivum-strapi-<env>-media-private` — Stores mission evidence uploads, watermarked ebook deliverables, and other gated assets. Access always flows through signed URLs issued by Strapi plugins or Next.js API routes so entitlement checks remain server-side.
 - `clarivum-tf-state-<account>` + DynamoDB table `clarivum-tf-locks` — Provide Terraform remote state and state locking for all infrastructure applies. Do not repurpose these buckets for application data.
 - Optional ALB access-log bucket — When compliance requires (`access_logs_bucket` variable), the Strapi ALB publishes request logs to the designated bucket prefix for retention analysis.
-- Ops Hub backup job (`npm run ops:audit:backup`) writes monthly snapshots of the Supabase `ops_audit` table to the compliance archive bucket. Coordinate rotations with the Ops Hub runbook so IAM access and retention windows stay documented.
-- **Why keep Strapi media on AWS** — Strapi, Terraform, and the associated IAM/KMS policies all execute inside AWS. Parking media/state in native S3 keeps latency low, lets us enforce bucket policy/lifecycle controls through infrastructure-as-code, and avoids coupling Strapi deployments to Supabase tenancy limits. Supabase Storage stays dedicated to app-facing assets whose access is governed by Postgres entitlements.
+   - Ops Hub backup job (`npm run ops:audit:backup`) writes monthly snapshots of the Aurora `ops_audit` schema to the compliance archive bucket. Coordinate rotations with the Ops Hub runbook so IAM access and retention windows stay documented.
+   - **Why keep Strapi media on AWS** — Strapi, Terraform, and the associated IAM/KMS policies all execute inside AWS. Parking media/state in native S3 keeps latency low, lets us enforce bucket policy/lifecycle controls through infrastructure-as-code, and avoids coupling Strapi deployments to third-party storage limits. Application-facing assets also live in S3 with access governed by Postgres entitlements.
 
 1. **Plan the change:**
    - Update Terraform variables as needed (`db_*` settings or `database_subnet_ids`).
@@ -140,8 +140,8 @@ Rollback: restore from the most recent automated snapshot (`terraform apply` wit
 
 1. Trigger the `Rollback Production` workflow with the last known good deployment ID.
 2. Workflow steps:
-   - Revert database migrations using Supabase PITR to the pre-deploy timestamp (document exact time).
-   - Redeploy the previous Vercel build.
+   - Revert database migrations using Aurora PITR to the pre-deploy timestamp (document exact time).
+   - Redeploy the previous ECS task definition / container image.
    - Disable any new Flagsmith flags introduced in the failed release.
 3. Announce rollback in `#clarivum-oncall`; start an incident postmortem if error budget impact > 10%.
 

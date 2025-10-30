@@ -21,7 +21,7 @@ links:
 context7:
   - /playwright/test
   - /stripe/stripe
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
 tags:
   - qa
   - guardrail

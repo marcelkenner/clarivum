@@ -40,7 +40,7 @@ links:
   - docs/adr/ADR-008-product-analytics-platform.md
 context7:
   - /vercel/next.js
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /plausible/docs
   - /flagsmith/docs
 tags:
@@ -56,7 +56,7 @@ Build the Habits vertical tool suite using the shared tool shell, computation ma
 - [ ] Behavioral success metrics and tone guidelines approved by Behavioral Science for each tool.
 - [ ] Interaction design aligned with component library and accessibility baseline (ADR-018/ADR-027) including progressive disclosure patterns.
 - [ ] Diagnostics analytics plan defined (event map, cohort tagging) with ADR-029 updates and ADR-008 deprecations logged.
-- [ ] Integrations and fallbacks mapped (Supabase traits, external APIs, offline persistence, sync conflict handling).
+- [ ] Integrations and fallbacks mapped (Aurora profile traits, external APIs, offline persistence, sync conflict handling).
 - [ ] Legal/consent requirements captured (non-medical disclaimers, localized consent text, privacy review sign-off).
 
 ## Definition of Done

@@ -1,6 +1,6 @@
 ---
 id: TSK-PLAT-057
-title: Apply Supabase Tenancy and Sync Secrets
+title: Apply Aurora Cluster Provisioning and Sync Secrets
 status: backlog
 area: platform
 subarea: data-platform
@@ -12,41 +12,41 @@ effort: small
 created_at: 2025-11-11
 updated_at: 2025-11-11
 links:
-  - docs/PRDs/requierments/supabase-platform/feature-requirements.md
-  - docs/adr/ADR-036-supabase-schema-v0.md
-  - docs/runbooks/supabase-operations.md
+  - docs/PRDs/technology-stack-catalog.md
+  - docs/adr/ADR-001-primary-cloud-and-database.md
+  - docs/runbooks/aurora-operations.md
   - docs/runbooks/secrets-management.md
   - TODO.md
 context7:
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /hashicorp/terraform
 tags:
-  - supabase
+  - aurora
   - infrastructure
   - guardrail
 ---
 
 ## Summary
-Execute the Supabase Terraform apply for dev and prod using the slug-based config, then distribute the generated secrets across runtimes and validate connectivity so downstream teams can rely on the tenancy.
+Execute the Aurora Terraform apply for dev and prod using the new cluster modules, then distribute the generated secrets across runtimes and validate connectivity so downstream teams can rely on the database migration.
 
 ## Definition of Ready
-- [x] Supabase organisation slug confirmed via `supabase orgs list`.
-- [ ] PAT with project management scope available at apply time.
-- [x] Terraform workspace initialised (`infra/supabase`).
+- [x] Aurora cluster parameters reviewed and approved (instance class, replica strategy, backup retention).
+- [ ] AWS session credentials with apply permissions confirmed for target account.
+- [x] Terraform workspace initialised (`infra/aws/data`).
 
 ## Definition of Done
-- [ ] `terraform -chdir=infra/supabase plan` and `apply` executed for dev/prod with artefacts archived.
+- [ ] `terraform -chdir=infra/aws/data plan` and `apply` executed for dev/prod with artefacts archived.
 - [ ] AWS Secrets Manager entries verified for each environment.
-- [ ] Supabase keys synced to Vercel, Lambda, and local `.env` with validation checklist complete.
+- [ ] Aurora connection strings synced to ECS, Lambda, and local `.env` with validation checklist complete.
 - [ ] TODO entries for apply and secret sync closed or annotated with completion date.
 - [ ] Runbook updated with apply timestamp + verification notes.
 
 ## Work Plan
-- [ ] Export PAT, run Terraform plan/apply for dev.
+- [ ] Assume platform IAM role, run Terraform plan/apply for dev.
 - [ ] Repeat for prod (after change approval).
 - [ ] Sync secrets to runtime environments and run connectivity smoke tests.
 - [ ] Log completion in ops runbook + TODO tracker, notify stakeholders in `#clarivum-platform`.
 
 ## Risks & Mitigations
-- PAT expiry mid-apply → generate fresh token and re-run.
+- IAM session expiry mid-apply → re-authenticate and re-run.
 - Secrets drift between environments → automate via scripts and double-check with smoke tests.

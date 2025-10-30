@@ -2,7 +2,7 @@
 %% Responsive data lineage
 flowchart LR
     Content[CMS Assets\n(Strapi, media)] --> Optimizer[Asset Pipeline\nsrcset generation]
-    Optimizer --> CDN[CDN / Vercel Assets]
+    Optimizer --> CDN[CDN / CloudFront Assets]
     CDN --> Browser[Browser]
     Tokens[Design Tokens\nTailwind config] --> Styles[Responsive Utilities]
     Styles --> Components

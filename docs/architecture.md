@@ -21,7 +21,7 @@ Clarivum itself is the branded digital experience that surfaces verticalized con
 │          Public / Member Clients         │
 │ (Browsers, Mobile Web, RSS consumers)    │
 └────────────────┬─────────────────────────┘
-                 │ HTTPS (Vercel edge + CDN caching)
+                 │ HTTPS (AWS CloudFront + CDN caching)
 ┌────────────────▼─────────────────────────┐
 │        Clarivum Web App (Next.js)         │
 │  - App Router (server & client components)│
@@ -42,14 +42,13 @@ Clarivum itself is the branded digital experience that surfaces verticalized con
               │        │ AWS Lambda    │
               │        │ (job workers) │
               │        └───────────────┘
-              │
-              │ Supabase SDKs (SQL + Storage)
+              │ Data access layer (pg driver + storage SDK)
               ▼
-┌──────────────────────────────────────────┐
-│ Supabase Postgres & Storage (eu-central) │
-│  - Primary application data (profiles,   │
-│    leads, entitlements, mission states)  │
-│  - Signed asset delivery + RLS policies  │
+┌────────────────────────────────────────────────────────┐
+│ Amazon Aurora PostgreSQL (eu-central-1)                │
+│  - Primary application data (profiles, leads, ops)     │
+│  - Strapi content + audit schemas (shared cluster)     │
+│  - Row-level security, PITR, and query auditing         │
 └─────────────┬──────────────┬──────────────┘
               │              │
               │              │ CMS content sync
@@ -61,19 +60,13 @@ Clarivum itself is the branded digital experience that surfaces verticalized con
               │        │ - Webhooks (ISR, search)│
               │        └──────────────┬─────────┘
               │                       │
-              │                       │ Asset storage (signed URLs)
+              │                       │ Asset storage + CDN origin
               │                       ▼
               │                ┌─────────────────────┐
               │                │ Amazon S3 (media)   │
+              │                │ - Versioned buckets │
+              │                │ - CloudFront origin │
               │                └─────────────────────┘
-              │
-              │ Strapi persistence (SQL)
-              ▼
-        ┌──────────────────────────────────────────┐
-        │ Amazon RDS PostgreSQL 15 (eu-central-1)  │
-        │  - CMS content schemas & workflows       │
-        │  - Snapshot replication into Supabase    │
-        └──────────────────────────────────────────┘
               │
               │ Notification workflows (REST)
               ▼
@@ -94,23 +87,23 @@ Next.js + Lambda workers
 Operational tooling:
 
 - **Feature flag service:** Flagsmith SaaS (via SDK in the Next.js app).
-- **Analytics platform:** Plausible Analytics (privacy-first SaaS, sole analytics provider; proxied via Vercel per ADR-029).
+- **Analytics platform:** Plausible Analytics (privacy-first SaaS, sole analytics provider; proxied via CloudFront + Lambda@Edge per ADR-029 migration).
 - **Operations hub:** Internal `/ops` console aggregating Strapi, Listmonk, payments, incidents, and metrics per ADR-031 (`docs/PRDs/requierments/operations-hub/feature-requirements.md`) with deep-link navigation into the authoritative native consoles.
-- **CDN & caching:** Vercel’s global edge cache + Upstash Redis (plan) for application-level caching and rate limiting.
-- **Secrets management:** Vercel Environments + AWS Secrets Manager (mirrored via Terraform) with rotation policy.
-- **Primary data platform:** Supabase Postgres & Storage (ADR-001) provisioned via Terraform with PITR, RLS, and access policies enforced by Supabase Dashboard + GitOps.
+- **CDN & caching:** AWS CloudFront (global edge) + Upstash Redis (plan) for application-level caching and rate limiting.
+- **Secrets management:** AWS Secrets Manager (primary) with Parameter Store mirrors, all managed via Terraform rotation policies.
+- **Primary data platform:** Amazon Aurora PostgreSQL (Serverless v2) with S3-backed media buckets, provisioned via Terraform with PITR, row-level security, and Secrets Manager rotation.
 
 ## Data flows & responsibilities
 
-1. **Content delivery:** Editors work in Strapi; content persists in RDS and media in S3. Next.js fetches structured copy via Strapi REST/GraphQL APIs, stores derived references in Supabase, hydrates ISR pages, and caches responses. Frequently-read queries must have appropriate Strapi API pagination and caching headers; database indices tracked via Terraform modules.
-2. **Lead capture & entitlements:** Web forms post to `/api/leads`. The BFF persists leads, entitlements, and mission progress directly in Supabase Postgres, enqueues enrichment via SQS, and hands off to Lambda workers that push to the CRM and email providers.
-3. **Background processing:** Lambda handlers implement idempotent jobs (content snapshotting, email fulfillment, sitemap regeneration) that read/write Supabase and invoke Strapi webhooks as needed. Dead-letter queues capture poison messages; retries use exponential backoff capped at 15 minutes.
-4. **Notification delivery:** ViewModels invoke `NotificationManager`, which renders Sonner toasts locally, reads subscriber preferences from Supabase, and triggers Novu workflows for inbox/email/SMS delivery. Novu stores channel receipts for audit.
-5. **Operations hub aggregation:** Internal `/ops` modules consume Supabase, Strapi, Listmonk, Grafana, Stripe/PayU/P24, and GitHub APIs via server-side proxy handlers, presenting consolidated dashboards and controlled actions. All operator activity is logged to the Supabase `ops_audit` table.
+1. **Content delivery:** Editors work in Strapi; content persists in Aurora (dedicated schema) and media in S3. Next.js fetches structured copy via Strapi REST/GraphQL APIs, stores derived references in Aurora, hydrates ISR pages, and caches responses. Frequently-read queries must have appropriate pagination and caching headers; database indices tracked via Terraform modules.
+2. **Lead capture & entitlements:** Web forms post to `/api/leads`. The BFF persists leads, entitlements, and mission progress directly in Aurora PostgreSQL, enqueues enrichment via SQS, and hands off to Lambda workers that push to the CRM and email providers.
+3. **Background processing:** Lambda handlers implement idempotent jobs (content snapshotting, email fulfillment, sitemap regeneration) that read/write Aurora and invoke Strapi webhooks as needed. Dead-letter queues capture poison messages; retries use exponential backoff capped at 15 minutes.
+4. **Notification delivery:** ViewModels invoke `NotificationManager`, which renders Sonner toasts locally, reads subscriber preferences from Aurora, and triggers Novu workflows for inbox/email/SMS delivery. Novu stores channel receipts for audit.
+5. **Operations hub aggregation:** Internal `/ops` modules consume Aurora, Strapi, Listmonk, Grafana, Stripe/PayU/P24, and GitHub APIs via server-side proxy handlers, presenting consolidated dashboards and controlled actions. All operator activity is logged to the Aurora `ops_audit` schema.
 6. **Observability:** All HTTP handlers and workers emit traces, metrics, and logs via OTel exporters. Golden signals (latency, error rate, saturation, traffic) feed SLO dashboards surfaced both in Grafana and the Operations Hub overview. Alerts route to the #clarivum-oncall channel.
-7. **Security & privacy:** Supabase Row Level Security protects member data; policies enforce tenant isolation across profiles, diagnostics, and entitlements. MFA is mandatory for admin accounts through Auth0 (see ADR-002); Operations Hub RBAC builds on the same roles. PII stored at rest uses Postgres column-level AES-GCM encryption via pgcrypto; Strapi data snapshots replicate into Supabase following ADR-010 controls.
+7. **Security & privacy:** Aurora PostgreSQL row-level security protects member data; policies enforce tenant isolation across profiles, diagnostics, and entitlements. MFA is mandatory for admin accounts through Auth0 (see ADR-002); Operations Hub RBAC builds on the same roles. PII stored at rest uses Postgres column-level AES-GCM encryption via pgcrypto; Strapi data snapshots replicate into Aurora following ADR-010 controls.
 
-## Supabase schema v0 (TSK-BE-001)
+## Aurora schema v0 (TSK-BE-001)
 
 - **Personas (`personas`)** — canonical list of Clarivum personas with UUID v7 primary keys, human-friendly `key`, optional `sort_order`, and audit fields. Unique key plus indexes on `key`/`sort_order` keep taxonomy joins fast.
 - **Profiles (`profiles`)** — member/prospect records with hashed email (`email_hash` using `pgcrypto`), optional Auth0 binding, persona affinity, locale/timezone, and pending-claim fields (`pending_claim_token`, `last_claim_email_sent_at`). Unique indexes cover `email`, `(auth_provider, auth_user_id)`, and `pending_claim_token`, while additional indexes on `status`, `persona_id`, and `email_hash` back Ops Hub lookup, account-claim flows, and analytics joins.
@@ -121,18 +114,18 @@ Operational tooling:
 
 ## Deployment topology
 
-- **Environments:** `dev` (shared testing), `prod` (customer-facing). Vercel preview deployments continue to spin up per pull request for isolated QA.
-- **Hosting:** Vercel handles web build/deploy with GitHub Actions orchestrating linting, tests, and SLO guardrails before promotion. Strapi and Novu run on AWS ECS Fargate with Terraform-managed services; Lambda jobs are deployed via Terraform-driven GitHub Actions workflows.
+- **Environments:** `dev` (shared testing), `prod` (customer-facing). Preview builds spin up as temporary ECS Fargate services in the dev account via GitHub Actions (documented in `docs/runbooks/deployment.md`).
+- **Hosting:** GitHub Actions builds/pushes the Next.js container to ECR and updates the ECS Fargate service behind an Application Load Balancer and CloudFront. Strapi and Novu run on AWS ECS Fargate with Terraform-managed services; Lambda jobs are deployed via Terraform-driven GitHub Actions workflows.
 - **Strapi cluster:** `infra/strapi` provisions the Strapi ECS cluster (Fargate + Fargate Spot), ALB ingress (`cms.<env>.clarivum.com`), IAM roles with Secrets Manager/S3 access, and autoscaling policies. CloudWatch log groups (`/aws/ecs/strapi-<env>`, `/aws/ecs/strapi-<env>/exec`) plus alarms (`strapi-<env>-target-response-latency`, `strapi-<env>-target-5xx`) funnel alerts to the on-call SNS topic. The module now also manages the multi-AZ Postgres instance (`strapi-<env>-db`), Enhanced Monitoring role, versioned media buckets (`clarivum-strapi-<env>-media-{public,private}`) with SSE-KMS, and Secrets Manager entries (`clarivum/strapi/<env>/database-{password,url}`) that feed ECS tasks.
 - **Release model:** Trunk-based development with feature flags and automated smoke tests. Rollbacks prefer redeploying the last known good build rather than hotfix branches (documented in the deployment runbook).
 
 ## Alignment with non-functional requirements
 
-- **Availability:** Vercel + Strapi ECS + Novu ECS (two AZs) + Supabase provide regional redundancy; combined design supports the 99.9% uptime objective. Lambda workers run across at least two AZs.
+- **Availability:** CloudFront, ECS Fargate (multi-AZ), Novu ECS, and Aurora (multi-AZ) provide redundancy that supports the 99.9% uptime objective. Lambda workers run across at least two AZs.
 - **Performance:** CDN caching, ISR, Strapi response tuning, Novu workflow SLAs, and Redis-backed edge caching keep p95 HTML responses below 300 ms for Poland. API surfaces have explicit budgets (p99 < 800 ms).
-- **Reliability:** RPO ≤ 15 minutes via RDS and Supabase point-in-time recovery; RTO ≤ 2 hours with automated restore scripts tested quarterly.
+- **Reliability:** RPO ≤ 15 minutes via Aurora point-in-time recovery; RTO ≤ 2 hours with automated restore scripts tested quarterly.
 - **Security:** Auth0 + RBAC, secrets management, and CIS IG1 controls are codified in `docs/policies/security-baseline.md`.
-- **Cost:** Budgets and alerts are configured through AWS Budgets and Vercel spend caps; the FinOps runbook defines actions when hitting 50/75/90% of monthly spend.
+- **Cost:** Budgets and alerts flow through AWS Budgets; the FinOps runbook defines actions when hitting 50/75/90% of monthly spend for CloudFront, ECS, and Aurora.
 
 Revisit this document whenever an ADR is added or an architectural component changes. For diagrams beyond ASCII, store source files (e.g., Structurizr DSL) alongside this doc.
 
@@ -149,7 +142,7 @@ The Clarivum web app now mirrors the Skin/Fuel/Habits sitemap described in `docs
 
 Extension points:
 
-- Swap `ContentLibrary` inputs (currently static map) with Strapi/Supabase loaders once `TSK-SHARED-003` and `TSK-FE-006` ship. The coordinator/manager boundary lets tests inject doubles.
+- Swap `ContentLibrary` inputs (currently static map) with Strapi/Aurora loaders once `TSK-SHARED-003` and `TSK-FE-006` ship. The coordinator/manager boundary lets tests inject doubles.
 - Add package-level `AGENTS.md` entries whenever new route groups/components appear so future agents know which commands/tests to run.
 - Align homepage metadata work with `docs/runbooks/seo-homepage-metadata-kickoff.md` as soon as SEO utilities start integrating the wizard.
 - Update the sitemap helpers whenever we introduce new hubs (ebooks, tools, ops) so Flow/SEO metrics stay accurate.

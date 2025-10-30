@@ -5,24 +5,24 @@ Status: Accepted
 ## Context
 - Clarivum requires owned audiences for lifecycle messaging (welcome drips, product education, retention nudges) without relying on third-party SaaS lock-in.
 - Subscription and lead funnels must sync with marketing emails while respecting GDPR (EU residency, consent capture, right-to-erasure).
-- The engineering team is small; mailing infrastructure must be simple to operate, scriptable via Terraform, and integrate with existing Supabase/Flagsmith data flows.
+- The engineering team is small; mailing infrastructure must be simple to operate, scriptable via Terraform, and integrate with existing Aurora/Flagsmith data flows.
 - Campaign tooling needs robust segmentation, template management, bulk send performance, and API hooks for transactional sends (e.g., ebook delivery receipts).
 - Newsletter and lifecycle requirements are defined in `docs/PRDs/requierments/newsletter/feature-requirements.md`.
 
 ## Decision
 - Adopt **Listmonk** (`/knadh/listmonk`) as the self-hosted newsletter and campaign platform.
-  - Deploy the official Docker image on **AWS ECS Fargate (eu-central-1)** managed via Terraform modules; leverage the single-binary runtime highlighted in Listmonk docs for simplified container ops.
-  - Provision a dedicated **Amazon RDS Postgres** instance for Listmonk to avoid contention with Supabase and enable independent scaling.
+- Deploy the official Docker image on **AWS ECS Fargate (eu-central-1)** managed via Terraform modules; leverage the single-binary runtime highlighted in Listmonk docs for simplified container ops.
+- Provision a dedicated **Amazon RDS Postgres** instance for Listmonk to avoid contention with the primary Aurora workload and enable independent scaling.
   - Store configuration and SMTP credentials (Amazon SES + future providers) in AWS Secrets Manager (per ADR-007) and mount via task definitions.
 - Build an integration layer:
   - `MailingCoordinator` (Coordinator) bridges application events to Listmonk via its REST API, handling audience sync, consent updates, and double opt-in flows.
-  - `AudienceSyncManager` ensures nightly reconciliation between Supabase profiles and Listmonk subscribers, respecting granular consent flags.
-  - Webhooks from Listmonk feed back delivery/bounce events into Supabase for analytics and suppression logic.
+- `AudienceSyncManager` ensures nightly reconciliation between Aurora member records and Listmonk subscribers, respecting granular consent flags.
+- Webhooks from Listmonk feed back delivery/bounce events into Aurora for analytics and suppression logic.
 - Manage deployments using Docker Compose locally and Terraform-driven pipelines in CI; use rolling updates to minimize downtime.
 - Enforce GDPR compliance: store consent proofs, enable audience exports/deletions via automated scripts, and host backups within EU S3 buckets.
 
 ## Diagrams
-- [Architecture Overview](../diagrams/adr-013-mailing-platform-and-campaign-automation/architecture-overview.mmd) — Supabase/Flagsmith integrations with Listmonk on ECS and SES delivery.
+- [Architecture Overview](../diagrams/adr-013-mailing-platform-and-campaign-automation/architecture-overview.mmd) — Aurora/Flagsmith integrations with Listmonk on ECS and SES delivery.
 - [Data Lineage](../diagrams/adr-013-mailing-platform-and-campaign-automation/data-lineage.mmd) — Subscriber, consent, campaign, and event relationships.
 - [UML Service Layer](../diagrams/adr-013-mailing-platform-and-campaign-automation/uml-services.mmd) — Coordinator, audience sync, webhook, and template collaborators.
 - [BPMN Campaign Flow](../diagrams/adr-013-mailing-platform-and-campaign-automation/bpmn-campaign.mmd) — Planning, approval, execution, and feedback loop.

@@ -4,11 +4,11 @@ classDiagram
         +provisionInfrastructure()
         +promoteRelease()
     }
-    class VercelAdapter {
-        +createProject()
-        +configureEnvironment()
+    class AppDeliveryAdapter {
+        +configureCloudFront()
+        +deployECSService()
     }
-    class SupabaseAdapter {
+    class AuroraAdapter {
         +migrateSchema()
         +enableRLS()
         +scheduleBackups()
@@ -17,7 +17,7 @@ classDiagram
         +issueSignedUrl()
         +enforceLifecyclePolicy()
     }
-    DeploymentCoordinator --> VercelAdapter
-    DeploymentCoordinator --> SupabaseAdapter
+    DeploymentCoordinator --> AppDeliveryAdapter
+    DeploymentCoordinator --> AuroraAdapter
     DeploymentCoordinator --> StorageGateway
 ```

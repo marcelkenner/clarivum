@@ -39,7 +39,7 @@ links:
 ## Definition of Success
 
 - Rendering pipeline produces accessible PDFs/EPUBs from Strapi content with monitoring + retries.
-- Watermarking applies personalized metadata, logs audits, and integrates with Supabase tables.
+- Watermarking applies personalized metadata, logs audits, and integrates with Aurora tables.
 - Delivery flow handles entitlements, signed URLs, localization, and lifecycle notifications with telemetry.
 - Runbooks (ebooks fulfillment, account claiming, background jobs) updated with rendering, watermarking, and delivery procedures; QA smoke tests pass.
 

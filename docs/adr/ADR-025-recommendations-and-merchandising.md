@@ -10,7 +10,7 @@ Status: Accepted
 ## Decision
 - Build a **Recommendations Service Layer** with three inputs:
   - **Curated collections** from Strapi (ADR-010) tagged by vertical, persona, and campaign.
-  - **Behavioral signals** ingested from Plausible Analytics (ADR-029) and stored in Supabase for segmentation.
+  - **Behavioral signals** ingested from Plausible Analytics (ADR-029) and stored in Aurora for segmentation.
   - **Diagnostics outcomes** from ADR-021 to personalize content.
 - Engine:
   - Run selection algorithms server-side (Next.js Route Handlers) using deterministic rules first; leave room for ML scoring later.

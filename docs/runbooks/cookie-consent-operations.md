@@ -12,7 +12,7 @@
 - **Tooling:**
   - Klaro configuration (`config/klaro/config.json`).
   - Strapi entries for localized consent copy.
-  - Supabase consent audit table (`consent_events`).
+  - Aurora consent audit table (`consent_events`).
   - Flagsmith for consent trait propagation.
   - Playwright consent regression suite.
 
@@ -35,7 +35,7 @@
   - Banner displays on first visit.
   - Accept all and reject all flows toggle consent categories correctly.
   - Managing cookies via modal updates Flagsmith traits, supresses analytics scripts until opt-in.
-- Inspect Klaro audit event in Supabase for recent test (ensure timestamp, categories, locale captured).
+- Inspect Klaro audit event in Aurora for a recent test (ensure timestamp, categories, locale captured).
 - Confirm accessibility: keyboard navigation, screen reader labels, focus trapping.
 - Verify caching headers allow updates to propagate promptly (no stale copy).
 
@@ -48,7 +48,7 @@
 3. Log deployment summary in compliance register (date, changes, approving parties).
 
 ## Audit & reporting
-- Supabase `consent_events` retention: minimum 24 months.
+- Aurora `consent_events` retention: minimum 24 months (managed via automated lifecycle policy).
 - Monthly export of consent stats (opt-in rates per category) for legal review.
 - Document vendor mappings (service → provider → data processing agreement) in legal hub.
 - Annual review: confirm Klaro version up-to-date; apply security patches promptly.
@@ -58,7 +58,7 @@
 2. **Immediate actions:**
    - Enable fallback mode via feature flag (`cmp_banner_override`) to display static banner if Klaro fails.
    - Investigate recent deployments affecting consent scripts.
-   - Audit Supabase logs for potential data loss.
+   - Audit Aurora logs (CloudWatch) for potential data loss.
 3. **Remediation:**
    - Roll back Klaro config to last known good commit.
    - Patch integration causing consent bypass (e.g., third-party script loaded before consent).

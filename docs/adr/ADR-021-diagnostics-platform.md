@@ -4,17 +4,17 @@ Status: Accepted
 
 ## Context
 - Diagnostics experiences (Habits quiz, SPF advisor, routine planners) are core to Clarivum’s value proposition and must feed personalization, recommendations, and analytics.
-- `docs/PRDs/requierments/diagnostics/feature-requirements.md` outlines workflows, branching logic, consent, and integrations with Supabase, Flagsmith, and Plausible Analytics.
+- `docs/PRDs/requierments/diagnostics/feature-requirements.md` outlines workflows, branching logic, consent, and integrations with Aurora, Flagsmith, and Plausible Analytics.
 - We need a reusable architecture that separates question banks, scoring engines, and presentation layers while keeping compliance (GDPR) top of mind.
 
 ## Decision
 - Build diagnostics on a **Composable Quiz Engine** with three layers:
   - **Question Bank Manager:** Stores content in Strapi (ADR-010) with versioned schemas and locale support.
-  - **Evaluation Engine:** Executes scoring using stateless functions (supported by Zod validation per ADR-020) and writes outcomes to Supabase (ADR-001).
+  - **Evaluation Engine:** Executes scoring using stateless functions (supported by Zod validation per ADR-020) and writes outcomes to Aurora PostgreSQL (ADR-001).
   - **Presentation ViewModels:** React server components render steps; client components handle interaction tokens.
 - State management:
   - Use Flagsmith (ADR-005) to toggle experimental questions or flows.
-  - Persist progress in Supabase via server actions; support resume/draft states.
+- Persist progress in Aurora via server actions; support resume/draft states.
 - Privacy & compliance:
   - Capture explicit consent with Klaro! flags (ADR-014).
   - Hash personal identifiers and honor deletion requests within 30 days.

@@ -44,7 +44,7 @@ links:
   - docs/adr/ADR-008-product-analytics-platform.md
 context7:
   - /vercel/next.js
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /plausible/docs
   - /flagsmith/docs
 tags:

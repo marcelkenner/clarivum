@@ -5,7 +5,7 @@ flowchart TD
     MonetizationSDK[@clarivum/analytics Monetization SDK]
   end
 
-  subgraph Edge
+  subgraph Edge["Edge (CloudFront + Lambda@Edge)"]
     I[Impression Service<br/>/api/monetization/impression]
     R[Click Redirect Service<br/>/go/:partner/:slug/:eventId]
   end
@@ -14,7 +14,7 @@ flowchart TD
     Q[Queue / Background Worker]
     F[Fraud Detection Worker]
     RPT[Reconciliation Pipeline]
-    DB[(Supabase Monetization Schemas)]
+    DB[(Aurora Monetization Schemas)]
     PLA[Plausible Proxy]
     OBS[Grafana/Loki Metrics]
   end

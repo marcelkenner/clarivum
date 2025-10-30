@@ -27,7 +27,7 @@ Introduce an interaction-focused Vitest suite that covers client components and 
 
 ## Definition of Ready
 - [ ] Candidate flows agreed with product/QA (e.g., onboarding wizard, feature flag toggles).
-- [ ] Required mocks/stubs documented (Auth0, Supabase, feature flag APIs).
+- [ ] Required mocks/stubs documented (Auth0, Aurora data APIs, feature flag services).
 - [ ] Test data fixtures reviewed with security for PII compliance.
 
 ## Definition of Done

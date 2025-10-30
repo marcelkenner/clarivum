@@ -13,7 +13,7 @@ Supersedes: ADR-008-product-analytics-platform.md
 
 ## Decision
 - Adopt **Plausible Analytics (EU-managed)** as the sole analytics platform.
-  - Serve the Plausible script through a Vercel proxy (`/analytics/js/script.js`) to keep requests first-party, reinforce consent gating, and avoid ad-blocker heuristics.
+- Serve the Plausible script through a Next.js proxy route cached at CloudFront (`/analytics/js/script.js`) to keep requests first-party, reinforce consent gating, and avoid ad-blocker heuristics.
   - Enforce IP anonymization, EU data residency, custom domain delivery, and API keys stored in AWS Secrets Manager per ADR-007.
   - Disable all Plausible integrations that reintroduce third-party trackers; only the revenue extension is allowed, proxied through the same domain.
 - Build an instrumentation toolkit inside `@clarivum/analytics` with dedicated object-oriented components:
@@ -23,15 +23,15 @@ Supersedes: ADR-008-product-analytics-platform.md
   - **`AnalyticsConsentGuard`** — Coordinator ensuring script loading, client-side queues, and server dispatch all honor Flagsmith traits established in ADR-014.
 - Governance & tooling:
   - Maintain the canonical event catalogue within this ADR; every schema change must update the table and the registry types.
-  - Run `npm run analytics:proxy-audit` to confirm the Vercel rewrites point exclusively to Plausible endpoints.
+- Run `npm run analytics:proxy-audit` to confirm the proxy route rewrites point exclusively to Plausible endpoints.
   - Stream Plausible audit logs (project settings, API key usage) to Grafana Loki for traceability.
 - Data residency & retention:
-  - Configure Plausible retention to 18 months; export nightly aggregates to Supabase for long-term storage and finance reconciliation.
+- Configure Plausible retention to 18 months; export nightly aggregates to the Aurora analytics schema for long-term storage and finance reconciliation.
   - Implement a GDPR deletion worker invoking Plausible’s API whenever users trigger the privacy portal workflow.
 
 ## Diagrams
 - [Architecture Overview](../diagrams/adr-029-plausible-analytics-platform/architecture-overview.mmd) — Event producers, Plausible proxy endpoints, and warehouse sync path.
-- [Data Lineage](../diagrams/adr-029-plausible-analytics-platform/data-lineage.mmd) — Event schema, consent flags, Plausible ingestion, Supabase export.
+- [Data Lineage](../diagrams/adr-029-plausible-analytics-platform/data-lineage.mmd) — Event schema, consent flags, Plausible ingestion, Aurora export.
 - [UML Instrumentation Toolkit](../diagrams/adr-029-plausible-analytics-platform/uml-instrumentation.mmd) — Managers, dispatchers, registries, and consent guards.
 - [BPMN Governance Flow](../diagrams/adr-029-plausible-analytics-platform/bpmn-governance.mmd) — Schema change review, QA validation, and rollback handling.
 
@@ -57,12 +57,12 @@ Update this table whenever instrumentation changes. Any new event must include r
 | `SkinEbookDownloadStarted`         | User clicks primary CTA on `/skin/*` pages                  | `vertical`, `pillar_category`, `cta_variant`, `lead_source`                  | Plausible            |
 | `FuelToolLaunched`                 | Tool modal/form opens under `/fuel/*`                       | `vertical`, `tool_slug`, `cta_variant`, `session_region`, `flag_variant`     | Plausible            |
 | `HabitsQuizCompleted`              | Diagnostics flow completes on `/habits/diagnose`           | `vertical`, `result_segment`, `time_to_complete`, `question_version`, `ab_test` | Plausible         |
-| `LeadSubmitSucceeded`              | Supabase lead insert + CRM handoff succeeds                 | `vertical`, `offer_slug`, `form_variant`, `flagsmith_flag`, `crm_destination` | Plausible         |
+| `LeadSubmitSucceeded`              | Aurora lead insert + CRM handoff succeeds                   | `vertical`, `offer_slug`, `form_variant`, `flagsmith_flag`, `crm_destination` | Plausible         |
 | `PreviewDeploymentViewed`          | Internal QA opens preview URL                               | `branch_name`, `vercel_url`, `build_id`, `feature_flags_enabled`             | Plausible            |
-| `AdPlacementViewed`                | Monetization SDK records eligible ad impression             | `placement_id`, `vertical`, `article_slug`, `consent_state`, `flag_variant`  | Plausible + Supabase |
-| `AdPlacementClicked`               | User clicks ad module                                       | `placement_id`, `partner_id`, `article_slug`, `cta_variant`, `session_hash`  | Plausible + Supabase |
-| `AffiliateLinkClicked`             | Monetization redirect logs outbound affiliate click         | `partner_id`, `placement_id`, `article_slug`, `utm_campaign`, `session_hash` | Plausible + Supabase |
-| `AffiliateLinkRedirected`          | Redirect service confirms partner handoff                   | `partner_id`, `event_id`, `http_status`, `retry_count`, `consent_state`      | Supabase (warehouse) |
+| `AdPlacementViewed`                | Monetization SDK records eligible ad impression             | `placement_id`, `vertical`, `article_slug`, `consent_state`, `flag_variant`  | Plausible + Aurora |
+| `AdPlacementClicked`               | User clicks ad module                                       | `placement_id`, `partner_id`, `article_slug`, `cta_variant`, `session_hash`  | Plausible + Aurora |
+| `AffiliateLinkClicked`             | Monetization redirect logs outbound affiliate click         | `partner_id`, `placement_id`, `article_slug`, `utm_campaign`, `session_hash` | Plausible + Aurora |
+| `AffiliateLinkRedirected`          | Redirect service confirms partner handoff                   | `partner_id`, `event_id`, `http_status`, `retry_count`, `consent_state`      | Aurora (warehouse) |
 
 ### Maintenance checklist
 - Review the catalogue during sprint planning with analytics and product; log changes in `docs/runbooks/analytics-qa.md`.
@@ -79,7 +79,7 @@ Create and maintain the following dashboards (or saved reports) inside Plausible
 | **Tools Adoption** | Which calculators/planners drive repeat usage? | `FuelToolLaunched`, tool-specific completion events, returning vs new visitors, average tool per session | Segment by `tool_slug`, `session_region`, consent status (`marketing_consent`) | Weekly anomaly report when any high-priority tool drops >15% usage |
 | **Ebook & Lead Magnet Revenue** | Are ebooks generating leads and revenue as planned? | `SkinEbookDownloadStarted`, `LeadSubmitSucceeded`, revenue (Plausible revenue extension), conversion rate from visit → download → purchase | Filter by `offer_slug`, campaign (`utm_campaign`), `crm_destination` | Alert when revenue or lead volume deviates ±20% from 7-day mean |
 | **Subscription & Checkout Health** | Is subscription checkout healthy across steps? | Checkout step events, `LeadSubmitSucceeded` (with `offer_slug` subscriptions), payment success/failure goals | Segment by payment provider, device, feature flag (`flag_variant`) | Real-time notification on spike in failures (>5 per 10 min) |
-| **Retention & Engagement Roll-up** | How often do returning members engage tools/content? | Returning visitors %, average sessions per user, key event sequences, daily active metrics from Supabase export (merged via custom dimensions) | Filter by cohort (Flagsmith traits), subscription status | Monthly review; no automated alert unless DAU drops >10% WoW |
+| **Retention & Engagement Roll-up** | How often do returning members engage tools/content? | Returning visitors %, average sessions per user, key event sequences, daily active metrics from Aurora export (merged via custom dimensions) | Filter by cohort (Flagsmith traits), subscription status | Monthly review; no automated alert unless DAU drops >10% WoW |
 | **Consent & Compliance** | Are consent states respected and consistent? | `analytics_opt_in` goal, event counts gated vs ungated, script load events from `PlausibleScriptManager`, comparison against Flagsmith traits | Filter by locale, consent status, device | Alert on any increase in ungated events (>0.5% of total) |
 | **Monetization & Affiliate Integrity** | Do affiliate links/ads deliver expected revenue without fraud? | `AdPlacementViewed`, `AdPlacementClicked`, `AffiliateLinkClicked`, RPM, partner revenue imports, fraud flags | Segment by partner, placement, article, consent state | Alert when CTR deviates ±20% from 7-day mean, or when partner revenue mismatch >2% |
 
@@ -87,9 +87,9 @@ Dashboards must be shared with view-only permissions for marketing/product, embe
 
 ## Consequences
 - **Benefits:** Lightweight, privacy-first analytics with first-party delivery, minimal bundle impact, and streamlined governance.
-- **Trade-offs:** Plausible lacks advanced cohorting; supplement with Supabase exports and Looker Studio only if it does not introduce other analytics vendors.
+- **Trade-offs:** Plausible lacks advanced cohorting; supplement with Aurora exports and Looker Studio only if it does not introduce other analytics vendors.
 - **Constraints:** Every feature must reuse `@clarivum/analytics` components—no ad-hoc script injection or third-party tags.
 - **Follow-ups:**
-  - Deliver Vercel rewrite templates and proxy monitoring for Plausible endpoints.
+- Deliver Next.js proxy configs and monitoring for Plausible endpoints.
   - Add revenue attribution events once checkout flows go live; update this ADR accordingly.
   - Document migration steps for existing PostHog dashboards so stakeholders reference Plausible equivalents.

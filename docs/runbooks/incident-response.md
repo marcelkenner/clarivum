@@ -24,7 +24,7 @@ Use this runbook whenever an operational issue threatens Clarivum’s SLOs, secu
    - Verify the issue via Grafana dashboards and logs.
    - Capture current metrics (latency, error rate, affected regions).
    - If security-related, immediately rotate secrets if compromise suspected.
-3. **Mobilize team:** Assign roles (Communications Lead, Scribe). Loop in domain experts as needed (Auth0, Supabase).
+3. **Mobilize team:** Assign roles (Communications Lead, Scribe). Loop in domain experts as needed (Auth0, Aurora).
 4. **Mitigate:** 
    - Roll back recent deployments using the deployment runbook if root cause is unclear within 15 minutes (Sev-1).
    - Toggle feature flags to disable suspect features.
@@ -50,7 +50,7 @@ Use this runbook whenever an operational issue threatens Clarivum’s SLOs, secu
 
 - If IC cannot stabilize within 30 minutes (any severity), escalate to engineering lead and CTO.
 - Security incidents must notify DPO/legal within 72 hours (GDPR); Communications Lead coordinates statements.
-- For third-party outages (Auth0, Vercel, Supabase), open support tickets immediately and link them in the incident doc.
+- For third-party outages (Auth0, CloudFront/ECS, Aurora), open support tickets immediately and link them in the incident doc.
 
 Review this runbook quarterly during the reliability review. Update contacts, tooling links, and severity guidance as the platform evolves.
 

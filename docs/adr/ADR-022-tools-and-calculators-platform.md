@@ -11,7 +11,7 @@ Status: Accepted
 - Implement a **Tools Platform** composed of:
   - **ToolShell ViewModel:** Provides layout, hero messaging, CTA orchestration, and shared states (loading, error, result).
   - **Computation Manager:** Pure functions per tool handling domain logic; unit-tested with Vitest.
-  - **Data Providers:** Optional integrations (Supabase for persistence, Strapi for copy blocks, external APIs where licensed) injected via interfaces.
+  - **Data Providers:** Optional integrations (Aurora for persistence, Strapi for copy blocks, external APIs where licensed) injected via interfaces.
 - Frontend conventions:
   - Built atop the frontend platform (ADR-019) and form engine (ADR-020).
   - Each tool lives under `app/(marketing)/narzedzia/<slug>/` with view models/managers split to keep files <200 lines.

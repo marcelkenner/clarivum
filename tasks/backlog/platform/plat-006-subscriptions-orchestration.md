@@ -19,7 +19,7 @@ links:
 context7:
   - /stripe/stripe
   - /payu/docs
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
 tags:
   - subscriptions
   - payments
@@ -27,18 +27,18 @@ tags:
 ---
 
 ## Summary
-Deliver the membership infrastructure that powers subscription checkout, entitlements, renewals, and lifecycle webhooks across Stripe, PayU, and Supabase so users can purchase and retain Clarivum offerings.
+Deliver the membership infrastructure that powers subscription checkout, entitlements, renewals, and lifecycle webhooks across Stripe, PayU, and Aurora PostgreSQL so users can purchase and retain Clarivum offerings.
 
 ## Definition of Ready
 - [x] Product catalog/plan rules finalized: plans `Member`, `Subscriber` (monthly/yearly with 14-day trial), `Ebook Bundle`, `Gift`; proration via Stripe default; discounts via coupons/promo codes; vouchers through mission coupon table; gift flow emails claim token.
-- [x] Supabase schema/idempotency aligned: tables `subscriptions`, `invoices`, `payments`, `entitlements`, `claims`, `webhook_events` with idempotency key `SUBS:<cust_id>:<action>:<ts>` stored unique and writes via security-definer RPCs.
+- [x] Aurora schema/idempotency aligned: tables `subscriptions`, `invoices`, `payments`, `entitlements`, `claims`, `webhook_events` with idempotency key `SUBS:<cust_id>:<action>:<ts>` stored unique and writes via stored procedures.
 - [x] Legal/compliance checklist complete: VAT via Stripe Tax; ToS/consent snapshots in `consent_acceptances`; refund policy 14 days (digital exceptions) and chargeback playbook documented.
 - [x] Checkout UX sequencing agreed: Stripe Checkout happy path with 3DS fallback handled by Stripe, error recovery CTA, receipts via SES/Novu with templates stored in Novu & Strapi.
 - [x] Wallet enablement scoped: wallets behind Flagsmith (`wallets.enabled`, `wallets.apple`, `wallets.google`) post-MVP referencing TSK-PLAT-032/033 rollout.
 
 ## Definition of Done
 - [ ] Checkout flows implemented with Stripe + PayU integrations, including edge cases and retries.
-- [ ] Supabase entitlements + invoices synchronized via secure webhooks.
+- [ ] Aurora entitlements + invoices synchronized via secure webhooks.
 - [ ] Renewal, cancellation, and dunning automations configured and tested.
 - [ ] Analytics + observability instrumentation shipped (conversion, churn, errors).
 - [ ] Runbooks updated with support playbooks and rollback strategy.

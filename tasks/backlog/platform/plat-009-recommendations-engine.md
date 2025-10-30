@@ -19,7 +19,7 @@ links:
 context7:
   - /meilisearch/documentation
   - /plausible/docs
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
 tags:
   - recommendations
   - personalization

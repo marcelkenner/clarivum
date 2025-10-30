@@ -20,7 +20,7 @@ links:
   - docs/runbooks/feature-flags-operations.md
   - docs/runbooks/background-jobs.md
 context7:
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /plausible/docs
   - /flagsmith/docs
 tags:
@@ -34,7 +34,7 @@ Deliver the ingestion, governance, and presentation workflow for coupons and aff
 
 ## Definition of Ready
 - [x] Catalog strategy set: automated partner feeds (CSV/JSON/S3) plus manual Strapi upload with required compliance copy fields.
-- [x] Supabase schema/retention defined: tables `coupons`, `affiliate_offers`, `redemptions` with 365-day retention for redemption logs.
+- [x] Aurora schema/retention defined: tables `coupons`, `affiliate_offers`, `redemptions` with 365-day retention for redemption logs.
 - [x] CTA/UI alignment complete: component library usage with analytics events `coupon.view`, `coupon.apply`, `coupon.redeem`.
 - [x] Legal review scheduled with prepared one-liner approval text for disclosures and partner agreements.
 

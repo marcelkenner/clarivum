@@ -6,7 +6,7 @@ graph TD
         Consent["Geo Consent State"]
     end
 
-    subgraph FrontendApp["Clarivum Frontend (Vercel)"]
+    subgraph FrontendApp["Clarivum Frontend (CloudFront + ECS Fargate)"]
         HeroPage["Homepage Hero\\n(ViewModel + Coordinator)"]
         ApiRoute["/api/tools/uv-widget\\nEdge Function"]
         Flagsmith["Feature Flag SDK"]

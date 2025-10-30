@@ -2,7 +2,7 @@
 
 ## Scope & objectives
 - Operate AWS Secrets Manager as the single source of truth for Clarivum credentials per ADR-007.
-- Provide onboarding, rotation, synchronization, and incident response procedures covering Vercel, AWS Lambda, CI, and third-party integrations.
+- Provide onboarding, rotation, synchronization, and incident response procedures covering ECS services, AWS Lambda, CI, and third-party integrations.
 - Ensure audits, access reviews, and compliance artifacts stay current.
 
 ## Roles & tooling
@@ -12,7 +12,7 @@
   - AWS Secrets Manager (eu-central-1) console + CLI.
   - Terraform configurations (`infra/secrets/` module).
   - GitHub Actions secrets sync pipeline.
-  - Vercel CLI for environment variable updates.
+  - AWS ECS/App Runner deployment tooling for injecting secrets into task definitions.
   - CloudTrail + Grafana for access monitoring.
 
 ## Secret lifecycle
@@ -21,7 +21,7 @@
    - Owner approves and assigns IAM permissions.
 2. **Creation steps:**
    - Define name using `/clarivum/<env>/<service>/<secretName>` convention.
-     - Supabase provisioning (`infra/supabase`) automatically creates `/clarivum/supabase/<env>/{anon_key|service_role|db_url|db_password|url|project_ref|next_public_*}`. Do not edit these manually; rotate via Terraform apply + Supabase API.
+     - Aurora provisioning (`infra/aws/data`) automatically creates `/clarivum/database/<env>/{writer_url|reader_url|iam_role}`. Do not edit these manually; rotate via Terraform apply and update consuming services.
    - Store value via AWS CLI:
      ```bash
      aws secretsmanager create-secret \
@@ -31,7 +31,7 @@
    - Tag with `Owner`, `RotationDays`, `Classification`.
    - Update Terraform state if managed via IaC to avoid drift.
 3. **Propagation:**
-   - GitHub Actions job fetches secrets and syncs to Vercel (`npm run secrets:sync`).
+   - GitHub Actions job fetches secrets and syncs to ECS task definitions or Parameter Store (`npm run secrets:sync`).
    - For Lambda workloads, ensure IAM role has `secretsmanager:GetSecretValue` scoped to path.
    - Document secret in service README and link to this runbook.
 
@@ -39,8 +39,8 @@
 1. **Schedule:** Minimum every 90 days; align with provider requirements (Stripe, Plausible Analytics, Upstash).
 2. **Execution:**
    - Generate new credential; update secret using `put-secret-value`.
-   - Run `npm run secrets:sync -- --service payments` to push to Vercel.
-   - Restart dependent workloads (deploy Vercel, redeploy Lambda).
+   - Run `npm run secrets:sync -- --service payments` to push to ECS task definitions.
+   - Restart dependent workloads (redeploy ECS service, redeploy Lambda).
 3. **Validation:**
    - Confirm health checks succeed (e.g., Stripe ping, Plausible Analytics API).
    - Monitor CloudWatch/Grafana for errors during 1-hour observation window.
@@ -48,7 +48,7 @@
 
 ## Access management
 - IAM roles/users:
-  - `clarivum-runtime-vercel`: read-only per environment.
+  - `clarivum-runtime-frontend`: read-only per environment for ECS tasks.
   - `clarivum-runtime-lambda`: scoped to necessary service paths.
   - `clarivum-ci`: limited to CI/CD secrets.
 - Quarterly access review:
@@ -79,5 +79,5 @@
 - Ensure GDPR-related integrations (Auth0, Plausible Analytics) have rotation logs accessible.
 
 ## Change log
-- **2025-11-05:** Documented Supabase secret paths managed by Terraform (TSK-PLAT-012).
+- **2025-11-09:** Updated AWS-only rotation workflow and secret naming conventions after retiring legacy hosting integrations (TSK-PLAT-080).
 - **2025-10-23:** Initial secrets management runbook covering lifecycle, rotation, CI sync, and incident handling.

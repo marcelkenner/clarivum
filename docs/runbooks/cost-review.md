@@ -5,15 +5,15 @@ Clarivum targets predictable spend with a cap of **$2.5k/month** at 10× project
 ## Participants & tools
 
 - **FinOps owner:** Engineering lead (primary), Finance partner (secondary).
-- **Dashboards:** AWS Cost Explorer, AWS Budgets, Vercel Usage dashboard, Supabase billing console.
-- **Reports:** Exported CSV from AWS (linked in shared drive), Vercel spend JSON (`npm run cost:export`), Supabase usage metrics.
+- **Dashboards:** AWS Cost Explorer, AWS Budgets, CloudFront usage reports, Aurora performance insights.
+- **Reports:** Exported CSV from AWS (linked in shared drive), CloudFront spend JSON (`npm run cost:export`), Aurora/S3 usage metrics.
 
 ## Standard review (monthly)
 
 1. **Preparation (Day 1–2):**
    - Pull previous month’s AWS Cost Explorer report (grouped by service, tag `clarivum:environment`).
-   - Export Vercel usage by project/environment; capture bandwidth, function invocations, and analytics add-ons.
-   - Export Supabase usage (db size, egress, auth MAUs) and compare to plan thresholds.
+   - Export CloudFront usage by distribution/environment; capture bandwidth, Lambda@Edge/Function URLs invocations, and cache hit ratios.
+   - Export Aurora (storage, IOPS) and S3 usage (storage, data transfer) and compare to plan thresholds.
 2. **Baseline reconciliation:**
    - Verify totals align with finance ledger; flag discrepancies > 5%.
    - Update the cost tracking spreadsheet (tab: `2025`).
@@ -23,10 +23,10 @@ Clarivum targets predictable spend with a cap of **$2.5k/month** at 10× project
    - Highlight any spend without tagged environment (`untagged` filter in Cost Explorer) and create follow-up tickets.
 4. **Rightsizing actions:**
    - Review Lambda concurrency and duration metrics; adjust reserved concurrency if underutilized.
-   - Evaluate Supabase storage growth; archive cold assets > 120 days to lower-cost storage tier.
-   - Check Vercel bandwidth spikes; ensure caching headers are correct and consider asset optimization.
+   - Evaluate Aurora storage growth; archive cold tables > 120 days to Glacier or S3 Infrequent Access per retention plan.
+   - Check CloudFront bandwidth spikes; ensure caching headers are correct and consider asset optimization.
 5. **Budget thresholds:**
-   - Confirm AWS Budgets and Vercel spend alerts are set for 50/75/90%.
+   - Confirm AWS Budgets alerts are set for 50/75/90% and routed to `#finops-alerts` Slack channel.
    - If actual spend exceeded 75%, schedule a corrective actions meeting within 3 business days.
 6. **Report out:**
    - Summarize findings in the monthly reliability review doc (Section 12 PTRD).
@@ -46,7 +46,7 @@ When automated alerts fire:
 
 ## Annual tasks
 
-- Review service contracts and renegotiate tiers (Vercel, Flagsmith, Auth0) based on actual usage.
+- Review service contracts and renegotiate tiers (CloudFront, Flagsmith, Auth0) based on actual usage.
 - Benchmark spend efficiency against industry targets (~27% waste is average; aim for ≤10%).
 - Evaluate whether additional cost observability tooling (CloudZero, Finout) is warranted.
 

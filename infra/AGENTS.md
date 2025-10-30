@@ -17,17 +17,19 @@ This directory stores Terraform configurations for Clarivum platform services. A
 - `terraform -chdir=infra/strapi apply -var-file=env/prod.tfvars` — apply changes for prod (requires release approval).
 - `terraform -chdir=infra/strapi fmt` and `terraform -chdir=infra/strapi validate` — formatting and validation guardrails (mirrors CI expectations).
 
-## Supabase tenancy (TSK-PLAT-012)
+## Legacy Supabase tenancy (TSK-PLAT-012)
 
-- Terraform code under `infra/supabase` provisions Supabase projects, storage buckets, and AWS secrets.
-- Supply a Supabase access token at runtime: `export SUPABASE_ACCESS_TOKEN=$(pass show clarivum/supabase/pat)`.
+**Status:** frozen after the AWS migration. Keep the module read-only unless you are executing a decommission plan. Open a `[Infra]` task before touching it so we can archive or rewrite guidance alongside the code removal.
+
+- Terraform code under `infra/supabase` still provisions the legacy Supabase projects, storage buckets, and AWS secrets.
+- Supply a Supabase access token at runtime only when running retirement steps: `export SUPABASE_ACCESS_TOKEN=$(pass show clarivum/supabase/pat)`.
 - Configuration expects an organisation slug in each tfvars (`supabase_organization_slug`); the module resolves the UUID automatically via the Management API unless an override is supplied.
-- Usage mirrors the Strapi flow:
+- Usage mirrors the Strapi flow (use for teardown/backup only):
   - `terraform -chdir=infra/supabase init`
   - `terraform -chdir=infra/supabase workspace select dev || terraform -chdir=infra/supabase workspace new dev`
   - `terraform -chdir=infra/supabase plan -var-file=env/dev.tfvars -var="supabase_access_token=$SUPABASE_ACCESS_TOKEN"`
   - `terraform -chdir=infra/supabase apply -var-file=env/prod.tfvars -var="supabase_access_token=$SUPABASE_ACCESS_TOKEN"`
-- Outputs surface Supabase URLs, project refs, and Secrets Manager ARNs for downstream wiring (Next.js, Strapi webhooks, background workers).
+- Outputs surface Supabase URLs, project refs, and Secrets Manager ARNs that will be retired once data migrations are complete. Record any cleanup in `docs/runbooks/decommissioning.md`.
 
 ## Strapi data foundation (TSK-PLAT-021)
 

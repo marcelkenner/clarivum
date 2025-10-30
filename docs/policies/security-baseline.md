@@ -5,7 +5,7 @@ Clarivum adopts the following minimum security controls from day one. They align
 ## Identity & access management
 
 - **MFA:** Enforced for all admin/editor accounts through Auth0. Member MFA optional but supported.
-- **RBAC:** Roles (`member`, `editor`, `admin`, `ops`) defined centrally in Auth0 and mirrored in Supabase RLS policies.
+- **RBAC:** Roles (`member`, `editor`, `admin`, `ops`) defined centrally in Auth0 and mirrored in Aurora PostgreSQL row-level security policies.
 - **Session hygiene:** 
   - HttpOnly + Secure + SameSite=Lax cookies.
   - Session rotation on privilege escalation or password change.
@@ -13,7 +13,7 @@ Clarivum adopts the following minimum security controls from day one. They align
 
 ## Secrets management
 
-- No plaintext secrets in source control. All secrets stored in AWS Secrets Manager and surfaced to runtime via Vercel environment variables or Lambda parameter injection.
+- No plaintext secrets in source control. All secrets stored in AWS Secrets Manager and surfaced to runtime via ECS task definitions, Lambda parameter injection, or Parameter Store.
 - Secrets rotated at least every 90 days or immediately after suspected compromise.
 - Access to secrets limited to least privilege IAM roles; access logs reviewed monthly.
 
@@ -28,13 +28,13 @@ Clarivum adopts the following minimum security controls from day one. They align
 ## Infrastructure hardening
 
 - Infrastructure as Code (Terraform) with peer review.
-- Vercel, Supabase, AWS accounts protected by SSO + MFA and audited quarterly.
+- AWS accounts (prod/dev), Grafana Cloud, and Flagsmith protected by SSO + MFA and audited quarterly.
 - Cloud resources tagged with `clarivum:environment` for governance.
 - Enable AWS GuardDuty and CloudTrail; review findings monthly.
 
 ## Data protection & privacy
 
-- GDPR-compliant consent capture; data residency in EU (Supabase `eu-central-1`).
+- GDPR-compliant consent capture; data residency in EU (Aurora PostgreSQL + S3 in `eu-central-1`).
 - PII stored encrypted at rest using Postgres `pgcrypto`; keys rotated annually.
 - Data retention policy: anonymize inactive leads after 12 months; delete user data within 30 days of deletion request.
 - Audit access to PII via database logs; anomalies trigger security review.
@@ -47,7 +47,7 @@ Clarivum adopts the following minimum security controls from day one. They align
 
 ## Vendor management
 
-- Maintain inventory of vendors (Auth0, Vercel, Supabase, Flagsmith, AWS). Review security posture annually.
+- Maintain inventory of vendors (Auth0, AWS, Grafana Cloud, Flagsmith, Plausible). Review security posture annually.
 - Ensure DPAs signed where applicable and store them in the shared legal repository.
 
 ## Compliance roadmap

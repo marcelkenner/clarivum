@@ -1,8 +1,8 @@
 ```mermaid
 flowchart LR
     Auth0["Auth0 Profiles"] --> ProfileSync["Profile Sync Service"]
-    ProfileSync --> SupabaseProfiles["Supabase Profile Tables"]
-    SupabaseProfiles --> ProfileViewModels["Account Center ViewModels"]
+    ProfileSync --> AuroraProfiles["Aurora Profile Tables"]
+    AuroraProfiles --> ProfileViewModels["Account Center ViewModels"]
     ProfileViewModels --> Subscriptions["Stripe/PayU Subscription API"]
     ProfileViewModels --> Diagnostics["Diagnostics Results (ADR-021)"]
     ProfileViewModels --> MailPrefs["Mailing Preferences (ADR-013)"]

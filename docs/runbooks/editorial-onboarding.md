@@ -7,8 +7,8 @@
 
 ## Roles & prerequisites
 - **Owner:** Editorial Operations Manager.
-- **Coordinators:** `EditorialAccessCoordinator` (provisions Strapi/Supabase), `ContentWorkflowManager` (training), `SearchIntegrationManager` (webhook verification).
-- **Systems touched:** Clarivum Operations Hub (Content module), self-hosted Strapi admin (`/websites/strapi_io_cms` Users & Permissions), Flagsmith, Supabase, Linear (content backlog), Notion (style guides).
+- **Coordinators:** `EditorialAccessCoordinator` (provisions Strapi/Aurora access), `ContentWorkflowManager` (training), `SearchIntegrationManager` (webhook verification).
+- **Systems touched:** Clarivum Operations Hub (Content module), self-hosted Strapi admin (`/websites/strapi_io_cms` Users & Permissions), Flagsmith, Aurora, Linear (content backlog), Notion (style guides).
 - **Preconditions:** New hire record in HRIS, contract signed, email account activated, DPA acknowledged.
 
 ## Day -5: Access preparation
@@ -17,7 +17,7 @@
    - `Editor` role for staff with publish rights.
    - `Author` role for contributors (no publish).
    - Custom `MedicalReviewer` role if clinical approval needed.
-3. **Provision Supabase read role:** Add user to `editorial_viewers` group for analytics dashboards.
+3. **Provision Aurora read role:** Add user to `editorial_viewers` group for analytics dashboards.
 4. **Flagsmith read-only:** Invite to project with segment access for content preview flags.
 5. **Notify IT:** Request laptop, VPN if required.
 
@@ -42,12 +42,12 @@
    - Assets sourced and licensed.
    - Feature flags (if any) set via Flagsmith.
    - Scheduling uses Strapi release feature (if future-dated).
-3. **Publish simulation:** Trainee walks through go-live, signals `#clarivum-editorial`, monitors ISR revalidation (check Vercel deploy logs).
+3. **Publish simulation:** Trainee walks through go-live, signals `#clarivum-editorial`, monitors ISR revalidation (check ECS deployment events and CloudWatch logs).
 4. **Post-mortem:** Document learnings, add to `docs/role-guides/editorial.md`.
 
 ## Glossary + Product Catalog alignment (Week 1)
 1. **Meet catalog owners:** During the first week, introduce the new editor to the Product Catalog owner (Merch Ops) and review how SKUs/slugs are curated plus where ingredient lists live (`product_catalog_vw`). Capture ownership + contact info in the onboarding doc.
-2. **Walk through ProductIngredientSync:** Demonstrate how the Supabase job populates the glossary `product_associations` component. Show how to confirm last sync timestamp inside Strapi and in the Observability dashboard (`ProductIngredientSync freshness` panel).
+2. **Walk through ProductIngredientSync:** Demonstrate how the Aurora job populates the glossary `product_associations` component. Show how to confirm last sync timestamp inside Strapi and in the Observability dashboard (`ProductIngredientSync freshness` panel).
 3. **Hands-on check:** Assign trainee to audit one ingredient entry. They must (a) verify the INCI list matches catalog data, (b) confirm each association links to a valid SKU, and (c) render the preview to ensure the “Products with &lt;ingredient&gt;” section surfaces expected CTAs.
 4. **Escalation path:** If a product is missing or a SKU should be removed, editors log a ticket in the catalog backlog instead of editing the association field directly. Mentor reviews first submission to ensure message includes SKU, ingredient slug, and requested change.
 5. **Weekly cadence reminder:** Add the catalog-alignment touchpoint (15 min) to the editor’s calendar so they continue reconciling coverage metrics with the product team after onboarding.
@@ -64,7 +64,7 @@
 
 ## Offboarding
 1. Remove Strapi access (Users & Permissions → Users → disable).
-2. Revoke Supabase + Flagsmith roles.
+2. Revoke Aurora + Flagsmith roles.
 3. Transfer Linear tickets; update editorial calendar.
 4. Archive authored content attribution if required (Notion log).
 

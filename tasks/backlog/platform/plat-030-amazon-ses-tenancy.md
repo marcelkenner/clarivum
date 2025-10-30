@@ -40,7 +40,7 @@ Move Clarivum out of the Amazon SES sandbox, provision EU-region sending identit
 
 ## Definition of Done
 - [ ] SES production access granted with verified domains, DKIM, SPF, and DMARC policies documented.
-- [ ] Bounce/complaint/webhook handling implemented, forwarding events to Listmonk, Supabase, and alerting channels.
+- [ ] Bounce/complaint/webhook handling implemented, forwarding events to Listmonk, Aurora audit tables, and alerting channels.
 - [ ] Sending quotas, suppression list policies, and encryption settings configured; runbooks updated accordingly.
 - [ ] Secrets rotated and distributed to Listmonk, Next.js, and automation services without plaintext exposure.
 - [ ] Deliverability smoke tests executed (seed inboxes, complaint injection) and results logged with follow-up actions.

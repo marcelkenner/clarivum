@@ -28,7 +28,7 @@ effort: <tiny|small|medium|large>
 created_at: YYYY-MM-DD
 updated_at: YYYY-MM-DD
 links: [<docs/PRDs/...>, <docs/adr/...>, ...]
-context7: [</vercel/next.js>, </supabase/supabase>, ...]
+context7: [</vercel/next.js>, </websites/aws_amazon-amazonrds-aurorauserguide>, ...]
 tags: [<keyword>, ...]
 ---
 ```

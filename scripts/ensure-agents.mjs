@@ -133,7 +133,7 @@ This file gives coding agents the operational context that complements \`README.
 
 ## Project orientation
 
-- Stack: Next.js 15 (App Router) with React 19, Tailwind CSS 4, TypeScript 5. Runs on Vercel (see \`docs/architecture.md\`).
+- Stack: Next.js 15 (App Router) with React 19, Tailwind CSS 4, TypeScript 5. Runs on AWS (CloudFront + ECS Fargate) with Aurora PostgreSQL and S3 (see \`docs/architecture.md\`).
 - Decision history lives in \`docs/adr/ADR-001…005\`. Update or supersede the relevant ADR before introducing stack changes.
 - Product & brand context is in \`docs/PRDs/\` (\`first_steps.md\`, \`clarivum_brand.md\`, etc.). Keep feature work aligned with those documents.
 - **Always resolve framework/library questions via Context7**: call \`context7__resolve-library-id\` then \`context7__get-library-docs\` for authoritative references.
@@ -260,8 +260,8 @@ Clarivum’s frontend lives under \`src/\` using the Next.js App Router. Follow 
 
 ## Data & integrations
 
-- Until Supabase data access is implemented, prefer typed placeholder data with clear TODOs referencing the relevant ADR or task.
-- When integrating APIs or background jobs, ensure contracts align with ADR-001 (Supabase), ADR-003 (queues), and ADR-004 (observability).
+- Until the Aurora data gateway is fully wired, prefer typed placeholder data with clear TODOs referencing the relevant ADR or task.
+- When integrating APIs or background jobs, ensure contracts align with ADR-001 (AWS CloudFront/ECS + Aurora), ADR-003 (queues), and ADR-004 (observability).
 - Consult Context7 for Next.js/React/Tailwind best practices before adopting new APIs.
 
 ## Telemetry

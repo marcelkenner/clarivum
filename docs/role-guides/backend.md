@@ -1,12 +1,12 @@
 # Backend Guide
 
-Clarivum’s backend work focuses on the BFF layer inside Next.js, Supabase data modelling, and asynchronous jobs on AWS. Use this guide to stay aligned with the platform decisions already in place.
+Clarivum’s backend work focuses on the BFF layer inside Next.js, Aurora PostgreSQL data modelling, and asynchronous jobs on AWS. Use this guide to stay aligned with the platform decisions already in place.
 
 ## Key references
 
 - Architecture overview & C4 diagrams: `docs/architecture.md`
 - ADRs:  
-  - `ADR-001` (Supabase, Vercel hosting)  
+  - `ADR-001` (AWS CloudFront/ECS hosting + Aurora PostgreSQL)  
   - `ADR-002` (Auth0 authentication model)  
   - `ADR-003` (SQS + Lambda jobs)  
   - `ADR-004` (Observability)  
@@ -20,9 +20,9 @@ Clarivum’s backend work focuses on the BFF layer inside Next.js, Supabase data
    - Confirm data ownership and indexing requirements; update ERD or migrations plan in `/docs/architecture.md` if structure changes.
 2. **AuthN/AuthZ**  
    - Enforce Auth0-issued JWT validation via NextAuth middleware.  
-   - Map Auth0 roles to Supabase RLS policies; document changes in the PR.
+   - Map Auth0 roles to Aurora row-level security policies; document changes in the PR.
 3. **Database work**  
-   - Use Supabase SQL migrations (via `supabase db diff/push`).  
+   - Author SQL migrations under `database/migrations/` and apply them via the Aurora migration pipeline (documented in `infra/aws/AGENTS.md`).  
    - Every new query must include indexes or reference an existing indexing plan.  
    - Record schema changes in a short ADR addendum if they affect other teams.
 4. **Background jobs**  

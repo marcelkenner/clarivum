@@ -6,7 +6,7 @@ flowchart TD
     schedule[Schedule send in Listmonk]
     send[Execute campaign via SES]
     collect[Collect delivery/bounce webhooks]
-    sync[Update Supabase + suppression]
+    sync[Update Aurora + suppression]
     report[Generate performance report]
     plan --> segment --> approve
     approve -->|Approved| schedule --> send --> collect --> sync --> report

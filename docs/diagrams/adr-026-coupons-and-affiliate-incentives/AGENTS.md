@@ -4,7 +4,7 @@
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-026-coupons-and-affiliate-incentives.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with Growth Partnerships before changing scope, integration points, or lifecycle assumptions documented here.
-- Keep coverage aligned: These diagrams show the coupon management platform, including Supabase storage, partner compliance workflows, recommendation integration, and analytics tracking.
+- Keep coverage aligned: These diagrams show the coupon management platform, including Amazon S3 storage, partner compliance workflows, recommendation integration, and analytics tracking.
 
 ## Diagram Responsibilities
 - `architecture-overview.mmd`: Keep coupon storage, background jobs, APIs, and consumer integrations accurate and synchronized with the latest implementation notes and shared vocabulary.

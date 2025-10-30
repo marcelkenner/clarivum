@@ -17,7 +17,7 @@ links:
   - docs/PRDs/requierments/ebooks/feature-requirements.md
   - docs/runbooks/ebooks-fulfillment.md
 context7:
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /stripe/stripe
   - /listmonk/docs
   - /auth0/docs
@@ -40,7 +40,7 @@ Implement a durable fulfillment orchestrator, monitoring, and reconciliation too
 - Stripe webhook infrastructure configured with secret rotation strategy (ADR-011).
 - Observability stack (ADR-004) ready for new metrics/logs.
 - Email infrastructure (Listmonk/Novu + SMTP provider) supports idempotent send API.
-- Supabase admin role available for job table access.
+- Aurora admin role available for job table access.
 
 ## Definition of Ready
 - [x] Job models defined: idempotent jobs with states `queued|running|succeeded|failed|dead-letter` and supporting tables reviewed.
@@ -54,14 +54,14 @@ Implement a durable fulfillment orchestrator, monitoring, and reconciliation too
 - [ ] Metrics emitted (`fulfillment_jobs_active`, `fulfillment_jobs_failed_total`, `fulfillment_latency_seconds`) with dashboards in Grafana/Looker.
 - [ ] PagerDuty/Slack alerts triggered when jobs remain pending beyond SLA or failure rate exceeds threshold.
 - [ ] Admin UI or CLI provides search, retry, and resend actions with audit logging.
-- [ ] Daily reconciliation script compares Stripe payments, Supabase entitlements, and email receipts; discrepancies auto-create Kaizen issue.
+- [ ] Daily reconciliation script compares Stripe payments, Aurora entitlements, and email receipts; discrepancies auto-create Kaizen issue.
 - [ ] End-to-end smoke test (`npm run ebooks:fulfillment-smoke`) validates successful payment results in receipt email + shelf visibility within SLA.
 - [ ] Documentation updated (ADR-032 consequences, runbook guardrails) and support team trained.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
 
 
 ## Work Plan
-- [ ] **Model & Migration** — Create Supabase tables for jobs and events; enforce unique payment intent constraint.
+- [ ] **Model & Migration** — Create Aurora tables for jobs and events; enforce unique payment intent constraint.
 - [ ] **Worker Implementation** — Build orchestrator worker with modular steps and shared context.
 - [ ] **Instrumentation** — Add OTel spans, Prometheus metrics, and structured logs.
 - [ ] **Alerting & Reconciliation** — Implement daily reconciliation script + dashboards + alert rules.

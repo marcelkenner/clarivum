@@ -29,7 +29,7 @@ links:
 
 | Task | Status Lane | Notes |
 |------|-------------|-------|
-| [`tasks/backlog/platform/plat-007-account-center.md`](../../backlog/platform/plat-007-account-center.md) | Backlog → Ready → In-progress | Build Account Center service + Supabase schemas + APIs |
+| [`tasks/backlog/platform/plat-007-account-center.md`](../../backlog/platform/plat-007-account-center.md) | Backlog → Ready → In-progress | Build Account Center service + Aurora schemas + APIs |
 | [`tasks/backlog/frontend/fe-006-tools-platform-rollout.md`](../../backlog/frontend/fe-006-tools-platform-rollout.md) | Backlog → Ready → In-progress | Deliver shared tools framework + integration hooks |
 | [`tasks/backlog/frontend/fe-007-diagnostics-experience.md`](../../backlog/frontend/fe-007-diagnostics-experience.md) | Backlog → Ready → In-progress | Ship diagnostics hub UI with analytics + Ops linkage |
 | [`tasks/backlog/frontend/fe-016-ops-hub-interface.md`](../../backlog/frontend/fe-016-ops-hub-interface.md) | Backlog → Ready → In-progress | Polish `/ops` UI, RBAC affordances, and action dashboards |
@@ -42,7 +42,7 @@ links:
 
 ## Definition of Success
 
-- Account Center APIs, Supabase schemas, and entitlements views live with auditing + RBAC, integrated with Ops Hub logging.
+- Account Center APIs, Aurora schemas, and entitlements views live with auditing + RBAC, integrated with Ops Hub logging.
 - Tools platform foundation exposes reusable shells + data contracts for upcoming calculators.
 - Diagnostics experience surfaces lifecycle/telemetry data with action hooks into Ops Hub.
 - Ops Hub UI polished for account/diagnostics flows, accessible and instrumented.

@@ -19,7 +19,7 @@
 
 ## Tooling & References
 - Plausible dashboards for engagement and error funnel tracking (per ADR-029).
-- Synthetic probes configured via Vercel checks or UptimeRobot (document probe URLs in Ops Hub).
+- Synthetic probes configured via CloudWatch Synthetics or UptimeRobot (document probe URLs in Ops Hub).
 - `npm run tools:smoke` — executes regression test suite.
 - Redis CLI (`upstash redis-cli`) for cache inspection.
 - Slack `#clarivum-tools` channel for coordination.
@@ -42,7 +42,7 @@
 ## Incident Response
 ### API 5xx Spike
 1. Confirm alert from Plausible (custom events drop or spike) or synthetic probe failure.
-2. Check Vercel logs for stack trace.
+2. Check CloudWatch logs for stack trace.
 3. Verify upstream dependencies (Wttr.in, local calculations) availability.
 4. Actions:
    - Toggle fallback flag to disable external dependency if needed.
@@ -63,7 +63,7 @@
 
 ## Maintenance Windows
 - Announce planned downtime in `#clarivum-tools` 24h ahead.
-- Pause synthetic alerts or set maintenance window in the monitoring service you use (e.g., Vercel checks, UptimeRobot).
+- Pause synthetic alerts or set maintenance window in the monitoring service you use (e.g., CloudWatch Synthetics, UptimeRobot).
 - After deployment, run smoke tests and re-enable alerts.
 
 ## Wttr.in Integration Notes

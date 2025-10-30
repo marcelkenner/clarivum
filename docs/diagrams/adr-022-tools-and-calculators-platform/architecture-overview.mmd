@@ -3,7 +3,7 @@ flowchart LR
     ToolRegistry["Tool Registry (metadata)"] --> ToolShell["ToolShell ViewModel"]
     ToolShell --> ComputationManager["Computation Manager"]
     ToolShell --> FormEngine["Form Engine (ADR-020)"]
-    ComputationManager --> DataProviders["Data Providers (Supabase/External APIs)"]
+    ComputationManager --> DataProviders["Data Providers (Aurora/External APIs)"]
     ToolShell --> Analytics["Analytics + OTel"]
     ToolShell --> UI["Tool UI Components"]
 ```

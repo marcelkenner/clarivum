@@ -2,7 +2,7 @@
 
 ## Scope & objectives
 - Operate the Listmonk-based mailing platform adopted in ADR-013.
-- Coordinate `MailingCoordinator`, `AudienceSyncManager`, and integration pipelines with Supabase/Flagsmith.
+- Coordinate `MailingCoordinator`, `AudienceSyncManager`, and integration pipelines with Aurora/Flagsmith.
 - Provide campaign lifecycle governance (brief → approval → send → postmortem) with GDPR compliance.
 - Channel selection guidance describing when to use Listmonk vs Novu lives in `docs/runbooks/communication-channel-selection.md`.
 
@@ -46,9 +46,9 @@
 7. **Post-send analysis:** Export metrics (opens, CTR, bounces) and document in lifecycle scorecard.
 
 ## Audience synchronization
-1. **Nightly job:** `AudienceSyncManager` pushes Supabase profile changes via Listmonk import API (`POST /api/import/subscribers`).
+1. **Nightly job:** `AudienceSyncManager` pushes Aurora profile changes via Listmonk import API (`POST /api/import/subscribers`).
 2. **On-demand sync:** For urgent corrections, run `npm run mailing:sync -- --email user@example.com`.
-3. **Bounce handling:** Webhooks from SES update Supabase `email_status`; run periodic cleanup using `DELETE /api/subscribers/{id}/bounces`.
+3. **Bounce handling:** Webhooks from SES update Aurora `email_status`; run periodic cleanup using `DELETE /api/subscribers/{id}/bounces`.
 4. **Consent changes:** Listmonk webhooks inform application to update Flagsmith traits, keeping opt-in state consistent.
 
 ## Transactional messages
@@ -76,7 +76,7 @@
 ## Compliance checklist
 - Confirm double opt-in enabled for public lists.
 - Honor deletion requests via `/subscription/wipe/<uuid>` template (per Listmonk JS flow).
-- Maintain audit of consent changes (Supabase + Listmonk event logs).
+- Maintain audit of consent changes (Aurora + Listmonk event logs).
 - Review suppression list monthly; remove bounced addresses from marketing journeys.
 
 ## Change log

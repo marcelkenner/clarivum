@@ -30,7 +30,7 @@ tags:
 ---
 
 ## Summary
-Wire the Ops Hub proxy layer to Strapi, Supabase, Listmonk, SES, Novu, Stripe, PayU, Przelewy24, Plausible, and Grafana APIs so operators get unified dashboards, action buttons, and health signals without leaving `/ops`.
+Wire the Ops Hub proxy layer to Strapi, Aurora, Listmonk, SES, Novu, Stripe, PayU, Przelewy24, Plausible, and Grafana APIs so operators get unified dashboards, action buttons, and health signals without leaving `/ops`.
 
 ## Definition of Ready
 - [x] API scopes/limits and sandbox credentials documented for each vendor with storage in Secrets Manager.

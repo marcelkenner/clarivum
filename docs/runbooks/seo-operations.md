@@ -76,7 +76,7 @@ Before shipping SEO-impacting changes (`src/app/**`, metadata libraries, CMS sch
 
 | Incident type | Primary | Secondary | Notes |
 | --- | --- | --- | --- |
-| Sitemap/robots failure | Frontend Platform On-call | SEO Lead | Toggle emergency robots patch, revert via Vercel deployment if needed |
+| Sitemap/robots failure | Frontend Platform On-call | SEO Lead | Toggle emergency robots patch, redeploy ECS service / invalidate CloudFront cache if needed |
 | Structured data regression | Frontend Platform | Content Ops | Roll back release, add failing test, coordinate schema update |
 | Core Web Vitals regression | Analytics & Data | Frontend Platform | Validate CDN/cache behavior, consider feature flag rollout |
 | Manual action / security warning | SEO Lead | Security Champion | Escalate to incident-response per `docs/runbooks/incident-response.md` |

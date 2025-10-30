@@ -21,7 +21,7 @@ links:
 context7:
   - /playwright/test
   - /plausible/docs
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
 tags:
   - qa
   - monetization
@@ -33,13 +33,13 @@ Deliver automated tests and monitors that guarantee ad and affiliate placements 
 
 ## Scope
 - Playwright scenarios for blog posts, recommendation hubs, and coupon pages verifying instrumentation and redirects.
-- Synthetic monitors hitting `/go/...` endpoints and checking Supabase logs.
+- Synthetic monitors hitting `/go/...` endpoints and checking Aurora monetization tables and CloudWatch query exports.
 - QA checklist for partner reconciliation (CSV import verification).
 - Alert triage workflows integrated with QA runbook.
 
 ## Definition of Ready
 - [ ] Staging placements enumerated with stable slugs and fixtures committed for deterministic tests.
-- [ ] Supabase monetization tables exposed via read-only service account for QA validation queries.
+- [ ] Aurora monetization schemas exposed via read-only role (through Secrets Manager) for QA validation queries.
 - [ ] Synthetic monitoring vendor selected/configured with check definitions and alert thresholds documented.
 - [ ] Partner/Sandbox test URLs secured and cataloged with access notes for QA.
 
@@ -53,7 +53,7 @@ Deliver automated tests and monitors that guarantee ad and affiliate placements 
 
 
 ## Work Plan
-- [ ] Author Playwright helpers to parse Plausible debug API and Supabase logs for recent events.
+- [ ] Author Playwright helpers to parse Plausible debug API and Aurora query results/log exports for recent events.
 - [ ] Add test flows for article page (affiliates), recommendation hub, and coupon list.
 - [ ] Configure synthetic monitor and integrate with Slack alert channel.
 - [ ] Update QA documentation and train QA/support on interpreting results.

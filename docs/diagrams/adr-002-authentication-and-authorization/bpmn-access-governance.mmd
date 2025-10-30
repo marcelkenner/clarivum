@@ -3,7 +3,7 @@ flowchart LR
     start([Access request])
     review{Role required?}
     approve[Grant Auth0 role]
-    sync[Sync claims to Supabase]
+    sync[Sync claims to Aurora]
     notify[Notify requester]
     revoke[Deactivate + revoke sessions]
     start --> review

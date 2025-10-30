@@ -42,7 +42,7 @@ links:
   - docs/adr/ADR-019-frontend-platform.md
 context7:
   - /react-hook-form/react-hook-form
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /plausible/docs
 tags:
   - tools
@@ -62,7 +62,7 @@ Implement the shared tools platform along with the initial calculator portfolio 
 ## Definition of Done
 - [ ] ToolShell + shared components shipped with theming and accessibility coverage.
 - [ ] All scoped tools implemented with Plausible analytics (ADR-029), localization, and consent handling.
-- [ ] Server integrations (Supabase, external APIs) operational where required.
+- [ ] Server integrations (Aurora, external APIs) operational where required.
 - [ ] Documentation updated (PRDs annotated, runbooks, Storybook stories).
 - [ ] Backlog captured for iterative improvements and future tool ideas.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.

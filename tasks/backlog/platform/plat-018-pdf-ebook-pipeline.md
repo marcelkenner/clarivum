@@ -37,7 +37,7 @@ Deliver the server-side services, storage integration, and accessibility checks 
 
 ## Definition of Done
 - [ ] `PdfGenerationManager` and related view models implemented with dependency injection for rendering engines.
-- [ ] API routes/background jobs generate PDFs and EPUBs, storing results in Supabase Storage with signed download URLs.
+- [ ] API routes/background jobs generate PDFs and EPUBs, storing results in S3 with signed download URLs.
 - [ ] Automated accessibility checks configured (PDF/UA smoke tests, ACE for EPUB) plus manual spot-check playbook.
 - [ ] Observability instrumentation added (timings, success/failure counts) with alerts on prolonged runtimes or errors.
 - [ ] Documentation updated (`docs/runbooks/background-jobs.md`, `docs/runbooks/ebooks-fulfillment.md`, developer guide) and hand-off completed with marketing/content stakeholders.

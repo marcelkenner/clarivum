@@ -20,7 +20,7 @@ links:
 context7:
   - /websites/github_en_actions
   - /vercel/next.js
-  - /supabase/supabase
+  - /websites/registry_terraform_io_providers_hashicorp_aws
 tags:
   - ci-cd
   - automation

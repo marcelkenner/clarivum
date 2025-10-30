@@ -10,7 +10,7 @@ effort: medium
 created_at: 2025-10-21
 updated_at: 2025-10-21
 links: [docs/PRDs/first_steps.md, docs/PRDs/clarivum_brand.md, docs/PRDs/technology-stack-catalog.md, docs/adr/ADR-005-feature-flags.md]
-context7: [/vercel/next.js, /supabase/supabase]
+context7: [/vercel/next.js, /websites/aws_amazon-amazonrds-aurorauserguide]
 tags: [decision-log, governance, roadmap]
 ---
 
@@ -32,13 +32,13 @@ Collect every open question surfaced across the Clarivum PRDs, requirements, ADR
 ## Notes
 ### Platform & Engineering Decisions
 - Frontend localization framework (next-intl vs custom), browser polyfill strategy, and Edge Middleware personalization timeline. *(frontend-platform requirements)*
-- Supabase migration tooling choice (Drizzle vs SQL scripts), analytics warehousing destination (Supabase vs BigQuery), and potential adoption of Supabase Edge Functions. *(supabase-platform requirements)*
+- Aurora migration tooling choice (SQL scripts vs migration framework), analytics warehousing destination (Aurora replica vs BigQuery), and potential adoption of Lambda-based routines for data processing. *(data-platform requirements)*
 - Strapi deployment model (**resolved**: self-managed on AWS per `ADR-010`), localization tooling plan, and taxonomy ownership across content domains. *(strapi requirements)*
 - Observability hosting (Grafana Cloud vs self-managed collectors), distributed tracing coverage for edge functions, and overlap boundaries between Grafana telemetry and Plausible analytics. *(observability requirements)*
 - Feature flag operations: marketing self-serve segmentation, experimentation readouts (Flagsmith vs Plausible), and edge SDK readiness. *(feature-flags requirements)*
 - Form engine localization model, need for heightened consent workflows (HIPAA-like), and mobile app reuse expectations. *(form-engine requirements)*
 - Testing stack choices: visual regression tooling, Playwright infrastructure budget/parallelisation, and contract testing introduction (e.g., Pact). *(testing-stack requirements)*
-- Storybook hosting (Chromatic vs Vercel), cadence for design QA reviews, and roadmap for documenting copy snippets. *(storybook requirements)*
+- Storybook hosting (Chromatic vs S3/CloudFront static deploy), cadence for design QA reviews, and roadmap for documenting copy snippets. *(storybook requirements)*
 - Security roadmap: target compliance framework (ISO 27001 vs SOC 2), ownership model (internal champion vs partner), and final observability tooling alignment. *(security requirements)*
 - Authentication roadmap confirmations: validate Auth0 SaaS adoption details per ADR-002, define passkey rollout timeline, and ensure mobile/API contract requirements are captured. *(login requirements & ADR-002)*
 

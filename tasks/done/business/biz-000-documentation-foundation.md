@@ -19,7 +19,7 @@ links:
   - scripts/ensure-agents.mjs
 context7:
   - /vercel/next.js
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /opentelemetry/docs
   - /flagsmith/docs
 tags:

@@ -4,7 +4,7 @@
 - **Owners:** Growth Partnerships
 
 ## Overview
-These diagrams show the coupon management platform, including Supabase storage, partner compliance workflows, recommendation integration, and analytics tracking. They highlight how coupons flow from ingestion to activation in checkout and reporting.
+These diagrams show the coupon management platform, including Amazon S3 storage, partner compliance workflows, recommendation integration, and analytics tracking. They highlight how coupons flow from ingestion to activation in checkout and reporting.
 
 ## Files
 - `architecture-overview.mmd` — Coupon storage, background jobs, APIs, and consumer integrations.

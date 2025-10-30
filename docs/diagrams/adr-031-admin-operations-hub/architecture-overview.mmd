@@ -7,13 +7,13 @@ flowchart LR
         direction TB
         UI["Ops UI (React)"]
         Proxy["API Proxy Layer (Next.js Route Handlers)"]
-        Audit["Supabase ops_audit"]
+        Audit["Aurora ops_audit"]
         Flags["Flagsmith Feature Gates"]
     end
 
     subgraph DataSources["Core Systems"]
         Strapi["Strapi CMS API"]
-        Supabase["Supabase (Profiles, Incidents, Tasks)"]
+        Aurora["Aurora (Profiles, Incidents, Tasks)"]
         Listmonk["Listmonk API"]
         SES["Amazon SES Metrics"]
         Novu["Novu Workflows"]
@@ -30,7 +30,7 @@ flowchart LR
     Flags --> UI
     UI --> Proxy
     Proxy --> Strapi
-    Proxy --> Supabase
+    Proxy --> Aurora
     Proxy --> Listmonk
     Proxy --> SES
     Proxy --> Novu

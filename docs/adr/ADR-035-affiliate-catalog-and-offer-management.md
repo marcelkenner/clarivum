@@ -9,7 +9,7 @@ Status: Proposed
 
 ## Decision
 - **Affiliate Catalog Service (ACS):**
-  - Store partner programs, offers, creatives, and disclosure copy in Supabase tables (`affiliate_programs`, `affiliate_offers`, `affiliate_assets`, `affiliate_disclosure_profiles`).
+  - Store partner programs, offers, creatives, and disclosure copy in Aurora tables (`affiliate_programs`, `affiliate_offers`, `affiliate_assets`, `affiliate_disclosure_profiles`).
   - Manage editorial metadata through Strapi components so content teams can select offers by taxonomy (vertical, ingredient, tool, glossary term) without editing code.
   - Keep offer state machine (`draft → approved → live → sunset`) with auditing and ownership metadata.
 - **APIs & SDK:**
@@ -29,7 +29,7 @@ Status: Proposed
 - **Benefits:** Centralized affiliate data removes duplicate partner management, enforces disclosures, and unlocks experiments (offer rotation, A/B tests) without code deploys.
 - **Trade-offs:** Requires upfront schema, migration tooling, and admin UI work; all affiliate-consuming features depend on ACS availability.
 - **Follow-ups:**
-  1. Build the ACS Supabase schema, Strapi components, management APIs, and SDK (TSK-PLAT-046).
+  1. Build the ACS Aurora schema, Strapi components, management APIs, and SDK (TSK-PLAT-046).
   2. Define affiliate operations workflow + runbook updates (TSK-SHARED-010).
   3. Extend ADR-033 diagram set with ACS integration and update monetization telemetry dashboards.
 

@@ -1,6 +1,6 @@
 ---
 id: TSK-PLAT-058
-title: Automate Supabase Schema Migration & Monitoring Guardrails
+title: Automate Aurora Schema Migration & Monitoring Guardrails
 status: backlog
 area: platform
 subarea: data-platform
@@ -13,39 +13,39 @@ effort: medium
 created_at: 2025-11-11
 updated_at: 2025-11-11
 links:
-  - docs/PRDs/requierments/supabase-platform/feature-requirements.md
-  - docs/runbooks/supabase-operations.md
+  - docs/runbooks/aurora-operations.md
+  - docs/runbooks/zero-downtime-migrations.md
   - docs/runbooks/deployment.md
   - docs/adr/ADR-001-primary-cloud-and-database.md
   - TODO.md
 context7:
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /hashicorp/terraform
-  - /supabase/cli
+  - /github/actions
 tags:
-  - supabase
+  - aurora
   - migrations
   - observability
 ---
 
 ## Summary
-Close the remaining DoD gap for Supabase tenancy by automating migration deployment and adding monitoring dashboards/alerts so schema changes are governed and observable.
+Close the remaining DoD gap for the Aurora rollout by automating migration deployment and adding monitoring dashboards/alerts so schema changes are governed and observable.
 
 ## Definition of Ready
-- [x] Base Supabase tenancy Terraform module completed (TSK-PLAT-012).
-- [ ] Decision recorded on migration tooling (SQL scripts vs Drizzle or Supabase CLI pipeline).
+- [x] Aurora Terraform module completed (TSK-PLAT-012).
+- [ ] Decision recorded on migration tooling (SQL scripts vs custom runner).
 - [x] Observability platform (Grafana) available for dashboards.
 
 ## Definition of Done
-- [ ] CI job runs Supabase migrations against dev on PR and prod on merge (with approvals).
+- [ ] CI job runs Aurora migrations against dev on PR and prod on merge (with approvals).
 - [ ] Alerting/dashboards created for migration failures, slow queries, and backup drift, linked in runbooks.
 - [ ] Runbooks updated with automated migration workflow and escalation paths.
 - [ ] TODO entries for migration automation + monitoring close-out resolved.
 
 ## Work Plan
 - [ ] Finalize migration tooling choice and document in ADR/DoR.
-- [ ] Implement CI automation (Supabase CLI or custom scripts).
-- [ ] Configure Grafana panels + alerts for Supabase metrics.
+- [ ] Implement CI automation (shared migration runner + GitHub Actions workflow).
+- [ ] Configure Grafana panels + alerts for Aurora metrics.
 - [ ] Update runbooks and communicate new guardrails to engineering teams.
 
 ## Risks & Mitigations

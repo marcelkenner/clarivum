@@ -110,7 +110,8 @@ Run from the repo root unless stated otherwise:
 - Format source: `npm run format`
 - Ensure agent files exist: `npm run ensure:agents`
 - Strapi infrastructure plan: `terraform -chdir=infra/strapi plan -var-file=env/dev.tfvars` (use workspace per environment; see `infra/AGENTS.md`)
-- Supabase tenancy plan: `terraform -chdir=infra/supabase plan -var-file=env/dev.tfvars -var="supabase_access_token=$SUPABASE_ACCESS_TOKEN"` (token sourced at runtime; see `infra/supabase/AGENTS.md`)
+- AWS app stack plan: `terraform -chdir=infra/aws/app plan -var-file=env/dev.tfvars` (see `infra/aws/AGENTS.md` for backend config flags)
+- AWS data stack plan: `terraform -chdir=infra/aws/data plan -var-file=env/dev.tfvars` (Aurora PostgreSQL + S3 buckets; see `infra/aws/AGENTS.md`)
 - Run stale flag audit (requires Flagsmith Admin API creds + Slack webhook): `npm run flags:stale`
 - Strapi deployment pipeline: GitHub Actions → **Strapi CI/CD** (`.github/workflows/strapi-ci-cd.yml`; see `docs/runbooks/deployment.md` for inputs and environment configuration)
 
@@ -545,7 +546,7 @@ Always read the closest `AGENTS.md` before making changes. Keep file length unde
 
 ## 18) Clarivum orientation (project-specific context)
 
-- Stack: Next.js 15 (App Router) with React 19, Tailwind CSS 4, TypeScript 5. Runs on Vercel (see `docs/architecture.md`).
+- Stack: Next.js 15 (App Router) with React 19, Tailwind CSS 4, TypeScript 5. Runs on AWS (CloudFront + ECS Fargate) with Aurora PostgreSQL and S3 (see `docs/architecture.md`).
 - Decision history: `docs/adr/ADR-001` through `ADR-005`. Supersede or extend via new ADRs before altering architecture.
 - Product and brand context: `docs/PRDs/` (`first_steps.md`, `clarivum_brand.md`, etc.). Keep features aligned with these documents.
 - Role guides: `docs/role-guides/` (frontend, backend, devops, planning, etc.) plus `docs/role-guides/continuous-improvement.md`.

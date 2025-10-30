@@ -4,10 +4,10 @@ flowchart LR
   Strapi[(Strapi)] -->|Webhooks| OpsIngest[Ops Hub Ingest]
   Listmonk[(Listmonk)] --> OpsIngest
   Stripe[(Stripe)] --> OpsIngest
-  Supabase[(Supabase)] --> OpsIngest
+  Aurora[(Aurora)] --> OpsIngest
   OpsIngest --> Proxy[Ops Proxy Services]
   Proxy --> UI[Ops Hub UI]
-  UI --> Audit[Supabase ops_audit]
+  UI --> Audit[Aurora ops_audit]
   Proxy --> Audit
   UI --> DeepLinks[Vendor Console Deep Links]
   Audit --> Analytics[Grafana/Analytics]

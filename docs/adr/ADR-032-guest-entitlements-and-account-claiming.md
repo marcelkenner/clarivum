@@ -10,14 +10,14 @@ Status: Proposed
 
 ## Decision
 - Allow **guest checkout** for ebooks and digital products to minimize purchase friction.
-  - When a purchase is completed without an authenticated session, create a **pending profile record** in Supabase tied to the billing email and mark the entitlement as `pending_claim`.
+  - When a purchase is completed without an authenticated session, create a **pending profile record** in Aurora tied to the billing email and mark the entitlement as `pending_claim`.
   - Issue fulfillment emails immediately with expiring download links so the user can access the asset even before claiming the account.
 - Provide a **claim-your-account** experience:
   - Present inline success-state messaging with a one-click "Claim your Clarivum account" CTA that launches an Auth0 passwordless magic link (primary) or password setup (fallback).
   - Reminder emails (24h and 7d) include claim prompts if the account remains pending.
   - Once verification succeeds, upgrade the profile to `active`, link the Auth0 user ID, and surface the entitlement shelf inside the Account Center.
 - Ship an **Entitlement Shelf** module inside the Account Center:
-  - Shows cards for each owned digital product with format badges, latest download timestamp, and `Download PDF` / `Download EPUB` actions that generate fresh Supabase signed URLs.
+  - Shows cards for each owned digital product with format badges, latest download timestamp, and `Download PDF` / `Download EPUB` actions that generate fresh CloudFront-signed URLs backed by S3 objects.
   - Supports filters (`All`, `In progress`, `Archived`) and a "Resend delivery email" option that triggers Novu/Listmonk workflows.
   - Displays contextual prompts (e.g., "Claim another purchase using a different email") and links to support when entitlement reconciliation fails.
 - Align telemetry and support tools:
@@ -36,7 +36,7 @@ Status: Proposed
 - **Benefits:** Reduces checkout abandonment, keeps fulfillment reliable, and gives customers a durable, self-service library once they authenticate. Adds explicit guardrails preventing silent failures between payment and delivery.
 - **Trade-offs:** Requires additional automation to manage pending profiles, verify ownership during claim, secure download links, and operate the fulfillment orchestrator with monitoring.
 - **Follow-ups:**
-  - Implement Supabase schema changes for pending profiles and entitlement status history.
+  - Implement Aurora schema changes for pending profiles and entitlement status history.
   - Extend Auth0 workflows for magic-link invitations scoped to the `ebooks` audience.
   - Build the entitlement shelf UI and supporting API routes/server actions.
   - Launch fulfillment orchestrator with durable queue, analytics, and alerting.

@@ -3,11 +3,11 @@ flowchart LR
     StrapiCatalog["Strapi Ebook Catalog"] --> EntitlementService["Entitlement Manager"]
     StrapiCatalog --> GenerationManager["PdfEpubGenerationManager"]
     GenerationManager --> WatermarkPipeline["Watermark Jobs (ADR-003)"]
-    GenerationManager --> SupabaseStorage["Supabase Storage Buckets"]
+    GenerationManager --> AuroraStorage["Amazon S3 Storage Buckets"]
     Checkout["Stripe / PayU Checkout"] --> EntitlementService
     LeadCapture["Lead Forms"] --> EntitlementService
-    EntitlementService --> SupabaseStorage
+    EntitlementService --> AuroraStorage
     EntitlementService --> ProfileCenter["Account Center (ADR-023)"]
     EntitlementService --> Listmonk["Listmonk Fulfillment Emails"]
-    ProfileCenter --> SupabaseStorage
+    ProfileCenter --> AuroraStorage
 ```

@@ -3,10 +3,10 @@ flowchart LR
     DeveloperPR["Pull Request"] --> GitHubActions["GitHub Actions Workflow"]
     GitHubActions --> Checks["Lint, Typecheck, Tests"]
     GitHubActions --> TerraformPlan["Terraform Plan"]
-    GitHubActions --> VercelPreview["Vercel Preview Deploy"]
+    GitHubActions --> CloudFrontPreview["Staging ECS Deploy"]
     GitHubActions --> StatusChecks["GitHub Status Checks"]
     GitHubActions --> Observability["Grafana Metrics Export"]
     StatusChecks --> MergeGate["Protected Main Branch"]
-    MergeGate --> ProdDeploy["Production Deploy via Vercel CLI"]
+    MergeGate --> ProdDeploy["Production Deploy via ECS Rolling Update"]
     ProdDeploy --> Plausible["Deployment Analytics Event (Plausible)"]
 ```

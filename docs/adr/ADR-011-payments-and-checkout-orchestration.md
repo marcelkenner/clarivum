@@ -6,7 +6,7 @@ Status: Accepted
 - Clarivum must monetize ebooks and subscriptions for a Poland-first audience while preparing for broader EU expansion.
 - Checkout flows need to support cards, wallets, and dominant Polish methods (BLIK, pay-by-link bank transfers) with PSD2-compliant SCA and minimal PCI scope for the small engineering team.
 - Marketing requires rapid experimentation (coupons, trials) and unified reporting across one-off purchases and recurring billing.
-- Existing architecture (Vercel + Supabase) depends on serverless-friendly SDKs; we must avoid hosting custom payment infrastructure.
+- Existing runtime (CloudFront + ECS Fargate + Aurora; see ADR-001) depends on managed SDKs inside the Next.js BFF; we must avoid standing up bespoke payment infrastructure.
 - Platform requirements and funnel expectations live in `docs/PRDs/requierments/subscriptions/feature-requirements.md` and `docs/PRDs/requierments/ebooks/feature-requirements.md`.
 
 ## Decision
@@ -17,7 +17,7 @@ Status: Accepted
 - Build a `PaymentsCoordinator` service that abstracts provider routing:
   - ViewModels call `CheckoutCoordinator` which selects Stripe or local provider based on locale, cart type, and customer preference.
   - Managers encapsulate provider SDK interactions (`StripePaymentManager`, `PayuPaymentManager`, `P24PaymentManager`) to keep business logic isolated per OOP guidelines.
-  - Store normalized payment intents in Supabase with canonical status transitions; webhook handlers (deployed on Vercel Edge) update state and trigger feature flags or fulfillment jobs.
+  - Store normalized payment intents in Aurora PostgreSQL with canonical status transitions; webhook handlers (Next.js API routes on ECS behind the ALB) update state and trigger feature flags or fulfillment jobs.
 - Implement shared UX patterns:
   - Client renders Stripe Payment Element for global flows; local-method flows redirect to provider-hosted pages or embed forms (Przelewy24 `ajax.js` iframe) while preserving session via signed tokens.
   - Support BLIK code entry and token reuse via PayU’s `BLIK_TOKEN` extension when buyers opt-in (`blikData` fields per Context7 docs).
@@ -36,5 +36,5 @@ Status: Accepted
 - **Operational notes:** Finance dashboards aggregate transactions via provider webhooks; discrepancies trigger reconciliation jobs.
 - **Follow-ups:**
   - Document provider onboarding in `docs/runbooks/payments-operations.md`, including test credentials and refund procedures.
-  - Implement automated reconciliation scripts comparing provider exports to Supabase ledger.
+- Implement automated reconciliation scripts comparing provider exports to the Aurora ledger tables.
   - Evaluate consolidating to a single aggregator once EU coverage matures (e.g., PayU full-stack or Stripe local methods parity).

@@ -8,7 +8,7 @@
 
 ## Diagram Responsibilities
 - `architecture-overview.mmd`: Show client/server event producers, consent gating, proxy endpoints, Plausible ingestion, dashboarding, and alerting.
-- `data-lineage.mmd`: Describe data origins, consent flags, Plausible storage, nightly exports to Supabase, and downstream consumers.
+- `data-lineage.mmd`: Describe data origins, consent flags, Plausible storage, nightly exports to Aurora, and downstream consumers.
 - `uml-instrumentation.mmd`: Document classes (`PlausibleScriptManager`, `PlausibleEventDispatcher`, `AnalyticsEventRegistry`, `AnalyticsConsentGuard`) plus injected interfaces.
 - `bpmn-governance.mmd`: Map the workflow for proposing, reviewing, testing, and launching analytics schema changes.
 

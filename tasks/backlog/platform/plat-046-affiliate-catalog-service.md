@@ -19,7 +19,7 @@ links:
   - docs/adr/ADR-033-advertising-and-affiliate-telemetry.md
   - docs/runbooks/affiliate-ad-ops.md
 context7:
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /strapi/documentation
   - /vercel/next.js
   - /plausible/docs
@@ -33,17 +33,17 @@ tags:
 Deliver the Affiliate Catalog Service (ACS) that centralizes partner programs, offers, disclosures, and link templates, plus the APIs/SDK used by tools, glossary entries, recommendations, and Ops Hub.
 
 ## Definition of Ready
-- [x] Supabase schema outline reviewed: `affiliate_programs`, `affiliate_offers`, `affiliate_assets`, etc., signed off with stakeholders.
+- [x] Aurora schema outline reviewed: `affiliate_programs`, `affiliate_offers`, `affiliate_assets`, etc., signed off with stakeholders.
 - [x] Auth0 RBAC model approved by Security for catalog management endpoints.
 - [x] Strapi component spec drafted covering editor workflows (offer form, disclosure selector, taxonomy).
 - [x] Telemetry payload contract aligned with ADR-033 to carry ACS identifiers on click/impression events.
-- [x] Infrastructure budget confirmed for Supabase storage/functions and Vercel edge cache allowance.
+- [x] Infrastructure budget confirmed for Aurora storage/compute and CloudFront edge cache allowance.
 
 ## Definition of Done
-- [ ] Supabase schema + migrations deployed with row-level security and audit logging.
+- [ ] Aurora schema + migrations deployed with row-level security and audit logging.
 - [ ] Management APIs (`/api/affiliates/v1/manage`) and public read endpoints (`/api/affiliates/v1/offers`) implemented with Auth0 + feature flags.
 - [ ] `@clarivum/affiliate` SDK published (server + client helpers) with typed responses, disclosure utilities, and link builders.
-- [ ] Strapi plugin ships catalog forms + workflows; webhooks sync data to Supabase and broadcast offer lifecycle events.
+- [ ] Strapi plugin ships catalog forms + workflows; webhooks sync data to Aurora and broadcast offer lifecycle events.
 - [ ] Kill switch + short-link generator integrated with existing `/go/...` redirect handler.
 - [ ] Tool and glossary reference implementations migrated to ACS (at least one Fuel tool + one glossary page), including cache strategy and fallback behavior.
 - [ ] Observability + alerting wired: OTEL traces, Plausible counters, freshness job metrics feeding Ops Hub.

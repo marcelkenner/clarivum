@@ -19,7 +19,7 @@ links:
 context7:
   - /auth0/docs
   - /vercel/next.js
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
 tags:
   - authentication
   - login
@@ -37,9 +37,8 @@ Implement streamlined, secure login and registration flows (email, passkey, magi
 
 ## Definition of Done
 - [ ] Authentication UI delivered with responsive breakpoints and accessibility coverage.
-- [ ] Auth0 + Supabase integration verified end-to-end, including edge cases.
+- [ ] Auth0 + Aurora integration verified end-to-end, including edge cases.
 - [ ] Analytics events emitted for conversions, plus observability traces for errors.
 - [ ] Documentation updated (PRD annotations, runbooks, support playbooks).
 - [ ] Backlog tasks added for future enhancements (social login, progressive profiling).
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

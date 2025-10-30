@@ -4,10 +4,10 @@
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-016-ci-cd-platform.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with DevOps before changing scope, integration points, or lifecycle assumptions documented here.
-- Keep coverage aligned: These diagrams detail the GitHub Actions-based CI/CD platform, illustrating workflow triggers, integration with Vercel and Supabase, secrets distribution, and the status checks that gate merges.
+- Keep coverage aligned: These diagrams detail the GitHub Actions-based CI/CD platform, illustrating workflow triggers, integration with CloudFront and Aurora, secrets distribution, and the status checks that gate merges.
 
 ## Diagram Responsibilities
-- `architecture-overview.mmd`: Keep workflow topology across GitHub Actions, Vercel, and infrastructure targets accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `architecture-overview.mmd`: Keep workflow topology across GitHub Actions, CloudFront, and infrastructure targets accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `data-lineage.mmd`: Keep build artifacts, status reports, and deployment records accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `uml-automation.mmd`: Keep pipeline coordinators, job definitions, and secret management helpers accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `bpmn-release.mmd`: Keep merge and deploy workflow with quality gates accurate and synchronized with the latest implementation notes and shared vocabulary.

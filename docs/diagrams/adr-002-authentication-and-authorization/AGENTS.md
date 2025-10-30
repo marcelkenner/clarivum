@@ -7,7 +7,7 @@
 - Keep coverage aligned: These diagrams outline how Auth0, NextAuth.js, and Clarivum’s platform collaborate to secure member and staff access.
 
 ## Diagram Responsibilities
-- `architecture-overview.mmd`: Keep oIDC integrations between Auth0, Next.js, and Supabase accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `architecture-overview.mmd`: Keep oIDC integrations between Auth0, Next.js, and Aurora accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `data-lineage.mmd`: Keep identity, session, and role data replicated across providers accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `uml-domain.mmd`: Keep session and role management classes involved in enforcing RBAC accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `bpmn-access-governance.mmd`: Keep access provisioning and revocation workflow across teams accurate and synchronized with the latest implementation notes and shared vocabulary.

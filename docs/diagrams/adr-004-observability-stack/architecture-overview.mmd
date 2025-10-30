@@ -1,10 +1,10 @@
 ```mermaid
 flowchart LR
-    NextApp["Next.js (Vercel)"] --> OTelSDK["OpenTelemetry SDK"]
+    NextApp["Next.js (ECS Fargate)"] --> OTelSDK["OpenTelemetry SDK"]
     Lambda["AWS Lambda Workers"] --> OTelSDKLambda["OpenTelemetry SDK"]
     OTelSDK --> GrafanaOTLP["Grafana Cloud OTLP Endpoint"]
     OTelSDKLambda --> GrafanaOTLP
-    VercelAnalytics["Vercel Analytics / RUM"] --> OTelWeb["OTel Web Exporter"] --> GrafanaOTLP
+    CloudFrontAnalytics["CloudWatch RUM"] --> OTelWeb["OTel Web Exporter"] --> GrafanaOTLP
     GrafanaOTLP --> Tempo["Grafana Tempo (Traces)"]
     GrafanaOTLP --> Prometheus["Grafana Prometheus (Metrics)"]
     GrafanaOTLP --> Loki["Grafana Loki (Logs)"]

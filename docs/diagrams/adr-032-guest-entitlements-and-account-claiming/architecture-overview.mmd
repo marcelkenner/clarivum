@@ -7,7 +7,7 @@ flowchart TD
 
   subgraph Identity
     A[Auth0 Tenant]
-    S[Supabase Auth Profiles]
+    S[Aurora Auth Profiles]
   end
 
   subgraph Platform
@@ -19,7 +19,7 @@ flowchart TD
   end
 
   subgraph Storage
-    B[Supabase Storage Bucket\nebooks/&lt;slug&gt;/&lt;version&gt;]
+    B[Amazon S3 Storage Bucket\nebooks/&lt;slug&gt;/&lt;version&gt;]
   end
 
   C --> P

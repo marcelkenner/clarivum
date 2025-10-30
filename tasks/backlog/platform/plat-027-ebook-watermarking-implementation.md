@@ -19,7 +19,7 @@ links:
 context7:
   - /vercel/next.js
   - /playwright/test
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
 tags:
   - ebooks
   - pdf
@@ -27,12 +27,12 @@ tags:
 ---
 
 ## Summary
-Embed personalized watermarking (buyer name + order ID) into generated PDF ebooks, expose Strapi-managed templates, and log watermark application for audit trails.
+Embed personalized watermarking (buyer name + order ID) into generated PDF ebooks, expose Strapi-managed templates, and log watermark application in Aurora for audit trails.
 
 ## Definition of Ready
 - [x] Watermark copy approved: string includes name, email, order id, timestamp; stored in Strapi content entry with versioning.
 - [x] Pipeline architecture validated: reuse ADR-024 shared renderer, inject watermark layer with opacity leveraging mission coupon libs.
-- [x] Supabase schema defined: `watermark_logs(user_id, asset_id, ts, hash)` cataloged for audit.
+- [x] Aurora schema defined: `watermark_logs(user_id, asset_id, ts, hash)` cataloged for audit.
 
 ## Definition of Done
 - [ ] PDF generation pipeline applies watermark layer using buyer context and stores audit log.

@@ -9,7 +9,7 @@
 
 ## Scope
 - Monetization Impression Service (`/api/monetization/impression`) and Click Redirect Service (`/go/...`).
-- Supabase schemas: `monetization_impressions`, `affiliate_click_events`, `monetization_reconciliation`, `monetization_alerts`.
+- Aurora schemas: `monetization_impressions`, `affiliate_click_events`, `monetization_reconciliation`, `monetization_alerts`.
 - Plausible dashboard **Monetization & Affiliate Integrity** and Looker/Metabase finance views.
 - Partner statement import scripts and discrepancy workflows.
 - Affiliate Catalog Service (ACS) tables (`affiliate_programs`, `affiliate_offers`, `affiliate_assets`, `affiliate_disclosure_profiles`, `affiliate_taxonomy_links`) and Strapi plugin workflows per ADR-035.
@@ -23,7 +23,7 @@
 - Strapi plugin permissions scoped to Partner Ops + Content editors; Auth0 RBAC roles (`affiliate.admin`, `affiliate.editor`, `affiliate.viewer`) synced.
 
 ## Affiliate Catalog Overview
-- **Where data lives:** Supabase (ACS) is the source of truth; Strapi is the editorial UI. All offers, disclosures, and asset references must exist in ACS before placements go live.
+- **Where data lives:** Aurora (ACS) is the source of truth; Strapi is the editorial UI. All offers, disclosures, and asset references must exist in ACS before placements go live.
 - **Offer lifecycle:** `draft → review → live → sunset`. Only live offers can be returned by the SDK/API. Kill switches toggle an offer back to `disabled` instantly.
 - **Taxonomy links:** Editors associate offers with glossary terms, tool slugs, or recommendation collections through Strapi. The nightly job validates associations and raises alerts for orphaned links.
 - **Disclosures:** Each offer references a disclosure profile (locale-specific short + long copy). Never hand-write disclosures inside pages—consume `disclosure.short_copy` from ACS.
@@ -67,7 +67,7 @@
 
 ### Partner Discrepancy
 1. Compare internal metrics vs partner statement; identify placements affected.
-2. Export supporting CSV from Supabase and share with finance/legal.
+2. Export supporting CSV from Aurora (via `psql \copy` or Metabase) and share with finance/legal.
 3. Escalate to partner via documented contact, referencing discrepancy ticket.
 4. Update reconciliation log with outcome and adjust anomaly thresholds if necessary.
 
@@ -75,8 +75,8 @@
 - `npm run monetization:reconcile` — daily aggregate and comparison.
 - `npm run monetization:synthetic` — triggers synthetic click to validate instrumentation.
 - Looker dashboard: `Monetization Integrity`.
-- Supabase saved queries: `recent_clicks`, `top_placements_today`, `fraud_flags_open`.
-- ACS admin: Strapi plugin (`/strapi/admin/affiliate`) for offer CRUD; Supabase SQL snippets `live_offers_with_taxonomy`, `offers_missing_disclosures`.
+- Aurora saved queries: `recent_clicks`, `top_placements_today`, `fraud_flags_open`.
+- ACS admin: Strapi plugin (`/strapi/admin/affiliate`) for offer CRUD; Aurora SQL snippets `live_offers_with_taxonomy`, `offers_missing_disclosures`.
 - CLI: `npm run affiliate:kill-switch --offer <slug>` (requires `affiliate.admin` role) toggles an offer off within 60 seconds and posts to Slack.
 
 ## Access & Permissions

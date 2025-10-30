@@ -18,7 +18,7 @@ links:
   - docs/runbooks/ebooks-fulfillment.md
   - docs/runbooks/account-claiming.md
 context7:
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
   - /auth0/docs
   - /stripe/stripe
 tags:
@@ -31,7 +31,7 @@ tags:
 Build the backend and automation required to support guest ebook purchases that immediately receive download links while encouraging account claiming via Auth0 magic links and reminder emails.
 
 ## Scope
-- Stripe checkout webhooks, Supabase profile + entitlement persistence, claim token lifecycle.
+- Stripe checkout webhooks, Aurora profile + entitlement persistence, claim token lifecycle.
 - Auth0 magic-link invitation flows and fallback password setup.
 - Novu/Listmonk automations for claim reminders and confirmations.
 - Analytics event emission, logging, and alerting around claim conversion and download health.
@@ -39,7 +39,7 @@ Build the backend and automation required to support guest ebook purchases that 
 ## Dependencies
 - ADR-032 approved and any upstream schema migrations merged.
 - Auth0 tenant able to send production-ready magic-link emails (branding finalized).
-- Supabase background job infrastructure available for nightly reconciliation (ADR-003).
+- AWS background job infrastructure (EventBridge + SQS + Lambda per ADR-003) available for nightly reconciliation.
 - Listmonk/Listmonk SMTP throughput confirmed for reminder cadence.
 
 ## Definition of Ready
@@ -61,10 +61,10 @@ Build the backend and automation required to support guest ebook purchases that 
 
 
 ## Work Plan
-- [ ] **Schema** — Apply Supabase migration adding `pending_claim_token`, `status`, timestamps, history table.
+- [ ] **Schema** — Apply Aurora migration adding `pending_claim_token`, `status`, timestamps, history table.
 - [ ] **Webhook Enhancements** — Update Stripe/mission handlers to create pending profiles, log analytics, and enqueue emails.
 - [ ] **Claim API** — Build endpoint/server action to validate Auth0 token, finalize profile, and migrate entitlements.
-- [ ] **Reminder Automation** — Configure Novu/Listmonk workflows and rate limits; integrate with Supabase cron job.
+- [ ] **Reminder Automation** — Configure Novu/Listmonk workflows and rate limits; integrate with EventBridge-scheduled workflows.
 - [ ] **Support Tooling** — Surface Admin UI controls for resend claim email, merge entitlements, audit logs.
 - [ ] **Testing & Observability** — Write contract tests, smoke tests, and add OTel spans / log-based alert thresholds.
 

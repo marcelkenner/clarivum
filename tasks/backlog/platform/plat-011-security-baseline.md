@@ -30,7 +30,7 @@ tags:
 Implement the controls, monitoring, and processes outlined in the security PRD and ADR-028 so Clarivum meets GDPR, CIS IG1, and internal governance commitments from day one.
 
 ## Definition of Ready
-- [x] System inventory compiled: Auth0, Supabase, Strapi, analytics (Plausible), CI/CD, Ops Hub, UV widget, payments, SES, Listmonk, Novu, Meilisearch, Redis.
+- [x] System inventory compiled: Auth0, Aurora, Strapi, analytics (Plausible), CI/CD, Ops Hub, UV widget, payments, SES, Listmonk, Novu, Meilisearch, Redis.
 - [x] IR/vuln/secrets policies aligned: incident ladder set, monthly vuln scans (Snyk + Dependabot) with critical SLA 7d, secrets rotation 90d, least privilege enforced.
 - [x] Exercises scheduled: quarterly tabletop and monthly control validation sessions planned.
 - [x] Tooling/ownership documented: Snyk (Security), OWASP ZAP nightly, audit scripts in CI with RACI recorded.

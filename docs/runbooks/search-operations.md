@@ -12,12 +12,12 @@
 - **Tooling:**
   - Meilisearch Cloud console (EU region) & API (`/meilisearch/documentation` index swap endpoints).
   - `@clarivum/search-manager` repository (`SearchIngestionManager`, `SearchTelemetryManager`).
-  - Supabase console (webhook backlog, canonical counts).
+  - Aurora query tools (canonical counts, ingestion state).
   - OpenTelemetry dashboards (latency, zero-result, indexing failures).
 
 ## Daily index health check
 1. **Check ingestion lag:** Review queue metrics from the ingestion job dashboard; backlog must stay < 50 records per index. Escalate if above threshold for 2 consecutive runs.
-2. **Validate index parity:** Compare Meilisearch document counts to Supabase canonical counts via `npm run search:counts`. Differences > 0.5% trigger the drift flow below.
+2. **Validate index parity:** Compare Meilisearch document counts to Aurora canonical counts via `npm run search:counts`. Differences > 0.5% trigger the drift flow below.
 3. **Latency guardrail:** Confirm search latency p95 < 100 ms in the Observability dashboard. If exceeded, capture query samples for tuning review.
 
 ## Weekly maintenance tasks

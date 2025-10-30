@@ -4,7 +4,7 @@
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-024-ebooks-and-digital-products.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with Growth Monetization before changing scope, integration points, or lifecycle assumptions documented here.
-- Keep coverage aligned: These diagrams capture the ebook platform architecture, including Strapi catalog management, Supabase storage, payment flows, generation tooling for PDF/EPUB outputs, and fulfillment automation.
+- Keep coverage aligned: These diagrams capture the ebook platform architecture, including Strapi catalog management, Amazon S3 storage, payment flows, generation tooling for PDF/EPUB outputs, and fulfillment automation.
 
 ## Diagram Responsibilities
 - `architecture-overview.mmd`: Keep catalog, storage, payment, and delivery integrations accurate and synchronized with the latest implementation notes and shared vocabulary.

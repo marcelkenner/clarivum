@@ -4,7 +4,7 @@ flowchart TD
     approve{Owner approval?}
     rotate[Invoke rotation Lambda]
     validate[Run connection tests]
-    distribute[Sync to Vercel & runtimes]
+    distribute[Sync to CloudFront & runtimes]
     audit[Log audit event]
     rollback{Validation passed?}
     revert[Restore previous version]

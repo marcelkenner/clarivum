@@ -3,7 +3,7 @@
 Use this runbook to operate Clarivum’s request-level protections: country access rules, bot mitigation, and honeypot validation.
 
 ## Prerequisites
-- Vercel project access with ability to deploy middleware updates.
+- AWS deployment access with ability to update CloudFront functions and ECS task definitions.
 - Flagsmith feature toggles `request-security` and `honeypot-validation`.
 - Familiarity with configuration files under `config/security/` (to be introduced during implementation).
 - Observability dashboards in Grafana (`Clarivum/Security-Events`) and Flagsmith audit logs.
@@ -17,7 +17,7 @@ Use this runbook to operate Clarivum’s request-level protections: country acce
    Use a feature branch and open PR referencing ADR-030.
 3. **Peer Review:** Require approval from Security Champion and DevOps Lead. Confirm no file exceeds 500 lines and each manager remains single-responsibility.
 4. **Staging Validation:**
-   - Deploy to preview via Vercel.
+- Deploy to staging via GitHub Actions → ECS preview service.
    - Simulate requests using `curl` with `x-clarivum-country` header values (e.g., `CN`, `US`).
    - Submit form payloads populating honeypot fields to confirm automatic rejection.
    - Inspect Grafana dashboards to verify event emission.

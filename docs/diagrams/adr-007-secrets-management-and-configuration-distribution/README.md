@@ -4,7 +4,7 @@
 - **Owners:** Security Engineering
 
 ## Overview
-These diagrams show how Clarivum centralizes secrets in AWS Secrets Manager and propagates configuration to Vercel, Lambda, and CI pipelines. They capture the access topology, secret metadata model, automation classes, and the rotation workflow required by the security baseline.
+These diagrams show how Clarivum centralizes secrets in AWS Secrets Manager and propagates configuration to CloudFront, Lambda, and CI pipelines. They capture the access topology, secret metadata model, automation classes, and the rotation workflow required by the security baseline.
 
 ## Files
 - `architecture-overview.mmd` — Secrets Manager as the source of truth feeding runtimes and CI.

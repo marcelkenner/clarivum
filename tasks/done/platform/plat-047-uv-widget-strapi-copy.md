@@ -44,7 +44,7 @@ tags:
 
 ## Notes
 - Added `src/app/api/tools/uv-widget/lib/copy-loader.ts` with Strapi REST client, response normalisation, and per-language cache. Manager now awaits the copy bundle and tags the response with `clarivum.tools.copy_source`.
-- Docs/agents updated to call out the required Strapi env vars and to guide future platform work on Supabase modules/WIP lanes.
+- Docs/agents updated to call out the required Strapi env vars and to guide future platform work on Aurora modules/WIP lanes.
 - Unit coverage extended with dedicated tests for the copy loader and updated manager fixtures (`npm run test -- tests/api/tools/uv-widget`).
 
 ## Follow-ups

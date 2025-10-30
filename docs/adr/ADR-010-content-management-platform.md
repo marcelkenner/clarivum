@@ -12,7 +12,7 @@ Status: Accepted
 ## Decision
 - Standardize on **Strapi v5**, self-managed on **AWS (eu-central-1)** to retain cost control and align infrastructure with existing Terraform & runbook standards.
   - Package Strapi as a container deployed to AWS ECS Fargate with ALB ingress and HTTPS termination (Context7 `/strapi/documentation` deployment guidance).
-  - Provision Amazon RDS for PostgreSQL 15 with PITR enabled; replicate daily snapshots to Supabase to satisfy ADR-001 disaster recovery goals.
+- Provision Amazon RDS for PostgreSQL 15 with PITR enabled; replicate daily snapshots to the centralized S3 backup bucket (per ADR-001) to satisfy disaster recovery goals.
   - Store media in S3 with versioning + lifecycle policies; connect via the Strapi S3 upload provider.
 - Define the CMS solution architecture:
   - Create separate Strapi workloads for `dev` and `prod`, each sourced from GitOps-based configuration packages; schema changes promoted through CI/CD pipelines.
@@ -21,7 +21,7 @@ Status: Accepted
   - Webhooks trigger Next.js revalidation, Meilisearch indexing (ADR-009), and lifecycle analytics.
 - Encode glossary ↔ product catalog alignment:
   - Treat the Product Catalog (managed by Merch Ops) as canonical for SKUs/slugs and hydrate ingredient associations into the glossary via a dedicated component.
-  - Run the `ProductIngredientSync` Supabase job every 15 minutes (plus on-demand webhooks) to transform catalog ingredient tokens, call `normalize_inci`, and upsert Strapi references in both directions (Product → Ingredient, Ingredient → “Products with &lt;ingredient&gt;” view). Editors receive read-only views of the association list; requests for changes funnel through the catalog backlog.
+- Run the `ProductIngredientSync` Aurora job every 15 minutes (plus on-demand webhooks) to transform catalog ingredient tokens, call `normalize_inci`, and upsert Strapi references in both directions (Product → Ingredient, Ingredient → “Products with &lt;ingredient&gt;” view). Editors receive read-only views of the association list; requests for changes funnel through the catalog backlog.
 - Bundle custom admin extensions (e.g., medical review tools) as Strapi plugins stored in `cms/plugins/`, built into the admin panel during `yarn build`.
 - Manage secrets via AWS Secrets Manager (ADR-007) injected at runtime through ECS task definitions and CI pipelines.
 

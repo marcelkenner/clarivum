@@ -6,15 +6,15 @@ flowchart LR
   end
 
   subgraph Processing
-    C[Edge Logging<br/>(Supabase)]
+    C[Edge Logging<br/>(Aurora)]
     D[Background Workers<br/>(fraud, reconciliation)]
     E[Plausible Goals]
   end
 
   subgraph Storage
-    F[(Supabase monetization_impressions)]
-    G[(Supabase affiliate_click_events)]
-    H[(Supabase monetization_reconciliation)]
+    F[(Aurora monetization_impressions)]
+    G[(Aurora affiliate_click_events)]
+    H[(Aurora monetization_reconciliation)]
   end
 
   subgraph Analytics

@@ -18,7 +18,7 @@ links:
   - docs/runbooks/search-operations.md
 context7:
   - /meilisearch/documentation
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
 tags:
   - search
   - content
@@ -36,7 +36,7 @@ Stand up Meilisearch Cloud projects, baseline indexes, and ingestion pipelines s
 
 ## Definition of Done
 - [ ] Meilisearch environments provisioned with API keys, access controls, and alerting configured.
-- [ ] Initial indexes populated from Strapi or Supabase data and verified with parity checks.
+- [ ] Initial indexes populated from Strapi or Aurora data and verified with parity checks.
 - [ ] Webhooks or ingestion jobs wired to refresh indexes on publish and unpublish events.
 - [ ] Search operations runbook updated with tenant specifics and swap procedures.
 - [ ] Follow-up tasks captured for advanced analytics, personalization, or A/B testing needs.

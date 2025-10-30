@@ -4,8 +4,8 @@
 
 ## Nov–Dec 2025 · Foundation Launch Window
 > **Sprints:** [Sprint 01](../../tasks/sprints/sprint-01/plan.md) (2025-11-03 → 2025-11-14), [Sprint 02](../../tasks/sprints/sprint-02/plan.md) (2025-11-17 → 2025-11-28), [Sprint 03](../../tasks/sprints/sprint-03/plan.md) (2025-12-01 → 2025-12-12)
-- **Platform:** Launch the Strapi backbone — infrastructure, data, CI/CD (`TSK-PLAT-020`, `TSK-PLAT-021`, `TSK-PLAT-022`) plus Supabase tenancy (`TSK-PLAT-012`); lock SEO guardrail + Web Vitals ingestion (`TSK-PLAT-050`, `TSK-PLAT-051`); finish UV service + CMS copy to unblock January guardrails (`TSK-PLAT-019`, `TSK-PLAT-047`); wire feature-flag automation, observability baseline, and CI guardrails (`TSK-PLAT-002`, `TSK-PLAT-003`, `TSK-PLAT-044`).
-- **Backend:** Model Supabase schema v0 with migrations, seeds, and RLS guardrails for personas, leads, and entitlements (`TSK-BE-001`).
+- **Platform:** Launch the Strapi backbone — infrastructure, data, CI/CD (`TSK-PLAT-020`, `TSK-PLAT-021`, `TSK-PLAT-022`) plus Aurora data tier (`TSK-PLAT-012`); lock SEO guardrail + Web Vitals ingestion (`TSK-PLAT-050`, `TSK-PLAT-051`); finish UV service + CMS copy to unblock January guardrails (`TSK-PLAT-019`, `TSK-PLAT-047`); wire feature-flag automation, observability baseline, and CI guardrails (`TSK-PLAT-002`, `TSK-PLAT-003`, `TSK-PLAT-044`).
+- **Backend:** Model Aurora schema v1 with migrations, seeds, and RLS guardrails for personas, leads, and entitlements (`TSK-BE-001`).
 - **Frontend:** Bootstrap Vitest, the App Router skeleton, and component library foundations (`TSK-FE-001`, `TSK-FE-002`, `TSK-FE-003`); build the tools-first homepage MVP (`TSK-FE-005`); stand up Storybook and component coverage baselines (`TSK-FE-004`, `TSK-FE-019`); deliver App Router loaders and global navigation data (`TSK-FE-021`, `TSK-FE-022`); align trust page ASCII layouts and Lighthouse guardrails while shipping the SEO platform foundation (`TSK-FE-014`, `TSK-FE-015`, `TSK-SEO-001`).
 - **Shared:** Close intake prerequisites (`TSK-SHARED-001`, `TSK-SHARED-002`, `TSK-SHARED-005`, `TSK-SHARED-007`, `TSK-SHARED-008`); execute Strapi rollout playbook and SEO governance launch (`TSK-SHARED-003`, `TSK-SEO-002`).
 - **Enablement:** Complete documentation & governance bootstrap for the repository (`TSK-BIZ-000`).
@@ -74,7 +74,7 @@
 ---
 
 ### Dependency Highlights
-- Strapi rollout (`TSK-PLAT-020/021/022`) and Supabase tenancy (`TSK-PLAT-012`) enable shared content tasks (`TSK-SHARED-003`, `TSK-FE-021/022`, `TSK-FE-023/024/025`).
+- Strapi rollout (`TSK-PLAT-020/021/022`) and the Aurora data tier (`TSK-PLAT-012`) enable shared content tasks (`TSK-SHARED-003`, `TSK-FE-021/022`, `TSK-FE-023/024/025`).
 - Auth0/Flagsmith foundations (`TSK-PLAT-013`, `TSK-PLAT-014`) precede security-sensitive frontend work (`TSK-FE-008`, `TSK-PLAT-028`).
 - Subscription orchestration + fulfillment guardrails (`TSK-PLAT-006`, `TSK-PLAT-042`) must land before wallets, ebooks, and monetization flows (`TSK-PLAT-031/032/033`, `TSK-PLAT-008`, `TSK-PLAT-043`, `TSK-FE-018`, `TSK-QA-003`).
 - Observability (`TSK-PLAT-017`, `TSK-PLAT-040`, `TSK-PLAT-037`) underpins later guardrails, payments, and monetization analytics.

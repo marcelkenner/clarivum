@@ -4,7 +4,7 @@
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-023-account-center.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with Profile Experience Team before changing scope, integration points, or lifecycle assumptions documented here.
-- Keep coverage aligned: These diagrams illustrate the architecture of the account center, including Supabase-backed profile services, integrations with payments, diagnostics, and mailing platforms, as well as compliance workflows for data export and deletion.
+- Keep coverage aligned: These diagrams illustrate the architecture of the account center, including Aurora-backed profile services, integrations with payments, diagnostics, and mailing platforms, as well as compliance workflows for data export and deletion.
 
 ## Diagram Responsibilities
 - `architecture-overview.mmd`: Keep profile service, integrations, and frontend consumption accurate and synchronized with the latest implementation notes and shared vocabulary.

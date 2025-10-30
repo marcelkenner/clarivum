@@ -3,7 +3,7 @@ flowchart TB
     subgraph Inputs
         UA["User Agent"] --> Signals
         Headers["Request Headers"] --> Signals
-        Geo["Geolocation (Vercel geolocation/ipAddress)"] --> Signals
+        Geo["Geolocation (CloudFront geolocation/ipAddress)"] --> Signals
         Honeypot["Honeypot Field Values"] --> Signals
     end
 

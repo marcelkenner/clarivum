@@ -19,7 +19,7 @@ links:
 context7:
   - /klaro/docs
   - /owasp/www-project-top-ten
-  - /supabase/supabase
+  - /websites/aws_amazon-amazonrds-aurorauserguide
 tags:
   - legal
   - privacy
@@ -42,4 +42,3 @@ Implement policy surfaces (privacy, terms, disclosures), consent flows, and esca
 - [ ] Training/communication session completed for support and marketing teams.
 - [ ] Follow-up tasks logged for regional expansions or policy updates.
 - [ ] Acceptance criteria: All relevant README.md, AGENTS.md, and ADR documents are updated to reflect this work.
-

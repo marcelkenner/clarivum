@@ -25,7 +25,7 @@ links:
 
 | Task | Status Lane | Notes |
 |------|-------------|-------|
-| [`tasks/backlog/platform/plat-012-supabase-tenancy-provision.md`](../../backlog/platform/plat-012-supabase-tenancy-provision.md) | Backlog → Ready → In-progress | Provision Supabase projects, secrets, storage buckets |
+| [`tasks/done/platform/plat-012-aurora-cluster-provision.md`](../../done/platform/plat-012-aurora-cluster-provision.md) | Backlog → Ready → In-progress | Provision Aurora cluster, secrets, storage buckets |
 | [`tasks/backlog/frontend/fe-004-storybook-workbench.md`](../../backlog/frontend/fe-004-storybook-workbench.md) | Backlog → Ready → In-progress | Configure Storybook with accessibility + docs addons |
 | [`tasks/backlog/frontend/fe-021-app-router-content-loaders.md`](../../backlog/frontend/fe-021-app-router-content-loaders.md) | Backlog → Ready → In-progress | Build content loader utilities + skeleton states |
 | [`tasks/backlog/frontend/fe-022-global-navigation-data-source.md`](../../backlog/frontend/fe-022-global-navigation-data-source.md) | Backlog → Ready → In-progress | Wire global nav data fetching + analytics hooks |
@@ -41,7 +41,7 @@ links:
 
 ## Definition of Success
 
-- Supabase tenancy provisioned with secrets rotation, bucket lifecycle policies, and `.env.example` guidance.
+- Aurora data cluster provisioned with secrets rotation, S3 lifecycle policies, and `.env.example` guidance.
 - Storybook workbench delivers accessible docs with contribution checklist + CI linting.
 - App Router loaders/global navigation data source power homepage + vertical scaffolds with analytics + error handling.
 - SEO guardrail + Web Vitals telemetry run in CI/analytics, blocking regressions before rollout.
@@ -49,7 +49,7 @@ links:
 
 ## Dependencies & Prep
 
-- Confirm Supabase project quotas + Secrets Manager naming with DevOps before provisioning.
+- Confirm Aurora cluster sizing + Secrets Manager naming with DevOps before provisioning.
 - Gather Storybook addon approvals from Design/QA and ensure Tailwind configuration ready.
 - Align analytics event schema for nav + Web Vitals with product analytics lead.
 - Ensure sprint 01 guardrails are stable (CI, Vitest, telemetry) to support new suites.

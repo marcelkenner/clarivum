@@ -1,81 +1,81 @@
 # Zero-Downtime Migrations Runbook
 
-> Complements `docs/runbooks/supabase-operations.md`, ADR-001 (Primary Cloud & Database), and ADR-036 (Supabase Schema v0). Follow this guide whenever altering Supabase Postgres schemas so production stays online.
+> Complements `docs/runbooks/aurora-operations.md`, ADR-001 (Primary Cloud & Database), and ADR-036 (Schema v0). Follow this guide whenever altering Aurora PostgreSQL schemas so production stays online.
 
 ## Purpose
-- Deploy database changes using an **expand → migrate → contract** pattern that preserves availability for the public site, background jobs, and the Operations Hub.
+- Ship database changes using an **expand → migrate → contract** pattern that preserves availability for the public app, background jobs, and the Operations Hub.
 - Guard against performance regressions by validating index coverage and query plans before and after every release.
-- Ensure audit trails (`set_audit_fields()` triggers, `entitlement_status_history`) remain intact during schema evolution.
+- Keep audit trails (`set_audit_fields()` triggers, `entitlement_status_history`) intact during schema evolution.
 
 ## Scope
-- Supabase `public` schema migrations (`database/migrations/*.sql`) and associated seed fixtures (`database/seeds/*.sql`).
-- Extensions (`pg_uuidv7`, `pgcrypto`, `citext`) and helper functions created by migration `20251027090000_core_schema.sql`.
-- Core tables: `personas`, `profiles`, `leads`, `content_items`, `entitlements`, `entitlement_status_history`.
-- Excludes Terraform-managed infrastructure (covered in infra repo runbooks) and Strapi schema updates (see `docs/runbooks/ops-hub.md` for downstream checks).
+- Aurora `public` schema migrations stored in `database/migrations/*.sql` and seed fixtures (`database/seeds/*.sql`).
+- Extensions (`pg_uuidv7`, `pgcrypto`, `citext`) and helper functions provisioned by `20251027090000_core_schema.sql`.
+- Core tables: `personas`, `profiles`, `leads`, `content_items`, `entitlements`, `entitlement_status_history`, `ops_audit`.
+- Excludes Terraform-managed infrastructure (see infra runbooks) and Strapi schema updates (covered in `docs/runbooks/ops-hub.md`).
 
 ## Preconditions
-- Supabase CLI authenticated (`supabase login`) and pointed at the correct project (`SUPABASE_PROJECT_REF`, `SUPABASE_DB_PASSWORD` exported).
-- Local database refreshed with latest migrations: `supabase db reset --db-url "$SUPABASE_DB_URL"` or equivalent environment-specific command.
-- Application tests pass locally (`npm run validate`) before attempting production rollout.
-- Observability alerts (`sisu-debugging`, Grafana slow query dashboards) healthy; no open incidents related to Postgres.
+- Aurora credentials available via Secrets Manager (`DATABASE_URL`, `READ_DATABASE_URL`); export locally with `aws secretsmanager get-secret-value` or `aws-vault exec` profile.
+- Local Postgres Docker container refreshed with latest migrations using `npm run db:migrate -- --env local` or `psql -f database/migrations/<file>.sql` in sequence.
+- Application validation suite passes (`npm run validate`) before attempting production rollout.
+- Observability alerts (`sisu-debugging`, Grafana slow query dashboards) are green; no open database incidents.
 
 ## Tooling & References
-- `supabase db diff --use-migra --schema public --file migrations/<timestamp>_<slug>.sql`
-- `supabase db reset` / `supabase db push`
-- `npm run lint:tasks`, `npm run lint:docs` (PR hygiene)
-- `psql` or Supabase SQL editor for dry-run verification (`EXPLAIN (ANALYZE, BUFFERS)`)
-- Grafana dashboards: `Postgres Health`, `Slow Query Watch`, `Connection Saturation`
-- Related ADRs / PRDs: ADR-001, ADR-036, `docs/PRDs/requierments/supabase-platform/feature-requirements.md`, `docs/runbooks/account-claiming.md`
+- Migration authoring: create timestamped SQL files under `database/migrations` (use `$(date +%Y%m%d%H%M%S)_<slug>.sql`).
+- Execution: `npm run db:migrate -- --env <env>` (wraps shared migration runner using Aurora writer endpoint).
+- Verification: `psql` against staging/prod (tunnelled via `aws rds generate-db-auth-token`), `EXPLAIN (ANALYZE, BUFFERS)` for plan inspection.
+- Observability: Grafana dashboards `Aurora / Writer`, `Aurora / Reader`, `Slow Query Watch`; CloudWatch Insights queries for connection spikes.
+- References: ADR-001, ADR-036, `docs/runbooks/account-claiming.md`, `docs/runbooks/aurora-operations.md`.
 
 ## Workflow
 ### 1. Expand
-- Create additive changes first: new tables, columns (nullable), enums, indexes, triggers.
-- Avoid destructive operations; prefer defaults + backfill columns before introducing `NOT NULL`.
-- Verify new indexes with representative queries:
+- Introduce additive changes first: new tables, nullable columns, enums, indexes, triggers.
+- Avoid destructive operations; add defaults + backfill columns before marking `NOT NULL`.
+- Validate new indexes with representative queries:
   ```sql
   EXPLAIN (ANALYZE, BUFFERS) SELECT id FROM public.profiles WHERE email = 'demo@clarivum.test';
   EXPLAIN (ANALYZE, BUFFERS) SELECT * FROM public.content_items WHERE persona_id = '<uuid>' AND status = 'published' ORDER BY published_at DESC LIMIT 5;
   EXPLAIN (ANALYZE, BUFFERS) SELECT * FROM public.entitlements WHERE profile_id = '<uuid>' AND status IN ('pending_claim','active');
   ```
-- Keep migration files deterministic: order statements, qualify schema names, include `if not exists` when re-running is expected (extensions, indexes).
+- Keep migration files deterministic: qualify schema names, sort statements, and include `if not exists` when safe (extensions, indexes).
 
 ### 2. Migrate
-- Backfill data using idempotent statements (`update ... where ... is null`) or script-based jobs and document progress in PR description.
-- For workloads touching hashed identifiers or audit fields, confirm triggers still fire:
+- Backfill data with idempotent statements (`update ... where ... is null`) or script-based jobs; document progress in the PR.
+- Confirm triggers & audit columns remain functional:
   ```sql
   INSERT INTO public.leads (email, source, created_by, updated_by)
   VALUES ('test@example.com', 'debug-seed', 'migration', 'migration')
   ON CONFLICT (email, source) DO UPDATE SET metadata = '{}'::jsonb;
   SELECT revision FROM public.leads WHERE email = 'test@example.com';
   ```
-- Coordinate with feature flag owners when dual-write or read-modify-write logic is required; document toggles in PRD/ADR updates.
+- Coordinate with flag owners when dual-write logic is required; note toggles in ADR/task updates.
 
 ### 3. Contract
-- Only drop columns / enums / indexes once code no longer references them (feature flag or deployment checks in place).
-- Validate `npm run validate` plus targeted integration tests before merging the contract migration.
-- Update runbooks and ADRs to reflect the final state (e.g., removing deprecated columns from support procedures).
+- Remove columns / enums / indexes only after application code no longer references them (feature flag or coordinated deploy ensures safety).
+- Re-run `npm run validate` plus targeted integration tests before merging contract migration.
+- Update runbooks and ADRs to reflect the final state (support scripts, dashboards, documentation).
 
 ## Deployment Checklist
-- [ ] Migration reviewed by database steward (or delegate) with rollback notes documented in PR description.
-- [ ] Local apply: `supabase db reset` (or `db push`) passes; seed script reruns cleanly with `psql -f database/seeds/<file>.sql`.
+- [ ] Migration reviewed by database steward with rollback plan documented in PR.
+- [ ] Local apply using Dockerized Postgres or dev Aurora (`npm run db:migrate -- --env dev`) succeeds; seed scripts rerun cleanly (`psql -f database/seeds/<file>.sql`).
 - [ ] `EXPLAIN ANALYZE` snapshots captured for critical queries pre/post change (attach to PR or Ops notes).
 - [ ] Grafana alert thresholds reviewed/updated if cardinality or latency expectations shift.
 - [ ] `docs/architecture.md`, relevant ADRs, and runbooks updated.
-- [ ] `npm run validate`, `npm run lint:docs`, and domain-specific tests (`npm run test` when applicable) pass before requesting review.
-- [ ] Production rollout coordinated during collaboration window; post-deploy health checks captured in Ops channel.
+- [ ] `npm run validate`, `npm run lint:docs`, domain tests (`npm run test`) pass before requesting review.
+- [ ] Production rollout scheduled and announced in `#clarivum-data`; post-deploy health checks recorded.
 
 ## Rollback
-- Store explicit rollback statements or scripts alongside each migration (`-- ROLLBACK:` comments or paired files).
-- For destructive mistakes, use Supabase PITR within configured window. Document timeline, recovered tables, and remediation in `sisu-log/`.
-- If extension changes fail (e.g., `pg_uuidv7` missing), disable application feature flags consuming new columns, revert PR, and coordinate with platform team to enable the extension before retrying.
+- Pair each migration with explicit rollback statements in the same file (`-- ROLLBACK:`) or companion script.
+- For destructive mistakes, request Aurora point-in-time restore (PITR) within the retention window. Document timeline, recovered tables, and remediation in `sisu-log/`.
+- If an extension or parameter change fails, disable relying feature flags, revert the application PR, correct the infrastructure configuration, and retry the deployment.
 
 ## Guardrails & Monitoring
-- Enable `pg_stat_statements` and review after each deployment; queries without index usage must trigger Kaizen guardrails.
+- Review `pg_stat_statements` after each deployment; queries without index usage must trigger Kaizen guardrails.
 - Alert thresholds:
-  - Lead ingestion end-to-end < 500 ms (API/BFF + insert).
+  - Lead ingestion latency < 500 ms end-to-end (API + insert).
   - Entitlement shelf hydrate query p95 < 20 ms.
   - Pending claim token lookup p95 < 5 ms.
-- Record stats in the daily Kaizen issue when migrations complete (slowdowns, guardrail additions, follow-up owner).
+- Log slowdown + guardrail details in the daily Kaizen issue once migrations complete (include owner and verification plan).
 
 ## Change Log
-- 2025-10-27 — Initial runbook covering Schema v0, expand/migrate/contract workflow, and index verification steps.
+- 2025-11-09 — Updated for Aurora migration; replaced legacy tooling references with shared migration runner steps.
+- 2025-10-27 — Initial runbook covering Schema v0 expand/migrate/contract workflow and index verification.

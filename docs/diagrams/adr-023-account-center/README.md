@@ -4,7 +4,7 @@
 - **Owners:** Profile Experience Team
 
 ## Overview
-These diagrams illustrate the architecture of the account center, including Supabase-backed profile services, integrations with payments, diagnostics, and mailing platforms, as well as compliance workflows for data export and deletion.
+These diagrams illustrate the architecture of the account center, including Aurora-backed profile services, integrations with payments, diagnostics, and mailing platforms, as well as compliance workflows for data export and deletion.
 
 ## Files
 - `architecture-overview.mmd` — Profile service, integrations, and frontend consumption.

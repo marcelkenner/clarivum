@@ -22,8 +22,8 @@ Status: Accepted
   - A custom Playwright reporter writes runtime, retry, and flake stats into `metrics/quality.json` for every smoke/regression execution.
   - CI uploads both JSON snapshots as the `qa-metrics` artifact (30-day retention) so the Operations Hub and seasonal retros can trend test health without scraping external systems.
 - Standardize configuration:
-  - Provide shared helpers under `tests/config/` for environment setup, feature-flag seeding, and Supabase fixtures.
-  - Capture secrets via GitHub Actions OIDC + Vercel/Supabase integration; local runs rely on `.env.test`.
+- Provide shared helpers under `tests/config/` for environment setup, feature-flag seeding, and Aurora fixtures.
+- Capture secrets via GitHub Actions OIDC into AWS roles/Secrets Manager; local runs rely on `.env.test`.
 - Documentation requirements:
   - Keep role guides (`frontend`, `backend`, `qa`) aligned with this stack.
   - Update runbooks when adding new suites or modifying triggers; note references in tasks per the work-intake policy.
@@ -39,5 +39,5 @@ Status: Accepted
 - **Trade-offs:** CI runtime increases; mitigate with test parallelism and selective Playwright suites for smoke vs. regression.
 - **Follow-ups:**
   - Add visual regression tooling evaluation once the design system stabilizes.
-  - Explore contract testing for Supabase/Strapi APIs after initial launch.
+- Explore contract testing for Aurora/Strapi APIs after initial launch.
   - Monitor CI duration and flake rate; adjust sampling or retry strategies as we scale.

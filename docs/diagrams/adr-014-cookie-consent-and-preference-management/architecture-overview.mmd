@@ -6,6 +6,6 @@ flowchart LR
     ConsentStore --> FlagsmithTraits["Flagsmith Trait Sync"]
     ConsentStore --> AnalyticsGate["Analytics Gate (Plausible Analytics, marketing pixels)"]
     KlaroLoader --> AuditPublisher["consent.updated Event"]
-    AuditPublisher --> SupabaseAudit["Supabase Consent Audit Log"]
+    AuditPublisher --> AuroraAudit["Aurora Consent Audit Log"]
     StrapiTranslations["Strapi Translations"] --> KlaroLoader
 ```

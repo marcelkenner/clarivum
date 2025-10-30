@@ -10,7 +10,7 @@ flowchart LR
 
   subgraph Core Services
     Auth0["Auth0 RBAC"]
-    Supabase["Supabase Ops Schema"]
+    Aurora["Aurora Ops Schema"]
     Strapi["Strapi CMS"]
     Listmonk["Listmonk Email"]
     Stripe["Stripe APIs"]
@@ -22,19 +22,19 @@ flowchart LR
   Overview --> Grafana
   Overview --> Plausible
   Content --> Strapi
-  Content --> Supabase
+  Content --> Aurora
   Communications --> Listmonk
   Communications --> Novu
   Commerce --> Stripe
-  Commerce --> Supabase
-  Support --> Supabase
+  Commerce --> Aurora
+  Support --> Aurora
   Support --> Auth0
   Auth0 -.-> Overview
   Auth0 -.-> Content
   Auth0 -.-> Communications
   Auth0 -.-> Commerce
   Auth0 -.-> Support
-  Supabase --> Audit["Ops Audit Trail"]
+  Aurora --> Audit["Ops Audit Trail"]
   Audit --> Overview
   Audit --> Support
 ```

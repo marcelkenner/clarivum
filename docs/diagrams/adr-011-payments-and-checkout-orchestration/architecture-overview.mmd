@@ -6,13 +6,13 @@ flowchart LR
     PaymentsCoordinator --> P24["Przelewy24 Hosted Flow"]
     Stripe --> ApplePay["Apple Pay Wallet"]
     Stripe --> GooglePay["Google Pay Wallet"]
-    ApplePay --> Webhooks["Vercel Edge Webhooks"]
+    ApplePay --> Webhooks["AWS Lambda Webhooks"]
     GooglePay --> Webhooks
     PayU --> Webhooks
     P24 --> Webhooks
     Stripe --> Webhooks
-    Webhooks --> SupabaseLedger["Supabase Payment Ledger"]
-    SupabaseLedger --> FulfillmentJobs["Fulfillment Background Jobs"]
+    Webhooks --> AuroraLedger["Aurora Payment Ledger"]
+    AuroraLedger --> FulfillmentJobs["SQS/Lambda Fulfillment Jobs"]
     Webhooks --> OpsHub["Clarivum Ops Hub (Commerce)"]
-    SupabaseLedger --> OpsHub
+    AuroraLedger --> OpsHub
 ```

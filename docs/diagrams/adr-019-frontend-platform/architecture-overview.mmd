@@ -9,7 +9,7 @@ flowchart LR
     Verticals --> Shared
     Shared --> ContentLibrary["ContentLibrary (DI ready)"]
     ContentLibrary --> ContentMap["lib/content-map.ts"]
-    ContentMap --> DataSources["Future data sources (Strapi/Supabase)"]
+    ContentMap --> DataSources["Future data sources (Strapi/Aurora)"]
     Shared --> UIComponents["React Components"]
     UIComponents --> TailwindTokens["Tailwind 4 Tokens + CSS Vars"]
     UIComponents --> Storybook["Storybook (ADR-027)"]
