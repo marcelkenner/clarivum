@@ -19,7 +19,7 @@ Create the directories above as Terraform code is checked in. Until then, captur
 
 ## Common commands
 
-Run Terraform from the repo root. Each workspace (`dev`, `stage`, `prod`) maps to an AWS account or environment-specific configuration.
+Run Terraform from the repo root. Only two long-lived workspaces exist: `dev` and `prod`. Use short-lived feature previews (e.g., Vercel/GitHub environments) when you need pre-production validation instead of a staging workspace.
 
 ```bash
 # Initialize remote state and providers

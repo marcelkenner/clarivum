@@ -10,23 +10,33 @@ Status: Accepted
 - Product requirements tracked in `docs/PRDs/first_configuration.md` and infrastructure milestones captured in `tasks/backlog/platform/devops-001-terraform-iac.md`.
 
 ## Decision
-- Host the web application on **AWS CloudFront + ECS Fargate** with two persistent environments (`dev`, `prod`). GitHub Actions builds and pushes container images to ECR; deployments update the ECS service through blue/green rollouts. Preview builds launch as short-lived ECS services in the dev account.
-- Terminate HTTPS at CloudFront, forward to an **Application Load Balancer** inside the platform VPC, and run the Next.js runtime on Fargate tasks behind that ALB. Build artifacts and static assets are published to S3 and served through CloudFront.
-- Use **Amazon Aurora PostgreSQL (Serverless v2)** as the primary transactional database (region: `eu-central-1`) with PITR, row-level security, audit extensions (`pgcrypto`, `pg_stat_statements`), and Secrets Manager rotation.
-- Store large assets (ebooks, media) in **Amazon S3** buckets (public/private pair per environment) with lifecycle policies; expose them via CloudFront signed URLs.
-- Manage infrastructure via Terraform modules under `infra/aws` (app, data, network) and `infra/strapi`. Secrets reside in AWS Secrets Manager with rotation pipelines orchestrated by GitHub Actions.
+- Serve the marketing and member experience from **Amazon S3** behind **CloudFront with Origin Access Control**. Next.js outputs static assets/ISR artefacts to S3; CloudFront owns TLS termination, caching, and global distribution.
+- Implement the BFF/API layer with **Amazon API Gateway HTTP APIs** fronting **AWS Lambda (Graviton)** functions. Provisioned concurrency stays disabled by default to keep idle cost near zero; enable only for handlers that breach latency SLOs.
+- Adopt a dual-datastore pattern:
+  - **Amazon DynamoDB (On-Demand)** for key/value, session, and high-churn data that fits a single-table design.
+  - **Amazon Aurora PostgreSQL Serverless v2** (`eu-central-1`, min ACU 0–0.5 depending on engine patch) for relational workloads, row-level security, PITR, and extensions (`pgcrypto`, `pg_stat_statements`).
+- Store large assets (ebooks, media) in dedicated **Amazon S3** buckets (public/private pair per environment) with lifecycle policies, surfaced via CloudFront signed URLs.
+- Cover editorial CMS needs through an **Amazon Lightsail WordPress bundle** until traffic or customisation requires managed containers.
+- Manage infrastructure via Terraform modules under `infra/aws` (edge, api, data, identity). Secrets remain in AWS Secrets Manager and are injected into Lambda through environment variables sourced by GitHub Actions OIDC roles.
 
 ## Diagrams
-- [Architecture Overview](../diagrams/adr-001-primary-cloud-and-database/architecture-overview.mmd) — (Update in progress) Delivery path across CloudFront, the Next.js ECS service, and Aurora/S3.
+- [Architecture Overview](../diagrams/adr-001-primary-cloud-and-database/architecture-overview.mmd) — (Update in progress) Delivery path across CloudFront, API Gateway/Lambda, DynamoDB, and Aurora/S3.
 - [Data Lineage](../diagrams/adr-001-primary-cloud-and-database/data-lineage.mmd) — Key entities for members, content, leads, and entitlements inside Aurora PostgreSQL.
 - [UML Service Boundaries](../diagrams/adr-001-primary-cloud-and-database/uml-service-boundaries.mmd) — Runtime collaborators that coordinate deployment and platform automation on AWS.
 - [BPMN Provisioning Flow](../diagrams/adr-001-primary-cloud-and-database/bpmn-provisioning.mmd) — Operational workflow for provisioning and validating infrastructure changes via Terraform and GitHub Actions.
 
 ## Consequences
-- **Upside:** Single-cloud footprint simplifies networking, secrets, and compliance; Aurora delivers native Postgres capabilities (indexes, RLS, extensions) with managed HA. CloudFront keeps global latency low without Vercel vendor lock-in.
-- **Risk:** AWS operational surface area is larger (ECS, CloudFront, Aurora, Secrets Manager). Invest in Terraform guardrails, runbooks, and observability to avoid hidden toil. Loss of Vercel previews requires purpose-built preview automation.
-- **Cost:** Baseline spend spans CloudFront, ECS Fargate, Aurora, and S3. Track usage via AWS Budgets and surface spend deltas in the FinOps runbook.
+- **Upside:** Serverless-first footprint keeps idle cost near zero, scales automatically, and still delivers managed Postgres features alongside DynamoDB elasticity.
+- **Risk:** Lambda cold starts can hurt latency-sensitive flows—use provisioned concurrency and warmers judiciously. DynamoDB single-table design demands upfront modelling discipline, and the Lightsail CMS tier will need planned uplift if custom integrations accelerate.
+- **Cost:** Baseline spend now centres on CloudFront, API Gateway/Lambda invocations, DynamoDB request units, Aurora ACUs, and SES/Pinpoint usage. Track deltas through AWS Budgets, Cost Anomaly Detection, and the FinOps runbook aligned to Track A.
 - **Follow-ups:**
-  - Implement connection pooling (RDS Proxy or pgBouncer) when concurrent requests exceed 50.
-  - Conduct quarterly DR drills to validate Aurora PITR and documented RPO/RTO targets.
-  - Refresh diagrams and runbooks (deployment, secrets, observability) to reflect the AWS stack.
+  - Introduce RDS Proxy or pgBouncer when Lambda connection bursts approach Aurora limits.
+  - Conduct quarterly DR drills covering Aurora PITR and DynamoDB backup/restore paths.
+  - Refresh architecture diagrams and runbooks (deployment, secrets, observability, Lightsail tenancy) to reflect the Track A stack.
+
+## Implementation notes (dev · 2025-10-30)
+
+- VPC `vpc-0bfe1a3458c531a72` with paired public/private subnets bridges CloudFront/S3, Lambda/API Gateway, DynamoDB, and Aurora Serverless v2 (`platform-dev-aurora`).
+- CloudFront distribution `EPHSANK5PAPBA` fronts S3 buckets `clarivum-dev-static-869603330574` (static web assets) and `clarivum-dev-media-869603330574` (member media); access is mediated via Origin Access Control `E2HXAYNLNBF4IP`, logging to `clarivum-dev-cdn-logs-869603330574`.
+- DynamoDB table `platform-dev-kv` (PAY_PER_REQUEST, TTL enabled) and Secrets Manager paths `clarivum/platform/dev/database/*` back Lambda `platform-dev-core`, which is exposed through API Gateway HTTP API `b5snol7qwe`.
+- No Lightsail instances were provisioned; Strapi continues to run on ECS per ADR‑010, preserving CMS alignment.

@@ -6,6 +6,7 @@ Clarivum’s pre-code documentation gathers all technical, operational, and gove
 - **docs/architecture.md** – C4-style context and container overview for the Clarivum platform.
 - **docs/adr/** – Architecture Decision Records. ADR-001…005 are accepted decisions; `_template.md` is the authoring scaffold for future ADRs.
 - **docs/runbooks/** – Step-by-step operational guides (deployment, incident response, FinOps review).
+- **docs/finops/** – Cost blueprints and FinOps guardrails; start with `finops/aws-cost-optimization-blueprint.md` when planning new stacks.
 - **docs/policies/** – Error budget policy, repository governance, work intake workflow, and security baseline commitments.
 - **docs/policies/diagramming-policy.md** – Mandatory diagram types, storage locations, and review gates for every feature or decision.
 - **docs/checklists/** – Pull request checklist aligning with testing and security guardrails from the PTRD.
@@ -13,6 +14,8 @@ Clarivum’s pre-code documentation gathers all technical, operational, and gove
 - **docs/diagrams/** – Canonical architecture, data, UML, and BPMN diagrams for approved features and decisions.
 - **tasks/README.md** – Task board structure with status/discipline lanes and authoring rules.
 - **tasks/status-summary.md** – Auto-generated digest of active tasks by status and area (`npm run tasks:summary`).
+
+> **Environment policy:** Clarivum supports exactly two long-lived AWS environments—`dev` and `prod`. There is no shared staging tier. Use PR preview deployments or the `dev` workspace for validation whenever older docs mention “staging.”
 
 ## How to keep documentation healthy
 

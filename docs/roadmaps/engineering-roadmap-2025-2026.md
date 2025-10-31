@@ -10,7 +10,7 @@
 - **Shared:** Close intake prerequisites (`TSK-SHARED-001`, `TSK-SHARED-002`, `TSK-SHARED-005`, `TSK-SHARED-007`, `TSK-SHARED-008`); execute Strapi rollout playbook and SEO governance launch (`TSK-SHARED-003`, `TSK-SEO-002`).
 - **Enablement:** Complete documentation & governance bootstrap for the repository (`TSK-BIZ-000`).
 - **QA:** Secure environments, data, and selectors for upcoming smoke/UV suites while wiring testing coverage + flake metrics into dashboards (`TSK-QA-001`, `TSK-QA-002`, `TSK-QA-005`).
-- **Reference docs:** ADR-010, ADR-001, ADR-007, ADR-036, ADR-034, ADR-037, ADR-038; PRDs `docs/PRDs/requierments/strapi/feature-requirements.md`, `docs/PRDs/requierments/strapi/setup.md`, `docs/PRDs/requierments/supabase-platform/feature-requirements.md`, `docs/PRDs/requierments/frontend-platform/feature-requirements.md`; runbooks `docs/runbooks/deployment.md`, `docs/runbooks/secrets-management.md`, `docs/runbooks/seo-operations.md`.
+- **Reference docs:** ADR-010, ADR-001, ADR-007, ADR-036, ADR-034, ADR-037, ADR-038; PRDs `docs/PRDs/requierments/strapi/feature-requirements.md`, `docs/PRDs/requierments/strapi/setup.md`, `docs/PRDs/requierments/aurora-data-platform/feature-requirements.md`, `docs/PRDs/requierments/frontend-platform/feature-requirements.md`; runbooks `docs/runbooks/deployment.md`, `docs/runbooks/secrets-management.md`, `docs/runbooks/seo-operations.md`.
 
 ## Jan 2026 (Winter) · Guardrails & Observability
 > **Sprints:** [Sprint 04](../../tasks/sprints/sprint-04/plan.md) (2026-01-06 → 2026-01-17), [Sprint 05](../../tasks/sprints/sprint-05/plan.md) (2026-01-20 → 2026-01-31)

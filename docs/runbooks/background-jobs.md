@@ -1,6 +1,6 @@
 # Background Jobs Runbook
 
-> Supports the queue strategy defined in `docs/adr/ADR-003-background-jobs-and-queues.md` and related PRDs (`supabase-platform`, `pdf-converter`, `newsletter`).
+> Supports the queue strategy defined in `docs/adr/ADR-003-background-jobs-and-queues.md` and related PRDs (`aurora-data-platform`, `pdf-converter`, `newsletter`).
 
 ## Purpose
 - Operate Clarivum’s asynchronous workloads powered by Amazon SQS + AWS Lambda workers.

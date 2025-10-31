@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_CLARIVUM_ENVIRONMENT: environment.name,
   },
+  output: "standalone",
   async redirects() {
     return [
       {

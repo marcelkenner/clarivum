@@ -3,6 +3,23 @@
     "Sentry": {
       "url": "https://mcp.sentry.dev/mcp/dailydoses-4t/javascript-nextjs",
       "type": "http"
+    },
+    "AWS API": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--cache-dir",
+        ".cache/mcp-uv",
+        "--no-python-downloads",
+        "--from",
+        "awslabs.aws-api-mcp-server@latest",
+        "awslabs.aws-api-mcp-server"
+      ],
+      "env": {
+        "UV_PYTHON_DOWNLOADS": "never",
+        "UV_CACHE_DIR": ".cache/mcp-uv",
+        "AWS_REGION": "eu-central-1"
+      }
     }
   }
 }

@@ -5,7 +5,7 @@ Environment variable files for the Strapi Terraform stack (`infra/strapi`). Each
 ## Editing rules
 
 - Never commit real account IDs, subnet IDs, or secret ARNs from production. Use placeholders in version control and provide actual values via encrypted secret stores (`sops`, AWS SSM) or deployment pipelines.
-- Keep filenames aligned with workspace names (`dev.tfvars`, `prod.tfvars`, `stage.tfvars`).
+- Keep filenames aligned with workspace names (`dev.tfvars`, `prod.tfvars`). Clarivum does not maintain a `stage` workspace; use `dev` for rehearsal runs.
 - Mirror any change here in the runbook so operators know which secrets or buckets were updated.
 - Leave `DATABASE_URL` and media bucket ARNs out of the tfvars—Terraform now provisions the Strapi database secrets and buckets automatically.
 

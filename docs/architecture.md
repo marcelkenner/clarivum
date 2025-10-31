@@ -8,7 +8,7 @@ This document captures the current system context and high-level architecture de
 |-----------------------------|----------------------------------------------------------------------------------------------------|
 | Public visitors             | Consume marketing, education, and funnel experiences delivered via the Clarivum web application. |
 | Logged-in members           | Access gated assets (ebooks, tools) and manage preferences via secure sessions.                   |
-| Content & marketing editors | Curate content, upload assets, and trigger publishing workflows through the Strapi admin console. |
+| Content & marketing editors | Curate content, upload assets, and trigger publishing workflows through the Lightsail-hosted WordPress admin. |
 | Internal operators          | Triage incidents, manage communications, and execute guardrails via the Clarivum Operations Hub (`/ops`). |
 | Third-party services        | Email/SMS providers (for lead magnets), analytics (Plausible Analytics – exclusive), and payment gateway (Stripe) |
 
@@ -23,58 +23,62 @@ Clarivum itself is the branded digital experience that surfaces verticalized con
 └────────────────┬─────────────────────────┘
                  │ HTTPS (AWS CloudFront + CDN caching)
 ┌────────────────▼─────────────────────────┐
-│        Clarivum Web App (Next.js)         │
-│  - App Router (server & client components)│
-│  - API Routes for BFF endpoints           │
-│  - ISR/SSG for content-heavy pages        │
-│  - OTel SDK instrumentation               │
-│  - Internal `/ops` module (Clarivum Ops Hub)|
+│        CloudFront Edge Tier              │
+│  - TLS termination & caching             │
+│  - Routes `/static` to S3 (OAC)          │
+│  - Routes `/api` to API Gateway          │
 └─────────────┬──────────────┬──────────────┘
               │              │
-              │              │ Background job dispatch (idempotent JSON payloads)
-              │              ▼
-              │        ┌───────────────┐
-              │        │ AWS SQS Queue │
-              │        └──────┬────────┘
-              │               │ Lambda workers (BullMQ-compatible handler)
-              │               ▼
-              │        ┌───────────────┐
-              │        │ AWS Lambda    │
-              │        │ (job workers) │
-              │        └───────────────┘
-              │ Data access layer (pg driver + storage SDK)
-              ▼
-┌────────────────────────────────────────────────────────┐
-│ Amazon Aurora PostgreSQL (eu-central-1)                │
-│  - Primary application data (profiles, leads, ops)     │
-│  - Strapi content + audit schemas (shared cluster)     │
-│  - Row-level security, PITR, and query auditing         │
-└─────────────┬──────────────┬──────────────┘
+              │ Static assets│ API requests
               │              │
-              │              │ CMS content sync
-              │              ▼
-              │        ┌────────────────────────┐
-              │        │ Strapi CMS (AWS ECS)   │
-              │        │ - Admin UI behind ALB  │
-              │        │ - REST/GraphQL delivery│
-              │        │ - Webhooks (ISR, search)│
-              │        └──────────────┬─────────┘
-              │                       │
-              │                       │ Asset storage + CDN origin
-              │                       ▼
-              │                ┌─────────────────────┐
-              │                │ Amazon S3 (media)   │
-              │                │ - Versioned buckets │
-              │                │ - CloudFront origin │
-              │                └─────────────────────┘
-              │
-              │ Notification workflows (REST)
-              ▼
-┌──────────────────────────────────────────┐
-│ Novu Notifications (AWS ECS Fargate)     │
-│  - Inbox + multi-channel orchestration   │
-│  - Node SDK auth via AWS Secrets Manager │
-└──────────────────────────────────────────┘
+              ▼              ▼
+┌─────────────────────────────┐     ┌──────────────────────────┐
+│ Amazon S3 (Static Assets)   │     │ API Gateway HTTP API      │
+│  - ISR/SSG pages            │     │  - Lambda (Graviton) BFF  │
+│  - Immutable media          │     │  - REST/RPC integrations  │
+└─────────────┬──────────────┘     └──────────────┬────────────┘
+              │                                    │
+              │                                    │ Lambda invocations
+              │                                    ▼
+              │                           ┌──────────────────────────┐
+              │                           │ Lambda Application Tier  │
+              │                           │  - Request orchestration │
+              │                           │  - OTel instrumentation  │
+              │                           │  - Async triggers        │
+              │                           └─────────────┬────────────┘
+              │                                         │
+              │                                         │ Data access
+              │                                         ▼
+              │                            ┌──────────────────────────┐
+              │                            │ Amazon DynamoDB          │
+              │                            │ (On-Demand)              │
+              │                            │  - Sessions, KV, cache   │
+              │                            └─────────────┬────────────┘
+              │                                          │
+              │                                          │ Relational storage
+              │                                          ▼
+              │                            ┌────────────────────────────────┐
+              │                            │ Amazon Aurora PostgreSQL       │
+              │                            │ (Serverless v2)                │
+              │                            │  - Core relational data        │
+              │                            │  - RLS, PITR, audit extensions │
+              │                            └─────────────┬──────────────────┘
+              │                                          │
+              │                                          │ Editorial sync
+              │                                          ▼
+              │                             ┌─────────────────────────┐
+              │                             │ Lightsail CMS           │
+              │                             │ (WordPress)             │
+              │                             │  - Editorial workflows  │
+              │                             └──────────────┬──────────┘
+              │                                            │
+              │                                            │ Asset storage + CDN origin
+              │                                            ▼
+              │                                  ┌─────────────────────┐
+              │                                  │ Amazon S3 (Media)   │
+              │                                  │ - Versioned buckets │
+              │                                  │ - CloudFront origin │
+              │                                  └─────────────────────┘
 
 Telemetry pipeline:
 
@@ -88,46 +92,56 @@ Operational tooling:
 
 - **Feature flag service:** Flagsmith SaaS (via SDK in the Next.js app).
 - **Analytics platform:** Plausible Analytics (privacy-first SaaS, sole analytics provider; proxied via CloudFront + Lambda@Edge per ADR-029 migration).
-- **Operations hub:** Internal `/ops` console aggregating Strapi, Listmonk, payments, incidents, and metrics per ADR-031 (`docs/PRDs/requierments/operations-hub/feature-requirements.md`) with deep-link navigation into the authoritative native consoles.
+- **Operations hub:** Internal `/ops` console aggregating Lightsail WordPress, Listmonk, payments, incidents, and metrics per ADR-031 (`docs/PRDs/requierments/operations-hub/feature-requirements.md`) with deep-link navigation into the authoritative native consoles.
 - **CDN & caching:** AWS CloudFront (global edge) + Upstash Redis (plan) for application-level caching and rate limiting.
 - **Secrets management:** AWS Secrets Manager (primary) with Parameter Store mirrors, all managed via Terraform rotation policies.
 - **Primary data platform:** Amazon Aurora PostgreSQL (Serverless v2) with S3-backed media buckets, provisioned via Terraform with PITR, row-level security, and Secrets Manager rotation.
 
 ## Data flows & responsibilities
 
-1. **Content delivery:** Editors work in Strapi; content persists in Aurora (dedicated schema) and media in S3. Next.js fetches structured copy via Strapi REST/GraphQL APIs, stores derived references in Aurora, hydrates ISR pages, and caches responses. Frequently-read queries must have appropriate pagination and caching headers; database indices tracked via Terraform modules.
-2. **Lead capture & entitlements:** Web forms post to `/api/leads`. The BFF persists leads, entitlements, and mission progress directly in Aurora PostgreSQL, enqueues enrichment via SQS, and hands off to Lambda workers that push to the CRM and email providers.
-3. **Background processing:** Lambda handlers implement idempotent jobs (content snapshotting, email fulfillment, sitemap regeneration) that read/write Aurora and invoke Strapi webhooks as needed. Dead-letter queues capture poison messages; retries use exponential backoff capped at 15 minutes.
-4. **Notification delivery:** ViewModels invoke `NotificationManager`, which renders Sonner toasts locally, reads subscriber preferences from Aurora, and triggers Novu workflows for inbox/email/SMS delivery. Novu stores channel receipts for audit.
-5. **Operations hub aggregation:** Internal `/ops` modules consume Aurora, Strapi, Listmonk, Grafana, Stripe/PayU/P24, and GitHub APIs via server-side proxy handlers, presenting consolidated dashboards and controlled actions. All operator activity is logged to the Aurora `ops_audit` schema.
+1. **Content delivery:** Editors manage marketing pages in the Lightsail WordPress tenancy; approved content replicates to Aurora (dedicated schema) for personalization and to S3 for ISR/SSG generation. Lambda fetches structured copy via WordPress REST endpoints, hydrates ISR pages, and caches responses behind CloudFront with immutable asset headers.
+2. **Lead capture & entitlements:** Web forms post to `/api/leads`. The Lambda BFF persists leads, entitlements, and mission progress in Aurora (relational) and DynamoDB (session/state), then emits enrichment events via EventBridge to downstream processors responsible for messaging and analytics enrichment.
+3. **Background processing:** EventBridge-scheduled Lambda functions perform idempotent jobs (content snapshotting, email fulfillment, sitemap regeneration, Lightsail-to-Aurora sync). Failures route to EventBridge DLQs with exponential backoff capped at 15 minutes.
+4. **Notification delivery:** ViewModels invoke `NotificationManager`, which renders Sonner toasts locally, consults preferences in DynamoDB/Aurora, and triggers SES or Pinpoint campaigns for transactional and marketing sends. Delivery outcomes persist for audit and surface in `/ops`.
+5. **Operations hub aggregation:** Internal `/ops` modules consume Aurora, Lightsail WordPress, Listmonk, Grafana, Stripe/PayU/P24, and GitHub APIs via server-side proxy handlers, presenting consolidated dashboards and controlled actions. All operator activity is logged to the Aurora `ops_audit` schema.
 6. **Observability:** All HTTP handlers and workers emit traces, metrics, and logs via OTel exporters. Golden signals (latency, error rate, saturation, traffic) feed SLO dashboards surfaced both in Grafana and the Operations Hub overview. Alerts route to the #clarivum-oncall channel.
-7. **Security & privacy:** Aurora PostgreSQL row-level security protects member data; policies enforce tenant isolation across profiles, diagnostics, and entitlements. MFA is mandatory for admin accounts through Auth0 (see ADR-002); Operations Hub RBAC builds on the same roles. PII stored at rest uses Postgres column-level AES-GCM encryption via pgcrypto; Strapi data snapshots replicate into Aurora following ADR-010 controls.
+7. **Security & privacy:** Aurora PostgreSQL row-level security protects member data; policies enforce tenant isolation across profiles, diagnostics, and entitlements. MFA is mandatory for admin accounts through Auth0 (see ADR-002); Operations Hub RBAC builds on the same roles. PII stored at rest uses Postgres column-level AES-GCM encryption via pgcrypto; WordPress content snapshots replicate into Aurora following ADR-010 controls.
 
 ## Aurora schema v0 (TSK-BE-001)
 
 - **Personas (`personas`)** — canonical list of Clarivum personas with UUID v7 primary keys, human-friendly `key`, optional `sort_order`, and audit fields. Unique key plus indexes on `key`/`sort_order` keep taxonomy joins fast.
 - **Profiles (`profiles`)** — member/prospect records with hashed email (`email_hash` using `pgcrypto`), optional Auth0 binding, persona affinity, locale/timezone, and pending-claim fields (`pending_claim_token`, `last_claim_email_sent_at`). Unique indexes cover `email`, `(auth_provider, auth_user_id)`, and `pending_claim_token`, while additional indexes on `status`, `persona_id`, and `email_hash` back Ops Hub lookup, account-claim flows, and analytics joins.
 - **Leads (`leads`)** — marketing submissions with UTM metadata, optional links to `profiles`/`personas`, hashed emails, and JSONB payloads for campaign specifics. Indexes on hashed identifiers, persona, source, profile, and `created_at` support funnel dashboards and deduplication; a partial unique index on `(email, source)` prevents accidental duplicates per entry point.
-- **Content references (`content_items`)** — Strapi-backed content surfaces the Next.js App Router depends on. Each row stores `external_id`, `slug`, persona, publish status, locale, feature-flag key, and metadata describing slots. Unique + coverage indexes on `external_id`, `slug`, persona, status, and `published_at` serve homepage view models with predictable latency.
+- **Content references (`content_items`)** — WordPress-backed content surfaces the Next.js App Router depends on. Each row stores `external_id`, `slug`, persona, publish status, locale, feature-flag key, and metadata describing slots. Unique + coverage indexes on `external_id`, `slug`, persona, status, and `published_at` serve homepage view models with predictable latency.
 - **Entitlements (`entitlements`, `entitlement_status_history`)** — durable product access rows with feature/plan keys, lifecycle timestamps, source references, and arbitrary metadata for downstream orchestration. Indexes on profile, status, feature, start/end dates, and external reference keep shelf hydration (<10 ms) and webhook idempotency guardrails intact; history rows store transitions for Sisu root-cause notes and support playback.
 - **Guardrails & triggers** — Migration `20251027090000_core_schema.sql` installs `pg_uuidv7`, `pgcrypto`, `citext`, plus trigger `set_audit_fields()` so audit columns stay consistent across tables (revision increments, `updated_at` refresh). See ADR-036 for full index catalogue and future extension follow-ups (RLS, Ops Hub audit schema).
 
 ## Deployment topology
 
-- **Environments:** `dev` (shared testing), `prod` (customer-facing). Preview builds spin up as temporary ECS Fargate services in the dev account via GitHub Actions (documented in `docs/runbooks/deployment.md`).
-- **Hosting:** GitHub Actions builds/pushes the Next.js container to ECR and updates the ECS Fargate service behind an Application Load Balancer and CloudFront. Strapi and Novu run on AWS ECS Fargate with Terraform-managed services; Lambda jobs are deployed via Terraform-driven GitHub Actions workflows.
-- **Strapi cluster:** `infra/strapi` provisions the Strapi ECS cluster (Fargate + Fargate Spot), ALB ingress (`cms.<env>.clarivum.com`), IAM roles with Secrets Manager/S3 access, and autoscaling policies. CloudWatch log groups (`/aws/ecs/strapi-<env>`, `/aws/ecs/strapi-<env>/exec`) plus alarms (`strapi-<env>-target-response-latency`, `strapi-<env>-target-5xx`) funnel alerts to the on-call SNS topic. The module now also manages the multi-AZ Postgres instance (`strapi-<env>-db`), Enhanced Monitoring role, versioned media buckets (`clarivum-strapi-<env>-media-{public,private}`) with SSE-KMS, and Secrets Manager entries (`clarivum/strapi/<env>/database-{password,url}`) that feed ECS tasks.
-- **Release model:** Trunk-based development with feature flags and automated smoke tests. Rollbacks prefer redeploying the last known good build rather than hotfix branches (documented in the deployment runbook).
+- **Environments:** `dev` (shared testing) and `prod` (customer-facing). Clarivum intentionally skips a persistent staging tier—use preview builds (per-PR S3/CloudFront artefacts) or the `dev` workspace for rehearsal. When legacy docs mention “staging,” read it as “preview” or “dev.”
+- **Hosting pipeline:** GitHub Actions builds the Next.js app, exports static assets to the S3 static bucket, packages Lambda handlers (esbuild + AWS SAM/SST bundle), and applies Terraform to roll out API Gateway/Lambda, DynamoDB tables, Aurora updates, and CloudFront invalidations.
+- **Lightsail tenancy:** Terraform (or documented console steps) provisions a WordPress bundle with automated snapshots, Secrets Manager integration for admin credentials, and scheduled content-sync Lambdas that replicate canonical data into Aurora.
+- **Release model:** Trunk-based development with feature flags and automated smoke tests. Rollbacks redeploy the last known good Lambda/S3 artefacts and issue targeted CloudFront invalidations rather than building hotfix branches.
 
 ## Alignment with non-functional requirements
 
-- **Availability:** CloudFront, ECS Fargate (multi-AZ), Novu ECS, and Aurora (multi-AZ) provide redundancy that supports the 99.9% uptime objective. Lambda workers run across at least two AZs.
-- **Performance:** CDN caching, ISR, Strapi response tuning, Novu workflow SLAs, and Redis-backed edge caching keep p95 HTML responses below 300 ms for Poland. API surfaces have explicit budgets (p99 < 800 ms).
+- **Availability:** CloudFront, API Gateway (multi-AZ), Lambda (multi-AZ), DynamoDB (multi-AZ), and Aurora Serverless (multi-AZ) underpin the 99.9% uptime objective. Lightsail workloads rely on nightly snapshots and documented recovery runbooks.
+- **Performance:** CDN caching, ISR, WordPress REST response tuning, and Redis-backed edge caching (Upstash) keep p95 HTML responses below 300 ms for Poland. API surfaces have explicit budgets (p99 < 800 ms) with provisioned concurrency enabled only where needed.
 - **Reliability:** RPO ≤ 15 minutes via Aurora point-in-time recovery; RTO ≤ 2 hours with automated restore scripts tested quarterly.
 - **Security:** Auth0 + RBAC, secrets management, and CIS IG1 controls are codified in `docs/policies/security-baseline.md`.
-- **Cost:** Budgets and alerts flow through AWS Budgets; the FinOps runbook defines actions when hitting 50/75/90% of monthly spend for CloudFront, ECS, and Aurora.
+- **Cost:** Budgets and alerts flow through AWS Budgets; the FinOps runbook defines actions when hitting 50/75/90% of monthly spend for CloudFront, API Gateway/Lambda, DynamoDB, Aurora ACUs, and Lightsail bundles.
 
 Revisit this document whenever an ADR is added or an architectural component changes. For diagrams beyond ASCII, store source files (e.g., Structurizr DSL) alongside this doc.
+
+### Implementation snapshot · dev (2025‑10‑30)
+
+- **Network:** `vpc-0bfe1a3458c531a72` with public subnets (`subnet-00874c5c298320604`, `subnet-06b12c27a3abe5959`) and private subnets (`subnet-07958bfe0e465d42e`, `subnet-0b4a2e4455725e8ed`), backed by `nat-04f8a56ed66ed4964` and IGW `igw-05e2c2733ae25a93c`.
+- **Content delivery:** CloudFront distribution `EPHSANK5PAPBA` (`d29q7vbsl5v19l.cloudfront.net`) fronts S3 buckets `clarivum-dev-static-869603330574` and `clarivum-dev-media-869603330574` via OAC `E2HXAYNLNBF4IP`; logs land in `clarivum-dev-cdn-logs-869603330574`.
+- **Data plane:** DynamoDB table `platform-dev-kv` (TTL enabled) and Aurora PostgreSQL Serverless v2 cluster `platform-dev-aurora` (`platform-dev-aurora.cluster-c3ss2q66m8yw.eu-central-1.rds.amazonaws.com` / reader endpoint `...-ro-...`), secrets stored under `clarivum/platform/dev/database/*`.
+- **API tier:** Lambda `platform-dev-core` (python3.12) runs inside the private subnets with API Gateway HTTP API `b5snol7qwe` (`https://b5snol7qwe.execute-api.eu-central-1.amazonaws.com`) publishing the public interface.
+- **Scope guardrail:** Legacy Strapi deployment on ECS remains authoritative for CMS; no Lightsail workload was provisioned, keeping ADR‑010 intact.
+
+> Update accompanying diagrams in `docs/diagrams/adr-001-primary-cloud-and-database/*` to reflect the identifiers above before the next architecture review.
 
 ## App Router information architecture (TSK-FE-002)
 
@@ -142,7 +156,7 @@ The Clarivum web app now mirrors the Skin/Fuel/Habits sitemap described in `docs
 
 Extension points:
 
-- Swap `ContentLibrary` inputs (currently static map) with Strapi/Aurora loaders once `TSK-SHARED-003` and `TSK-FE-006` ship. The coordinator/manager boundary lets tests inject doubles.
+- Swap `ContentLibrary` inputs (currently static map) with WordPress/Aurora loaders once `TSK-SHARED-003` and `TSK-FE-006` ship. The coordinator/manager boundary lets tests inject doubles.
 - Add package-level `AGENTS.md` entries whenever new route groups/components appear so future agents know which commands/tests to run.
 - Align homepage metadata work with `docs/runbooks/seo-homepage-metadata-kickoff.md` as soon as SEO utilities start integrating the wizard.
 - Update the sitemap helpers whenever we introduce new hubs (ebooks, tools, ops) so Flow/SEO metrics stay accurate.

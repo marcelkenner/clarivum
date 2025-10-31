@@ -4,7 +4,7 @@ Reusable Terraform modules that back Clarivum infrastructure live here. Every mo
 
 ## Conventions
 
-- Use module namespaces `strapi-*`, `supabase-*`, etc. Keep inputs camel_case to mirror Terraform community style.
+- Use module namespaces `strapi-*`, `aurora-*`, `app-*`, etc. Keep inputs camel_case to mirror Terraform community style.
 - Surface only validated outputs (ARNs, names) that downstream root configs consume; avoid leaking entire resource objects.
 - Document required inputs in the module-level README (or AGENTS) and reference governing ADRs.
 - Tag all managed resources via a `tags` variable merged with environment defaults.

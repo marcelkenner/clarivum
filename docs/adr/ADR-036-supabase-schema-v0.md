@@ -6,7 +6,7 @@ Status: Superseded
 
 ## Context
 - Sprint 02 requires a durable data backbone so homepage view models, App Router content loaders, and the Operations Hub can ship against stable IDs (`TSK-FE-005`, `TSK-PLAT-038`).
-- Product scope in `docs/PRDs/requierments/supabase-platform/feature-requirements.md` and PTRD §4 lock personas, leads, and entitlements as the first-class relational core; hashed identifiers are mandatory for analytics (ADR-029) and GDPR compliance.
+- Product scope was originally captured in `docs/PRDs/requierments/supabase-platform/feature-requirements.md` (now superseded by `docs/PRDs/requierments/aurora-data-platform/feature-requirements.md`) and PTRD §4 lock personas, leads, and entitlements as the first-class relational core; hashed identifiers are mandatory for analytics (ADR-029) and GDPR compliance.
 - Sisu Debugging and Ops Hub telemetry (ADR-031, `docs/runbooks/account-claiming.md`) expect canonical tables for profiles with pending-claim flows, entitlement status history, and audit trails.
 - No prior migrations existed in `database/migrations/`, so we needed to establish extensions, naming conventions (plural snake_case, UUID v7), audit columns, and seed data before dependent teams begin integration work.
 

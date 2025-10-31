@@ -17,19 +17,13 @@ This directory stores Terraform configurations for Clarivum platform services. A
 - `terraform -chdir=infra/strapi apply -var-file=env/prod.tfvars` — apply changes for prod (requires release approval).
 - `terraform -chdir=infra/strapi fmt` and `terraform -chdir=infra/strapi validate` — formatting and validation guardrails (mirrors CI expectations).
 
-## Legacy Supabase tenancy (TSK-PLAT-012)
+## App data foundation (TSK-PLAT-012 follow-up)
 
-**Status:** frozen after the AWS migration. Keep the module read-only unless you are executing a decommission plan. Open a `[Infra]` task before touching it so we can archive or rewrite guidance alongside the code removal.
-
-- Terraform code under `infra/supabase` still provisions the legacy Supabase projects, storage buckets, and AWS secrets.
-- Supply a Supabase access token at runtime only when running retirement steps: `export SUPABASE_ACCESS_TOKEN=$(pass show clarivum/supabase/pat)`.
-- Configuration expects an organisation slug in each tfvars (`supabase_organization_slug`); the module resolves the UUID automatically via the Management API unless an override is supplied.
-- Usage mirrors the Strapi flow (use for teardown/backup only):
-  - `terraform -chdir=infra/supabase init`
-  - `terraform -chdir=infra/supabase workspace select dev || terraform -chdir=infra/supabase workspace new dev`
-  - `terraform -chdir=infra/supabase plan -var-file=env/dev.tfvars -var="supabase_access_token=$SUPABASE_ACCESS_TOKEN"`
-  - `terraform -chdir=infra/supabase apply -var-file=env/prod.tfvars -var="supabase_access_token=$SUPABASE_ACCESS_TOKEN"`
-- Outputs surface Supabase URLs, project refs, and Secrets Manager ARNs that will be retired once data migrations are complete. Record any cleanup in `docs/runbooks/decommissioning.md`.
+- `infra/app-data` provisions the shared Aurora PostgreSQL Serverless v2 cluster plus application asset S3 buckets. It replaces the retired Supabase tenancy.
+- Populate `env/<env>.tfvars` with private subnet IDs and security groups that allow PostgreSQL traffic from the application stack. Bucket prefixes default to `clarivum-app-<env>-<name>` but can be overridden per product area.
+- Run `terraform -chdir=infra/app-data plan -var-file=env/dev.tfvars` before PRs; production applies require change approval plus a database maintenance window.
+- Secrets Manager entries under `clarivum/app/<env>/database/*` are treated as the source of truth for deployments. Keep rotation notes in `docs/runbooks/secrets-management.md`.
+- Any residual Supabase decommissioning tasks should be tracked in `docs/runbooks/decommissioning.md` and referenced from the Kaizen board.
 
 ## Strapi data foundation (TSK-PLAT-021)
 

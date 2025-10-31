@@ -11,6 +11,7 @@ Clarivum targets predictable spend with a cap of **$2.5k/month** at 10× project
 ## Standard review (monthly)
 
 1. **Preparation (Day 1–2):**
+   - Review `docs/finops/aws-cost-optimization-blueprint.md` and note any divergence between the selected track/levers and current spend so follow-up actions stay aligned.
    - Pull previous month’s AWS Cost Explorer report (grouped by service, tag `clarivum:environment`).
    - Export CloudFront usage by distribution/environment; capture bandwidth, Lambda@Edge/Function URLs invocations, and cache hit ratios.
    - Export Aurora (storage, IOPS) and S3 usage (storage, data transfer) and compare to plan thresholds.

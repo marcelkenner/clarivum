@@ -9,6 +9,16 @@ This runbook defines the process for promoting changes from trunk to production 
 - Dev environment mirrors production configuration (feature flags, environment variables, database migrations).
 - SLO dashboards (Grafana) show error budget burn < 50% and no Sev-1 incidents are open.
 
+> Environment policy: Clarivum operates only `dev` and `prod` environments. Any legacy references to “staging” in this runbook or related docs map to preview builds or the shared `dev` workspace.
+
+### AWS platform footprint (dev · 2025-10-30)
+
+- **Network:** `vpc-0bfe1a3458c531a72` with public subnets (`subnet-00874c5c298320604`, `subnet-06b12c27a3abe5959`) and private subnets (`subnet-07958bfe0e465d42e`, `subnet-0b4a2e4455725e8ed`), NAT `nat-04f8a56ed66ed4964`, and IGW `igw-05e2c2733ae25a93c`.
+- **Delivery:** CloudFront `EPHSANK5PAPBA` fronts S3 buckets `clarivum-dev-static-869603330574` (Next.js output) and `clarivum-dev-media-869603330574` (member assets); logs land in `clarivum-dev-cdn-logs-869603330574`.
+- **Compute/API:** Lambda `platform-dev-core` (python3.12) plus API Gateway HTTP API `b5snol7qwe`. Ensure code deploys update this function and invalidate the CloudFront distribution when ISR assets change.
+- **Data:** DynamoDB `platform-dev-kv` (TTL enabled) and Aurora Serverless v2 cluster `platform-dev-aurora`; credentials rotate via Secrets Manager paths `clarivum/platform/dev/database/master` and `clarivum/platform/dev/database/url`.
+- **CMS guardrail:** Strapi remains on the ECS stack managed under `infra/strapi`; Lightsail is intentionally unused to avoid diverging from ADR‑010.
+
 ## CI/CD pipeline overview
 
 1. **GitHub Actions (`ci.yml` – “Validate, test, and smoke” job):**

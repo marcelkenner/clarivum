@@ -10,7 +10,7 @@
 - **Partners:** DevOps engineer (Terraform), Finance (cost oversight), Privacy officer (audit requests).
 - **Tooling:**
   - AWS Secrets Manager (eu-central-1) console + CLI.
-  - Terraform configurations (`infra/secrets/` module).
+- Terraform configurations (`infra/aws/platform` and `infra/strapi`) managed via Terraform Cloud workflows.
   - GitHub Actions secrets sync pipeline.
   - AWS ECS/App Runner deployment tooling for injecting secrets into task definitions.
   - CloudTrail + Grafana for access monitoring.
@@ -21,30 +21,32 @@
    - Owner approves and assigns IAM permissions.
 2. **Creation steps:**
    - Define name using `/clarivum/<env>/<service>/<secretName>` convention.
-     - Aurora provisioning (`infra/aws/data`) automatically creates `/clarivum/database/<env>/{writer_url|reader_url|iam_role}`. Do not edit these manually; rotate via Terraform apply and update consuming services.
-   - Store value via AWS CLI:
+     - Platform runtime secrets (`clarivum/platform/<env>/database/*`) are managed by Terraform (`infra/aws/platform`). Never create or edit these secrets manually—open a PR if changes are required.
+     - Aurora provisioning (`infra/app-data`) exposes connection metadata only; see outputs for reference.
+   - For manually managed secrets (third-party APIs, temporary tokens), use:
      ```bash
      aws secretsmanager create-secret \
        --name "/clarivum/prod/payments/stripe-secret-key" \
        --secret-string '{"value":"sk_live_...","owner":"payments"}'
      ```
    - Tag with `Owner`, `RotationDays`, `Classification`.
-   - Update Terraform state if managed via IaC to avoid drift.
+   - If the secret is later adopted by Terraform, import it and remove any manual overrides to prevent drift.
 3. **Propagation:**
-   - GitHub Actions job fetches secrets and syncs to ECS task definitions or Parameter Store (`npm run secrets:sync`).
-   - For Lambda workloads, ensure IAM role has `secretsmanager:GetSecretValue` scoped to path.
+   - Platform Lambda (`platform-<env>-core`) reads database credentials directly from Secrets Manager—Terraform attaches least-privilege policies.
+   - GitHub Actions job fetches secrets and syncs to ECS task definitions or Parameter Store (`npm run secrets:sync`) for workloads that cannot assume roles.
+   - Document secret in service README and link to this runbook.
    - Document secret in service README and link to this runbook.
 
 ## Rotation procedure
-1. **Schedule:** Minimum every 90 days; align with provider requirements (Stripe, Plausible Analytics, Upstash).
-2. **Execution:**
+1. **Schedule:** Minimum every 90 days for manual secrets. Platform Aurora secrets rotate automatically every 30 days via the AWS managed rotation function (`SecretsManagerRDSPostgreSQLRotationSingleUser`) deployed by Terraform.
+2. **Execution (manual secrets only):**
    - Generate new credential; update secret using `put-secret-value`.
-   - Run `npm run secrets:sync -- --service payments` to push to ECS task definitions.
-   - Restart dependent workloads (redeploy ECS service, redeploy Lambda).
+   - Run `npm run secrets:sync -- --service payments` (or service-specific sync) to push to consuming runtimes.
+   - Restart dependent workloads (redeploy ECS service, trigger Lambda deployment).
 3. **Validation:**
    - Confirm health checks succeed (e.g., Stripe ping, Plausible Analytics API).
    - Monitor CloudWatch/Grafana for errors during 1-hour observation window.
-4. **Cleanup:** Delete previous secret version if provider revokes old credentials automatically. Otherwise, schedule manual revocation.
+4. **Cleanup:** Delete previous secret version if provider revokes old credentials automatically. Otherwise, schedule manual revocation. Terraform-managed secrets will age-out versions automatically following successful rotation.
 
 ## Access management
 - IAM roles/users:
@@ -79,5 +81,6 @@
 - Ensure GDPR-related integrations (Auth0, Plausible Analytics) have rotation logs accessible.
 
 ## Change log
+- **2025-10-30:** Terraform now manages platform runtime secrets with automated rotation (`infra/aws/platform`).
 - **2025-11-09:** Updated AWS-only rotation workflow and secret naming conventions after retiring legacy hosting integrations (TSK-PLAT-080).
 - **2025-10-23:** Initial secrets management runbook covering lifecycle, rotation, CI sync, and incident handling.

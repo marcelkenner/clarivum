@@ -131,6 +131,9 @@ Use ISO/IEC 25010 quality characteristics to force clarity (performance, reliabi
 
 ## 10) Cost guardrails (FinOps basics)
 
+- **Baseline architecture:** Adopt **Track A (serverless-first)** from `docs/finops/aws-cost-optimization-blueprint.md`: S3 + CloudFront (OAC) for frontend delivery, API Gateway HTTP API with Graviton Lambda for the BFF/API layer, DynamoDB On-Demand for key/value workloads, Aurora Serverless v2 (min 0–0.5 ACU) for SQL needs, Lightsail WordPress for lightweight CMS, and SES/WorkMail/Pinpoint for messaging.
+- **Dev environment status (2025-10-30):** Track A is provisioned in AWS account `869603330574`—CloudFront `EPHSANK5PAPBA`, S3 buckets `clarivum-dev-static-869603330574` / `clarivum-dev-media-869603330574`, API Gateway `b5snol7qwe` + Lambda `platform-dev-core`, DynamoDB `platform-dev-kv`, and Aurora `platform-dev-aurora`; CMS remains Strapi on ECS (no Lightsail workload created).
+- **FinOps hooks:** Record all deviations from Track A during monthly reviews; if sustained load requires Track B (managed containers), capture the ADR delta before provisioning.
 - **Right‑sizing & budgets:** Rightsize instances, set budget alerts, enable cost explorer rightsizing and Trusted Advisor checks. ([AWS Documentation](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html?utm_source=chatgpt.com))
 - **Waste is real:** Flexera’s 2024/2025 surveys consistently find ~27–28% of cloud spend is wasted; cost control is the top challenge. Bake in controls now. ([learn.flexera.com](https://learn.flexera.com/flexera-business-value/1491301?utm_source=chatgpt.com))
 - **Performance efficiency & cost pillars:** Use AWS Well‑Architected to review early (six pillars include cost and performance). ([Amazon Web Services, Inc.](https://aws.amazon.com/architecture/well-architected/?utm_source=chatgpt.com))
@@ -142,7 +145,7 @@ Use ISO/IEC 25010 quality characteristics to force clarity (performance, reliabi
 
 ## 11) Release & runtime operations
 
-- **Environments:** dev → prod; dev is the single pre-production gate and prod is the truth.
+- **Environments:** dev → prod; dev is the single pre-production gate and prod is the truth. Clarivum intentionally runs without a staging environment—use PR preview deployments or the shared dev workspace wherever historical docs reference “staging.”
 - **Runbooks & incident levels:** who pages whom; severities; rollback steps.
 - **Change management:** canary, automated rollbacks, feature kill‑switch.
 - **Data retention:** define per‑object lifecycle and deletion (user‑requested, auto).

@@ -20,12 +20,21 @@ jobs:
   terraform:
     name: terraform fmt/validate/plan
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - stack: strapi
+            dir: infra/strapi
+          - stack: platform
+            dir: infra/aws/platform
     env:
       TF_BACKEND_BUCKET: ${{ vars.TF_BACKEND_BUCKET }}
-      TF_BACKEND_KEY: ${{ vars.TF_BACKEND_KEY }}
+      TF_BACKEND_KEY_STRAPI: ${{ vars.TF_BACKEND_KEY_STRAPI }}
+      TF_BACKEND_KEY_PLATFORM: ${{ vars.TF_BACKEND_KEY_PLATFORM }}
       TF_BACKEND_REGION: ${{ vars.TF_BACKEND_REGION }}
       TF_BACKEND_DYNAMODB_TABLE: ${{ vars.TF_BACKEND_DYNAMODB_TABLE }}
-      TERRAFORM_WORKING_DIR: infra/strapi
+      TERRAFORM_WORKING_DIR: ${{ matrix.dir }}
+      TERRAFORM_STACK: ${{ matrix.stack }}
       TERRAFORM_ENV: ${{ vars.TERRAFORM_DEFAULT_WORKSPACE || 'dev' }}
       TF_IN_AUTOMATION: "true"
       AWS_REGION: ${{ vars.TF_BACKEND_REGION }}
@@ -44,12 +53,20 @@ jobs:
         run: |
           set -euo pipefail
           missing=0
-          for name in TF_BACKEND_BUCKET TF_BACKEND_KEY TF_BACKEND_REGION TF_BACKEND_DYNAMODB_TABLE; do
+          for name in TF_BACKEND_BUCKET TF_BACKEND_REGION TF_BACKEND_DYNAMODB_TABLE; do
             if [ -z "${!name:-}" ]; then
               echo "::error::$name is not defined. Set repository or environment variable \"$name\" for the Terraform backend."
               missing=1
             fi
           done
+          STACK_KEY_VAR="TF_BACKEND_KEY_${TERRAFORM_STACK^^}"
+          STACK_KEY="${!STACK_KEY_VAR:-}"
+          if [ -z "${STACK_KEY}" ]; then
+            echo "::error::${STACK_KEY_VAR} is not defined. Add a repository variable for this backend key."
+            missing=1
+          else
+            echo "TF_BACKEND_KEY=${STACK_KEY}" >> "$GITHUB_ENV"
+          fi
           if [ "$missing" -eq 1 ]; then
             exit 1
           fi
@@ -95,13 +112,13 @@ jobs:
           terraform -chdir=${TERRAFORM_WORKING_DIR} plan \
             -input=false \
             -var-file=env/${TERRAFORM_ENV}.tfvars \
-            -out=plan-${TERRAFORM_ENV}.tfplan
+            -out=plan-${TERRAFORM_STACK}-${TERRAFORM_ENV}.tfplan
 
       - name: Show plan summary
-        run: terraform -chdir=${TERRAFORM_WORKING_DIR} show -no-color plan-${TERRAFORM_ENV}.tfplan
+        run: terraform -chdir=${TERRAFORM_WORKING_DIR} show -no-color plan-${TERRAFORM_STACK}-${TERRAFORM_ENV}.tfplan
 
       - name: Upload plan artifact
         uses: actions/upload-artifact@v4
         with:
-          name: terraform-plan-${{ env.TERRAFORM_ENV }}
-          path: infra/strapi/plan-${{ env.TERRAFORM_ENV }}.tfplan
+          name: terraform-plan-${{ matrix.stack }}-${{ env.TERRAFORM_ENV }}
+          path: ${{ env.TERRAFORM_WORKING_DIR }}/plan-${{ matrix.stack }}-${{ env.TERRAFORM_ENV }}.tfplan

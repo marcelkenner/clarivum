@@ -27,17 +27,17 @@ tags:
 ---
 
 ## Summary
-Create and configure the Terraform codebase that provisions AWS foundations (CloudFront, ECS, Aurora, SQS/Lambda/Secrets Manager) per ADR-001 and ADR-003.
+Create and configure the Terraform codebase that provisions AWS foundations (CloudFront, S3 OAC, API Gateway HTTP APIs, Lambda, DynamoDB, Aurora Serverless, Secrets Manager) per ADR-001 and ADR-003.
 
 ## Definition of Ready
 - [x] Repository strategy confirmed: dedicated repo `clarivum-infra` with `/modules`, `/stacks/<env>`, `/providers`, and `/pipelines` layout (no submodule) approved by architecture.
-- [x] Resource inventory captured covering VPC/subnets/NAT, ECR, ECS/Fargate, RDS Postgres, S3 (assets/state/logs), CloudFront, KMS, Secrets Manager, SQS/SNS, SES, CloudWatch/X-Ray, IAM roles/policies, WAF, API Gateway, Lambda glue, VPC endpoints, Route53, external data stores, and budget alerts with inputs per stack.
+- [x] Resource inventory captured covering VPC/subnets/NAT, S3 (static + media + state), CloudFront (OAC), API Gateway HTTP APIs, Lambda (Graviton), DynamoDB tables, Aurora Serverless v2, Lightsail WordPress bundle, SES/Pinpoint, CloudWatch/X-Ray, IAM roles/policies, EventBridge rules, VPC endpoints, Route53, and budget alerts with inputs per stack.
 - [x] Remote state backend standardized to S3 (`clarivum-tf-state-<account>`) with DynamoDB lock table `clarivum-tf-locks`, SSE-KMS encryption, workspace names `dev|stage|prod`, and state keys `platform/<workspace>/terraform.tfstate`.
 - [x] CI workflow defined (`tf-validate`, `tf-plan`, manual `tf-apply`) running fmt/validate/tflint/tfsec/plan, authenticating via GitHub Actions OIDC role `TerraformDeployer`, and storing Slack webhook secrets securely.
 
 ## Definition of Done
 - [ ] Terraform project scaffolded with remote state configuration committed.
-- [ ] Baseline modules for CloudFront/ECS, Aurora, SQS, and Lambda authored and documented.
+- [ ] Baseline modules for CloudFront/S3 OAC, API Gateway, Lambda, DynamoDB, Aurora Serverless, and EventBridge authored and documented.
 - [ ] CI workflow validating format/plan merged.
 - [ ] Deployment runbook and platform role guide updated with IaC usage instructions.
 - [ ] Knowledge-transfer walkthrough scheduled/recorded for engineers.

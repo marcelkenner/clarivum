@@ -1,5 +1,5 @@
 # Technology Stack Catalog
-Last Updated: 2025-10-28
+Last Updated: 2025-10-30
 
 Clarivum relies on a curated mix of open source projects, managed platforms, and vendor services to satisfy functional requirements while staying compliant with EU residency, privacy, and performance guardrails. This catalog inventories every adopted or planned tool so teams can align roadmaps, runbooks, and procurement. Update this file whenever we introduce, retire, or materially change a dependency.
 
@@ -44,7 +44,7 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 - See `docs/runbooks/communication-channel-selection.md` for when to route messages through Novu versus Listmonk.
 
 ### Data, storage & integration
-- **Amazon Aurora PostgreSQL Serverless v2 (Commercial)** – Primary application database with row-level security, PITR, and Secrets Manager rotation (ADR-001). Implementation tracked through the AWS migration follow-ups in `TODO.md` and forthcoming platform tasks.
+- **Amazon Aurora PostgreSQL Serverless v2 (Commercial)** – Primary application database with row-level security, PITR, and Secrets Manager rotation (ADR-001). Implementation tracked through the AWS migration follow-ups in `TODO.md` and forthcoming platform tasks. Supabase tenancy has been fully retired; Aurora is the authoritative relational store.
 - **Amazon S3 (Commercial)** – Media, static asset origins, and artifact storage for the web app, Strapi, and supporting services.
 - **Upstash Redis (Commercial)** – Serverless Redis backing caching, rate limiting, and locks (ADR-006, `docs/runbooks/cache-invalidation.md`). Implementation tracked in `tasks/backlog/platform/plat-015-upstash-platform.md` (TSK-PLAT-015).
 - **Amazon RDS Postgres (Commercial)** – Dedicated database for Listmonk workloads.
@@ -75,6 +75,9 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 - **AWS CloudFront, Application Load Balancer, ECS Fargate (Commercial)** – Hosting and delivery platform for the Next.js application and supporting services (ADR-001, docs/runbooks/deployment.md).
 - **Terraform (MPL 2.0)** – Infrastructure as code for AWS, Upstash, and Listmonk resources.
 - **GitHub Actions (MIT)** – CI/CD automation enforcing lint, type-check, validation, container build, and deploy steps.
+
+## Retired & deprecated tooling
+- **Supabase Platform (Postgres, Auth, Storage)** – Retired in October 2025 after migrating workloads to AWS Aurora PostgreSQL, Auth0, and Amazon S3. Runbooks and Terraform modules under `infra/supabase/` remain for historical reference only and will be archived once all follow-up tasks close.
 
 ## Maintenance expectations
 - Track security advisories monthly; patch high-severity issues within two weeks.

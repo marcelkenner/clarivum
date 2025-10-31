@@ -1,13 +1,13 @@
 # Aurora Operations Runbook
 
-> Implements operational guardrails from `docs/adr/ADR-001-primary-cloud-and-database.md` and the Clarivum data platform requirements in `docs/PRDs/requierments/platform/feature-requirements.md`.
+> Implements operational guardrails from `docs/adr/ADR-001-primary-cloud-and-database.md` and the Clarivum data platform requirements in `docs/PRDs/requierments/aurora-data-platform/feature-requirements.md`.
 
 ## Purpose
 - Maintain Clarivum’s Aurora PostgreSQL cluster with predictable performance, automated backups, and disciplined schema governance.
 - Provide procedures for migrations, restoration drills, and incident response after migrating fully onto AWS-managed data services.
 
 ## Scope
-- Aurora PostgreSQL clusters: `clarivum-dev` and `clarivum-prod` (multi-AZ, eu-central-1).
+- Aurora PostgreSQL clusters: `platform-dev-aurora` and `platform-prod-aurora` (Aurora Serverless v2, eu-central-1).
 - Associated S3 buckets for logical backups and bulk imports.
 - Secrets distribution through AWS Secrets Manager.
 - Excludes analytics warehouse ETL (covered separately).
@@ -18,9 +18,9 @@
 - **Storage alignment** — Downloadable assets (ebooks, evidence) now live in S3. Access policies reference Aurora state via signed URL minting services so entitlement checks and storage access stay consistent even though the data plane moved.
 
 ## Preconditions
-- Terraform state up to date for `infra/aws/data`; latest apply timestamp recorded in the infra README.
+- Terraform state up to date for `infra/app-data`; latest apply timestamp recorded in the infra README.
 - Parameter groups (`clarivum-postgres`) and subnet groups provisioned per ADR-001.
-- Secrets in AWS Secrets Manager (`/clarivum/<env>/database/{writer_url,reader_url,iam_role}`) rotated on the documented cadence.
+- Secrets in AWS Secrets Manager (`/clarivum/platform/<env>/database/{master,url}`) are managed by Terraform (`infra/aws/platform`) with 30-day automated rotation.
 - `database/migrations` contains versioned SQL with forward and rollback scripts and smoke tests (`database/smoke`).
 - CloudWatch dashboards (`Aurora / Writer`, `Aurora / Reader`) configured and alerts routed to `#clarivum-data`.
 
@@ -28,23 +28,20 @@
 1. Authenticate to AWS with the platform role (`aws sso login --profile clarivum-platform`).
 2. Select workspace and apply Terraform for the target environment:
    ```bash
-   terraform -chdir=infra/aws/data init
-   terraform -chdir=infra/aws/data workspace select dev \
-     || terraform -chdir=infra/aws/data workspace new dev
-   terraform -chdir=infra/aws/data apply \
-     -var-file=infra/aws/data/env/dev.tfvars
+   terraform -chdir=infra/app-data init
+   terraform -chdir=infra/app-data workspace select dev \
+     || terraform -chdir=infra/app-data workspace new dev
+   terraform -chdir=infra/app-data apply \
+     -var-file=infra/app-data/env/dev.tfvars
    ```
 3. Capture Terraform outputs (`writer_endpoint`, `reader_endpoint`, `secret_arn`, `cluster_identifier`) and store in the weekly ops log.
-4. Populate Secrets Manager entries with:
-   - `DATABASE_URL` (writer, password-based for migrations)
-   - `READ_DATABASE_URL` (reader, readonly connections)
-   - `DATABASE_IAM_ROLE_ARN` for IAM authentication (ECS tasks, Lambda workers)
-5. Sync secrets to runtimes following `docs/runbooks/secrets-management.md`. GitHub Actions retain read-only access to the dev replica; production secrets are scoped to runtime principals using IAM roles.
+4. Confirm Secrets Manager entries exist under `/clarivum/platform/<env>/database/*`. These are provisioned and rotated automatically; no manual updates should be applied outside Terraform.
+5. Sync secrets to runtimes following `docs/runbooks/secrets-management.md` when new consumers are onboarded. GitHub Actions retain read-only access to the dev replica; production secrets are scoped to runtime principals using IAM roles.
 6. Regenerate TypeScript database types when schemas change: `npm run db:types` (wraps `kanel` against Aurora).
 
 ## Tooling & References
 - AWS Console: RDS (cluster metrics, backups), CloudWatch (alerts), Performance Insights.
-- Terraform (`infra/aws/data`) workspace.
+- Terraform (`infra/app-data`) workspace.
 - `npm run db:migrate` — runs migrations through the shared migration runner.
 - `npm run db:migration:status` — lists pending/applied migrations per environment.
 - `psql` CLI tunnelled via `aws rds generate-db-auth-token` for break-glass access.
@@ -144,4 +141,5 @@
 
 ## Changelog
 - 2025-11-09 — Replaced legacy tenancy guidance with Aurora procedures following AWS migration (TSK-PLAT-080).
+- 2025-10-30 — Updated cluster identifiers and documented Terraform-managed secret rotation (`infra/aws/platform`).
 - 2025-10-26 — Initial database runbook (superseded).
