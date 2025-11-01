@@ -1,0 +1,24 @@
+set shell := ["bash", "-lc"]
+
+# Terraform helpers for the platform stack.
+
+default_env := "dev"
+terraform := "terraform"
+
+init env=default_env:
+  {{terraform}} init -upgrade
+
+workspace env=default_env:
+  {{terraform}} workspace select {{env}} || {{terraform}} workspace new {{env}}
+
+plan env=default_env:
+  {{terraform}} plan -var-file=env/{{env}}.tfvars
+
+apply env=default_env:
+  {{terraform}} apply -var-file=env/{{env}}.tfvars
+
+validate:
+  {{terraform}} validate
+
+fmt:
+  {{terraform}} fmt -recursive

@@ -1,7 +1,7 @@
 # Cache Invalidation Runbook
 
 ## Scope & objectives
-- Govern response caching, rate limiting, and distributed locks powered by Upstash Redis as defined in ADR-006.
+- Govern response caching, rate limiting, and distributed locks powered by AWS ElastiCache Serverless for Redis as defined in ADR-006.
 - Provide deterministic pathways for key design, invalidation triggers, and emergency bypass for Clarivum edge experiences.
 - Maintain observability for cache hit rate, miss penalties, and throttling accuracy.
 
@@ -10,9 +10,9 @@
 - **Engineering rotation:** Web platform engineer (weekly).
 - **Stakeholders:** Marketing (campaign freshness), QA (release validation), SRE (latency SLO).
 - **Tooling:**
-  - Upstash console (EU-central) for `clarivum-cache`, `clarivum-guardrails`.
+  - AWS Console / ElastiCache dashboards for `platform-dev-cache` and `platform-prod-cache`.
   - `@clarivum/cache` package (`EdgeResponseCache`, `RateLimiterManager`, `DistributedLockCoordinator`).
-  - Grafana dashboards (cache hit %, rate limit counts, Upstash usage).
+  - Grafana dashboards (cache hit %, rate limit counts, ElastiCache metrics).
   - Feature flags via Flagsmith (`cache_bypass_enabled`).
 
 ## Key naming & TTL conventions
@@ -49,21 +49,21 @@
 - Policies defined in `RateLimiterConfig`. For changes:
   1. Update policy class with new quota/sliding window values.
   2. Deploy to the dev environment; run smoke script `npm run rate-limit:test`.
-  3. Monitor Upstash metrics for throttled count anomalies post-release.
+  3. Monitor CloudWatch `AWS/ElastiCache` metrics (`CurrConnections`, `CacheHitRate`, `EngineCPUUtilization`) for throttled count anomalies post-release.
 - For ad-hoc overrides (e.g., partner demo), apply allowlist entry via `RateLimiterManager.allowTemporaryAccess(ip, ttl)`.
 
 ## Observability checklist
 - Hit rate ≥ 80% for marketing surfaces; investigate if drop persists > 1 hour.
-- Upstash request quota usage < 70% of monthly allocation (alert at 55%).
+- ElastiCache throttled request count remains 0; alert when `CurrConnections` or `NewConnections` deviates >20% over the trailing 7-day baseline.
 - Rate limiting errors correlate with metrics; ensure 429 responses include `RateLimit-Limit` headers.
 - Emit OpenTelemetry spans with attributes: `cache.hit`, `cache.namespace`, `rateLimit.bucket`.
 
 ## Incident response
-1. **Symptoms:** Stale or incorrect content, 5xx from Upstash, surge in 429s, latency > SLO.
+1. **Symptoms:** Stale or incorrect content, Redis connection errors, surge in 429s, latency > SLO.
 2. **Immediate actions:**
-   - Check Grafana dashboards for hit ratio or Upstash availability.
+   - Check Grafana dashboards for hit ratio or ElastiCache availability; inspect Lambda logs for Redis connection health.
    - Validate Flagsmith toggles (ensure bypass not inadvertently on/off).
-   - Inspect Upstash status page; if outage, enable bypass and notify `#clarivum-dev`.
+   - Inspect AWS Health dashboard for ElastiCache incidents; if outage, enable bypass and notify `#clarivum-dev`.
 3. **Mitigation options:**
    - Warm critical keys manually by invoking `CacheWarmupManager`.
    - For corrupted entries, delete prefix and rehydrate via background job.
@@ -72,9 +72,11 @@
 5. **Post-incident:** Document root cause, impacted routes, cache changes, and lessons learned in incident tracker.
 
 ## Maintenance cadence
-- **Weekly:** Review Upstash usage reports, rotate sample keys, confirm TTL compliance.
+- **Weekly:** Review ElastiCache metrics, rotate sample keys, confirm TTL compliance.
 - **Monthly:** Audit key namespaces for orphaned versions; prune stale prefixes.
-- **Quarterly:** Rotate Upstash REST tokens via Terraform, update secrets in AWS Secrets Manager, validate CI pipelines.
+- **Quarterly:** Rotate ElastiCache user credentials via Terraform, update secrets in AWS Secrets Manager, validate CI pipelines.
 
 ## Change log
-- **2025-10-23:** Initial runbook outlining key conventions, invalidation paths, and incident handling for Upstash caching.
+- **2025-10-23:** Initial runbook outlining key conventions, invalidation paths, and incident handling for shared caching.
+- **2025-11-08:** Updated for AWS ElastiCache Serverless and CloudWatch-based observability.
+- **2025-11-01:** Documented prod deployment (`platform-prod-cache`) and Terraform workflow for multi-environment cache management.

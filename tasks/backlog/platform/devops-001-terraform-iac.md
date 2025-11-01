@@ -46,3 +46,31 @@ Create and configure the Terraform codebase that provisions AWS foundations (Clo
 
 ## Notes
 Ready to move forward once repo structure and resource inventory decisions are documented. Coordinate with cost review owner to set tagging/budgeting conventions.
+
+## 2025-11-01 Terraform Dev Reconciliation Design
+
+```mermaid
+graph TD
+    stack[platform env stack] --> cf[platform-cloudfront]
+    cf --> policy[Cache policy input or managed default]
+    stack --> cost[platform-cost-controls]
+    cost --> sns[SNS subscription (IMMEDIATE)]
+    stack --> data[platform-data]
+    data --> sse[SSE block optional for imports]
+    stack --> storage[platform-storage]
+    storage --> owner[Conditional ownership controls]
+    stack --> dns[platform-dns]
+    dns --> overwrite[allow_overwrite for Squarespace TXT/CNAME]
+    stack --> secrets[platform-secrets]
+    secrets --> sar[SAR rotation version 1.1.622]
+```
+
+**Assumptions**
+- Imported resources keep their existing configuration; Terraform must tolerate drift without forcing replacement.
+- CloudFront should continue using AWS managed cache behaviour unless a custom policy ARN is supplied.
+- Rotation Lambda stays in the same VPC subnets/security groups that already exist for the database access path.
+
+**Acceptance Tests**
+1. **Given** the existing anomaly monitor ARN is supplied **when** `terraform plan` runs **then** no validation error occurs because the module requests an `IMMEDIATE` SNS subscription.
+2. **Given** the imported DynamoDB table and S3 buckets are already encrypted **when** Terraform evaluates the modules **then** the plan shows no changes to server-side encryption or bucket ownership controls.
+3. **Given** Squarespace TXT/CNAME records already exist in Route53 **when** the DNS module applies **then** Terraform updates them in place by using `allow_overwrite` rather than trying to recreate them.

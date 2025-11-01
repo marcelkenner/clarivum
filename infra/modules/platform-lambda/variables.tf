@@ -15,6 +15,12 @@ variable "runtime" {
   default     = "nodejs20.x"
 }
 
+variable "handler" {
+  description = "Lambda handler entrypoint."
+  type        = string
+  default     = "index.handler"
+}
+
 variable "architectures" {
   description = "Instruction set architecture for the function."
   type        = list(string)

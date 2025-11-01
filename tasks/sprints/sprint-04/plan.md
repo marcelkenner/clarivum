@@ -37,7 +37,7 @@ links:
 | [`tasks/backlog/platform/devops-001-terraform-iac.md`](../../backlog/platform/devops-001-terraform-iac.md) | Backlog → Ready → In-progress | Stand up shared Terraform repo, remote state, baseline modules |
 | [`tasks/backlog/platform/devops-004-ci-cd-foundation.md`](../../backlog/platform/devops-004-ci-cd-foundation.md) | Backlog → Ready → In-progress | GitHub Actions quality gates + preview deploy requirement |
 | [`tasks/backlog/platform/plat-014-flagsmith-environments.md`](../../backlog/platform/plat-014-flagsmith-environments.md) | Backlog → Ready → In-progress | Provision Flagsmith projects, naming, alerting, secrets |
-| [`tasks/backlog/platform/plat-015-upstash-platform.md`](../../backlog/platform/plat-015-upstash-platform.md) | Backlog → Ready → In-progress | Provision Upstash Redis dbs, metrics, incident playbook |
+| [`tasks/backlog/platform/plat-015-elasticache-platform.md`](../../backlog/platform/plat-015-elasticache-platform.md) | Backlog → Ready → In-progress | Provision ElastiCache Serverless Redis, Cache Gateway, metrics, incident playbook |
 | [`tasks/backlog/platform/plat-028-request-security-controls.md`](../../backlog/platform/plat-028-request-security-controls.md) | Backlog → Ready → In-progress | Country denylist, honeypot, telemetry + support comms |
 | [`tasks/backlog/platform/plat-034-kaizen-daily-automation.md`](../../backlog/platform/plat-034-kaizen-daily-automation.md) | Backlog → Ready → In-progress | Schedule Kaizen issue creation + confirmations |
 | [`tasks/backlog/platform/plat-035-sisu-guardrail-check.md`](../../backlog/platform/plat-035-sisu-guardrail-check.md) | Backlog → Ready → In-progress | Enforce Sisu guardrail links on bug PRs |
@@ -46,14 +46,14 @@ links:
 
 ### Stretch
 
-- [`tasks/backlog/platform/plat-048-uv-widget-upstash-cache.md`](../../backlog/platform/plat-048-uv-widget-upstash-cache.md) — extend new Redis infra to UV widget consumers.
+- [`tasks/backlog/platform/plat-048-uv-widget-cache-gateway.md`](../../backlog/platform/plat-048-uv-widget-cache-gateway.md) — extend new Redis infra to UV widget consumers.
 - [`tasks/backlog/platform/plat-049-uv-widget-analytics-guardrails.md`](../../backlog/platform/plat-049-uv-widget-analytics-guardrails.md) — baseline Plausible guardrails once caching lands.
 
 ## Definition of Success
 
 - Terraform repo + CI/CD guardrails operational with OIDC + Secrets Manager integration.
 - Flagsmith environments + governance live with stale alerting and secrets flow documented.
-- Upstash Redis provisioned with metrics + fallback plan; UV widget + rate limit consumers ready to integrate.
+- ElastiCache Serverless Redis provisioned with metrics + fallback plan; UV widget + rate limit consumers ready to integrate.
 - Request security middleware enforced with telemetry, support comms, and feature flags controlling rollout.
 - Kaizen/Sisu/Forest Day automations running daily/monthly with failure alerts; smoke suite stabilizes <2% flake.
 - Documentation (AGENTS, deployment, secrets management, incident response, feature-flag runbooks) reflects new guardrails.
@@ -63,7 +63,7 @@ links:
 - Align remote state backend + IAM naming before Sprint Planning (DevOps + Security).
 - Finalize branch protections (required checks list) with engineering leadership.
 - Confirm Flagsmith project access + billing before provisioning; prep feature flag metadata templates.
-- Reserve Upstash capacity and document incident contacts.
+- Reserve ElastiCache capacity plan and document incident contacts.
 - Confirm QA data + credentials for Playwright flows; stage environment seeded.
 - Slack/webhook destinations for automation success/failure vetted with ProdOps.
 

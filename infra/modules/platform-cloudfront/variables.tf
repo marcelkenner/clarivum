@@ -65,15 +65,33 @@ variable "response_headers_policy_id" {
 }
 
 variable "static_cache_policy_id" {
-  description = "Cache policy for static origin."
+  description = "Optional cache policy ID for the static origin. When null, the module creates a policy."
   type        = string
-  default     = "658327ea-f89d-4fab-a63d-7e88639e58f6" # Managed-CachingOptimized
+  default     = null
+}
+
+variable "static_cache_policy_min_ttl" {
+  description = "Minimum TTL applied to the generated static cache policy."
+  type        = number
+  default     = 0
+}
+
+variable "static_cache_policy_default_ttl" {
+  description = "Default TTL applied to the generated static cache policy."
+  type        = number
+  default     = 86400
+}
+
+variable "static_cache_policy_max_ttl" {
+  description = "Maximum TTL applied to the generated static cache policy."
+  type        = number
+  default     = 31536000
 }
 
 variable "api_cache_policy_id" {
   description = "Cache policy for API origin."
   type        = string
-  default     = "216adef6-5c7f-47e4-b989-5492eafa07d3" # Managed-CachingDisabled
+  default     = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad" # Managed-CachingDisabled (see AWS docs)
 }
 
 variable "api_origin_request_policy_id" {

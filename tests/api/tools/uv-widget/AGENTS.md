@@ -7,4 +7,4 @@ This directory does not yet have tailored agent guidance. Use these defaults unt
 - Follow coding standards from the root `AGENTS.md`.
 - Always resolve library and framework questions via Context7 (`context7__resolve-library-id` + `context7__get-library-docs`).
 - Update this file with localized best practices as soon as the directory gains dedicated responsibilities.
-- Suite covers Upstash cache/rate-limit behaviours; run `npm run test -- tests/api/tools/uv-widget` after touching the API route or helpers.
+- Suite covers ElastiCache-backed cache/rate-limit behaviours; run `npm run test -- tests/api/tools/uv-widget` after touching the API route or helpers.

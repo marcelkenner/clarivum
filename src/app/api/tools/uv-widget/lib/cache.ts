@@ -1,6 +1,6 @@
 import { metrics } from "@opentelemetry/api";
 
-import { getCacheMode, getCacheRedisClient } from "./upstash-clients";
+import { getCacheMode, getCacheRedisClient } from "./redis-client";
 
 import type { UVWidgetPayload } from "./types";
 
@@ -35,7 +35,7 @@ export type CacheLookupResult =
   | {
       status: "hit" | "stale";
       payload: UVWidgetPayload;
-      source: "upstash" | "memory";
+      source: "redis" | "memory";
       expiresAt: number;
     }
   | { status: "miss" };
@@ -72,7 +72,7 @@ function sanitizePayload(payload: UVWidgetPayload): UVWidgetPayload {
 function buildResult(
   record: CacheRecord,
   status: "hit" | "stale",
-  source: "upstash" | "memory",
+  source: "redis" | "memory",
 ): CacheLookupResult {
   return {
     status,
@@ -107,19 +107,19 @@ export async function readCache(key: string): Promise<CacheLookupResult> {
 
   if (redis) {
     try {
-      const raw = (await redis.get<string>(key)) ?? null;
+      const raw = await redis.get(key);
       if (raw) {
         const parsed = JSON.parse(raw) as CacheRecord;
         fallbackCache.set(key, parsed);
 
         if (parsed.expiresAt > now) {
-          cacheHitCounter.add(1, { source: "upstash" });
-          return buildResult(parsed, "hit", "upstash");
+          cacheHitCounter.add(1, { source: "redis" });
+          return buildResult(parsed, "hit", "redis");
         }
 
         if (allowStaleFallback) {
-          cacheStaleCounter.add(1, { source: "upstash" });
-          return buildResult(parsed, "stale", "upstash");
+          cacheStaleCounter.add(1, { source: "redis" });
+          return buildResult(parsed, "stale", "redis");
         }
 
         return { status: "miss" };
@@ -129,12 +129,12 @@ export async function readCache(key: string): Promise<CacheLookupResult> {
       console.warn(
         JSON.stringify({
           severity: "WARN",
-          message: "uv_widget_cache_upstash_read_failed",
+          message: "uv_widget_cache_redis_read_failed",
           error: (error as Error).message,
         }),
       );
     }
-  } else if (getCacheMode() === "upstash") {
+  } else if (getCacheMode() === "redis") {
     cacheFallbackCounter.add(1, { reason: "missing_client" });
   }
 
@@ -162,7 +162,7 @@ export async function writeCache(
 
   const redis = getCacheRedisClient();
   if (!redis) {
-    if (getCacheMode() === "upstash") {
+    if (getCacheMode() === "redis") {
       cacheFallbackCounter.add(1, { reason: "missing_client" });
     }
     return;
@@ -170,13 +170,13 @@ export async function writeCache(
 
   try {
     await redis.set(key, JSON.stringify(record), { px: ttlMs });
-    cacheStoreCounter.add(1, { source: "upstash" });
+    cacheStoreCounter.add(1, { source: "redis" });
   } catch (error) {
     cacheFallbackCounter.add(1, { reason: "write_error" });
     console.warn(
       JSON.stringify({
         severity: "WARN",
-        message: "uv_widget_cache_upstash_write_failed",
+        message: "uv_widget_cache_redis_write_failed",
         error: (error as Error).message,
       }),
     );

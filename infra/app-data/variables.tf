@@ -33,6 +33,12 @@ variable "database_password" {
   sensitive   = true
 }
 
+variable "generate_random_master_password" {
+  description = "Generate a random master password when none provided"
+  type        = bool
+  default     = true
+}
+
 variable "engine_version" {
   description = "Aurora PostgreSQL engine version"
   type        = string
@@ -45,9 +51,21 @@ variable "availability_zones" {
   default     = []
 }
 
+variable "cluster_parameter_group_name" {
+  description = "Existing DB cluster parameter group to associate with the Aurora cluster"
+  type        = string
+  default     = null
+}
+
 variable "db_subnet_ids" {
   description = "Private subnet IDs for the Aurora DB subnet group"
   type        = list(string)
+}
+
+variable "aurora_subnet_group_name" {
+  description = "Optional override for the Aurora DB subnet group name (useful when importing existing clusters)"
+  type        = string
+  default     = null
 }
 
 variable "db_security_group_ids" {
@@ -71,6 +89,12 @@ variable "preferred_maintenance_window" {
   description = "Preferred maintenance window in UTC"
   type        = string
   default     = "sun:03:00-sun:05:00"
+}
+
+variable "copy_tags_to_snapshot" {
+  description = "Whether to copy tags to snapshots for the Aurora cluster"
+  type        = bool
+  default     = true
 }
 
 variable "apply_immediately" {
@@ -149,6 +173,18 @@ variable "performance_insights_enabled" {
   description = "Enable Performance Insights"
   type        = bool
   default     = true
+}
+
+variable "instance_parameter_group_name" {
+  description = "Existing DB instance parameter group to associate with Aurora instances"
+  type        = string
+  default     = null
+}
+
+variable "instance_identifiers" {
+  description = "Optional explicit list of instance identifiers (one per instance)"
+  type        = list(string)
+  default     = []
 }
 
 variable "performance_insights_kms_key_id" {

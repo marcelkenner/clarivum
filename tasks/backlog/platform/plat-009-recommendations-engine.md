@@ -32,7 +32,7 @@ Build the service layer that combines Strapi curation, behavioral signals, and d
 ## Definition of Ready
 - [x] Data contracts confirmed: Strapi collections `recommendation_slot`, `merch_rule`, Plausible-derived signals, diagnostics persisted to `rec_diagnostics`.
 - [x] Affiliate compliance defined: always render locale-specific disclosure with tracking params `utm_source=clarivum&utm_medium=affiliate&acs_id=<id>`.
-- [x] Caching and edge strategy aligned: server Upstash cache 300–900 s, edge SWR 60 s, purge on catalog update webhook.
+- [x] Caching and edge strategy aligned: server ElastiCache Redis cache 300–900 s, edge SWR 60 s, purge on catalog update webhook.
 - [x] KPI/experimentation plan set: dashboards for CTR/RPM/attach rate with Flagsmith multivariate tests.
 
 ## Definition of Done

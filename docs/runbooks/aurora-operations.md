@@ -26,24 +26,31 @@
 
 ## Provisioning & Secrets
 1. Authenticate to AWS with the platform role (`aws sso login --profile clarivum-platform`).
-2. Select workspace and apply Terraform for the target environment:
+2. On a networked machine run the import helper to align state with AWS before planning:
    ```bash
-   terraform -chdir=infra/app-data init
-   terraform -chdir=infra/app-data workspace select dev \
-     || terraform -chdir=infra/app-data workspace new dev
-   terraform -chdir=infra/app-data apply \
-     -var-file=infra/app-data/env/dev.tfvars
+   cd ~/src/clarivum
+   tools/infra/import_app_data.sh
    ```
-3. Capture Terraform outputs (`writer_endpoint`, `reader_endpoint`, `secret_arn`, `cluster_identifier`) and store in the weekly ops log.
-4. Confirm Secrets Manager entries exist under `/clarivum/platform/<env>/database/*`. These are provisioned and rotated automatically; no manual updates should be applied outside Terraform.
-5. Sync secrets to runtimes following `docs/runbooks/secrets-management.md` when new consumers are onboarded. GitHub Actions retain read-only access to the dev replica; production secrets are scoped to runtime principals using IAM roles.
-6. Regenerate TypeScript database types when schemas change: `npm run db:types` (wraps `kanel` against Aurora).
+   *The script selects the workspace, imports Aurora resources, and generates plans for `dev` and `prod` without prompting.*
+3. Apply Terraform for the target environment once the plan shows only expected drift:
+   ```bash
+   terraform -chdir=infra/app-data apply \
+     -var-file=env/<env>.tfvars
+   ```
+   Always run the dev apply first, verify connectivity, and then promote to prod in a scheduled window.
+4. Capture Terraform outputs (`writer_endpoint`, `reader_endpoint`, `secret_arn`, `cluster_identifier`) and store in the weekly ops log. Record apply notes:
+   - 2025-11-01 — Dev: restored cluster instance post-import, verified endpoints (`platform-dev-aurora.cluster-c3ss2q66m8yw.eu-central-1.rds.amazonaws.com`).
+   - 2025-11-01 — Prod: aligned maintenance window (`fri:22:49-fri:23:19`), removed unused random password output, confirmed buckets `clarivum-app-prod-ebooks-{public-dedb,private-4dff}`.
+5. Confirm Secrets Manager entries exist under `/clarivum/platform/<env>/database/*`. These are provisioned and rotated automatically; no manual updates should be applied outside Terraform.
+6. Sync secrets to runtimes following `docs/runbooks/secrets-management.md`, update runtime configuration (ECS, Lambda) with the writer endpoint changes, and notify `#clarivum-platform` when prod is refreshed.
+7. Regenerate TypeScript database types when schemas change: `npm run db:types` (wraps `kanel` against Aurora).
 
 ## Tooling & References
 - AWS Console: RDS (cluster metrics, backups), CloudWatch (alerts), Performance Insights.
 - Terraform (`infra/app-data`) workspace.
 - `npm run db:migrate` — runs migrations through the shared migration runner.
 - `npm run db:migration:status` — lists pending/applied migrations per environment.
+- Migration runner automatically resolves the Aurora connection string from Secrets Manager (`clarivum/platform/<env>/database/url`) when `DATABASE_URL` is not exported, requiring valid AWS credentials and the `--env <env>` flag.
 - `psql` CLI tunnelled via `aws rds generate-db-auth-token` for break-glass access.
 - Slack `#clarivum-data` for deployment coordination, `#clarivum-alerts` for incidents.
 

@@ -121,8 +121,8 @@ resource "aws_cloudwatch_metric_alarm" "cloudfront_5xx" {
     Region         = "Global"
   }
 
-  alarm_actions = [aws_sns_topic.incident.arn]
-  ok_actions    = [aws_sns_topic.incident.arn]
+  alarm_actions = [aws_sns_topic.incident_us_east_1.arn]
+  ok_actions    = [aws_sns_topic.incident_us_east_1.arn]
 
   tags = var.tags
 }
@@ -144,8 +144,8 @@ resource "aws_cloudwatch_metric_alarm" "cloudfront_4xx" {
     Region         = "Global"
   }
 
-  alarm_actions = [aws_sns_topic.incident.arn]
-  ok_actions    = [aws_sns_topic.incident.arn]
+  alarm_actions = [aws_sns_topic.incident_us_east_1.arn]
+  ok_actions    = [aws_sns_topic.incident_us_east_1.arn]
 
   tags = var.tags
 }

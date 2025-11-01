@@ -8,6 +8,12 @@ variable "kms_master_key_arn" {
   type        = string
 }
 
+variable "manage_server_side_encryption" {
+  description = "Whether Terraform should manage the server-side encryption block. Disable for pre-existing tables."
+  type        = bool
+  default     = true
+}
+
 variable "ttl_attribute" {
   description = "TTL attribute name."
   type        = string

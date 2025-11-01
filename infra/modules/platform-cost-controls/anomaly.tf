@@ -1,4 +1,9 @@
+locals {
+  create_monitor = var.existing_monitor_arn == null
+}
+
 resource "aws_ce_anomaly_monitor" "service" {
+  count    = local.create_monitor ? 1 : 0
   provider = aws.ce
 
   name              = "${var.name_prefix}-service-monitor"
@@ -6,13 +11,17 @@ resource "aws_ce_anomaly_monitor" "service" {
   monitor_dimension = "SERVICE"
 }
 
+locals {
+  monitor_arn = local.create_monitor ? aws_ce_anomaly_monitor.service[0].arn : var.existing_monitor_arn
+}
+
 resource "aws_ce_anomaly_subscription" "service" {
   provider = aws.ce
 
   name      = "${var.name_prefix}-service-subscription"
-  frequency = "DAILY"
+  frequency = upper(var.anomaly_subscription_frequency)
 
-  monitor_arn_list = [aws_ce_anomaly_monitor.service.arn]
+  monitor_arn_list = [local.monitor_arn]
 
   subscriber {
     type    = "SNS"

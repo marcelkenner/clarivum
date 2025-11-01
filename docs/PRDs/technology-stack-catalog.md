@@ -46,7 +46,7 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 ### Data, storage & integration
 - **Amazon Aurora PostgreSQL Serverless v2 (Commercial)** – Primary application database with row-level security, PITR, and Secrets Manager rotation (ADR-001). Implementation tracked through the AWS migration follow-ups in `TODO.md` and forthcoming platform tasks. Supabase tenancy has been fully retired; Aurora is the authoritative relational store.
 - **Amazon S3 (Commercial)** – Media, static asset origins, and artifact storage for the web app, Strapi, and supporting services.
-- **Upstash Redis (Commercial)** – Serverless Redis backing caching, rate limiting, and locks (ADR-006, `docs/runbooks/cache-invalidation.md`). Implementation tracked in `tasks/backlog/platform/plat-015-upstash-platform.md` (TSK-PLAT-015).
+- **AWS ElastiCache Serverless for Redis (Commercial)** – Shared cache backing response caching, rate limiting, and distributed locks (ADR-006, `docs/runbooks/cache-invalidation.md`). Provisioned for dev/prod as `platform-<env>-cache`; see `infra/aws/platform/env/<env>.tfvars` for endpoints.
 - **Amazon RDS Postgres (Commercial)** – Dedicated database for Listmonk workloads.
 - **AWS ECS Fargate / S3** – Container runtime and asset storage for auxiliary services.
 
@@ -73,7 +73,7 @@ Clarivum relies on a curated mix of open source projects, managed platforms, and
 
 ### Deployment & infrastructure automation
 - **AWS CloudFront, Application Load Balancer, ECS Fargate (Commercial)** – Hosting and delivery platform for the Next.js application and supporting services (ADR-001, docs/runbooks/deployment.md).
-- **Terraform (MPL 2.0)** – Infrastructure as code for AWS, Upstash, and Listmonk resources.
+- **Terraform (MPL 2.0)** – Infrastructure as code for AWS (CloudFront, API Gateway, ElastiCache, Listmonk modules).
 - **GitHub Actions (MIT)** – CI/CD automation enforcing lint, type-check, validation, container build, and deploy steps.
 
 ## Retired & deprecated tooling

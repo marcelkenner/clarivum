@@ -3,20 +3,27 @@ classDiagram
     class EdgeResponseCache {
         +get(key, fetcher)
         +set(key, value, ttl)
+        -gateway: CacheGatewayClient
     }
     class RateLimiterManager {
         +consume(key, policy)
         +remaining(key)
+        -client: ElastiCacheDataClient
     }
     class DistributedLockCoordinator {
         +acquire(key, ttl)
         +release(key)
+        -client: ElastiCacheDataClient
     }
-    class UpstashClient {
+    class CacheGatewayClient {
+        +fetch(method, path, payload)
+    }
+    class ElastiCacheDataClient {
+        +execute(command, args)
         +pipeline(commands)
-        +restFetch(endpoint)
     }
-    EdgeResponseCache --> UpstashClient
-    RateLimiterManager --> UpstashClient
-    DistributedLockCoordinator --> UpstashClient
+    EdgeResponseCache --> CacheGatewayClient
+    CacheGatewayClient --> ElastiCacheDataClient
+    RateLimiterManager --> ElastiCacheDataClient
+    DistributedLockCoordinator --> ElastiCacheDataClient
 ```

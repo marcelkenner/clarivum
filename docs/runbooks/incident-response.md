@@ -43,6 +43,7 @@ Use this runbook whenever an operational issue threatens Clarivum’s SLOs, secu
 - **Logs:** Grafana Loki → query presets saved as `Incident triage`.
 - **Tracing:** Grafana Tempo search for trace IDs from failing requests.
 - **Operations hub:** `/ops` overview for incident banners, module health, audit log access, and deep links into native consoles (Strapi, Listmonk, Stripe, Grafana).
+- **Notifications:** SNS topic `platform-<env>-incident` in eu-central-1 for regional alerts and a mirrored topic in us-east-1 for CloudFront 4xx/5xx alarms—ensure both topics have the same subscribers when updating contact routes.
 - **CI/CD:** GitHub Actions overview for recent deployments.
 - **Feature flags:** Flagsmith admin UI (production environment).
 

@@ -20,6 +20,7 @@ module "platform_dns" {
   cloudfront_domain_name    = ""
   cloudfront_hosted_zone_id = ""
   aliases                   = []
+  additional_records        = var.route53_additional_records
   tags                      = merge(local.base_tags, { Component = "dns" })
 }
 
@@ -47,19 +48,40 @@ module "platform_security_groups" {
 module "platform_storage" {
   source = "../../modules/platform-storage"
 
-  static_bucket_name = var.static_bucket_name
-  media_bucket_name  = var.media_bucket_name
-  cache_bucket_name  = var.cache_bucket_name
-  logs_bucket_name   = var.logs_bucket_name
-  tags               = merge(local.base_tags, { Component = "storage" })
+  static_bucket_name           = var.static_bucket_name
+  media_bucket_name            = var.media_bucket_name
+  cache_bucket_name            = var.cache_bucket_name
+  logs_bucket_name             = var.logs_bucket_name
+  enable_bucket_owner_enforced = var.storage_enable_bucket_owner_enforced
+  logs_bucket_object_ownership = var.logs_bucket_object_ownership
+  tags                         = merge(local.base_tags, { Component = "storage" })
 }
 
 module "platform_data" {
   source = "../../modules/platform-data"
 
-  table_name         = var.dynamodb_table_name
-  kms_master_key_arn = var.dynamodb_kms_key_arn
-  tags               = merge(local.base_tags, { Component = "data" })
+  table_name                    = var.dynamodb_table_name
+  kms_master_key_arn            = var.dynamodb_kms_key_arn
+  manage_server_side_encryption = var.dynamodb_manage_server_side_encryption
+  tags                          = merge(local.base_tags, { Component = "data" })
+}
+
+module "platform_cache" {
+  source = "../../modules/platform-cache"
+
+  name_prefix             = local.name_prefix
+  vpc_id                  = module.platform_network.vpc_id
+  subnet_ids              = values(module.platform_network.private_subnet_ids)
+  lambda_security_group_id = module.platform_security_groups.lambda_security_group_id
+  engine                  = var.cache_engine
+  major_engine_version    = var.cache_major_engine_version
+  description             = var.cache_description
+  daily_snapshot_time     = var.cache_daily_snapshot_time
+  snapshot_retention_limit = var.cache_snapshot_retention_limit
+  kms_key_id              = var.cache_kms_key_id
+  data_storage_maximum_gb = var.cache_data_storage_max_gb
+  ecpu_per_second_maximum = var.cache_ecpu_per_second_maximum
+  tags                    = merge(local.base_tags, { Component = "cache" })
 }
 
 module "platform_secrets" {
@@ -76,6 +98,8 @@ module "platform_secrets" {
   aurora_host                  = var.aurora_writer_endpoint
   ci_secret_reader_principals  = var.ci_secret_reader_principals
   rotation_schedule_expression = "rate(30 days)"
+  rotation_app_version         = var.secrets_rotation_app_version
+  secrets_manager_endpoint     = var.secrets_manager_endpoint
   tags                         = merge(local.base_tags, { Component = "secrets" })
 }
 
@@ -87,6 +111,11 @@ locals {
       DATABASE_NAME           = var.aurora_database_name
       DYNAMODB_TABLE_NAME     = module.platform_data.table_name
       CLARIVUM_ENVIRONMENT    = var.environment
+      UV_WIDGET_CACHE_ENDPOINT = module.platform_cache.cache_endpoint
+      UV_WIDGET_CACHE_PORT     = "6379"
+      UV_WIDGET_CACHE_USE_TLS  = "true"
+      UV_WIDGET_CACHE_MODE     = "redis"
+      UV_WIDGET_RATE_LIMIT_MODE = "redis"
     },
     var.lambda_environment_variables
   )
@@ -97,9 +126,13 @@ module "platform_lambda" {
 
   function_name        = "${local.name_prefix}-core"
   description          = "Clarivum Next.js runtime for ${var.environment}"
+  runtime              = var.lambda_runtime
+  architectures        = var.lambda_architectures
+  handler              = var.lambda_handler
   memory_size          = var.lambda_memory_size
   timeout              = var.lambda_timeout
   reserved_concurrency = var.lambda_reserved_concurrency
+  layers               = var.lambda_layers
   subnet_ids           = values(module.platform_network.private_subnet_ids)
   security_group_ids   = [module.platform_security_groups.lambda_security_group_id]
   dynamodb_table_arn   = module.platform_data.table_arn
@@ -137,6 +170,7 @@ module "platform_cloudfront" {
   route53_zone_id           = module.platform_dns.zone_id
   blocked_countries         = var.blocked_countries
   waf_rate_limit            = var.waf_rate_limit
+  static_cache_policy_id    = var.cloudfront_static_cache_policy_id
   tags                      = merge(local.base_tags, { Component = "edge" })
 }
 
@@ -182,10 +216,12 @@ module "platform_cost_controls" {
     aws.ce = aws.ce
   }
 
-  name_prefix                = local.name_prefix
-  budget_amount              = var.budget_amount_usd
-  budget_thresholds          = var.budget_thresholds
-  notification_topic_arn     = module.platform_observability.finops_topic_arn
-  anomaly_absolute_threshold = var.anomaly_absolute_threshold_usd
-  tags                       = merge(local.base_tags, { Component = "finops" })
+  name_prefix                    = local.name_prefix
+  budget_amount                  = var.budget_amount_usd
+  budget_thresholds              = var.budget_thresholds
+  notification_topic_arn         = module.platform_observability.finops_topic_arn
+  existing_monitor_arn           = var.cost_controls_existing_monitor_arn
+  anomaly_absolute_threshold     = var.anomaly_absolute_threshold_usd
+  anomaly_subscription_frequency = var.anomaly_subscription_frequency
+  tags                           = merge(local.base_tags, { Component = "finops" })
 }

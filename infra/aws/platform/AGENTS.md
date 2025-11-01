@@ -1,9 +1,10 @@
 # infra/aws/platform · AGENTS Guide
 
-This directory does not yet have tailored agent guidance. Use these defaults until you add project-specific notes.
+Terraform here manages both dev and prod stacks for the Clarivum platform. Follow these guardrails to avoid disrupting live traffic.
 
-- Keep changes aligned with the PTRD (`docs/PRDs/first_steps.md`) and relevant ADRs.
-- Run `npm run ensure:agents` after restructuring to keep agent docs in sync.
-- Follow coding standards from the root `AGENTS.md`.
-- Always resolve library and framework questions via Context7 (`context7__resolve-library-id` + `context7__get-library-docs`).
-- Update this file with localized best practices as soon as the directory gains dedicated responsibilities.
+- **Workspace discipline**: `terraform workspace select dev|prod` before planning or applying. State lives under `terraform.tfstate.d/<workspace>`.
+- **Required variables**: Use `-var-file=env/<env>.tfvars`. Prod tfvars specify `logs_bucket_object_ownership = "ObjectWriter"`; keep that in sync with S3 when rotating buckets.
+- **Existing resources**: ElastiCache serverless caches (`platform-dev-cache`, `platform-prod-cache`), CloudFront validation records, the prod NAT gateway, and the Secrets rotation stacks are imported. Do not taint/recreate without a documented migration plan.
+- **Apply workflow**: `terraform plan -var-file=env/<env>.tfvars` then `terraform apply -var-file=env/<env>.tfvars`. Capture outputs for runbooks. Never apply to prod without reviewing the plan and confirming impacted resources with the platform lead.
+- **AWS changes**: When adjusting cache/rate-limit env vars, verify Lambda configuration via `aws lambda get-function-configuration --function-name platform-<env>-core` after apply.
+- **Docs**: Update `infra/aws/README.md`, ADR-006, and relevant runbooks whenever infra topology changes (new buckets, endpoints, env vars).

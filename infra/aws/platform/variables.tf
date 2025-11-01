@@ -57,6 +57,12 @@ variable "dynamodb_kms_key_arn" {
   type        = string
 }
 
+variable "dynamodb_manage_server_side_encryption" {
+  description = "Whether Terraform manages DynamoDB server-side encryption (disable for imported tables)."
+  type        = bool
+  default     = true
+}
+
 variable "aurora_cluster_identifier" {
   description = "Aurora cluster identifier."
   type        = string
@@ -98,6 +104,12 @@ variable "url_secret_name" {
   type        = string
 }
 
+variable "secrets_rotation_app_version" {
+  description = "Semantic version for the Secrets Manager rotation application."
+  type        = string
+  default     = "1.1.622"
+}
+
 variable "ci_secret_reader_principals" {
   description = "IAM principals allowed to read deployment secrets."
   type        = list(string)
@@ -124,10 +136,40 @@ variable "logs_bucket_name" {
   type        = string
 }
 
+variable "logs_bucket_object_ownership" {
+  description = "Optional ownership control mode for the logs bucket when BucketOwnerEnforced is disabled."
+  type        = string
+  default     = null
+}
+
+variable "storage_enable_bucket_owner_enforced" {
+  description = "Whether to enforce BucketOwnerEnforced ownership controls on S3 buckets."
+  type        = bool
+  default     = true
+}
+
 variable "lambda_memory_size" {
   description = "Lambda memory in MB."
   type        = number
   default     = 2048
+}
+
+variable "lambda_runtime" {
+  description = "Lambda runtime identifier."
+  type        = string
+  default     = "nodejs20.x"
+}
+
+variable "lambda_architectures" {
+  description = "Lambda instruction set architectures."
+  type        = list(string)
+  default     = ["x86_64"]
+}
+
+variable "lambda_handler" {
+  description = "Lambda handler entrypoint."
+  type        = string
+  default     = "index.handler"
 }
 
 variable "lambda_timeout" {
@@ -142,10 +184,64 @@ variable "lambda_reserved_concurrency" {
   default     = null
 }
 
+variable "lambda_layers" {
+  description = "Additional Lambda layers to attach."
+  type        = list(string)
+  default     = []
+}
+
 variable "lambda_environment_variables" {
   description = "Additional environment variables for Lambda."
   type        = map(string)
   default     = {}
+}
+
+variable "cache_engine" {
+  description = "ElastiCache serverless engine."
+  type        = string
+  default     = "valkey"
+}
+
+variable "cache_major_engine_version" {
+  description = "Major engine version for the serverless cache."
+  type        = string
+  default     = "7"
+}
+
+variable "cache_description" {
+  description = "Description applied to the serverless cache."
+  type        = string
+  default     = "Clarivum shared cache for response hydration and guardrails."
+}
+
+variable "cache_daily_snapshot_time" {
+  description = "Optional daily snapshot window (HH:MM, 24h)."
+  type        = string
+  default     = null
+}
+
+variable "cache_snapshot_retention_limit" {
+  description = "Number of daily snapshots to retain."
+  type        = number
+  default     = null
+}
+
+variable "cache_kms_key_id" {
+  description = "Optional KMS key ARN for cache encryption at rest."
+  type        = string
+  default     = null
+}
+
+variable "cache_data_storage_max_gb" {
+  description = "Optional maximum data storage in GiB for the serverless cache."
+  type        = number
+  default     = null
+}
+
+variable "cache_ecpu_per_second_maximum" {
+  description = "Optional maximum eCPU per second for the serverless cache."
+  type        = number
+  default     = null
 }
 
 variable "cloudfront_domain_name" {
@@ -157,6 +253,12 @@ variable "cloudfront_alternate_names" {
   description = "Alternate domain names for CloudFront."
   type        = list(string)
   default     = []
+}
+
+variable "cloudfront_static_cache_policy_id" {
+  description = "Optional cache policy ID for CloudFront static origin (null creates a managed policy)."
+  type        = string
+  default     = null
 }
 
 variable "route53_zone_name" {
@@ -174,6 +276,17 @@ variable "route53_existing_zone_id" {
   description = "Existing hosted zone ID when not creating a new zone."
   type        = string
   default     = null
+}
+
+variable "route53_additional_records" {
+  description = "Additional DNS records to create in the hosted zone."
+  type = list(object({
+    name    = string
+    type    = string
+    ttl     = number
+    records = list(string)
+  }))
+  default = []
 }
 
 variable "sns_incident_subscriptions" {
@@ -198,6 +311,24 @@ variable "budget_amount_usd" {
   description = "Monthly budget amount."
   type        = number
   default     = 500
+}
+
+variable "cost_controls_existing_monitor_arn" {
+  description = "Optional ARN of a pre-existing Cost Explorer anomaly monitor to reuse."
+  type        = string
+  default     = null
+}
+
+variable "anomaly_subscription_frequency" {
+  description = "Delivery frequency for cost anomaly notifications."
+  type        = string
+  default     = "IMMEDIATE"
+}
+
+variable "secrets_manager_endpoint" {
+  description = "Optional override for the Secrets Manager endpoint used by rotation Lambdas."
+  type        = string
+  default     = null
 }
 
 variable "budget_thresholds" {

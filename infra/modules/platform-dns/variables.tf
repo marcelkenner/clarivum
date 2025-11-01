@@ -35,6 +35,17 @@ variable "aliases" {
   default = []
 }
 
+variable "additional_records" {
+  description = "Additional non-alias records to create in the hosted zone."
+  type = list(object({
+    name    = string
+    type    = string
+    ttl     = number
+    records = list(string)
+  }))
+  default = []
+}
+
 variable "tags" {
   description = "Tags for the hosted zone."
   type        = map(string)

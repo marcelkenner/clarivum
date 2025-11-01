@@ -38,7 +38,7 @@ links:
 | [`tasks/backlog/platform/plat-039-ops-hub-integrations.md`](../../backlog/platform/plat-039-ops-hub-integrations.md) | Backlog → Ready → In-progress | Wire Strapi, Aurora, Listmonk, Stripe/PayU, Grafana, Plausible |
 | [`tasks/backlog/platform/plat-040-ops-hub-observability.md`](../../backlog/platform/plat-040-ops-hub-observability.md) | Backlog → Ready → In-progress | Telemetry, alerts, audit exports, access reviews |
 | [`tasks/backlog/platform/plat-017-grafana-observability-stack.md`](../../backlog/platform/plat-017-grafana-observability-stack.md) | Backlog → Ready → In-progress | Stand up Grafana Cloud, OTEL schema, alert routing |
-| [`tasks/backlog/platform/plat-048-uv-widget-upstash-cache.md`](../../backlog/platform/plat-048-uv-widget-upstash-cache.md) | Backlog → Ready → In-progress | Move UV widget caches/rate limits to shared Upstash |
+| [`tasks/backlog/platform/plat-048-uv-widget-cache-gateway.md`](../../backlog/platform/plat-048-uv-widget-cache-gateway.md) | Backlog → Ready → In-progress | Move UV widget caches/rate limits to Cache Gateway + ElastiCache |
 | [`tasks/backlog/platform/plat-049-uv-widget-analytics-guardrails.md`](../../backlog/platform/plat-049-uv-widget-analytics-guardrails.md) | Backlog → Ready → In-progress | Instrument Plausible guardrails for UV widget + dashboards |
 
 ### Stretch
@@ -51,7 +51,7 @@ links:
 - Engineering metrics automation exports flow/quality/sustainability JSON consumed by Ops Hub widgets.
 - Ops Hub foundation delivered with Auth0 RBAC, Aurora `ops_audit` schema, and integration proxies for Tier-0 systems.
 - Grafana Cloud observability stack online with OTEL collectors; Ops Hub dashboards + alerts wired to on-call.
-- UV widget caching/analytics guardrails leverage shared Upstash + Plausible instrumentation from Sprint 04.
+- UV widget caching/analytics guardrails leverage shared ElastiCache + Plausible instrumentation from Sprint 04.
 - Runbooks (observability, Ops Hub, analytics QA) updated; operators trained with recorded walkthrough.
 - Security, incident-response, and background-job runbooks reviewed to capture new alerting and recovery flows.
 
@@ -61,7 +61,7 @@ links:
 - Finalize vendor credential storage (AWS Secrets Manager) and rotation plan.
 - Gather integration requirements from Ops leads (payments, lifecycle, editorial) during pre-sprint workshop.
 - Align metrics formulas + owners with Engineering Manager and Analytics prior to automation work.
-- Ensure Upstash namespaces + secrets from Sprint 04 ready for integration.
+- Ensure Cache Gateway endpoints + Secrets Manager credentials from Sprint 04 ready for integration.
 
 ## Risks & Mitigations
 

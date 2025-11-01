@@ -36,13 +36,31 @@ The root configuration (`infra/aws/platform`) composes these modules. Each modul
 | NAT Gateway | `nat-04f8a56ed66ed4964` | Tied to EIP `eipalloc-0908ea0b5ca7ae337` |
 | Route tables | `rtb-09b3811fba5e6573a` (public), `rtb-08eba3bcb5e8d3677` (private) | Associations already in place |
 | Security groups | `sg-07200eefddec7ac38` (ALB), `sg-02fdc33c43d4f74ed` (App), `sg-07cda9d04a455f9b3` (Lambda), `sg-0c15ce9c398884071` (Aurora) | No ingress on Lambda SG |
-| CloudFront | `EPHSANK5PAPBA` | Origin access control `E2HXAYNLNBF4IP` |
-| API Gateway | `b5snol7qwe` | `$default` stage, Lambda integration `k3uwenm` |
+| CloudFront | `EPHSANK5PAPBA` | Alias `dev.clarivum.com`, origin access control `E240OSKJ8C4XHZ` |
+| API Gateway | `j0cjdyuqti` | `$default` stage, Lambda integration `fz85mi5` |
 | Lambda | `platform-dev-core` | Currently Python placeholder |
 | DynamoDB | `platform-dev-kv` | PAY_PER_REQUEST, KMS `f0172bb9-9e32-467d-a992-07aff4366b85` |
 | Aurora cluster | `platform-dev-aurora` | Serverless v2 (2–8 ACU), KMS `f0f8eae9-5742-480a-9160-185d7df17bf0` |
 | Secrets Manager | `clarivum/platform/dev/database/*` | `master`, `url` |
 | S3 buckets | `clarivum-dev-static-869603330574`, `clarivum-dev-media-869603330574`, `clarivum-dev-cdn-logs-869603330574` | Static assets + logs |
+
+## Existing Resource Inventory (prod)
+
+| AWS service | Identifier | Notes |
+| --- | --- | --- |
+| VPC | `vpc-063a9bf56877fa0f5` | `platform-prod-vpc` |
+| Public subnets | `subnet-03285e4e893d6b4cc`, `subnet-0123b36571ff1b2f2` | `10.30.1.0/24`, `10.30.2.0/24` |
+| Private subnets | `subnet-05749cf7d39e9ea78`, `subnet-0dc83583337c45c03` | `10.30.11.0/24`, `10.30.12.0/24` |
+| IGW | `igw-0a8cf4e757209969d` | Attached to VPC |
+| NAT Gateway | `nat-0fe3cabf9729dcbb9` | Tied to EIP `eipalloc-0891d8e572812125b` |
+| Route tables | `rtb-08a010ff6df8210f8` (public), `rtb-0e612e1b2b957b69a` (private) | Associations for both AZs |
+| CloudFront | `E35IWLJESBE865` | Alias `clarivum.com`, `www.clarivum.com`, domain `d1bayoxw2levkx.cloudfront.net` |
+| API Gateway | `jv77gs7dec` | `$default` stage, Lambda integration `5d782va` |
+| Lambda | `platform-prod-core` | Node.js 20 runtime with Redis env vars |
+| DynamoDB | `platform-prod-kv` | PAY_PER_REQUEST, TTL enabled |
+| ElastiCache | `platform-prod-cache` | Serverless Valkey 7 (TLS + IAM) |
+| Secrets Manager | `clarivum/platform/prod/database/*` | Master + URL secrets rotated via `clarivum-platform-prod-database-master-fn` |
+| S3 buckets | `clarivum-prod-static-869603330574`, `clarivum-prod-media-869603330574`, `clarivum-prod-cache-869603330574`, `clarivum-prod-cdn-logs-869603330574` | Static assets, media, OpenNext cache, and CloudFront logs (ObjectWriter ownership) |
 
 ## Import Mapping
 
@@ -76,10 +94,10 @@ terraform -chdir=infra/aws/platform import module.platform_secrets.aws_secretsma
 # Compute & Edge
 terraform -chdir=infra/aws/platform import module.platform_lambda.aws_lambda_function.core platform-dev-core
 terraform -chdir=infra/aws/platform import module.platform_lambda.aws_iam_role.core platform-dev-lambda-role
-terraform -chdir=infra/aws/platform import module.platform_api.aws_apigatewayv2_api.http b5snol7qwe
-terraform -chdir=infra/aws/platform import module.platform_api.aws_apigatewayv2_integration.lambda k3uwenm
+terraform -chdir=infra/aws/platform import module.platform_api.aws_apigatewayv2_api.http j0cjdyuqti
+terraform -chdir=infra/aws/platform import module.platform_api.aws_apigatewayv2_integration.lambda fz85mi5
 terraform -chdir=infra/aws/platform import module.platform_cloudfront.aws_cloudfront_distribution.primary EPHSANK5PAPBA
-terraform -chdir=infra/aws/platform import module.platform_cloudfront.aws_cloudfront_origin_access_control.static E2HXAYNLNBF4IP
+terraform -chdir=infra/aws/platform import module.platform_cloudfront.aws_cloudfront_origin_access_control.static E240OSKJ8C4XHZ
 ```
 
 Adjust resource addresses as modules solidify. Additional imports (route table associations, CloudWatch log groups, etc.) will be added alongside the implementation.
@@ -91,5 +109,9 @@ Adjust resource addresses as modules solidify. Additional imports (route table a
 3. Run `terraform plan` with imports to confirm zero-diff.
 4. Extend GitHub Actions (`infra-ci`, new deployment workflow) to lint/plan/apply for this stack.
 5. Automate Lambda packaging + CloudFront invalidations via CI/CD.
+
+### New Variables
+
+- `logs_bucket_object_ownership`: optional, set to `ObjectWriter` when a legacy logs bucket requires ACL-based delivery (e.g., prod CloudFront logs). Leave unset when `storage_enable_bucket_owner_enforced = true`.
 
 All modules must stay under 200 lines per file and adhere to single responsibility and composable design.

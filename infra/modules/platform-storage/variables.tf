@@ -24,6 +24,18 @@ variable "kms_master_key_id" {
   default     = "alias/aws/s3"
 }
 
+variable "enable_bucket_owner_enforced" {
+  description = "Whether to enable BucketOwnerEnforced ownership controls. Disable for imported buckets with legacy ACLs."
+  type        = bool
+  default     = true
+}
+
+variable "logs_bucket_object_ownership" {
+  description = "Optional ownership control mode for the logs bucket when BucketOwnerEnforced is disabled. Accepts ObjectWriter or BucketOwnerPreferred."
+  type        = string
+  default     = null
+}
+
 variable "tags" {
   description = "Tags applied to all buckets."
   type        = map(string)

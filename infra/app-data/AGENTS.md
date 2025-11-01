@@ -11,10 +11,9 @@ This Terraform workspace provisions the shared **Aurora PostgreSQL Serverless v2
 
 ## Common commands
 
-- `terraform -chdir=infra/app-data init -backend-config="bucket=$TF_BACKEND_BUCKET" ...`
-- `terraform -chdir=infra/app-data workspace select dev || terraform -chdir=infra/app-data workspace new dev`
-- `terraform -chdir=infra/app-data plan -var-file=env/dev.tfvars`
-- `terraform -chdir=infra/app-data apply -var-file=env/prod.tfvars`
+- `tools/infra/import_app_data.sh` — imports existing Aurora resources/buckets into Terraform state and runs plans for dev + prod. Requires provider binaries; run from a machine with network access.
+- `terraform -chdir=infra/app-data plan -var-file=env/<env>.tfvars`
+- `terraform -chdir=infra/app-data apply -var-file=env/<env>.tfvars`
 - Run `terraform fmt`, `terraform validate`, and (once configured) `tflint` before opening a PR.
 
 ## Secret layout
@@ -42,5 +41,9 @@ Sync these secrets into ECS task definitions, Lambda env vars, and CI pipelines 
 1. Confirm the Aurora cluster is available, writer/reader endpoints resolve, and connection works via Session Manager port forwarding.
 2. Check that Secrets Manager contains the entries listed above.
 3. Review S3 buckets for correct versioning/encryption settings.
+4. Promotion flow:
+   - Always land changes in `dev` first. Record apply timestamp + verification notes in the runbook.
+   - Once dev smoke tests pass, rerun `tools/infra/import_app_data.sh` to refresh prod state, review `plan -var-file=env/prod.tfvars`, and schedule a prod apply.
+   - After prod apply, sync outputs into `infra/aws/platform/env/prod.tfvars` and Secrets Manager and notify `#clarivum-platform`.
 
 Resolve AWS/Terraform provider questions via Context7 (`/hashicorp/terraform-provider-aws`).

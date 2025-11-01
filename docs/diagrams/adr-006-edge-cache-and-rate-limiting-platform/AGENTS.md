@@ -4,12 +4,12 @@
 ## Directory Purpose
 - Anchor updates to `docs/adr/ADR-006-edge-cache-and-rate-limiting-platform.md`; treat that ADR as the canonical decision log for this domain.
 - Partner with Platform Performance Team before changing scope, integration points, or lifecycle assumptions documented here.
-- Keep coverage aligned: These diagrams illustrate how Clarivum uses Upstash Redis to provide response caching, rate limiting, and distributed coordination across edge and serverless runtimes.
+- Keep coverage aligned: These diagrams illustrate how Clarivum uses AWS ElastiCache Serverless (plus the Cache Gateway) to provide response caching, rate limiting, and distributed coordination across edge and serverless runtimes.
 
 ## Diagram Responsibilities
-- `architecture-overview.mmd`: Keep edge middleware, API routes, and workers sharing Upstash Redis accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `architecture-overview.mmd`: Keep edge middleware, Cache Gateway, and VPC workloads sharing ElastiCache accurate and synchronized with the latest implementation notes and shared vocabulary. Include environment callouts for `platform-dev-cache` and `platform-prod-cache` now that both are live.
 - `data-lineage.mmd`: Keep namespaced cache entries, rate limit counters, and coordination locks accurate and synchronized with the latest implementation notes and shared vocabulary.
-- `uml-adapters.mmd`: Keep internal OOP adapters wrapping Upstash SDK capabilities accurate and synchronized with the latest implementation notes and shared vocabulary.
+- `uml-adapters.mmd`: Keep internal OOP adapters wrapping ElastiCache Data API & gateway capabilities accurate and synchronized with the latest implementation notes and shared vocabulary.
 - `bpmn-guardrail.mmd`: Keep workflow for quota evaluation and fallback handling accurate and synchronized with the latest implementation notes and shared vocabulary.
 
 ## Contribution Workflow

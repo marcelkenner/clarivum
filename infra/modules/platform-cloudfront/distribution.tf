@@ -1,5 +1,6 @@
 locals {
-  domain_aliases = concat([var.domain_name], var.alternate_domain_names)
+  domain_aliases         = concat([var.domain_name], var.alternate_domain_names)
+  static_cache_policy_id = var.static_cache_policy_id != null ? var.static_cache_policy_id : aws_cloudfront_cache_policy.static[0].id
 }
 
 resource "aws_cloudfront_distribution" "primary" {
@@ -36,7 +37,7 @@ resource "aws_cloudfront_distribution" "primary" {
     viewer_protocol_policy     = "redirect-to-https"
     allowed_methods            = ["GET", "HEAD", "OPTIONS"]
     cached_methods             = ["GET", "HEAD"]
-    cache_policy_id            = var.static_cache_policy_id
+    cache_policy_id            = local.static_cache_policy_id
     response_headers_policy_id = var.response_headers_policy_id
   }
 

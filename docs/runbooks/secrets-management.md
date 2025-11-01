@@ -38,7 +38,7 @@
    - Document secret in service README and link to this runbook.
 
 ## Rotation procedure
-1. **Schedule:** Minimum every 90 days for manual secrets. Platform Aurora secrets rotate automatically every 30 days via the AWS managed rotation function (`SecretsManagerRDSPostgreSQLRotationSingleUser`) deployed by Terraform.
+1. **Schedule:** Minimum every 90 days for manual secrets. Platform Aurora secrets rotate automatically every 30 days via the AWS managed rotation function (`SecretsManagerRDSPostgreSQLRotationSingleUser`) deployed as the SAR stack `clarivum-platform-<env>-database-master-rotation`, which hosts Lambda `clarivum-platform-<env>-database-master-fn` inside the private subnets.
 2. **Execution (manual secrets only):**
    - Generate new credential; update secret using `put-secret-value`.
    - Run `npm run secrets:sync -- --service payments` (or service-specific sync) to push to consuming runtimes.
@@ -81,6 +81,7 @@
 - Ensure GDPR-related integrations (Auth0, Plausible Analytics) have rotation logs accessible.
 
 ## Change log
-- **2025-10-30:** Terraform now manages platform runtime secrets with automated rotation (`infra/aws/platform`).
 - **2025-11-09:** Updated AWS-only rotation workflow and secret naming conventions after retiring legacy hosting integrations (TSK-PLAT-080).
+- **2025-11-01:** Documented SAR-based rotation stack (`clarivum-platform-<env>-database-master-rotation`) and private Lambda execution details.
+- **2025-10-30:** Terraform now manages platform runtime secrets with automated rotation (`infra/aws/platform`).
 - **2025-10-23:** Initial secrets management runbook covering lifecycle, rotation, CI sync, and incident handling.

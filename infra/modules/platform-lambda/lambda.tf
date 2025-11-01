@@ -33,7 +33,7 @@ resource "aws_lambda_function" "core" {
   description   = var.description
   role          = aws_iam_role.core.arn
   runtime       = var.runtime
-  handler       = "index.handler"
+  handler       = var.handler
   architectures = var.architectures
   memory_size   = var.memory_size
   timeout       = var.timeout
@@ -69,8 +69,7 @@ resource "aws_lambda_function" "core" {
   lifecycle {
     ignore_changes = [
       filename,
-      source_code_hash,
-      image_uri
+      source_code_hash
     ]
   }
 }

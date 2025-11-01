@@ -31,7 +31,7 @@ Deploy a self-hosted Novu stack on AWS ECS Fargate with MongoDB and Redis backen
 
 ## Definition of Ready
 - [x] Networking finalized: Novu self-hosted on ECS in private subnets with public ALB, minimal security groups approved.
-- [x] Datastores chosen: MongoDB Atlas via PrivateLink plus Upstash Redis tier with backup policy and ownership confirmed.
+- [x] Datastores chosen: MongoDB Atlas via PrivateLink plus Amazon ElastiCache Serverless Redis tier with backup policy and ownership confirmed.
 - [x] Secrets catalog defined: `/novu/<env>/{api_key,worker_creds,smtp_*}` in Secrets Manager with documented rotation.
 - [x] Logging/monitoring requirements locked: structured logs to CloudWatch, metrics into Grafana, alerts on queue lag and handler failures.
 

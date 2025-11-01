@@ -1,12 +1,12 @@
 locals {
-  connection_uri = format(
+  connection_uri = local.master_password != null ? format(
     "postgresql://%s:%s@%s:%d/%s",
     var.master_username,
     urlencode(local.master_password),
     aws_rds_cluster.this.endpoint,
     aws_rds_cluster.this.port,
     var.database_name,
-  )
+  ) : null
 }
 
 output "cluster_arn" {

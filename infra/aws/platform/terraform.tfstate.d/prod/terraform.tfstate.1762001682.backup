@@ -1,0 +1,4179 @@
+{
+  "version": 4,
+  "terraform_version": "1.13.4",
+  "serial": 74,
+  "lineage": "e2af1be3-6785-f60f-1e2d-61c93bf82a8f",
+  "outputs": {
+    "api_invoke_url": {
+      "value": "https://jv77gs7dec.execute-api.eu-central-1.amazonaws.com/",
+      "type": "string"
+    },
+    "cache_endpoint": {
+      "value": "platform-prod-cache-gd9idb.serverless.euc1.cache.amazonaws.com",
+      "type": "string"
+    },
+    "cache_reader_endpoint": {
+      "value": "platform-prod-cache-gd9idb.serverless.euc1.cache.amazonaws.com",
+      "type": "string"
+    },
+    "cloudfront_domain_name": {
+      "value": null,
+      "type": "string"
+    },
+    "hosted_zone_id": {
+      "value": "Z08138481U72OSFRKQ9G7",
+      "type": "string"
+    },
+    "lambda_function_arn": {
+      "value": null,
+      "type": "string"
+    },
+    "vpc_id": {
+      "value": "vpc-063a9bf56877fa0f5",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "data",
+      "type": "aws_route53_zone",
+      "name": "existing",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "module": "module.platform_api",
+      "mode": "managed",
+      "type": "aws_apigatewayv2_api",
+      "name": "http",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "api_endpoint": "https://jv77gs7dec.execute-api.eu-central-1.amazonaws.com",
+            "api_key_selection_expression": "$request.header.x-api-key",
+            "arn": "arn:aws:apigateway:eu-central-1::/apis/jv77gs7dec",
+            "body": null,
+            "cors_configuration": [],
+            "credentials_arn": null,
+            "description": "",
+            "disable_execute_api_endpoint": false,
+            "execution_arn": "arn:aws:execute-api:eu-central-1:869603330574:jv77gs7dec",
+            "fail_on_warnings": null,
+            "id": "jv77gs7dec",
+            "ip_address_type": "ipv4",
+            "name": "platform-prod-http",
+            "protocol_type": "HTTP",
+            "region": "eu-central-1",
+            "route_key": null,
+            "route_selection_expression": "$request.method $request.path",
+            "tags": {
+              "Component": "api",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "api",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "target": null,
+            "version": ""
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_api",
+      "mode": "managed",
+      "type": "aws_apigatewayv2_stage",
+      "name": "default",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "access_log_settings": [
+              {
+                "destination_arn": "arn:aws:logs:eu-central-1:869603330574:log-group:/aws/http-api/platform-prod-http",
+                "format": "{\"httpMethod\":\"$context.httpMethod\",\"integrationError\":\"$context.integrationErrorMessage\",\"integrationStatus\":\"$context.integration.status\",\"ip\":\"$context.identity.sourceIp\",\"protocol\":\"$context.protocol\",\"requestId\":\"$context.requestId\",\"responseLength\":\"$context.responseLength\",\"routeKey\":\"$context.routeKey\",\"status\":\"$context.status\"}"
+              }
+            ],
+            "api_id": "jv77gs7dec",
+            "arn": "arn:aws:apigateway:eu-central-1::/apis/jv77gs7dec/stages/$default",
+            "auto_deploy": true,
+            "client_certificate_id": "",
+            "default_route_settings": [
+              {
+                "data_trace_enabled": false,
+                "detailed_metrics_enabled": true,
+                "logging_level": "",
+                "throttling_burst_limit": 1000,
+                "throttling_rate_limit": 500
+              }
+            ],
+            "deployment_id": "",
+            "description": "",
+            "execution_arn": "arn:aws:execute-api:eu-central-1:869603330574:jv77gs7dec/$default",
+            "id": "$default",
+            "invoke_url": "https://jv77gs7dec.execute-api.eu-central-1.amazonaws.com/",
+            "name": "$default",
+            "region": "eu-central-1",
+            "route_settings": [],
+            "stage_variables": {},
+            "tags": {
+              "Component": "api",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "api",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_api.aws_apigatewayv2_api.http",
+            "module.platform_api.aws_cloudwatch_log_group.access"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_api",
+      "mode": "managed",
+      "type": "aws_cloudwatch_log_group",
+      "name": "access",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:logs:eu-central-1:869603330574:log-group:/aws/http-api/platform-prod-http",
+            "id": "/aws/http-api/platform-prod-http",
+            "kms_key_id": "",
+            "log_group_class": "STANDARD",
+            "name": "/aws/http-api/platform-prod-http",
+            "name_prefix": "",
+            "region": "eu-central-1",
+            "retention_in_days": 30,
+            "skip_destroy": false,
+            "tags": {
+              "Component": "api",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "/aws/http-api/platform-prod-http",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "api",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "/aws/http-api/platform-prod-http",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "name": "/aws/http-api/platform-prod-http",
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_cache",
+      "mode": "managed",
+      "type": "aws_elasticache_serverless_cache",
+      "name": "this",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:elasticache:eu-central-1:869603330574:serverlesscache:platform-prod-cache",
+            "cache_usage_limits": [
+              {
+                "data_storage": [
+                  {
+                    "maximum": 8,
+                    "minimum": null,
+                    "unit": "GB"
+                  }
+                ],
+                "ecpu_per_second": [
+                  {
+                    "maximum": 2000,
+                    "minimum": null
+                  }
+                ]
+              }
+            ],
+            "create_time": "2025-11-01T12:38:07Z",
+            "daily_snapshot_time": "03:00",
+            "description": "Clarivum shared cache for response hydration and guardrails.",
+            "endpoint": [
+              {
+                "address": "platform-prod-cache-gd9idb.serverless.euc1.cache.amazonaws.com",
+                "port": 6379
+              }
+            ],
+            "engine": "valkey",
+            "full_engine_version": "7.2",
+            "id": "platform-prod-cache",
+            "kms_key_id": null,
+            "major_engine_version": "7",
+            "name": "platform-prod-cache",
+            "reader_endpoint": [
+              {
+                "address": "platform-prod-cache-gd9idb.serverless.euc1.cache.amazonaws.com",
+                "port": 6380
+              }
+            ],
+            "region": "eu-central-1",
+            "security_group_ids": [
+              "sg-024af072852477881"
+            ],
+            "snapshot_arns_to_restore": null,
+            "snapshot_retention_limit": 0,
+            "status": "available",
+            "subnet_ids": [
+              "subnet-05749cf7d39e9ea78",
+              "subnet-0dc83583337c45c03"
+            ],
+            "tags": {
+              "Component": "cache",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-cache",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "cache",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-cache",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "timeouts": null,
+            "user_group_id": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "module": "module.platform_cache",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "cache",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:security-group/sg-024af072852477881",
+            "description": "Access control for platform-prod-cache",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [
+                  "::/0"
+                ],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-024af072852477881",
+            "ingress": [
+              {
+                "cidr_blocks": [],
+                "description": "Allow Lambda access to Redis TLS port",
+                "from_port": 6379,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [
+                  "sg-02bf432d4c423f67d"
+                ],
+                "self": false,
+                "to_port": 6379
+              }
+            ],
+            "name": "platform-prod-cache-sg",
+            "name_prefix": "",
+            "owner_id": "869603330574",
+            "region": "eu-central-1",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Component": "cache",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-cache-sg",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "cache",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-cache-sg",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-063a9bf56877fa0f5"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "id": "sg-024af072852477881",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this",
+            "module.platform_security_groups.aws_security_group.lambda"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_cloudfront",
+      "mode": "managed",
+      "type": "aws_acm_certificate",
+      "name": "this",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"].us_east_1",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:acm:us-east-1:869603330574:certificate/0c5510d8-c7b4-4c4d-b4fa-161ea74e009a",
+            "certificate_authority_arn": "",
+            "certificate_body": null,
+            "certificate_chain": null,
+            "domain_name": "clarivum.com",
+            "domain_validation_options": [
+              {
+                "domain_name": "clarivum.com",
+                "resource_record_name": "_3cd13ca4a72e3a6137728c2941c3c9a3.clarivum.com.",
+                "resource_record_type": "CNAME",
+                "resource_record_value": "_ff7be82ff214962b96c39e345401f2ac.jkddzztszm.acm-validations.aws."
+              },
+              {
+                "domain_name": "www.clarivum.com",
+                "resource_record_name": "_5b04844dc84b6b8d1d68e2b6dc773b52.www.clarivum.com.",
+                "resource_record_type": "CNAME",
+                "resource_record_value": "_24dcc37f8eed3f0320437ed8fe57d664.jkddzztszm.acm-validations.aws."
+              }
+            ],
+            "early_renewal_duration": "",
+            "id": "arn:aws:acm:us-east-1:869603330574:certificate/0c5510d8-c7b4-4c4d-b4fa-161ea74e009a",
+            "key_algorithm": "RSA_2048",
+            "not_after": "2026-11-30T23:59:59Z",
+            "not_before": "2025-11-01T00:00:00Z",
+            "options": [
+              {
+                "certificate_transparency_logging_preference": "ENABLED",
+                "export": "DISABLED"
+              }
+            ],
+            "pending_renewal": false,
+            "private_key": null,
+            "region": "us-east-1",
+            "renewal_eligibility": "INELIGIBLE",
+            "renewal_summary": [],
+            "status": "ISSUED",
+            "subject_alternative_names": [
+              "clarivum.com",
+              "www.clarivum.com"
+            ],
+            "tags": {
+              "Component": "edge",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "clarivum.com",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "edge",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "clarivum.com",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "type": "AMAZON_ISSUED",
+            "validation_emails": [],
+            "validation_method": "DNS",
+            "validation_option": []
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "private_key"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "identity": {
+            "arn": "arn:aws:acm:us-east-1:869603330574:certificate/0c5510d8-c7b4-4c4d-b4fa-161ea74e009a"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_cloudfront",
+      "mode": "managed",
+      "type": "aws_cloudfront_cache_policy",
+      "name": "static",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "module": "module.platform_cloudfront",
+      "mode": "managed",
+      "type": "aws_cloudfront_origin_access_control",
+      "name": "static",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:cloudfront::869603330574:origin-access-control/E3BRSF38SOUVH9",
+            "description": "Access control for S3 static origin",
+            "etag": "ETVPDKIKX0DER",
+            "id": "E3BRSF38SOUVH9",
+            "name": "platform-prod-cdn-oac",
+            "origin_access_control_origin_type": "s3",
+            "signing_behavior": "always",
+            "signing_protocol": "sigv4"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_cloudfront",
+      "mode": "managed",
+      "type": "aws_route53_record",
+      "name": "certificate_validation",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": "clarivum.com",
+          "schema_version": 2,
+          "attributes": {
+            "alias": [],
+            "allow_overwrite": null,
+            "cidr_routing_policy": [],
+            "failover_routing_policy": [],
+            "fqdn": "_3cd13ca4a72e3a6137728c2941c3c9a3.clarivum.com",
+            "geolocation_routing_policy": [],
+            "geoproximity_routing_policy": [],
+            "health_check_id": "",
+            "id": "Z08138481U72OSFRKQ9G7__3cd13ca4a72e3a6137728c2941c3c9a3.clarivum.com._CNAME",
+            "latency_routing_policy": [],
+            "multivalue_answer_routing_policy": false,
+            "name": "_3cd13ca4a72e3a6137728c2941c3c9a3.clarivum.com",
+            "records": [
+              "_ff7be82ff214962b96c39e345401f2ac.jkddzztszm.acm-validations.aws."
+            ],
+            "set_identifier": "",
+            "timeouts": null,
+            "ttl": 60,
+            "type": "CNAME",
+            "weighted_routing_policy": [],
+            "zone_id": "Z08138481U72OSFRKQ9G7"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "name": "_3cd13ca4a72e3a6137728c2941c3c9a3.clarivum.com",
+            "set_identifier": null,
+            "type": "CNAME",
+            "zone_id": "Z08138481U72OSFRKQ9G7"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTgwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMiJ9"
+        },
+        {
+          "index_key": "www.clarivum.com",
+          "schema_version": 2,
+          "attributes": {
+            "alias": [],
+            "allow_overwrite": null,
+            "cidr_routing_policy": [],
+            "failover_routing_policy": [],
+            "fqdn": "_5b04844dc84b6b8d1d68e2b6dc773b52.www.clarivum.com",
+            "geolocation_routing_policy": [],
+            "geoproximity_routing_policy": [],
+            "health_check_id": "",
+            "id": "Z08138481U72OSFRKQ9G7__5b04844dc84b6b8d1d68e2b6dc773b52.www.clarivum.com._CNAME",
+            "latency_routing_policy": [],
+            "multivalue_answer_routing_policy": false,
+            "name": "_5b04844dc84b6b8d1d68e2b6dc773b52.www.clarivum.com",
+            "records": [
+              "_24dcc37f8eed3f0320437ed8fe57d664.jkddzztszm.acm-validations.aws."
+            ],
+            "set_identifier": "",
+            "timeouts": null,
+            "ttl": 60,
+            "type": "CNAME",
+            "weighted_routing_policy": [],
+            "zone_id": "Z08138481U72OSFRKQ9G7"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "name": "_5b04844dc84b6b8d1d68e2b6dc773b52.www.clarivum.com",
+            "set_identifier": null,
+            "type": "CNAME",
+            "zone_id": "Z08138481U72OSFRKQ9G7"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTgwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMiJ9"
+        }
+      ]
+    },
+    {
+      "module": "module.platform_cloudfront",
+      "mode": "managed",
+      "type": "aws_wafv2_web_acl",
+      "name": "this",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"].us_east_1",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "application_integration_url": "",
+            "arn": "arn:aws:wafv2:us-east-1:869603330574:global/webacl/platform-prod-cdn-waf/505c54fa-dccc-44ce-a5ff-8c82bc05150f",
+            "association_config": [],
+            "capacity": 903,
+            "captcha_config": [],
+            "challenge_config": [],
+            "custom_response_body": [],
+            "data_protection_config": [],
+            "default_action": [
+              {
+                "allow": [
+                  {
+                    "custom_request_handling": []
+                  }
+                ],
+                "block": []
+              }
+            ],
+            "description": "",
+            "id": "505c54fa-dccc-44ce-a5ff-8c82bc05150f",
+            "lock_token": "51c59b47-3c55-42cb-85a4-bf36ed747f6d",
+            "name": "platform-prod-cdn-waf",
+            "name_prefix": "",
+            "region": "us-east-1",
+            "rule": [
+              {
+                "action": [
+                  {
+                    "allow": [],
+                    "block": [
+                      {
+                        "custom_response": []
+                      }
+                    ],
+                    "captcha": [],
+                    "challenge": [],
+                    "count": []
+                  }
+                ],
+                "captcha_config": [],
+                "challenge_config": [],
+                "name": "GeoDenyList",
+                "override_action": [],
+                "priority": 30,
+                "rule_label": [],
+                "statement": [
+                  {
+                    "and_statement": [],
+                    "asn_match_statement": [],
+                    "byte_match_statement": [],
+                    "geo_match_statement": [
+                      {
+                        "country_codes": [
+                          "CN",
+                          "RU",
+                          "IR",
+                          "IQ",
+                          "KP",
+                          "SY",
+                          "AF",
+                          "BY"
+                        ],
+                        "forwarded_ip_config": []
+                      }
+                    ],
+                    "ip_set_reference_statement": [],
+                    "label_match_statement": [],
+                    "managed_rule_group_statement": [],
+                    "not_statement": [],
+                    "or_statement": [],
+                    "rate_based_statement": [],
+                    "regex_match_statement": [],
+                    "regex_pattern_set_reference_statement": [],
+                    "rule_group_reference_statement": [],
+                    "size_constraint_statement": [],
+                    "sqli_match_statement": [],
+                    "xss_match_statement": []
+                  }
+                ],
+                "visibility_config": [
+                  {
+                    "cloudwatch_metrics_enabled": true,
+                    "metric_name": "platform-prod-cdn-geo",
+                    "sampled_requests_enabled": true
+                  }
+                ]
+              },
+              {
+                "action": [
+                  {
+                    "allow": [],
+                    "block": [
+                      {
+                        "custom_response": []
+                      }
+                    ],
+                    "captcha": [],
+                    "challenge": [],
+                    "count": []
+                  }
+                ],
+                "captcha_config": [],
+                "challenge_config": [],
+                "name": "RateLimit",
+                "override_action": [],
+                "priority": 40,
+                "rule_label": [],
+                "statement": [
+                  {
+                    "and_statement": [],
+                    "asn_match_statement": [],
+                    "byte_match_statement": [],
+                    "geo_match_statement": [],
+                    "ip_set_reference_statement": [],
+                    "label_match_statement": [],
+                    "managed_rule_group_statement": [],
+                    "not_statement": [],
+                    "or_statement": [],
+                    "rate_based_statement": [
+                      {
+                        "aggregate_key_type": "IP",
+                        "custom_key": [],
+                        "evaluation_window_sec": 300,
+                        "forwarded_ip_config": [],
+                        "limit": 2000,
+                        "scope_down_statement": []
+                      }
+                    ],
+                    "regex_match_statement": [],
+                    "regex_pattern_set_reference_statement": [],
+                    "rule_group_reference_statement": [],
+                    "size_constraint_statement": [],
+                    "sqli_match_statement": [],
+                    "xss_match_statement": []
+                  }
+                ],
+                "visibility_config": [
+                  {
+                    "cloudwatch_metrics_enabled": true,
+                    "metric_name": "platform-prod-cdn-rate-limit",
+                    "sampled_requests_enabled": true
+                  }
+                ]
+              },
+              {
+                "action": [],
+                "captcha_config": [],
+                "challenge_config": [],
+                "name": "AWS-AWSManagedRulesCommonRuleSet",
+                "override_action": [
+                  {
+                    "count": [],
+                    "none": [
+                      {}
+                    ]
+                  }
+                ],
+                "priority": 10,
+                "rule_label": [],
+                "statement": [
+                  {
+                    "and_statement": [],
+                    "asn_match_statement": [],
+                    "byte_match_statement": [],
+                    "geo_match_statement": [],
+                    "ip_set_reference_statement": [],
+                    "label_match_statement": [],
+                    "managed_rule_group_statement": [
+                      {
+                        "managed_rule_group_configs": [],
+                        "name": "AWSManagedRulesCommonRuleSet",
+                        "rule_action_override": [],
+                        "scope_down_statement": [],
+                        "vendor_name": "AWS",
+                        "version": ""
+                      }
+                    ],
+                    "not_statement": [],
+                    "or_statement": [],
+                    "rate_based_statement": [],
+                    "regex_match_statement": [],
+                    "regex_pattern_set_reference_statement": [],
+                    "rule_group_reference_statement": [],
+                    "size_constraint_statement": [],
+                    "sqli_match_statement": [],
+                    "xss_match_statement": []
+                  }
+                ],
+                "visibility_config": [
+                  {
+                    "cloudwatch_metrics_enabled": true,
+                    "metric_name": "platform-prod-cdn-common",
+                    "sampled_requests_enabled": true
+                  }
+                ]
+              },
+              {
+                "action": [],
+                "captcha_config": [],
+                "challenge_config": [],
+                "name": "AWS-AWSManagedRulesKnownBadInputsRuleSet",
+                "override_action": [
+                  {
+                    "count": [],
+                    "none": [
+                      {}
+                    ]
+                  }
+                ],
+                "priority": 20,
+                "rule_label": [],
+                "statement": [
+                  {
+                    "and_statement": [],
+                    "asn_match_statement": [],
+                    "byte_match_statement": [],
+                    "geo_match_statement": [],
+                    "ip_set_reference_statement": [],
+                    "label_match_statement": [],
+                    "managed_rule_group_statement": [
+                      {
+                        "managed_rule_group_configs": [],
+                        "name": "AWSManagedRulesKnownBadInputsRuleSet",
+                        "rule_action_override": [],
+                        "scope_down_statement": [],
+                        "vendor_name": "AWS",
+                        "version": ""
+                      }
+                    ],
+                    "not_statement": [],
+                    "or_statement": [],
+                    "rate_based_statement": [],
+                    "regex_match_statement": [],
+                    "regex_pattern_set_reference_statement": [],
+                    "rule_group_reference_statement": [],
+                    "size_constraint_statement": [],
+                    "sqli_match_statement": [],
+                    "xss_match_statement": []
+                  }
+                ],
+                "visibility_config": [
+                  {
+                    "cloudwatch_metrics_enabled": true,
+                    "metric_name": "platform-prod-cdn-bad-inputs",
+                    "sampled_requests_enabled": true
+                  }
+                ]
+              }
+            ],
+            "rule_json": null,
+            "scope": "CLOUDFRONT",
+            "tags": {
+              "Component": "edge",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "edge",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "token_domains": [],
+            "visibility_config": [
+              {
+                "cloudwatch_metrics_enabled": true,
+                "metric_name": "platform-prod-cdn-waf",
+                "sampled_requests_enabled": true
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_cost_controls",
+      "mode": "managed",
+      "type": "aws_budgets_budget",
+      "name": "monthly",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "869603330574",
+            "arn": "arn:aws:budgets::869603330574:budget/platform-prod-monthly",
+            "auto_adjust_data": [],
+            "billing_view_arn": "",
+            "budget_type": "COST",
+            "cost_filter": [],
+            "cost_types": [
+              {
+                "include_credit": true,
+                "include_discount": true,
+                "include_other_subscription": true,
+                "include_recurring": true,
+                "include_refund": true,
+                "include_subscription": true,
+                "include_support": true,
+                "include_tax": true,
+                "include_upfront": true,
+                "use_amortized": false,
+                "use_blended": false
+              }
+            ],
+            "id": "869603330574:platform-prod-monthly",
+            "limit_amount": "1000.0",
+            "limit_unit": "USD",
+            "name": "platform-prod-monthly",
+            "name_prefix": "",
+            "notification": [
+              {
+                "comparison_operator": "GREATER_THAN",
+                "notification_type": "ACTUAL",
+                "subscriber_email_addresses": [],
+                "subscriber_sns_topic_arns": [
+                  "arn:aws:sns:eu-central-1:869603330574:platform-prod-finops"
+                ],
+                "threshold": 110,
+                "threshold_type": "PERCENTAGE"
+              },
+              {
+                "comparison_operator": "GREATER_THAN",
+                "notification_type": "ACTUAL",
+                "subscriber_email_addresses": [],
+                "subscriber_sns_topic_arns": [
+                  "arn:aws:sns:eu-central-1:869603330574:platform-prod-finops"
+                ],
+                "threshold": 90,
+                "threshold_type": "PERCENTAGE"
+              },
+              {
+                "comparison_operator": "GREATER_THAN",
+                "notification_type": "FORECASTED",
+                "subscriber_email_addresses": [],
+                "subscriber_sns_topic_arns": [
+                  "arn:aws:sns:eu-central-1:869603330574:platform-prod-finops"
+                ],
+                "threshold": 60,
+                "threshold_type": "PERCENTAGE"
+              }
+            ],
+            "planned_limit": [],
+            "tags": {},
+            "tags_all": {},
+            "time_period_end": "2087-06-15_00:00",
+            "time_period_start": "2025-11-01_00:00",
+            "time_unit": "MONTHLY"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_observability.aws_sns_topic.finops"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_cost_controls",
+      "mode": "managed",
+      "type": "aws_ce_anomaly_monitor",
+      "name": "service",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"].ce",
+      "instances": []
+    },
+    {
+      "module": "module.platform_cost_controls",
+      "mode": "managed",
+      "type": "aws_ce_anomaly_subscription",
+      "name": "service",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"].ce",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "869603330574",
+            "arn": "arn:aws:ce::869603330574:anomalysubscription/4ce46f6a-a2b1-4e58-9a7f-3f5c5fec84b3",
+            "frequency": "IMMEDIATE",
+            "id": "arn:aws:ce::869603330574:anomalysubscription/4ce46f6a-a2b1-4e58-9a7f-3f5c5fec84b3",
+            "monitor_arn_list": [
+              "arn:aws:ce::869603330574:anomalymonitor/f4348828-e0fa-4275-bcbe-cf36fe436047"
+            ],
+            "name": "platform-prod-service-subscription",
+            "subscriber": [
+              {
+                "address": "arn:aws:sns:eu-central-1:869603330574:platform-prod-finops",
+                "type": "SNS"
+              }
+            ],
+            "tags": {},
+            "tags_all": {},
+            "threshold_expression": [
+              {
+                "and": [],
+                "cost_category": [],
+                "dimension": [
+                  {
+                    "key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE",
+                    "match_options": [
+                      "GREATER_THAN_OR_EQUAL"
+                    ],
+                    "values": [
+                      "50.00"
+                    ]
+                  }
+                ],
+                "not": [],
+                "or": [],
+                "tags": []
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "arn": "arn:aws:ce::869603330574:anomalysubscription/4ce46f6a-a2b1-4e58-9a7f-3f5c5fec84b3"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_cost_controls.aws_ce_anomaly_monitor.service",
+            "module.platform_observability.aws_sns_topic.finops"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_dns",
+      "mode": "managed",
+      "type": "aws_route53_record",
+      "name": "additional",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "module": "module.platform_dns",
+      "mode": "managed",
+      "type": "aws_route53_record",
+      "name": "aliases",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "module": "module.platform_dns",
+      "mode": "managed",
+      "type": "aws_route53_zone",
+      "name": "this",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "module": "module.platform_lambda",
+      "mode": "data",
+      "type": "archive_file",
+      "name": "stub",
+      "provider": "provider[\"registry.terraform.io/hashicorp/archive\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "exclude_symlink_directories": null,
+            "excludes": null,
+            "id": "e6bbf4ed10598a6d4a461fab917468ad134d6833",
+            "output_base64sha256": "TTQoN1TyYJBurNhEvpbLTtFNGkaoKU/zMR+979gitXs=",
+            "output_base64sha512": "d4GTyVrUO6IgjcA0M6uWgrWBGKJheyhZBRJ8sIo5OrXHMzkvidy4VAdQvMfRPvMC0tX26zLXK7IQkKkaxLA5+Q==",
+            "output_file_mode": null,
+            "output_md5": "de8f39d4813cdda4f50d862f7d0b6c7c",
+            "output_path": "../../modules/platform-lambda/.generated/platform-prod-core-stub.zip",
+            "output_sha": "e6bbf4ed10598a6d4a461fab917468ad134d6833",
+            "output_sha256": "4d34283754f260906eacd844be96cb4ed14d1a46a8294ff3311fbdefd822b57b",
+            "output_sha512": "778193c95ad43ba2208dc03433ab9682b58118a2617b285905127cb08a393ab5c733392f89dcb8540750bcc7d13ef302d2d5f6eb32d72bb21090a91ac4b039f9",
+            "output_size": 323,
+            "source": [
+              {
+                "content": "\"use strict\";\n\nexports.handler = async () =\u003e ({\n  statusCode: 200,\n  headers: { \"content-type\": \"application/json\" },\n  body: JSON.stringify({\n    message: \"Clarivum runtime placeholder\",\n    timestamp: new Date().toISOString()\n  })\n});\n",
+                "filename": "index.js"
+              }
+            ],
+            "source_content": null,
+            "source_content_filename": null,
+            "source_dir": null,
+            "source_file": null,
+            "type": "zip"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "module": "module.platform_lambda",
+      "mode": "managed",
+      "type": "aws_cloudwatch_log_group",
+      "name": "lambda",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:logs:eu-central-1:869603330574:log-group:/aws/lambda/platform-prod-core",
+            "id": "/aws/lambda/platform-prod-core",
+            "kms_key_id": "",
+            "log_group_class": "STANDARD",
+            "name": "/aws/lambda/platform-prod-core",
+            "name_prefix": "",
+            "region": "eu-central-1",
+            "retention_in_days": 14,
+            "skip_destroy": false,
+            "tags": {
+              "Component": "lambda",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "/aws/lambda/platform-prod-core",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "lambda",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "/aws/lambda/platform-prod-core",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "name": "/aws/lambda/platform-prod-core",
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_lambda",
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "core",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::869603330574:role/platform-prod-core-role",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lambda.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2025-11-01T12:37:49Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "platform-prod-core-role",
+            "inline_policy": [],
+            "managed_policy_arns": [
+              "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+            ],
+            "max_session_duration": 3600,
+            "name": "platform-prod-core-role",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": {
+              "Component": "lambda",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-core-role",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "lambda",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-core-role",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "unique_id": "AROA4U6DFZIHNWJNJR6MT"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "name": "platform-prod-core-role"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_lambda",
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "basic_execution",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "platform-prod-core-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+            "policy_arn": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+            "role": "platform-prod-core-role"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "policy_arn": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+            "role": "platform-prod-core-role"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_lambda.aws_iam_role.core"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_lambda",
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "vpc_execution",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "platform-prod-core-role/arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+            "policy_arn": "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+            "role": "platform-prod-core-role"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "policy_arn": "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+            "role": "platform-prod-core-role"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_lambda.aws_iam_role.core"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_cloudwatch_log_group",
+      "name": "flow_logs",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:logs:eu-central-1:869603330574:log-group:/aws/vpc/platform-prod-vpc/flow-logs",
+            "id": "/aws/vpc/platform-prod-vpc/flow-logs",
+            "kms_key_id": "",
+            "log_group_class": "STANDARD",
+            "name": "/aws/vpc/platform-prod-vpc/flow-logs",
+            "name_prefix": "",
+            "region": "eu-central-1",
+            "retention_in_days": 90,
+            "skip_destroy": false,
+            "tags": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-flow-logs",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-flow-logs",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "name": "/aws/vpc/platform-prod-vpc/flow-logs",
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_eip",
+      "name": "nat",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address": null,
+            "allocation_id": "eipalloc-0891d8e572812125b",
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:elastic-ip/eipalloc-0891d8e572812125b",
+            "associate_with_private_ip": null,
+            "association_id": "eipassoc-0c0273d011c7a2ef9",
+            "carrier_ip": "",
+            "customer_owned_ip": "",
+            "customer_owned_ipv4_pool": "",
+            "domain": "vpc",
+            "id": "eipalloc-0891d8e572812125b",
+            "instance": "",
+            "ipam_pool_id": null,
+            "network_border_group": "eu-central-1",
+            "network_interface": "eni-0afd775afa1ac2d34",
+            "private_dns": "ip-10-30-1-103.eu-central-1.compute.internal",
+            "private_ip": "10.30.1.103",
+            "ptr_record": "",
+            "public_dns": "ec2-63-179-180-174.eu-central-1.compute.amazonaws.com",
+            "public_ip": "63.179.180.174",
+            "public_ipv4_pool": "amazon",
+            "region": "eu-central-1",
+            "tags": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-nat-eip",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-nat-eip",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiZGVsZXRlIjoxODAwMDAwMDAwMDAsInJlYWQiOjkwMDAwMDAwMDAwMCwidXBkYXRlIjozMDAwMDAwMDAwMDB9fQ=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_flow_log",
+      "name": "this",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:vpc-flow-log/fl-0fad61c80ae374fe9",
+            "deliver_cross_account_role": "",
+            "destination_options": [],
+            "eni_id": null,
+            "iam_role_arn": "arn:aws:iam::869603330574:role/platform-prod-vpc-flow-logs-role",
+            "id": "fl-0fad61c80ae374fe9",
+            "log_destination": "arn:aws:logs:eu-central-1:869603330574:log-group:/aws/vpc/platform-prod-vpc/flow-logs",
+            "log_destination_type": "cloud-watch-logs",
+            "log_format": "${version} ${account-id} ${interface-id} ${srcaddr} ${dstaddr} ${srcport} ${dstport} ${protocol} ${packets} ${bytes} ${start} ${end} ${action} ${log-status}",
+            "max_aggregation_interval": 600,
+            "region": "eu-central-1",
+            "subnet_id": null,
+            "tags": {},
+            "tags_all": {},
+            "traffic_type": "ALL",
+            "transit_gateway_attachment_id": null,
+            "transit_gateway_id": null,
+            "vpc_id": "vpc-063a9bf56877fa0f5"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
+          "dependencies": [
+            "module.platform_network.aws_cloudwatch_log_group.flow_logs",
+            "module.platform_network.aws_iam_role.flow_logs",
+            "module.platform_network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "flow_logs",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::869603330574:role/platform-prod-vpc-flow-logs-role",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"vpc-flow-logs.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2025-11-01T12:37:49Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "platform-prod-vpc-flow-logs-role",
+            "inline_policy": [
+              {
+                "name": "platform-prod-vpc-flow-logs-policy",
+                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"logs:CreateLogGroup\",\"logs:CreateLogStream\",\"logs:PutLogEvents\",\"logs:DescribeLogGroups\",\"logs:DescribeLogStreams\"],\"Effect\":\"Allow\",\"Resource\":\"*\"}]}"
+              }
+            ],
+            "managed_policy_arns": [],
+            "max_session_duration": 3600,
+            "name": "platform-prod-vpc-flow-logs-role",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-flow-logs-role",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-flow-logs-role",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "unique_id": "AROA4U6DFZIHK2MEGZC2J"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "name": "platform-prod-vpc-flow-logs-role"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_iam_role_policy",
+      "name": "flow_logs",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "id": "platform-prod-vpc-flow-logs-role:platform-prod-vpc-flow-logs-policy",
+            "name": "platform-prod-vpc-flow-logs-policy",
+            "name_prefix": "",
+            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"logs:CreateLogGroup\",\"logs:CreateLogStream\",\"logs:PutLogEvents\",\"logs:DescribeLogGroups\",\"logs:DescribeLogStreams\"],\"Effect\":\"Allow\",\"Resource\":\"*\"}]}",
+            "role": "platform-prod-vpc-flow-logs-role"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "name": "platform-prod-vpc-flow-logs-policy",
+            "role": "platform-prod-vpc-flow-logs-role"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_network.aws_iam_role.flow_logs"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_internet_gateway",
+      "name": "this",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:internet-gateway/igw-0a8cf4e757209969d",
+            "id": "igw-0a8cf4e757209969d",
+            "owner_id": "869603330574",
+            "region": "eu-central-1",
+            "tags": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-igw",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-igw",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-063a9bf56877fa0f5"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_nat_gateway",
+      "name": "this",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "status": "tainted",
+          "schema_version": 0,
+          "attributes": {
+            "allocation_id": "eipalloc-0891d8e572812125b",
+            "association_id": null,
+            "connectivity_type": "public",
+            "id": "nat-0599fb23942a53c18",
+            "network_interface_id": null,
+            "private_ip": null,
+            "public_ip": null,
+            "region": "eu-central-1",
+            "secondary_allocation_ids": [],
+            "secondary_private_ip_address_count": null,
+            "secondary_private_ip_addresses": [],
+            "subnet_id": "subnet-03285e4e893d6b4cc",
+            "tags": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-nat",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-nat",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTgwMDAwMDAwMDAwMCwidXBkYXRlIjo2MDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "module.platform_network.aws_eip.nat",
+            "module.platform_network.aws_internet_gateway.this",
+            "module.platform_network.aws_subnet.public",
+            "module.platform_network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_route",
+      "name": "public_default_internet",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "carrier_gateway_id": "",
+            "core_network_arn": "",
+            "destination_cidr_block": "0.0.0.0/0",
+            "destination_ipv6_cidr_block": "",
+            "destination_prefix_list_id": "",
+            "egress_only_gateway_id": "",
+            "gateway_id": "igw-0a8cf4e757209969d",
+            "id": "r-rtb-08a010ff6df8210f81080289494",
+            "instance_id": "",
+            "instance_owner_id": "",
+            "local_gateway_id": "",
+            "nat_gateway_id": "",
+            "network_interface_id": "",
+            "origin": "CreateRoute",
+            "region": "eu-central-1",
+            "route_table_id": "rtb-08a010ff6df8210f8",
+            "state": "active",
+            "timeouts": null,
+            "transit_gateway_id": "",
+            "vpc_endpoint_id": "",
+            "vpc_peering_connection_id": ""
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "destination_cidr_block": "0.0.0.0/0",
+            "destination_ipv6_cidr_block": null,
+            "destination_prefix_list_id": null,
+            "region": "eu-central-1",
+            "route_table_id": "rtb-08a010ff6df8210f8"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.platform_network.aws_internet_gateway.this",
+            "module.platform_network.aws_route_table.public",
+            "module.platform_network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_route_table",
+      "name": "private",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:route-table/rtb-0e612e1b2b957b69a",
+            "id": "rtb-0e612e1b2b957b69a",
+            "owner_id": "869603330574",
+            "propagating_vgws": [],
+            "region": "eu-central-1",
+            "route": [],
+            "tags": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-private-rt",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform",
+              "Tier": "private"
+            },
+            "tags_all": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-private-rt",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform",
+              "Tier": "private"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-063a9bf56877fa0f5"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "id": "rtb-0e612e1b2b957b69a",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_route_table",
+      "name": "public",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:route-table/rtb-08a010ff6df8210f8",
+            "id": "rtb-08a010ff6df8210f8",
+            "owner_id": "869603330574",
+            "propagating_vgws": [],
+            "region": "eu-central-1",
+            "route": [
+              {
+                "carrier_gateway_id": "",
+                "cidr_block": "0.0.0.0/0",
+                "core_network_arn": "",
+                "destination_prefix_list_id": "",
+                "egress_only_gateway_id": "",
+                "gateway_id": "igw-0a8cf4e757209969d",
+                "ipv6_cidr_block": "",
+                "local_gateway_id": "",
+                "nat_gateway_id": "",
+                "network_interface_id": "",
+                "transit_gateway_id": "",
+                "vpc_endpoint_id": "",
+                "vpc_peering_connection_id": ""
+              }
+            ],
+            "tags": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-public-rt",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform",
+              "Tier": "public"
+            },
+            "tags_all": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-public-rt",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform",
+              "Tier": "public"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-063a9bf56877fa0f5"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "id": "rtb-08a010ff6df8210f8",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_route_table_association",
+      "name": "private",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": "eu-central-1a",
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-0d1c29936e7cf5894",
+            "region": "eu-central-1",
+            "route_table_id": "rtb-0e612e1b2b957b69a",
+            "subnet_id": "subnet-05749cf7d39e9ea78",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.platform_network.aws_route_table.private",
+            "module.platform_network.aws_subnet.private",
+            "module.platform_network.aws_vpc.this"
+          ]
+        },
+        {
+          "index_key": "eu-central-1b",
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-039335861f0fe1508",
+            "region": "eu-central-1",
+            "route_table_id": "rtb-0e612e1b2b957b69a",
+            "subnet_id": "subnet-0dc83583337c45c03",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.platform_network.aws_route_table.private",
+            "module.platform_network.aws_subnet.private",
+            "module.platform_network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_route_table_association",
+      "name": "public",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": "eu-central-1a",
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-0bccfee65adab8cf8",
+            "region": "eu-central-1",
+            "route_table_id": "rtb-08a010ff6df8210f8",
+            "subnet_id": "subnet-03285e4e893d6b4cc",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.platform_network.aws_route_table.public",
+            "module.platform_network.aws_subnet.public",
+            "module.platform_network.aws_vpc.this"
+          ]
+        },
+        {
+          "index_key": "eu-central-1b",
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-0261a1632246896c5",
+            "region": "eu-central-1",
+            "route_table_id": "rtb-08a010ff6df8210f8",
+            "subnet_id": "subnet-0123b36571ff1b2f2",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.platform_network.aws_route_table.public",
+            "module.platform_network.aws_subnet.public",
+            "module.platform_network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "private",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": "eu-central-1a",
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:subnet/subnet-05749cf7d39e9ea78",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "eu-central-1a",
+            "availability_zone_id": "euc1-az2",
+            "cidr_block": "10.30.11.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-05749cf7d39e9ea78",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": false,
+            "outpost_arn": "",
+            "owner_id": "869603330574",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "region": "eu-central-1",
+            "tags": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-private-a",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform",
+              "Tier": "private"
+            },
+            "tags_all": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-private-a",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform",
+              "Tier": "private"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-063a9bf56877fa0f5"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "id": "subnet-05749cf7d39e9ea78",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this"
+          ]
+        },
+        {
+          "index_key": "eu-central-1b",
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:subnet/subnet-0dc83583337c45c03",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "eu-central-1b",
+            "availability_zone_id": "euc1-az3",
+            "cidr_block": "10.30.12.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-0dc83583337c45c03",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": false,
+            "outpost_arn": "",
+            "owner_id": "869603330574",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "region": "eu-central-1",
+            "tags": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-private-b",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform",
+              "Tier": "private"
+            },
+            "tags_all": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-private-b",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform",
+              "Tier": "private"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-063a9bf56877fa0f5"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "id": "subnet-0dc83583337c45c03",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "public",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": "eu-central-1a",
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:subnet/subnet-03285e4e893d6b4cc",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "eu-central-1a",
+            "availability_zone_id": "euc1-az2",
+            "cidr_block": "10.30.1.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-03285e4e893d6b4cc",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": true,
+            "outpost_arn": "",
+            "owner_id": "869603330574",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "region": "eu-central-1",
+            "tags": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-public-a",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform",
+              "Tier": "public"
+            },
+            "tags_all": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-public-a",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform",
+              "Tier": "public"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-063a9bf56877fa0f5"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "id": "subnet-03285e4e893d6b4cc",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this"
+          ]
+        },
+        {
+          "index_key": "eu-central-1b",
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:subnet/subnet-0123b36571ff1b2f2",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "eu-central-1b",
+            "availability_zone_id": "euc1-az3",
+            "cidr_block": "10.30.2.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-0123b36571ff1b2f2",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": true,
+            "outpost_arn": "",
+            "owner_id": "869603330574",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "region": "eu-central-1",
+            "tags": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-public-b",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform",
+              "Tier": "public"
+            },
+            "tags_all": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc-public-b",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform",
+              "Tier": "public"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-063a9bf56877fa0f5"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "id": "subnet-0123b36571ff1b2f2",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_network",
+      "mode": "managed",
+      "type": "aws_vpc",
+      "name": "this",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:vpc/vpc-063a9bf56877fa0f5",
+            "assign_generated_ipv6_cidr_block": false,
+            "cidr_block": "10.30.0.0/16",
+            "default_network_acl_id": "acl-09ca075dfcbf617c9",
+            "default_route_table_id": "rtb-0a6473eca9e8d8e11",
+            "default_security_group_id": "sg-0e9e79fd0d647204d",
+            "dhcp_options_id": "dopt-070f6cb11654c344f",
+            "enable_dns_hostnames": true,
+            "enable_dns_support": true,
+            "enable_network_address_usage_metrics": false,
+            "id": "vpc-063a9bf56877fa0f5",
+            "instance_tenancy": "default",
+            "ipv4_ipam_pool_id": null,
+            "ipv4_netmask_length": null,
+            "ipv6_association_id": "",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_network_border_group": "",
+            "ipv6_ipam_pool_id": "",
+            "ipv6_netmask_length": 0,
+            "main_route_table_id": "rtb-0a6473eca9e8d8e11",
+            "owner_id": "869603330574",
+            "region": "eu-central-1",
+            "tags": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "network",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-vpc",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "id": "vpc-063a9bf56877fa0f5",
+            "region": "eu-central-1"
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_observability",
+      "mode": "managed",
+      "type": "aws_cloudwatch_metric_alarm",
+      "name": "api_gateway_5xx",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "actions_enabled": true,
+            "alarm_actions": [
+              "arn:aws:sns:eu-central-1:869603330574:platform-prod-incident"
+            ],
+            "alarm_description": "API Gateway returning elevated 5xx responses",
+            "alarm_name": "platform-prod-api-5xx",
+            "arn": "arn:aws:cloudwatch:eu-central-1:869603330574:alarm:platform-prod-api-5xx",
+            "comparison_operator": "GreaterThanThreshold",
+            "datapoints_to_alarm": 0,
+            "dimensions": {
+              "ApiId": "jv77gs7dec"
+            },
+            "evaluate_low_sample_count_percentiles": "",
+            "evaluation_periods": 1,
+            "extended_statistic": "",
+            "id": "platform-prod-api-5xx",
+            "insufficient_data_actions": [],
+            "metric_name": "5xx",
+            "metric_query": [],
+            "namespace": "AWS/ApiGateway",
+            "ok_actions": [
+              "arn:aws:sns:eu-central-1:869603330574:platform-prod-incident"
+            ],
+            "period": 60,
+            "region": "eu-central-1",
+            "statistic": "Sum",
+            "tags": {
+              "Component": "observability",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "observability",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "threshold": 5,
+            "threshold_metric_id": "",
+            "treat_missing_data": "missing",
+            "unit": ""
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "alarm_name": "platform-prod-api-5xx",
+            "region": "eu-central-1"
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
+          "dependencies": [
+            "module.platform_api.aws_apigatewayv2_api.http",
+            "module.platform_observability.aws_sns_topic.incident"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_observability",
+      "mode": "managed",
+      "type": "aws_cloudwatch_metric_alarm",
+      "name": "aurora_capacity",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "actions_enabled": true,
+            "alarm_actions": [
+              "arn:aws:sns:eu-central-1:869603330574:platform-prod-incident"
+            ],
+            "alarm_description": "Aurora serverless capacity above threshold",
+            "alarm_name": "platform-prod-aurora-capacity",
+            "arn": "arn:aws:cloudwatch:eu-central-1:869603330574:alarm:platform-prod-aurora-capacity",
+            "comparison_operator": "GreaterThanThreshold",
+            "datapoints_to_alarm": 0,
+            "dimensions": {
+              "DBClusterIdentifier": "platform-prod-aurora"
+            },
+            "evaluate_low_sample_count_percentiles": "",
+            "evaluation_periods": 2,
+            "extended_statistic": "",
+            "id": "platform-prod-aurora-capacity",
+            "insufficient_data_actions": [],
+            "metric_name": "ServerlessDatabaseCapacity",
+            "metric_query": [],
+            "namespace": "AWS/RDS",
+            "ok_actions": [
+              "arn:aws:sns:eu-central-1:869603330574:platform-prod-incident"
+            ],
+            "period": 300,
+            "region": "eu-central-1",
+            "statistic": "Average",
+            "tags": {
+              "Component": "observability",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "observability",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "threshold": 6,
+            "threshold_metric_id": "",
+            "treat_missing_data": "missing",
+            "unit": ""
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "alarm_name": "platform-prod-aurora-capacity",
+            "region": "eu-central-1"
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
+          "dependencies": [
+            "module.platform_observability.aws_sns_topic.incident"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_observability",
+      "mode": "managed",
+      "type": "aws_sns_topic",
+      "name": "finops",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "application_failure_feedback_role_arn": "",
+            "application_success_feedback_role_arn": "",
+            "application_success_feedback_sample_rate": 0,
+            "archive_policy": "",
+            "arn": "arn:aws:sns:eu-central-1:869603330574:platform-prod-finops",
+            "beginning_archive_time": "",
+            "content_based_deduplication": false,
+            "delivery_policy": "",
+            "display_name": "",
+            "fifo_throughput_scope": "",
+            "fifo_topic": false,
+            "firehose_failure_feedback_role_arn": "",
+            "firehose_success_feedback_role_arn": "",
+            "firehose_success_feedback_sample_rate": 0,
+            "http_failure_feedback_role_arn": "",
+            "http_success_feedback_role_arn": "",
+            "http_success_feedback_sample_rate": 0,
+            "id": "arn:aws:sns:eu-central-1:869603330574:platform-prod-finops",
+            "kms_master_key_id": "",
+            "lambda_failure_feedback_role_arn": "",
+            "lambda_success_feedback_role_arn": "",
+            "lambda_success_feedback_sample_rate": 0,
+            "name": "platform-prod-finops",
+            "name_prefix": "",
+            "owner": "869603330574",
+            "policy": "{\"Id\":\"__default_policy_ID\",\"Statement\":[{\"Action\":[\"SNS:GetTopicAttributes\",\"SNS:SetTopicAttributes\",\"SNS:AddPermission\",\"SNS:RemovePermission\",\"SNS:DeleteTopic\",\"SNS:Subscribe\",\"SNS:ListSubscriptionsByTopic\",\"SNS:Publish\"],\"Condition\":{\"StringEquals\":{\"AWS:SourceOwner\":\"869603330574\"}},\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"*\"},\"Resource\":\"arn:aws:sns:eu-central-1:869603330574:platform-prod-finops\",\"Sid\":\"__default_statement_ID\"}],\"Version\":\"2008-10-17\"}",
+            "region": "eu-central-1",
+            "signature_version": 0,
+            "sqs_failure_feedback_role_arn": "",
+            "sqs_success_feedback_role_arn": "",
+            "sqs_success_feedback_sample_rate": 0,
+            "tags": {
+              "Component": "observability",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-finops",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "observability",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-finops",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tracing_config": ""
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "arn": "arn:aws:sns:eu-central-1:869603330574:platform-prod-finops"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_observability",
+      "mode": "managed",
+      "type": "aws_sns_topic",
+      "name": "incident",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "application_failure_feedback_role_arn": "",
+            "application_success_feedback_role_arn": "",
+            "application_success_feedback_sample_rate": 0,
+            "archive_policy": "",
+            "arn": "arn:aws:sns:eu-central-1:869603330574:platform-prod-incident",
+            "beginning_archive_time": "",
+            "content_based_deduplication": false,
+            "delivery_policy": "",
+            "display_name": "",
+            "fifo_throughput_scope": "",
+            "fifo_topic": false,
+            "firehose_failure_feedback_role_arn": "",
+            "firehose_success_feedback_role_arn": "",
+            "firehose_success_feedback_sample_rate": 0,
+            "http_failure_feedback_role_arn": "",
+            "http_success_feedback_role_arn": "",
+            "http_success_feedback_sample_rate": 0,
+            "id": "arn:aws:sns:eu-central-1:869603330574:platform-prod-incident",
+            "kms_master_key_id": "",
+            "lambda_failure_feedback_role_arn": "",
+            "lambda_success_feedback_role_arn": "",
+            "lambda_success_feedback_sample_rate": 0,
+            "name": "platform-prod-incident",
+            "name_prefix": "",
+            "owner": "869603330574",
+            "policy": "{\"Id\":\"__default_policy_ID\",\"Statement\":[{\"Action\":[\"SNS:GetTopicAttributes\",\"SNS:SetTopicAttributes\",\"SNS:AddPermission\",\"SNS:RemovePermission\",\"SNS:DeleteTopic\",\"SNS:Subscribe\",\"SNS:ListSubscriptionsByTopic\",\"SNS:Publish\"],\"Condition\":{\"StringEquals\":{\"AWS:SourceOwner\":\"869603330574\"}},\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"*\"},\"Resource\":\"arn:aws:sns:eu-central-1:869603330574:platform-prod-incident\",\"Sid\":\"__default_statement_ID\"}],\"Version\":\"2008-10-17\"}",
+            "region": "eu-central-1",
+            "signature_version": 0,
+            "sqs_failure_feedback_role_arn": "",
+            "sqs_success_feedback_role_arn": "",
+            "sqs_success_feedback_sample_rate": 0,
+            "tags": {
+              "Component": "observability",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-incident",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "observability",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-incident",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tracing_config": ""
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "arn": "arn:aws:sns:eu-central-1:869603330574:platform-prod-incident"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_observability",
+      "mode": "managed",
+      "type": "aws_sns_topic",
+      "name": "incident_us_east_1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"].us_east_1",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "application_failure_feedback_role_arn": "",
+            "application_success_feedback_role_arn": "",
+            "application_success_feedback_sample_rate": 0,
+            "archive_policy": "",
+            "arn": "arn:aws:sns:us-east-1:869603330574:platform-prod-incident",
+            "beginning_archive_time": "",
+            "content_based_deduplication": false,
+            "delivery_policy": "",
+            "display_name": "",
+            "fifo_throughput_scope": "",
+            "fifo_topic": false,
+            "firehose_failure_feedback_role_arn": "",
+            "firehose_success_feedback_role_arn": "",
+            "firehose_success_feedback_sample_rate": 0,
+            "http_failure_feedback_role_arn": "",
+            "http_success_feedback_role_arn": "",
+            "http_success_feedback_sample_rate": 0,
+            "id": "arn:aws:sns:us-east-1:869603330574:platform-prod-incident",
+            "kms_master_key_id": "",
+            "lambda_failure_feedback_role_arn": "",
+            "lambda_success_feedback_role_arn": "",
+            "lambda_success_feedback_sample_rate": 0,
+            "name": "platform-prod-incident",
+            "name_prefix": "",
+            "owner": "869603330574",
+            "policy": "{\"Id\":\"__default_policy_ID\",\"Statement\":[{\"Action\":[\"SNS:GetTopicAttributes\",\"SNS:SetTopicAttributes\",\"SNS:AddPermission\",\"SNS:RemovePermission\",\"SNS:DeleteTopic\",\"SNS:Subscribe\",\"SNS:ListSubscriptionsByTopic\",\"SNS:Publish\"],\"Condition\":{\"StringEquals\":{\"AWS:SourceOwner\":\"869603330574\"}},\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"*\"},\"Resource\":\"arn:aws:sns:us-east-1:869603330574:platform-prod-incident\",\"Sid\":\"__default_statement_ID\"}],\"Version\":\"2008-10-17\"}",
+            "region": "us-east-1",
+            "signature_version": 0,
+            "sqs_failure_feedback_role_arn": "",
+            "sqs_success_feedback_role_arn": "",
+            "sqs_success_feedback_sample_rate": 0,
+            "tags": {
+              "Component": "observability",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-incident",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "observability",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-incident",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tracing_config": ""
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "arn": "arn:aws:sns:us-east-1:869603330574:platform-prod-incident"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_observability",
+      "mode": "managed",
+      "type": "aws_sns_topic_subscription",
+      "name": "finops",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "module": "module.platform_observability",
+      "mode": "managed",
+      "type": "aws_sns_topic_subscription",
+      "name": "incident",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "module": "module.platform_observability",
+      "mode": "managed",
+      "type": "aws_sns_topic_subscription",
+      "name": "incident_us_east_1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"].us_east_1",
+      "instances": []
+    },
+    {
+      "module": "module.platform_secrets",
+      "mode": "data",
+      "type": "aws_region",
+      "name": "current",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "description": "Europe (Frankfurt)",
+            "endpoint": "ec2.eu-central-1.amazonaws.com",
+            "id": "eu-central-1",
+            "name": "eu-central-1",
+            "region": "eu-central-1"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "module": "module.platform_secrets",
+      "mode": "managed",
+      "type": "aws_secretsmanager_secret",
+      "name": "master",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:secretsmanager:eu-central-1:869603330574:secret:clarivum/platform/prod/database/master-SkamIS",
+            "description": "Aurora master credentials (managed by Terraform with rotation)",
+            "force_overwrite_replica_secret": true,
+            "id": "arn:aws:secretsmanager:eu-central-1:869603330574:secret:clarivum/platform/prod/database/master-SkamIS",
+            "kms_key_id": "",
+            "name": "clarivum/platform/prod/database/master",
+            "name_prefix": "",
+            "policy": "",
+            "recovery_window_in_days": 7,
+            "region": "eu-central-1",
+            "replica": [],
+            "tags": {
+              "Component": "secrets",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "clarivum/platform/prod/database/master",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "secrets",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "clarivum/platform/prod/database/master",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "arn": "arn:aws:secretsmanager:eu-central-1:869603330574:secret:clarivum/platform/prod/database/master-SkamIS"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_secrets",
+      "mode": "managed",
+      "type": "aws_secretsmanager_secret",
+      "name": "url",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:secretsmanager:eu-central-1:869603330574:secret:clarivum/platform/prod/database/url-B7WXEN",
+            "description": "Aurora connection URL for application runtimes",
+            "force_overwrite_replica_secret": false,
+            "id": "arn:aws:secretsmanager:eu-central-1:869603330574:secret:clarivum/platform/prod/database/url-B7WXEN",
+            "kms_key_id": "",
+            "name": "clarivum/platform/prod/database/url",
+            "name_prefix": "",
+            "policy": "",
+            "recovery_window_in_days": 7,
+            "region": "eu-central-1",
+            "replica": [],
+            "tags": {
+              "Component": "secrets",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "clarivum/platform/prod/database/url",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "secrets",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "clarivum/platform/prod/database/url",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "arn": "arn:aws:secretsmanager:eu-central-1:869603330574:secret:clarivum/platform/prod/database/url-B7WXEN"
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.platform_secrets",
+      "mode": "managed",
+      "type": "aws_secretsmanager_secret_policy",
+      "name": "master",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "module": "module.platform_secrets",
+      "mode": "managed",
+      "type": "aws_secretsmanager_secret_policy",
+      "name": "url",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "module": "module.platform_secrets",
+      "mode": "managed",
+      "type": "aws_serverlessapplicationrepository_cloudformation_stack",
+      "name": "rotation",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "application_id": "arn:aws:serverlessrepo:us-east-1:297356227824:applications/SecretsManagerRDSPostgreSQLRotationSingleUser",
+            "capabilities": [
+              "CAPABILITY_AUTO_EXPAND",
+              "CAPABILITY_NAMED_IAM",
+              "CAPABILITY_RESOURCE_POLICY"
+            ],
+            "id": "arn:aws:cloudformation:eu-central-1:869603330574:stack/serverlessrepo-clarivum-platform-prod-database-master-rotation/9dd1ffe0-b71f-11f0-bd83-06b64110fa71",
+            "name": "clarivum-platform-prod-database-master-rotation",
+            "outputs": {
+              "RotationLambdaARN": "arn:aws:lambda:eu-central-1:869603330574:function:clarivum-platform-prod-database-master-fn"
+            },
+            "parameters": {
+              "endpoint": "https://secretsmanager.eu-central-1.amazonaws.com",
+              "functionName": "clarivum-platform-prod-database-master-fn",
+              "vpcSecurityGroupIds": "sg-02bf432d4c423f67d",
+              "vpcSubnetIds": "subnet-05749cf7d39e9ea78,subnet-0dc83583337c45c03"
+            },
+            "region": "eu-central-1",
+            "semantic_version": "1.1.622",
+            "tags": {
+              "Component": "secrets",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "secrets",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTgwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMCJ9"
+        }
+      ]
+    },
+    {
+      "module": "module.platform_security_groups",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "alb",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:security-group/sg-07a6b50cb8cd3bae3",
+            "description": "Public ALB ingress",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-07a6b50cb8cd3bae3",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "HTTP",
+                "from_port": 80,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 80
+              },
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "HTTPS",
+                "from_port": 443,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 443
+              }
+            ],
+            "name": "platform-prod-alb-sg",
+            "name_prefix": "",
+            "owner_id": "869603330574",
+            "region": "eu-central-1",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Component": "edge",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "Layer": "public",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-alb-sg",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "edge",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "Layer": "public",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-alb-sg",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-063a9bf56877fa0f5"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "id": "sg-07a6b50cb8cd3bae3",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_security_groups",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "app",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:security-group/sg-041070657fc5fee79",
+            "description": "Internal application runtime",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-041070657fc5fee79",
+            "ingress": [
+              {
+                "cidr_blocks": [],
+                "description": "Allow ALB to application service",
+                "from_port": 3000,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [
+                  "sg-07a6b50cb8cd3bae3"
+                ],
+                "self": false,
+                "to_port": 3000
+              }
+            ],
+            "name": "platform-prod-app-sg",
+            "name_prefix": "",
+            "owner_id": "869603330574",
+            "region": "eu-central-1",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Component": "app",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "Layer": "internal",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-app-sg",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "app",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "Layer": "internal",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-app-sg",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-063a9bf56877fa0f5"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "id": "sg-041070657fc5fee79",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_security_groups",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "database",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:security-group/sg-0bbef28fe6e7755c4",
+            "description": "Aurora access controls",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-0bbef28fe6e7755c4",
+            "ingress": [
+              {
+                "cidr_blocks": [],
+                "description": "Application service to Aurora",
+                "from_port": 5432,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [
+                  "sg-041070657fc5fee79"
+                ],
+                "self": false,
+                "to_port": 5432
+              },
+              {
+                "cidr_blocks": [],
+                "description": "Lambda to Aurora",
+                "from_port": 5432,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [
+                  "sg-02bf432d4c423f67d"
+                ],
+                "self": false,
+                "to_port": 5432
+              }
+            ],
+            "name": "platform-prod-db-sg",
+            "name_prefix": "",
+            "owner_id": "869603330574",
+            "region": "eu-central-1",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Component": "data",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "Layer": "storage",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-db-sg",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "data",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "Layer": "storage",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-db-sg",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-063a9bf56877fa0f5"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "id": "sg-0bbef28fe6e7755c4",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_security_groups",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "lambda",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-central-1:869603330574:security-group/sg-02bf432d4c423f67d",
+            "description": "Lambda runtime outbound access",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-02bf432d4c423f67d",
+            "ingress": [],
+            "name": "platform-prod-lambda-sg",
+            "name_prefix": "",
+            "owner_id": "869603330574",
+            "region": "eu-central-1",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Component": "lambda",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "Layer": "runtime",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-lambda-sg",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "lambda",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "Layer": "runtime",
+              "ManagedBy": "terraform",
+              "Name": "platform-prod-lambda-sg",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-063a9bf56877fa0f5"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "id": "sg-02bf432d4c423f67d",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_security_groups",
+      "mode": "managed",
+      "type": "aws_security_group_rule",
+      "name": "alb_to_app",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "cidr_blocks": null,
+            "description": "Allow ALB to application service",
+            "from_port": 3000,
+            "id": "sgrule-996834668",
+            "ipv6_cidr_blocks": null,
+            "prefix_list_ids": null,
+            "protocol": "tcp",
+            "region": "eu-central-1",
+            "security_group_id": "sg-041070657fc5fee79",
+            "security_group_rule_id": "sgr-0251b3b2bb273cc6e",
+            "self": false,
+            "source_security_group_id": "sg-07a6b50cb8cd3bae3",
+            "timeouts": null,
+            "to_port": 3000,
+            "type": "ingress"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjIifQ==",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this",
+            "module.platform_security_groups.aws_security_group.alb",
+            "module.platform_security_groups.aws_security_group.app"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_security_groups",
+      "mode": "managed",
+      "type": "aws_security_group_rule",
+      "name": "app_to_db",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "cidr_blocks": null,
+            "description": "Application service to Aurora",
+            "from_port": 5432,
+            "id": "sgrule-429756398",
+            "ipv6_cidr_blocks": null,
+            "prefix_list_ids": null,
+            "protocol": "tcp",
+            "region": "eu-central-1",
+            "security_group_id": "sg-0bbef28fe6e7755c4",
+            "security_group_rule_id": "sgr-03b0fc13f1848771c",
+            "self": false,
+            "source_security_group_id": "sg-041070657fc5fee79",
+            "timeouts": null,
+            "to_port": 5432,
+            "type": "ingress"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjIifQ==",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this",
+            "module.platform_security_groups.aws_security_group.app",
+            "module.platform_security_groups.aws_security_group.database"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_security_groups",
+      "mode": "managed",
+      "type": "aws_security_group_rule",
+      "name": "lambda_to_db",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "cidr_blocks": null,
+            "description": "Lambda to Aurora",
+            "from_port": 5432,
+            "id": "sgrule-273429012",
+            "ipv6_cidr_blocks": null,
+            "prefix_list_ids": null,
+            "protocol": "tcp",
+            "region": "eu-central-1",
+            "security_group_id": "sg-0bbef28fe6e7755c4",
+            "security_group_rule_id": "sgr-0429343e1151f4604",
+            "self": false,
+            "source_security_group_id": "sg-02bf432d4c423f67d",
+            "timeouts": null,
+            "to_port": 5432,
+            "type": "ingress"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjIifQ==",
+          "dependencies": [
+            "module.platform_network.aws_vpc.this",
+            "module.platform_security_groups.aws_security_group.database",
+            "module.platform_security_groups.aws_security_group.lambda"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "cache",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "acceleration_status": "",
+            "acl": null,
+            "arn": "arn:aws:s3:::clarivum-prod-cache-869603330574",
+            "bucket": "clarivum-prod-cache-869603330574",
+            "bucket_domain_name": "clarivum-prod-cache-869603330574.s3.amazonaws.com",
+            "bucket_prefix": "",
+            "bucket_region": "eu-central-1",
+            "bucket_regional_domain_name": "clarivum-prod-cache-869603330574.s3.eu-central-1.amazonaws.com",
+            "cors_rule": [],
+            "force_destroy": false,
+            "grant": [
+              {
+                "id": "0939462713050c4095c768083b2e0229032a61da2bfa2d75b0e837d57f54117c",
+                "permissions": [
+                  "FULL_CONTROL"
+                ],
+                "type": "CanonicalUser",
+                "uri": ""
+              }
+            ],
+            "hosted_zone_id": "Z21DNDUVLTQW6Q",
+            "id": "clarivum-prod-cache-869603330574",
+            "lifecycle_rule": [],
+            "logging": [],
+            "object_lock_configuration": [],
+            "object_lock_enabled": false,
+            "policy": "",
+            "region": "eu-central-1",
+            "replication_configuration": [],
+            "request_payer": "BucketOwner",
+            "server_side_encryption_configuration": [
+              {
+                "rule": [
+                  {
+                    "apply_server_side_encryption_by_default": [
+                      {
+                        "kms_master_key_id": "alias/aws/s3",
+                        "sse_algorithm": "aws:kms"
+                      }
+                    ],
+                    "bucket_key_enabled": false
+                  }
+                ]
+              }
+            ],
+            "tags": {
+              "Component": "storage",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "clarivum-prod-cache-869603330574",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "storage",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "clarivum-prod-cache-869603330574",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "timeouts": null,
+            "versioning": [
+              {
+                "enabled": true,
+                "mfa_delete": false
+              }
+            ],
+            "website": [],
+            "website_domain": null,
+            "website_endpoint": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-cache-869603330574",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInJlYWQiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19"
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "logs",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "acceleration_status": "",
+            "acl": null,
+            "arn": "arn:aws:s3:::clarivum-prod-cdn-logs-869603330574",
+            "bucket": "clarivum-prod-cdn-logs-869603330574",
+            "bucket_domain_name": "clarivum-prod-cdn-logs-869603330574.s3.amazonaws.com",
+            "bucket_prefix": "",
+            "bucket_region": "eu-central-1",
+            "bucket_regional_domain_name": "clarivum-prod-cdn-logs-869603330574.s3.eu-central-1.amazonaws.com",
+            "cors_rule": [],
+            "force_destroy": false,
+            "grant": [
+              {
+                "id": "0939462713050c4095c768083b2e0229032a61da2bfa2d75b0e837d57f54117c",
+                "permissions": [
+                  "FULL_CONTROL"
+                ],
+                "type": "CanonicalUser",
+                "uri": ""
+              }
+            ],
+            "hosted_zone_id": "Z21DNDUVLTQW6Q",
+            "id": "clarivum-prod-cdn-logs-869603330574",
+            "lifecycle_rule": [],
+            "logging": [],
+            "object_lock_configuration": [],
+            "object_lock_enabled": false,
+            "policy": "",
+            "region": "eu-central-1",
+            "replication_configuration": [],
+            "request_payer": "BucketOwner",
+            "server_side_encryption_configuration": [
+              {
+                "rule": [
+                  {
+                    "apply_server_side_encryption_by_default": [
+                      {
+                        "kms_master_key_id": "alias/aws/s3",
+                        "sse_algorithm": "aws:kms"
+                      }
+                    ],
+                    "bucket_key_enabled": false
+                  }
+                ]
+              }
+            ],
+            "tags": {
+              "Component": "storage",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "clarivum-prod-cdn-logs-869603330574",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "storage",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "clarivum-prod-cdn-logs-869603330574",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "timeouts": null,
+            "versioning": [
+              {
+                "enabled": true,
+                "mfa_delete": false
+              }
+            ],
+            "website": [],
+            "website_domain": null,
+            "website_endpoint": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-cdn-logs-869603330574",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInJlYWQiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19"
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "media",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "acceleration_status": "",
+            "acl": null,
+            "arn": "arn:aws:s3:::clarivum-prod-media-869603330574",
+            "bucket": "clarivum-prod-media-869603330574",
+            "bucket_domain_name": "clarivum-prod-media-869603330574.s3.amazonaws.com",
+            "bucket_prefix": "",
+            "bucket_region": "eu-central-1",
+            "bucket_regional_domain_name": "clarivum-prod-media-869603330574.s3.eu-central-1.amazonaws.com",
+            "cors_rule": [],
+            "force_destroy": false,
+            "grant": [
+              {
+                "id": "0939462713050c4095c768083b2e0229032a61da2bfa2d75b0e837d57f54117c",
+                "permissions": [
+                  "FULL_CONTROL"
+                ],
+                "type": "CanonicalUser",
+                "uri": ""
+              }
+            ],
+            "hosted_zone_id": "Z21DNDUVLTQW6Q",
+            "id": "clarivum-prod-media-869603330574",
+            "lifecycle_rule": [],
+            "logging": [],
+            "object_lock_configuration": [],
+            "object_lock_enabled": false,
+            "policy": "",
+            "region": "eu-central-1",
+            "replication_configuration": [],
+            "request_payer": "BucketOwner",
+            "server_side_encryption_configuration": [
+              {
+                "rule": [
+                  {
+                    "apply_server_side_encryption_by_default": [
+                      {
+                        "kms_master_key_id": "alias/aws/s3",
+                        "sse_algorithm": "aws:kms"
+                      }
+                    ],
+                    "bucket_key_enabled": false
+                  }
+                ]
+              }
+            ],
+            "tags": {
+              "Component": "storage",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "clarivum-prod-media-869603330574",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "storage",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "clarivum-prod-media-869603330574",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "timeouts": null,
+            "versioning": [
+              {
+                "enabled": true,
+                "mfa_delete": false
+              }
+            ],
+            "website": [],
+            "website_domain": null,
+            "website_endpoint": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-media-869603330574",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInJlYWQiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19"
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "static",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "acceleration_status": "",
+            "acl": null,
+            "arn": "arn:aws:s3:::clarivum-prod-static-869603330574",
+            "bucket": "clarivum-prod-static-869603330574",
+            "bucket_domain_name": "clarivum-prod-static-869603330574.s3.amazonaws.com",
+            "bucket_prefix": "",
+            "bucket_region": "eu-central-1",
+            "bucket_regional_domain_name": "clarivum-prod-static-869603330574.s3.eu-central-1.amazonaws.com",
+            "cors_rule": [],
+            "force_destroy": false,
+            "grant": [
+              {
+                "id": "0939462713050c4095c768083b2e0229032a61da2bfa2d75b0e837d57f54117c",
+                "permissions": [
+                  "FULL_CONTROL"
+                ],
+                "type": "CanonicalUser",
+                "uri": ""
+              }
+            ],
+            "hosted_zone_id": "Z21DNDUVLTQW6Q",
+            "id": "clarivum-prod-static-869603330574",
+            "lifecycle_rule": [],
+            "logging": [
+              {
+                "target_bucket": "clarivum-prod-cdn-logs-869603330574",
+                "target_prefix": "static/"
+              }
+            ],
+            "object_lock_configuration": [],
+            "object_lock_enabled": false,
+            "policy": "",
+            "region": "eu-central-1",
+            "replication_configuration": [],
+            "request_payer": "BucketOwner",
+            "server_side_encryption_configuration": [
+              {
+                "rule": [
+                  {
+                    "apply_server_side_encryption_by_default": [
+                      {
+                        "kms_master_key_id": "alias/aws/s3",
+                        "sse_algorithm": "aws:kms"
+                      }
+                    ],
+                    "bucket_key_enabled": false
+                  }
+                ]
+              }
+            ],
+            "tags": {
+              "Component": "storage",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "clarivum-prod-static-869603330574",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "tags_all": {
+              "Component": "storage",
+              "CostCenter": "prod-platform",
+              "Environment": "prod",
+              "ManagedBy": "terraform",
+              "Name": "clarivum-prod-static-869603330574",
+              "Owner": "platform-team",
+              "Repository": "clarivum",
+              "Service": "platform"
+            },
+            "timeouts": null,
+            "versioning": [
+              {
+                "enabled": true,
+                "mfa_delete": false
+              }
+            ],
+            "website": [],
+            "website_domain": null,
+            "website_endpoint": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-static-869603330574",
+            "region": "eu-central-1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInJlYWQiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19"
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_logging",
+      "name": "static",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "clarivum-prod-static-869603330574",
+            "expected_bucket_owner": "",
+            "id": "clarivum-prod-static-869603330574",
+            "region": "eu-central-1",
+            "target_bucket": "clarivum-prod-cdn-logs-869603330574",
+            "target_grant": [],
+            "target_object_key_format": [],
+            "target_prefix": "static/"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-static-869603330574",
+            "expected_bucket_owner": null,
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_storage.aws_s3_bucket.logs",
+            "module.platform_storage.aws_s3_bucket.static"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_ownership_controls",
+      "name": "cache",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_ownership_controls",
+      "name": "logs",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_ownership_controls",
+      "name": "media",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_ownership_controls",
+      "name": "static",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": []
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_public_access_block",
+      "name": "cache",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "block_public_acls": true,
+            "block_public_policy": true,
+            "bucket": "clarivum-prod-cache-869603330574",
+            "id": "clarivum-prod-cache-869603330574",
+            "ignore_public_acls": true,
+            "region": "eu-central-1",
+            "restrict_public_buckets": true,
+            "skip_destroy": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-cache-869603330574",
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_storage.aws_s3_bucket.cache"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_public_access_block",
+      "name": "logs",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "block_public_acls": true,
+            "block_public_policy": true,
+            "bucket": "clarivum-prod-cdn-logs-869603330574",
+            "id": "clarivum-prod-cdn-logs-869603330574",
+            "ignore_public_acls": true,
+            "region": "eu-central-1",
+            "restrict_public_buckets": true,
+            "skip_destroy": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-cdn-logs-869603330574",
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_storage.aws_s3_bucket.logs"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_public_access_block",
+      "name": "media",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "block_public_acls": true,
+            "block_public_policy": true,
+            "bucket": "clarivum-prod-media-869603330574",
+            "id": "clarivum-prod-media-869603330574",
+            "ignore_public_acls": true,
+            "region": "eu-central-1",
+            "restrict_public_buckets": true,
+            "skip_destroy": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-media-869603330574",
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_storage.aws_s3_bucket.media"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_public_access_block",
+      "name": "static",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "block_public_acls": true,
+            "block_public_policy": true,
+            "bucket": "clarivum-prod-static-869603330574",
+            "id": "clarivum-prod-static-869603330574",
+            "ignore_public_acls": true,
+            "region": "eu-central-1",
+            "restrict_public_buckets": true,
+            "skip_destroy": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-static-869603330574",
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_storage.aws_s3_bucket.static"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_server_side_encryption_configuration",
+      "name": "cache",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "clarivum-prod-cache-869603330574",
+            "expected_bucket_owner": "",
+            "id": "clarivum-prod-cache-869603330574",
+            "region": "eu-central-1",
+            "rule": [
+              {
+                "apply_server_side_encryption_by_default": [
+                  {
+                    "kms_master_key_id": "alias/aws/s3",
+                    "sse_algorithm": "aws:kms"
+                  }
+                ],
+                "bucket_key_enabled": false
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-cache-869603330574",
+            "expected_bucket_owner": null,
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_storage.aws_s3_bucket.cache"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_server_side_encryption_configuration",
+      "name": "logs",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "clarivum-prod-cdn-logs-869603330574",
+            "expected_bucket_owner": "",
+            "id": "clarivum-prod-cdn-logs-869603330574",
+            "region": "eu-central-1",
+            "rule": [
+              {
+                "apply_server_side_encryption_by_default": [
+                  {
+                    "kms_master_key_id": "alias/aws/s3",
+                    "sse_algorithm": "aws:kms"
+                  }
+                ],
+                "bucket_key_enabled": false
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-cdn-logs-869603330574",
+            "expected_bucket_owner": null,
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_storage.aws_s3_bucket.logs"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_server_side_encryption_configuration",
+      "name": "media",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "clarivum-prod-media-869603330574",
+            "expected_bucket_owner": "",
+            "id": "clarivum-prod-media-869603330574",
+            "region": "eu-central-1",
+            "rule": [
+              {
+                "apply_server_side_encryption_by_default": [
+                  {
+                    "kms_master_key_id": "alias/aws/s3",
+                    "sse_algorithm": "aws:kms"
+                  }
+                ],
+                "bucket_key_enabled": false
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-media-869603330574",
+            "expected_bucket_owner": null,
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_storage.aws_s3_bucket.media"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_server_side_encryption_configuration",
+      "name": "static",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "clarivum-prod-static-869603330574",
+            "expected_bucket_owner": "",
+            "id": "clarivum-prod-static-869603330574",
+            "region": "eu-central-1",
+            "rule": [
+              {
+                "apply_server_side_encryption_by_default": [
+                  {
+                    "kms_master_key_id": "alias/aws/s3",
+                    "sse_algorithm": "aws:kms"
+                  }
+                ],
+                "bucket_key_enabled": false
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-static-869603330574",
+            "expected_bucket_owner": null,
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_storage.aws_s3_bucket.static"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_versioning",
+      "name": "cache",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "clarivum-prod-cache-869603330574",
+            "expected_bucket_owner": "",
+            "id": "clarivum-prod-cache-869603330574",
+            "mfa": null,
+            "region": "eu-central-1",
+            "versioning_configuration": [
+              {
+                "mfa_delete": "",
+                "status": "Enabled"
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-cache-869603330574",
+            "expected_bucket_owner": null,
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_storage.aws_s3_bucket.cache"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_versioning",
+      "name": "logs",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "clarivum-prod-cdn-logs-869603330574",
+            "expected_bucket_owner": "",
+            "id": "clarivum-prod-cdn-logs-869603330574",
+            "mfa": null,
+            "region": "eu-central-1",
+            "versioning_configuration": [
+              {
+                "mfa_delete": "",
+                "status": "Enabled"
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-cdn-logs-869603330574",
+            "expected_bucket_owner": null,
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_storage.aws_s3_bucket.logs"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_versioning",
+      "name": "media",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "clarivum-prod-media-869603330574",
+            "expected_bucket_owner": "",
+            "id": "clarivum-prod-media-869603330574",
+            "mfa": null,
+            "region": "eu-central-1",
+            "versioning_configuration": [
+              {
+                "mfa_delete": "",
+                "status": "Enabled"
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-media-869603330574",
+            "expected_bucket_owner": null,
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_storage.aws_s3_bucket.media"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.platform_storage",
+      "mode": "managed",
+      "type": "aws_s3_bucket_versioning",
+      "name": "static",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "clarivum-prod-static-869603330574",
+            "expected_bucket_owner": "",
+            "id": "clarivum-prod-static-869603330574",
+            "mfa": null,
+            "region": "eu-central-1",
+            "versioning_configuration": [
+              {
+                "mfa_delete": "",
+                "status": "Enabled"
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "identity": {
+            "account_id": "869603330574",
+            "bucket": "clarivum-prod-static-869603330574",
+            "expected_bucket_owner": null,
+            "region": "eu-central-1"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.platform_storage.aws_s3_bucket.static"
+          ]
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}

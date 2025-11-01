@@ -20,6 +20,12 @@ variable "notification_topic_arn" {
   type        = string
 }
 
+variable "existing_monitor_arn" {
+  description = "Optional existing anomaly monitor ARN to reuse instead of creating a new one."
+  type        = string
+  default     = null
+}
+
 variable "tags" {
   description = "Tags applied to resources."
   type        = map(string)
@@ -30,4 +36,15 @@ variable "anomaly_absolute_threshold" {
   description = "Absolute USD anomaly impact required before triggering notifications."
   type        = number
   default     = 50
+}
+
+variable "anomaly_subscription_frequency" {
+  description = "Delivery frequency for anomaly notifications (SNS requires IMMEDIATE)."
+  type        = string
+  default     = "IMMEDIATE"
+
+  validation {
+    condition     = contains(["DAILY", "WEEKLY", "MONTHLY", "IMMEDIATE"], upper(var.anomaly_subscription_frequency))
+    error_message = "Frequency must be one of DAILY, WEEKLY, MONTHLY, or IMMEDIATE."
+  }
 }

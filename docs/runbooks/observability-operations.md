@@ -21,6 +21,7 @@
 - Grafana Cloud UI (`https://clarivum.grafana.net`).
 - PagerDuty (`https://clarivum.pagerduty.com`) — alert acknowledgements.
 - Synthetic monitoring probes configured in Grafana SM.
+- AWS SNS topics `platform-<env>-incident` in **eu-central-1** (regional alarms) and mirrored in **us-east-1** for CloudFront 4xx/5xx metrics; subscribers must be kept in sync when contact routes change.
 - `npm run telemetry:lint` — verifies instrumentation conventions.
 - Loki search helpers: `service_name`, `deployment_environment`, `clarivum_vertical`.
 - Next.js OTLP proxy: `POST /api/observability/v1/traces` forwards browser spans to Grafana with secrets stored server-side.
@@ -37,6 +38,7 @@
 ## Alert Handling Playbook
 1. **Acknowledge** PagerDuty alert within 5 minutes.
 2. **Identify** service and environment via alert labels (`service.name`, `deployment.environment`).
+   - CloudFront alerts include `Region=Global` and originate from the us-east-1 incident topic; confirm notifications fire in both SNS regions if an alert appears missing.
 3. **Inspect**:
    - Traces: Tempo search with incident correlation ID.
    - Metrics: relevant dashboard panel (latency/error rates).

@@ -36,6 +36,8 @@ resource "aws_s3_bucket_public_access_block" "static" {
 }
 
 resource "aws_s3_bucket_ownership_controls" "static" {
+  count = var.enable_bucket_owner_enforced ? 1 : 0
+
   bucket = aws_s3_bucket.static.id
 
   rule {
@@ -83,6 +85,8 @@ resource "aws_s3_bucket_public_access_block" "media" {
 }
 
 resource "aws_s3_bucket_ownership_controls" "media" {
+  count = var.enable_bucket_owner_enforced ? 1 : 0
+
   bucket = aws_s3_bucket.media.id
 
   rule {
@@ -124,10 +128,22 @@ resource "aws_s3_bucket_public_access_block" "logs" {
 }
 
 resource "aws_s3_bucket_ownership_controls" "logs" {
+  count = var.enable_bucket_owner_enforced ? 1 : 0
+
   bucket = aws_s3_bucket.logs.id
 
   rule {
     object_ownership = "BucketOwnerEnforced"
+  }
+}
+
+resource "aws_s3_bucket_ownership_controls" "logs_custom" {
+  count = !var.enable_bucket_owner_enforced && var.logs_bucket_object_ownership != null ? 1 : 0
+
+  bucket = aws_s3_bucket.logs.id
+
+  rule {
+    object_ownership = var.logs_bucket_object_ownership
   }
 }
 
@@ -165,6 +181,8 @@ resource "aws_s3_bucket_public_access_block" "cache" {
 }
 
 resource "aws_s3_bucket_ownership_controls" "cache" {
+  count = var.enable_bucket_owner_enforced ? 1 : 0
+
   bucket = aws_s3_bucket.cache.id
 
   rule {

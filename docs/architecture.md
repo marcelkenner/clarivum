@@ -93,7 +93,7 @@ Operational tooling:
 - **Feature flag service:** Flagsmith SaaS (via SDK in the Next.js app).
 - **Analytics platform:** Plausible Analytics (privacy-first SaaS, sole analytics provider; proxied via CloudFront + Lambda@Edge per ADR-029 migration).
 - **Operations hub:** Internal `/ops` console aggregating Lightsail WordPress, Listmonk, payments, incidents, and metrics per ADR-031 (`docs/PRDs/requierments/operations-hub/feature-requirements.md`) with deep-link navigation into the authoritative native consoles.
-- **CDN & caching:** AWS CloudFront (global edge) + Upstash Redis (plan) for application-level caching and rate limiting.
+- **CDN & caching:** AWS CloudFront (global edge) + AWS ElastiCache Serverless for Redis (direct TLS connection today; Cache Gateway pending for edge contexts per ADR-006) for application-level caching and rate limiting.
 - **Secrets management:** AWS Secrets Manager (primary) with Parameter Store mirrors, all managed via Terraform rotation policies.
 - **Primary data platform:** Amazon Aurora PostgreSQL (Serverless v2) with S3-backed media buckets, provisioned via Terraform with PITR, row-level security, and Secrets Manager rotation.
 
@@ -126,7 +126,7 @@ Operational tooling:
 ## Alignment with non-functional requirements
 
 - **Availability:** CloudFront, API Gateway (multi-AZ), Lambda (multi-AZ), DynamoDB (multi-AZ), and Aurora Serverless (multi-AZ) underpin the 99.9% uptime objective. Lightsail workloads rely on nightly snapshots and documented recovery runbooks.
-- **Performance:** CDN caching, ISR, WordPress REST response tuning, and Redis-backed edge caching (Upstash) keep p95 HTML responses below 300 ms for Poland. API surfaces have explicit budgets (p99 < 800 ms) with provisioned concurrency enabled only where needed.
+- **Performance:** CDN caching, ISR, WordPress REST response tuning, and Redis-backed edge caching (ElastiCache Serverless + gateway) keep p95 HTML responses below 300 ms for Poland. API surfaces have explicit budgets (p99 < 800 ms) with provisioned concurrency enabled only where needed.
 - **Reliability:** RPO ≤ 15 minutes via Aurora point-in-time recovery; RTO ≤ 2 hours with automated restore scripts tested quarterly.
 - **Security:** Auth0 + RBAC, secrets management, and CIS IG1 controls are codified in `docs/policies/security-baseline.md`.
 - **Cost:** Budgets and alerts flow through AWS Budgets; the FinOps runbook defines actions when hitting 50/75/90% of monthly spend for CloudFront, API Gateway/Lambda, DynamoDB, Aurora ACUs, and Lightsail bundles.
@@ -136,12 +136,23 @@ Revisit this document whenever an ADR is added or an architectural component cha
 ### Implementation snapshot · dev (2025‑10‑30)
 
 - **Network:** `vpc-0bfe1a3458c531a72` with public subnets (`subnet-00874c5c298320604`, `subnet-06b12c27a3abe5959`) and private subnets (`subnet-07958bfe0e465d42e`, `subnet-0b4a2e4455725e8ed`), backed by `nat-04f8a56ed66ed4964` and IGW `igw-05e2c2733ae25a93c`.
-- **Content delivery:** CloudFront distribution `EPHSANK5PAPBA` (`d29q7vbsl5v19l.cloudfront.net`) fronts S3 buckets `clarivum-dev-static-869603330574` and `clarivum-dev-media-869603330574` via OAC `E2HXAYNLNBF4IP`; logs land in `clarivum-dev-cdn-logs-869603330574`.
+- **Content delivery:** CloudFront distribution `EPHSANK5PAPBA` (`d29q7vbsl5v19l.cloudfront.net`, alias `dev.clarivum.com`) fronts the static S3 bucket `clarivum-dev-static-869603330574` via OAC `E240OSKJ8C4XHZ`, serves media from `clarivum-dev-media-869603330574`, and routes `api/*` to the HTTP API origin; logs land in `clarivum-dev-cdn-logs-869603330574`.
 - **Data plane:** DynamoDB table `platform-dev-kv` (TTL enabled) and Aurora PostgreSQL Serverless v2 cluster `platform-dev-aurora` (`platform-dev-aurora.cluster-c3ss2q66m8yw.eu-central-1.rds.amazonaws.com` / reader endpoint `...-ro-...`), secrets stored under `clarivum/platform/dev/database/*`.
-- **API tier:** Lambda `platform-dev-core` (python3.12) runs inside the private subnets with API Gateway HTTP API `b5snol7qwe` (`https://b5snol7qwe.execute-api.eu-central-1.amazonaws.com`) publishing the public interface.
+- **API tier:** Lambda `platform-dev-core` (python3.12) runs inside the private subnets with API Gateway HTTP API `j0cjdyuqti` (`https://j0cjdyuqti.execute-api.eu-central-1.amazonaws.com`) publishing the public interface and fronted by CloudFront for `api/*` traffic.
+- **Secrets & rotation:** AWS Serverless Application Repository stack `clarivum-platform-dev-database-master-rotation` deploys rotation Lambda `clarivum-platform-dev-database-master-fn` (VPC-enabled) that rotates `clarivum/platform/dev/database/master` every 30 days; Terraform wires the function output ARN into the Secrets Manager rotation schedule.
 - **Scope guardrail:** Legacy Strapi deployment on ECS remains authoritative for CMS; no Lightsail workload was provisioned, keeping ADR‑010 intact.
 
 > Update accompanying diagrams in `docs/diagrams/adr-001-primary-cloud-and-database/*` to reflect the identifiers above before the next architecture review.
+
+### Implementation snapshot · prod (2025‑11‑01)
+
+- **Network:** `vpc-063a9bf56877fa0f5` with public subnets (`subnet-03285e4e893d6b4cc`, `subnet-0123b36571ff1b2f2`) and private subnets (`subnet-05749cf7d39e9ea78`, `subnet-0dc83583337c45c03`), NAT gateway `nat-0fe3cabf9729dcbb9` (EIP `eipalloc-0891d8e572812125b`), IGW `igw-0a8cf4e757209969d`.
+- **Content delivery:** CloudFront distribution `E35IWLJESBE865` (`d1bayoxw2levkx.cloudfront.net`, aliases `clarivum.com` & `www.clarivum.com`) fronts `clarivum-prod-static-869603330574` via OAC `E3BRSF38SOUVH9`, serves media from `clarivum-prod-media-869603330574`, and logs to `clarivum-prod-cdn-logs-869603330574` (ObjectWriter ownership).
+- **Data plane:** DynamoDB `platform-prod-kv` and ElastiCache Serverless cache `platform-prod-cache` (Valkey 7, TLS). Aurora prod cluster pending provisioning; prod tfvars reference placeholder endpoints until the cluster lands.
+- **API tier:** Lambda `platform-prod-core` (Node.js 20) invoked through API Gateway `jv77gs7dec`; CloudFront routes `api/*` to the HTTP API origin.
+- **Secrets & rotation:** Secrets stored under `clarivum/platform/prod/database/*` rotated by `clarivum-platform-prod-database-master-fn` (Serverless App Repo stack `serverlessrepo-clarivum-platform-prod-database-master-rotation`).
+
+> Update diagrams in `docs/diagrams/adr-006-edge-cache-and-rate-limiting-platform/*` to include the prod cache identifiers when refreshing visuals.
 
 ## App Router information architecture (TSK-FE-002)
 

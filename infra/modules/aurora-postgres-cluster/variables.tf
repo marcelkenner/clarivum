@@ -21,6 +21,12 @@ variable "database_password" {
   sensitive   = true
 }
 
+variable "generate_random_master_password" {
+  description = "Generate a random master password when database_password is not provided"
+  type        = bool
+  default     = true
+}
+
 variable "engine_version" {
   description = "Aurora PostgreSQL engine version"
   type        = string
@@ -33,9 +39,27 @@ variable "availability_zones" {
   default     = []
 }
 
+variable "cluster_parameter_group_name" {
+  description = "Existing DB cluster parameter group to associate; when set, Terraform will not manage a new parameter group"
+  type        = string
+  default     = null
+}
+
 variable "subnet_ids" {
   description = "Private subnet IDs for the DB subnet group"
   type        = list(string)
+}
+
+variable "subnet_group_name" {
+  description = "Optional override for the DB subnet group name when adopting existing infrastructure"
+  type        = string
+  default     = null
+}
+
+variable "subnet_group_description" {
+  description = "Optional override for the DB subnet group description"
+  type        = string
+  default     = null
 }
 
 variable "vpc_security_group_ids" {
@@ -109,6 +133,12 @@ variable "serverlessv2_max_capacity" {
   default     = 4
 }
 
+variable "copy_tags_to_snapshot" {
+  description = "Whether to copy tags to snapshots"
+  type        = bool
+  default     = true
+}
+
 variable "instance_count" {
   description = "Number of cluster instances to create"
   type        = number
@@ -125,6 +155,18 @@ variable "auto_minor_version_upgrade" {
   description = "Enable automatic minor version upgrades on instances"
   type        = bool
   default     = true
+}
+
+variable "instance_parameter_group_name" {
+  description = "Existing DB instance parameter group to associate; when set, Terraform will not manage a new parameter group"
+  type        = string
+  default     = null
+}
+
+variable "instance_identifiers" {
+  description = "Optional list of explicit DB instance identifiers to use (one per instance)"
+  type        = list(string)
+  default     = []
 }
 
 variable "monitoring_interval" {

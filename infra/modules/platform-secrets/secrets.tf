@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 locals {
   base_tags = var.tags
 }
@@ -29,7 +31,7 @@ resource "aws_secretsmanager_secret" "url" {
 
 locals {
   rotation_app_id      = "arn:aws:serverlessrepo:us-east-1:297356227824:applications/SecretsManagerRDSPostgreSQLRotationSingleUser"
-  rotation_app_version = "2.0.1"
+  rotation_app_version = var.rotation_app_version
   rotation_name_tokens = regexall("[A-Za-z0-9_-]+", var.master_secret_name)
   rotation_function_name = length(local.rotation_name_tokens) > 0 ? trimsuffix(
     trimprefix(join("-", local.rotation_name_tokens), "-"),
@@ -42,19 +44,23 @@ resource "aws_serverlessapplicationrepository_cloudformation_stack" "rotation" {
   application_id   = local.rotation_app_id
   semantic_version = local.rotation_app_version
 
-  parameters = {
-    functionName        = "${local.rotation_function_name}-fn"
-    vpcSecurityGroupIds = join(",", var.rotation_security_group_ids)
-    vpcSubnetIds        = join(",", var.rotation_subnet_ids)
-    endpointAddress     = var.aurora_host
-    endpointPort        = tostring(var.aurora_port)
-    dbName              = var.aurora_database_name
-    secretArn           = aws_secretsmanager_secret.master.arn
-  }
+  parameters = merge(
+    {
+      functionName        = "${local.rotation_function_name}-fn"
+      endpoint            = coalesce(
+        var.secrets_manager_endpoint,
+        format("https://secretsmanager.%s.amazonaws.com", data.aws_region.current.id)
+      )
+      vpcSecurityGroupIds = join(",", var.rotation_security_group_ids)
+      vpcSubnetIds        = join(",", var.rotation_subnet_ids)
+    },
+    var.kms_key_id != null ? { kmsKeyArn = var.kms_key_id } : {}
+  )
 
   capabilities = [
     "CAPABILITY_NAMED_IAM",
-    "CAPABILITY_AUTO_EXPAND"
+    "CAPABILITY_AUTO_EXPAND",
+    "CAPABILITY_RESOURCE_POLICY"
   ]
 
   tags = local.base_tags
@@ -62,6 +68,7 @@ resource "aws_serverlessapplicationrepository_cloudformation_stack" "rotation" {
 
 locals {
   rotation_lambda_arn = try(
+    aws_serverlessapplicationrepository_cloudformation_stack.rotation.outputs["RotationLambdaARN"],
     aws_serverlessapplicationrepository_cloudformation_stack.rotation.outputs["RotationLambdaArn"],
     aws_serverlessapplicationrepository_cloudformation_stack.rotation.outputs["LambdaRotationFunctionArn"],
     aws_serverlessapplicationrepository_cloudformation_stack.rotation.outputs["functionArn"]

@@ -37,6 +37,6 @@ Status: Accepted
 ## Implementation notes (dev · 2025-10-30)
 
 - VPC `vpc-0bfe1a3458c531a72` with paired public/private subnets bridges CloudFront/S3, Lambda/API Gateway, DynamoDB, and Aurora Serverless v2 (`platform-dev-aurora`).
-- CloudFront distribution `EPHSANK5PAPBA` fronts S3 buckets `clarivum-dev-static-869603330574` (static web assets) and `clarivum-dev-media-869603330574` (member media); access is mediated via Origin Access Control `E2HXAYNLNBF4IP`, logging to `clarivum-dev-cdn-logs-869603330574`.
-- DynamoDB table `platform-dev-kv` (PAY_PER_REQUEST, TTL enabled) and Secrets Manager paths `clarivum/platform/dev/database/*` back Lambda `platform-dev-core`, which is exposed through API Gateway HTTP API `b5snol7qwe`.
+- CloudFront distribution `EPHSANK5PAPBA` (`d29q7vbsl5v19l.cloudfront.net`, alias `dev.clarivum.com`) fronts S3 buckets `clarivum-dev-static-869603330574` (static web assets) and `clarivum-dev-media-869603330574` (member media); access is mediated via Origin Access Control `E240OSKJ8C4XHZ`, logging to `clarivum-dev-cdn-logs-869603330574`, and routes `api/*` to the HTTP API origin.
+- DynamoDB table `platform-dev-kv` (PAY_PER_REQUEST, TTL enabled) and Secrets Manager paths `clarivum/platform/dev/database/*` back Lambda `platform-dev-core`, which is exposed through API Gateway HTTP API `j0cjdyuqti`; the SAR stack `clarivum-platform-dev-database-master-rotation` rotates the Aurora master secret every 30 days.
 - No Lightsail instances were provisioned; Strapi continues to run on ECS per ADR‑010, preserving CMS alignment.

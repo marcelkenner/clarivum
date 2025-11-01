@@ -22,3 +22,8 @@ output "waf_arn" {
   description = "ARN of the associated WAF web ACL."
   value       = aws_wafv2_web_acl.this.arn
 }
+
+output "static_cache_policy_id" {
+  description = "ID of the cache policy applied to the static origin."
+  value       = local.static_cache_policy_id
+}

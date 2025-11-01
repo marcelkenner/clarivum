@@ -13,7 +13,7 @@ Below are **concrete, best‑practice decisions for every Definition of Ready (D
 * **Observability**: OpenTelemetry where supported; logs to CloudWatch (30d), metrics to CloudWatch + Grafana Cloud, traces to X‑Ray (runtime) and Grafana Tempo (future). Alerts via Grafana → PagerDuty + Slack #ops‑alerts.
 * **Data & privacy**: consent managed with **Klaro** buckets (`essential`, `analytics`, `marketing`). Analytics default **Plausible** with first‑party domain `analytics.clarivum.com`. PII minimized; 365‑day audit retention unless stricter legal policy applies.
 * **Feature flags**: **Flagsmith** projects per env; `server` and `client` keys separated; naming `svc.flag_name` with metadata: owner, expires_on, ticket.
-* **Caching**: **Upstash Redis** for server caches and rate limits; default cache TTL 300s unless stated; SWR at edge.
+* **Caching**: **AWS ElastiCache Serverless for Redis** via the Cache Gateway; default cache TTL 300s unless stated; SWR at edge.
 * **Payments**: **Stripe** base; **Przelewy24** via Stripe + direct API for local rails where required; wallets via Stripe (Apple Pay / Google Pay).
 * **Docs**: decisions captured in `/docs/adr/ADR-xxx.md`; runbooks under `/runbooks/<service>.md`.
 
@@ -26,7 +26,7 @@ Below are **concrete, best‑practice decisions for every Definition of Ready (D
 * **Align repo strategy** → **Decision**: dedicated repo `clarivum-infra` (no submodule). Structure:
 
   * `/modules/*` (versioned, re‑usable), `/stacks/<env>/*` (account/region stacks), `/providers/*` (common providers), `/pipelines/*` (GH Actions). Rationale: clear blast radius, faster plans, simpler permissions.
-* **Inventory required resources/parameters** → **Decision**: VPC, subnets, route tables, NAT; ECR; ECS/Fargate; RDS (Postgres); S3 (assets, state, logs); CloudFront; KMS (state, DB, S3); Secrets Manager; SQS/SNS; SES; CloudWatch+X‑Ray; IAM roles/policies; WAF; API Gateway (if needed), Lambda for glue, VPC endpoints; Route53 zones; Upstash/Meilisearch/Mongo Atlas data sources tracked as external data; budgets + cost alerts. Inputs captured per stack in `stacks/<env>/inputs.tfvars`.
+* **Inventory required resources/parameters** → **Decision**: VPC, subnets, route tables, NAT; ECR; ECS/Fargate; RDS (Postgres); S3 (assets, state, logs); CloudFront; KMS (state, DB, S3); Secrets Manager; SQS/SNS; SES; CloudWatch+X‑Ray; IAM roles/policies; WAF; API Gateway (if needed), Lambda for glue, VPC endpoints; Route53 zones; ElastiCache Serverless, Meilisearch, Mongo Atlas data sources tracked as external data; budgets + cost alerts. Inputs captured per stack in `stacks/<env>/inputs.tfvars`.
 * **Remote state & workspaces** → **Decision**: Terraform backend **S3 + DynamoDB lock** (`clarivum-tf-state-<account>`, table `clarivum-tf-locks`), SSE‑KMS. Workspaces map to envs (`dev|stage|prod`). State keys: `platform/<workspace>/terraform.tfstate`.
 * **CI tooling & secrets** → **Decision**: GH Actions jobs `tf-validate`, `tf-plan`, `tf-apply` (manual). Steps: `terraform fmt -check`, `init -backend-config-from-env`, `validate`, `tflint`, `tfsec` (or Checkov), `plan -out plan.bin`. Auth via OIDC role `TerraformDeployer`. No cloud creds stored; Slack webhook secret for plan summary.
 
@@ -82,7 +82,7 @@ Below are **concrete, best‑practice decisions for every Definition of Ready (D
 
 * **Data contracts** → **Decision**: Strapi collections `recommendation_slot`, `merch_rule`. Analytics feeds from Plausible → derived signals (popularity/freshness). Diagnostics outcomes persisted to `rec_diagnostics`.
 * **Affiliate compliance** → **Decision**: Always render disclosure (“As an Amazon Associate…” etc.) with locale variants; click tracking includes `utm_source=clarivum&utm_medium=affiliate&acs_id=<id>`.
-* **Caching & edge** → **Decision**: server‑side cache (Upstash) 300–900s; edge SWR 60s; purge on catalog update webhook.
+* **Caching & edge** → **Decision**: server‑side cache (ElastiCache Serverless via Cache Gateway) 300–900s; edge SWR 60s; purge on catalog update webhook.
 * **KPI & experimentation** → **Decision**: dashboard charts (CTR, RPM, attach rate); A/B via Flagsmith multivariate.
 
 ---
@@ -132,12 +132,12 @@ Below are **concrete, best‑practice decisions for every Definition of Ready (D
 
 ---
 
-### **TSK‑PLAT‑015 – Provision Upstash Redis for Caching & Rate Limiting**
+### **TSK‑PLAT‑015 – Provision AWS ElastiCache Serverless for Redis Platform**
 
-* **Namespaces/TTL/throughput** → **Decision**: DBs: `clarivum-cache`, `clarivum-guardrails`. Defaults: cache TTL 300–900s; rate: 10 req/s per IP per endpoint (UV widget stricter).
-* **Provisioning flow** → **Decision**: Terraform provider for Upstash; or console bootstrap then import. Depends on TSK‑PLAT‑001.
-* **Monitoring** → **Decision**: Upstash metrics → Grafana via Prometheus exporter; alerts on saturation/latency.
-* **Fallback** → **Decision**: if Redis unavailable: bypass cache (serve live) or `safe default` with circuit breaker.
+* **Namespaces/TTL/throughput** → **Decision**: single serverless cache `clarivum-shared-cache` with prefixes `cache:*` and `guardrail:*`. Default TTL 300–900s; baseline limit 10 req/s per IP per endpoint (UV widget stricter).
+* **Provisioning flow** → **Decision**: Terraform `aws_elasticache_serverless_cache`, security groups, cache users, and Cache Gateway (API Gateway + Lambda) deployed via modules; no console drift. Depends on TSK‑PLAT‑001.
+* **Monitoring** → **Decision**: CloudWatch `AWS/ElastiCache` + API Gateway/Lambda metrics streamed to Grafana; alerts on EngineCPU, Evictions, CacheGateway latency, 5xx, and throttles.
+* **Fallback** → **Decision**: if cache path unavailable, flip `UV_WIDGET_CACHE_MODE=memory` / `UV_WIDGET_RATE_LIMIT_MODE=memory` and serve stale payloads; incident playbook covers Cache Gateway bypass.
 
 ---
 
@@ -180,7 +180,7 @@ Below are **concrete, best‑practice decisions for every Definition of Ready (D
 ### **TSK‑PLAT‑023 – Provision Novu Notification Platform**
 
 * **Networking** → **Decision**: self‑host Novu on ECS. VPC private subnets; ALB public; SG rules minimal.
-* **Datastores** → **Decision**: **MongoDB Atlas** (PrivateLink) for compatibility + backup policy; **Upstash Redis** tier for jobs.
+* **Datastores** → **Decision**: **MongoDB Atlas** (PrivateLink) for compatibility + backup policy; **AWS ElastiCache Serverless for Redis** tier for jobs.
 * **Secrets catalog** → **Decision**: `/novu/<env>/{api_key,worker_creds,smtp_*}` in Secrets Manager; rotation plan documented.
 * **Logging/monitoring** → **Decision**: structured logs to CloudWatch; Novu metrics to Grafana; alerts on queue lag and handler failures.
 
@@ -397,12 +397,12 @@ Below are **concrete, best‑practice decisions for every Definition of Ready (D
 
 ---
 
-### **TSK‑PLAT‑048 – Harden UV Widget Caching & Rate Limits With Upstash**
+### **TSK‑PLAT‑048 – Harden UV Widget Caching & Rate Limits With ElastiCache**
 
-* **Databases** → **Decision**: `clarivum-cache`, `clarivum-guardrails` confirmed with namespaces.
-* **TTL & rate** → **Decision**: TTL/burst/sustained limits approved and documented in ADR‑006.
-* **Secrets** → **Decision**: REST URLs/tokens stored (`UPSTASH_*`) in Secrets Manager.
-* **Failure playbook** → **Decision**: remediation steps for Upstash outage added.
+* **Cache namespaces** → **Decision**: reuse `cache:*` and `guardrail:*` prefixes; confirm TTL/burst/sustained limits match ADR‑006.
+* **Integration** → **Decision**: API route connects directly over TLS using `UV_WIDGET_CACHE_ENDPOINT`/`UV_WIDGET_CACHE_PORT`; rate limiting executes Lua scripts via the shared Redis client (`UV_WIDGET_RATE_LIMIT_MODE=redis`).
+* **Secrets** → **Decision**: Secrets Manager holds connection endpoints + TLS toggle (`UV_WIDGET_CACHE_ENDPOINT`, `UV_WIDGET_CACHE_PORT`, `UV_WIDGET_CACHE_USE_TLS`).
+* **Failure playbook** → **Decision**: remediation steps for ElastiCache connection outages added.
 
 ---
 

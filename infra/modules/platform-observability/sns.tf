@@ -7,6 +7,13 @@ resource "aws_sns_topic" "incident" {
   tags = merge(local.topic_tags, { Name = "${var.name_prefix}-incident" })
 }
 
+resource "aws_sns_topic" "incident_us_east_1" {
+  provider = aws.us_east_1
+
+  name = "${var.name_prefix}-incident"
+  tags = merge(local.topic_tags, { Name = "${var.name_prefix}-incident" })
+}
+
 resource "aws_sns_topic" "finops" {
   name = "${var.name_prefix}-finops"
   tags = merge(local.topic_tags, { Name = "${var.name_prefix}-finops" })
@@ -16,6 +23,16 @@ resource "aws_sns_topic_subscription" "incident" {
   for_each = { for sub in var.sns_incident_subscriptions : "${sub.protocol}:${sub.endpoint}" => sub }
 
   topic_arn = aws_sns_topic.incident.arn
+  protocol  = each.value.protocol
+  endpoint  = each.value.endpoint
+}
+
+resource "aws_sns_topic_subscription" "incident_us_east_1" {
+  provider = aws.us_east_1
+
+  for_each = { for sub in var.sns_incident_subscriptions : "${sub.protocol}:${sub.endpoint}" => sub }
+
+  topic_arn = aws_sns_topic.incident_us_east_1.arn
   protocol  = each.value.protocol
   endpoint  = each.value.endpoint
 }

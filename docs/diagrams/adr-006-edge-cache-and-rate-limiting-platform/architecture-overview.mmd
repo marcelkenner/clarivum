@@ -1,11 +1,26 @@
 ```mermaid
 flowchart LR
-    EdgeMiddleware["CloudFront Functions"] --> Upstash["Upstash Redis (EU)"]
-    NextApi["Next.js Server Actions"] --> Upstash
-    LambdaJobs["AWS Lambda Jobs"] --> Upstash
-    Upstash --> CacheDB["clarivum-cache"]
-    Upstash --> GuardrailDB["clarivum-guardrails"]
-    CacheDB --> Observability["OTel hit/miss metrics"]
-    GuardrailDB --> Observability
-    Terraform["Terraform Upstash Provider"] --> Upstash
+    subgraph Edge
+        EdgeMiddleware["CloudFront Functions"]
+    end
+    subgraph Gateway["Cache Gateway"]
+        APIGW["Amazon API Gateway"]
+        GatewayLambda["Cache Gateway Lambda"]
+    end
+    subgraph PlatformVPC["Platform VPC"]
+        NextApi["Next.js Server Actions"]
+        LambdaJobs["AWS Lambda Jobs"]
+        EC["AWS ElastiCache Serverless Redis"]
+    end
+    EdgeMiddleware -->|HTTP| APIGW
+    APIGW --> GatewayLambda
+    GatewayLambda -->|Data API| EC
+    NextApi -->|Data API| EC
+    LambdaJobs -->|Data API| EC
+    EC --> CacheDB["cache:* keys"]
+    EC --> GuardrailDB["guardrail:* keys"]
+    EC --> Observability["CloudWatch & OTel"]
+    Terraform["Terraform modules"] --> APIGW
+    Terraform --> GatewayLambda
+    Terraform --> EC
 ```

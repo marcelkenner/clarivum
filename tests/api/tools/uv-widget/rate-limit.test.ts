@@ -18,7 +18,7 @@ describe("UV widget rate limiter", () => {
     delete process.env["UV_WIDGET_GLOBAL_RATE_LIMIT_PER_MIN"];
   });
 
-  it("falls back to in-memory limiter when Upstash is unavailable", async () => {
+  it("falls back to in-memory limiter when Redis is unavailable", async () => {
     vi.resetModules();
     const { evaluateRateLimit } = await import("@/app/api/tools/uv-widget/lib/rate-limit");
 

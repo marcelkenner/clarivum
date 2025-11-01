@@ -56,6 +56,18 @@ variable "rotation_schedule_expression" {
   default     = "rate(30 days)"
 }
 
+variable "secrets_manager_endpoint" {
+  description = "Optional override for the Secrets Manager endpoint used by the rotation function."
+  type        = string
+  default     = null
+}
+
+variable "rotation_app_version" {
+  description = "Semantic version of the AWS Secrets Manager rotation application to deploy."
+  type        = string
+  default     = "1.1.622"
+}
+
 variable "ci_secret_reader_principals" {
   description = "List of IAM role ARNs granted read access for deployments."
   type        = list(string)

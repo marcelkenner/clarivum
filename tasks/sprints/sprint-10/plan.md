@@ -56,7 +56,7 @@ links:
 - Confirm Meilisearch capacity + VPC connectivity with DevOps before provisioning.
 - Align analytics event schema with product/SEO, ensure Plausible credentials ready.
 - Gather content taxonomy + editorial approvals for blog structure and recommendation slots.
-- Ensure Storybook workbench (Sprint 02) + Upstash caching (Sprint 04/05) are stable to integrate.
+- Ensure Storybook workbench (Sprint 02) + ElastiCache caching (Sprint 04/05) are stable to integrate.
 
 ## Risks & Mitigations
 

@@ -35,9 +35,12 @@ module "aurora" {
   database_name          = var.database_name
   master_username        = var.master_username
   database_password      = var.database_password
+  generate_random_master_password = var.generate_random_master_password
   engine_version         = var.engine_version
   availability_zones     = var.availability_zones
   subnet_ids             = var.db_subnet_ids
+  subnet_group_name      = var.aurora_subnet_group_name
+  cluster_parameter_group_name = var.cluster_parameter_group_name
   vpc_security_group_ids = var.db_security_group_ids
 
   backup_retention_days           = var.backup_retention_days
@@ -46,6 +49,7 @@ module "aurora" {
   apply_immediately               = var.apply_immediately
   deletion_protection             = var.deletion_protection
   kms_key_id                      = var.kms_key_id
+  copy_tags_to_snapshot           = var.copy_tags_to_snapshot
   enable_iam_auth                 = var.enable_iam_auth
   enable_global_write_forwarding  = var.enable_global_write_forwarding
   cloudwatch_logs_exports         = var.cloudwatch_logs_exports
@@ -57,6 +61,8 @@ module "aurora" {
   monitoring_interval             = var.monitoring_interval
   performance_insights_enabled    = var.performance_insights_enabled
   performance_insights_kms_key_id = var.performance_insights_kms_key_id
+  instance_parameter_group_name   = var.instance_parameter_group_name
+  instance_identifiers            = var.instance_identifiers
   parameter_group_family          = var.parameter_group_family
   cluster_parameters              = var.cluster_parameters
 

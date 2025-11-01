@@ -19,9 +19,12 @@ resource "aws_dynamodb_table" "kv" {
     enabled = true
   }
 
-  server_side_encryption {
-    enabled     = true
-    kms_key_arn = var.kms_master_key_arn
+  dynamic "server_side_encryption" {
+    for_each = var.manage_server_side_encryption ? [1] : []
+    content {
+      enabled     = true
+      kms_key_arn = var.kms_master_key_arn
+    }
   }
 
   ttl {
