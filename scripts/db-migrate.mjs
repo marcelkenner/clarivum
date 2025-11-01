@@ -2,12 +2,13 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
-import { Client } from "pg";
 import { createDatabaseUrlProvider } from "./lib/database-url-provider.mjs";
+import { loadPgModule, PgModuleMissingError } from "./lib/postgres-module-loader.mjs";
 
 const MIGRATIONS_DIR = path.resolve(process.cwd(), "database/migrations");
 const MIGRATIONS_TABLE = "public.schema_migrations";
 const databaseUrlProvider = createDatabaseUrlProvider();
+const { Client } = await loadPgModule({ label: "db:migrate" });
 
 function parseArgs(argv) {
   const args = { env: undefined, dryRun: false };
@@ -126,6 +127,10 @@ async function run() {
 }
 
 run().catch((error) => {
-  console.error(error);
+  if (error instanceof PgModuleMissingError) {
+    console.error(error.message);
+  } else {
+    console.error(error);
+  }
   process.exit(1);
 });
