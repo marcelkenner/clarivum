@@ -92,3 +92,4 @@ module "asset_buckets" {
   kms_master_key_id   = each.value.kms_master_key_id
   object_ownership    = each.value.object_ownership
   tags                = each.value.tags
+}

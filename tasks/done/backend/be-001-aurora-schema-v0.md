@@ -9,8 +9,10 @@ collaborators: []
 effort: medium
 created_at: 2025-10-21
 updated_at: 2025-10-27
+links:
   - docs/PRDs/first_steps.md#4
   - docs/architecture.md
+  - docs/PRDs/requierments/aurora-data-platform/feature-requirements.md
   - docs/adr/ADR-001-primary-cloud-and-database.md
   - docs/adr/ADR-036-supabase-schema-v0.md
 context7:

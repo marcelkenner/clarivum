@@ -6,8 +6,8 @@ resource "aws_secretsmanager_secret" "master" {
   name        = var.master_secret_name
   description = "Aurora master credentials (managed by Terraform with rotation)"
 
-  kms_key_id               = var.kms_key_id
-  recovery_window_in_days  = 7
+  kms_key_id                     = var.kms_key_id
+  recovery_window_in_days        = 7
   force_overwrite_replica_secret = true
 
   tags = merge(local.base_tags, {
@@ -28,9 +28,13 @@ resource "aws_secretsmanager_secret" "url" {
 }
 
 locals {
-  rotation_app_id        = "arn:aws:serverlessrepo:us-east-1:297356227824:applications/SecretsManagerRDSPostgreSQLRotationSingleUser"
-  rotation_app_version   = "2.0.1"
-  rotation_function_name = trimsuffix(trimprefix(regexreplace(var.master_secret_name, "[^a-zA-Z0-9-_]", "-"), "-"), "-")
+  rotation_app_id      = "arn:aws:serverlessrepo:us-east-1:297356227824:applications/SecretsManagerRDSPostgreSQLRotationSingleUser"
+  rotation_app_version = "2.0.1"
+  rotation_name_tokens = regexall("[A-Za-z0-9_-]+", var.master_secret_name)
+  rotation_function_name = length(local.rotation_name_tokens) > 0 ? trimsuffix(
+    trimprefix(join("-", local.rotation_name_tokens), "-"),
+    "-"
+  ) : "rotation"
 }
 
 resource "aws_serverlessapplicationrepository_cloudformation_stack" "rotation" {

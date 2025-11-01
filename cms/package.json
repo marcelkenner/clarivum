@@ -10,6 +10,7 @@
     "dev": "strapi develop",
     "develop": "strapi develop",
     "lint": "node ./scripts/run-lint.js",
+    "secrets:generate": "node ./scripts/generate-secrets.js",
     "schema:validate": "node ./scripts/validate-schemas.js",
     "start": "strapi start",
     "strapi": "strapi",
@@ -21,6 +22,7 @@
   "dependencies": {
     "@strapi/plugin-cloud": "5.29.0",
     "@strapi/plugin-users-permissions": "5.29.0",
+    "@strapi/provider-upload-aws-s3": "5.29.0",
     "@strapi/strapi": "5.29.0",
     "pg": "8.8.0",
     "react": "^18.0.0",

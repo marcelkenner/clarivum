@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { ComingSoonPanel } from "@/app/shared/components/ComingSoonPanel";
 import { resolveVertical } from "@/lib/content-map";
+import { PageParamsResolver } from "@/lib/next/params/PageParamsResolver";
 
 import type { Metadata } from "next";
 
@@ -9,8 +10,12 @@ export const metadata: Metadata = {
   title: "Clarivum · Blog verticalu",
 };
 
-export default function VerticalBlogIndex({ params }: { params: { vertical: string } }) {
-  const vertical = resolveVertical(params.vertical);
+type BlogRouteParams = { vertical: string };
+
+export default async function VerticalBlogIndex({ params }: { params: Promise<BlogRouteParams> }) {
+  const { vertical: verticalKey } =
+    await PageParamsResolver.from<BlogRouteParams>(params).resolve();
+  const vertical = resolveVertical(verticalKey);
   if (!vertical) {
     notFound();
   }

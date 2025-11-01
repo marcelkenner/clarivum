@@ -14,7 +14,7 @@ async function run() {
   const response = await fetch(healthUrl, {
     method: "GET",
     headers: {
-      "Accept": "application/json",
+      Accept: "application/json",
     },
   });
 

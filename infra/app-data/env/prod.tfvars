@@ -18,10 +18,10 @@ preferred_backup_window      = "01:30-02:30"
 preferred_maintenance_window = "sun:02:30-sun:04:30"
 
 resource_tags = {
-  Owner        = "platform-team"
-  Criticality  = "tier-1"
-  ServiceLine  = "platform"
-  Environment  = "prod"
+  Owner       = "platform-team"
+  Criticality = "tier-1"
+  ServiceLine = "platform"
+  Environment = "prod"
 }
 
 asset_buckets = {

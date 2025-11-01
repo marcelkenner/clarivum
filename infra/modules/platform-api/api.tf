@@ -45,22 +45,22 @@ resource "aws_apigatewayv2_stage" "default" {
   auto_deploy = true
 
   default_route_settings {
-    throttling_burst_limit = var.throttle_burst_limit
-    throttling_rate_limit  = var.throttle_rate_limit
+    throttling_burst_limit   = var.throttle_burst_limit
+    throttling_rate_limit    = var.throttle_rate_limit
     detailed_metrics_enabled = var.metrics_enabled
   }
 
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.access.arn
     format = jsonencode({
-      requestId        = "$context.requestId"
-      ip               = "$context.identity.sourceIp"
-      httpMethod       = "$context.httpMethod"
-      routeKey         = "$context.routeKey"
-      status           = "$context.status"
-      protocol         = "$context.protocol"
-      responseLength   = "$context.responseLength"
-      integrationError = "$context.integrationErrorMessage"
+      requestId         = "$context.requestId"
+      ip                = "$context.identity.sourceIp"
+      httpMethod        = "$context.httpMethod"
+      routeKey          = "$context.routeKey"
+      status            = "$context.status"
+      protocol          = "$context.protocol"
+      responseLength    = "$context.responseLength"
+      integrationError  = "$context.integrationErrorMessage"
       integrationStatus = "$context.integration.status"
     })
   }

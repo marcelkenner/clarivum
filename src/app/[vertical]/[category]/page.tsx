@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { createVerticalExperienceCoordinator } from "@/app/_vertical-experience/coordinator/VerticalExperienceCoordinator";
 import { CategoryHubView } from "@/app/_vertical-experience/view/VerticalViews";
 import { buildBreadcrumbs } from "@/app/_vertical-experience/viewmodel/VerticalViewModels";
+import { PageParamsResolver } from "@/lib/next/params/PageParamsResolver";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import {
   buildCategoryHubMetadata,
@@ -10,6 +11,11 @@ import {
 } from "@/lib/seo/routes/vertical-category";
 
 import type { Metadata } from "next";
+
+type CategoryRouteParams = {
+  vertical: string;
+  category: string;
+};
 
 export const revalidate = 86400;
 
@@ -21,10 +27,11 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { vertical: string; category: string };
+  params: Promise<CategoryRouteParams>;
 }): Promise<Metadata> {
+  const resolvedParams = await PageParamsResolver.from<CategoryRouteParams>(params).resolve();
   const coordinator = createVerticalExperienceCoordinator();
-  const model = coordinator.buildCategoryHub(params);
+  const model = coordinator.buildCategoryHub(resolvedParams);
 
   if (!model) {
     return {};
@@ -33,13 +40,14 @@ export async function generateMetadata({
   return buildCategoryHubMetadata(model);
 }
 
-export default function CategoryHubPage({
+export default async function CategoryHubPage({
   params,
 }: {
-  params: { vertical: string; category: string };
+  params: Promise<CategoryRouteParams>;
 }) {
+  const routeParams = await PageParamsResolver.from<CategoryRouteParams>(params).resolve();
   const coordinator = createVerticalExperienceCoordinator();
-  const model = coordinator.buildCategoryHub(params);
+  const model = coordinator.buildCategoryHub(routeParams);
 
   if (!model) {
     notFound();

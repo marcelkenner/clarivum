@@ -60,7 +60,7 @@ resource "aws_iam_role_policy" "flow_logs" {
   })
 }
 
-resource "aws_vpc_flow_log" "this" {
+resource "aws_flow_log" "this" {
   count = local.flow_logs_enabled ? 1 : 0
 
   vpc_id               = aws_vpc.this.id

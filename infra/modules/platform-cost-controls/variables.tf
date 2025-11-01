@@ -25,3 +25,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "anomaly_absolute_threshold" {
+  description = "Absolute USD anomaly impact required before triggering notifications."
+  type        = number
+  default     = 50
+}

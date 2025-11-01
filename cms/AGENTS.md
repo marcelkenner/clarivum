@@ -17,7 +17,8 @@ The application expects configuration through environment variables (see `config
 
 - `DATABASE_URL` (Postgres connection string) or discrete `DATABASE_*` keys.
 - `APP_KEYS`, `ADMIN_JWT_SECRET`, `API_TOKEN_SALT`, `TRANSFER_TOKEN_SALT`, `JWT_SECRET`.
-- Upload provider credentials (`AWS_*`).
+- Upload provider credentials (`STRAPI_UPLOAD_S3_*` variables).
+- Generate fresh local secrets with `npm run secrets:generate` when bootstrapping a new environment; store the output securely.
 
 Use `.env.example` to document required variables; keep actual values in 1Password / AWS Secrets Manager per ADR-007.
 

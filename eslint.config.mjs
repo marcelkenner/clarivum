@@ -20,6 +20,9 @@ const config = [
     ignores: [
       "node_modules/**",
       ".next/**",
+      ".cache/**",
+      ".uv-cache/**",
+      ".open-next/**",
       "out/**",
       "build/**",
       "next-env.d.ts",

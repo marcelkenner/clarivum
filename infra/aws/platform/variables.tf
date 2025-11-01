@@ -114,6 +114,11 @@ variable "media_bucket_name" {
   type        = string
 }
 
+variable "cache_bucket_name" {
+  description = "S3 bucket for OpenNext incremental cache artifacts."
+  type        = string
+}
+
 variable "logs_bucket_name" {
   description = "S3 bucket for access logs."
   type        = string
@@ -199,6 +204,12 @@ variable "budget_thresholds" {
   description = "Budget alert thresholds."
   type        = list(number)
   default     = [60, 90, 110]
+}
+
+variable "anomaly_absolute_threshold_usd" {
+  description = "Absolute anomaly impact amount (USD) before alerts fire."
+  type        = number
+  default     = 50
 }
 
 variable "blocked_countries" {

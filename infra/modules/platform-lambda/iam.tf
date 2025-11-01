@@ -45,9 +45,9 @@ data "aws_iam_policy_document" "runtime" {
   }
 
   statement {
-    sid     = "SecretsRead"
-    effect  = "Allow"
-    actions = ["secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"]
+    sid       = "SecretsRead"
+    effect    = "Allow"
+    actions   = ["secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"]
     resources = var.secrets_allowed_arns
   }
 }

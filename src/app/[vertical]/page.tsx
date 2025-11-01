@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { createVerticalExperienceCoordinator } from "@/app/_vertical-experience/coordinator/VerticalExperienceCoordinator";
 import { VerticalHubView } from "@/app/_vertical-experience/view/VerticalViews";
 import { allVerticals } from "@/lib/content-map";
+import { PageParamsResolver } from "@/lib/next/params/PageParamsResolver";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import {
   buildVerticalHubMetadata,
@@ -10,6 +11,8 @@ import {
 } from "@/lib/seo/routes/vertical-hub";
 
 import type { Metadata } from "next";
+
+type VerticalRouteParams = { vertical: string };
 
 export const revalidate = 86400;
 
@@ -20,10 +23,11 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { vertical: string };
+  params: Promise<VerticalRouteParams>;
 }): Promise<Metadata> {
+  const { vertical } = await PageParamsResolver.from<VerticalRouteParams>(params).resolve();
   const coordinator = createVerticalExperienceCoordinator();
-  const model = coordinator.buildVerticalHub({ vertical: params.vertical });
+  const model = coordinator.buildVerticalHub({ vertical });
 
   if (!model) {
     return {};
@@ -32,9 +36,14 @@ export async function generateMetadata({
   return buildVerticalHubMetadata(model);
 }
 
-export default function VerticalHubPage({ params }: { params: { vertical: string } }) {
+export default async function VerticalHubPage({
+  params,
+}: {
+  params: Promise<VerticalRouteParams>;
+}) {
+  const { vertical } = await PageParamsResolver.from<VerticalRouteParams>(params).resolve();
   const coordinator = createVerticalExperienceCoordinator();
-  const viewModel = coordinator.buildVerticalHub({ vertical: params.vertical });
+  const viewModel = coordinator.buildVerticalHub({ vertical });
 
   if (!viewModel) {
     notFound();

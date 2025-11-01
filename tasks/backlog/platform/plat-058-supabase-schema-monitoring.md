@@ -13,6 +13,7 @@ effort: medium
 created_at: 2025-11-11
 updated_at: 2025-11-11
 links:
+  - docs/PRDs/requierments/aurora-data-platform/feature-requirements.md
   - docs/runbooks/aurora-operations.md
   - docs/runbooks/zero-downtime-migrations.md
   - docs/runbooks/deployment.md

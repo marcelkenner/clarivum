@@ -15,9 +15,15 @@ resource "aws_ce_anomaly_subscription" "service" {
   monitor_arn_list = [aws_ce_anomaly_monitor.service.arn]
 
   subscriber {
-    type  = "SNS"
+    type    = "SNS"
     address = var.notification_topic_arn
   }
 
-  threshold = 50
+  threshold_expression {
+    dimension {
+      key           = "ANOMALY_TOTAL_IMPACT_ABSOLUTE"
+      match_options = ["GREATER_THAN_OR_EQUAL"]
+      values        = [format("%.2f", var.anomaly_absolute_threshold)]
+    }
+  }
 }

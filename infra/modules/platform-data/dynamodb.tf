@@ -24,7 +24,7 @@ resource "aws_dynamodb_table" "kv" {
     kms_key_arn = var.kms_master_key_arn
   }
 
-  time_to_live {
+  ttl {
     attribute_name = var.ttl_attribute
     enabled        = true
   }

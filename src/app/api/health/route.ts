@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+
 import { EnvironmentManager } from "@/config/environment";
 
 const environmentManager = new EnvironmentManager(process.env);

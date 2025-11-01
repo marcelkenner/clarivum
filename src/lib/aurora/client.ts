@@ -8,7 +8,6 @@ interface PoolRegistry {
 }
 
 declare global {
-  // eslint-disable-next-line no-var -- allow attaching to Node.js global in dev/hot-reload
   var __clarivumAuroraPools: PoolRegistry | undefined;
 }
 
@@ -34,13 +33,13 @@ function requireEnv(name: keyof NodeJS.ProcessEnv): string {
 
 function resolveConnectionString(role: AuroraRole): string {
   if (role === "reader") {
-    return process.env.READ_DATABASE_URL ?? requireEnv("DATABASE_URL");
+    return process.env["READ_DATABASE_URL"] ?? requireEnv("DATABASE_URL");
   }
   return requireEnv("DATABASE_URL");
 }
 
 function shouldEnableSsl(): boolean {
-  const raw = process.env.DATABASE_SSL ?? "";
+  const raw = process.env["DATABASE_SSL"] ?? "";
   if (raw === "") {
     return false;
   }
@@ -54,7 +53,10 @@ function resolveSearchPath(searchPath: AuroraPoolOptions["searchPath"]): string 
   if (Array.isArray(searchPath)) {
     return searchPath.join(",");
   }
-  return searchPath;
+  if (typeof searchPath === "string") {
+    return searchPath;
+  }
+  return undefined;
 }
 
 function buildPoolConfig(role: AuroraRole, options: AuroraPoolOptions = {}): PoolConfig {
@@ -67,17 +69,17 @@ function buildPoolConfig(role: AuroraRole, options: AuroraPoolOptions = {}): Poo
     ...rest
   } = options;
 
-  const maxFromEnv = parseInt(process.env.DATABASE_POOL_MAX ?? "", 10);
-  const idleFromEnv = parseInt(process.env.DATABASE_IDLE_TIMEOUT_MS ?? "", 10);
+  const maxFromEnv = parseInt(process.env["DATABASE_POOL_MAX"] ?? "", 10);
+  const idleFromEnv = parseInt(process.env["DATABASE_IDLE_TIMEOUT_MS"] ?? "", 10);
 
   const config: PoolConfig = {
     connectionString,
-    max: Number.isNaN(providedMax ?? maxFromEnv) ? undefined : providedMax ?? maxFromEnv,
+    max: Number.isNaN(providedMax ?? maxFromEnv) ? undefined : (providedMax ?? maxFromEnv),
     idleTimeoutMillis: Number.isNaN(providedIdle ?? idleFromEnv)
       ? undefined
-      : providedIdle ?? idleFromEnv,
+      : (providedIdle ?? idleFromEnv),
     application_name:
-      providedAppName ?? process.env.DATABASE_APPLICATION_NAME ?? "clarivum-next-app",
+      providedAppName ?? process.env["DATABASE_APPLICATION_NAME"] ?? "clarivum-next-app",
     keepAlive: true,
     ...rest,
   };
@@ -107,10 +109,7 @@ function buildPoolConfig(role: AuroraRole, options: AuroraPoolOptions = {}): Poo
  * Creates a new Aurora connection pool. Use `getAuroraPool` unless you
  * explicitly need an isolated pool instance.
  */
-export function createAuroraPool(
-  role: AuroraRole = "writer",
-  options?: AuroraPoolOptions,
-): Pool {
+export function createAuroraPool(role: AuroraRole = "writer", options?: AuroraPoolOptions): Pool {
   return new Pool(buildPoolConfig(role, options));
 }
 

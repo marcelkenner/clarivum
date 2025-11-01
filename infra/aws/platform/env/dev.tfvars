@@ -1,8 +1,8 @@
-environment            = "dev"
-network_cidr_block     = "10.20.0.0/16"
-nat_gateway_az         = "eu-central-1a"
-service_name           = "platform"
-aws_region             = "eu-central-1"
+environment        = "dev"
+network_cidr_block = "10.20.0.0/16"
+nat_gateway_az     = "eu-central-1a"
+service_name       = "platform"
+aws_region         = "eu-central-1"
 
 public_subnets = {
   "eu-central-1a" = {
@@ -26,8 +26,8 @@ private_subnets = {
   }
 }
 
-dynamodb_table_name   = "platform-dev-kv"
-dynamodb_kms_key_arn  = "arn:aws:kms:eu-central-1:869603330574:key/f0172bb9-9e32-467d-a992-07aff4366b85"
+dynamodb_table_name  = "platform-dev-kv"
+dynamodb_kms_key_arn = "arn:aws:kms:eu-central-1:869603330574:key/f0172bb9-9e32-467d-a992-07aff4366b85"
 
 aurora_cluster_identifier = "platform-dev-aurora"
 aurora_cluster_arn        = "arn:aws:rds:eu-central-1:869603330574:cluster:platform-dev-aurora"
@@ -42,13 +42,14 @@ ci_secret_reader_principals = []
 
 static_bucket_name = "clarivum-dev-static-869603330574"
 media_bucket_name  = "clarivum-dev-media-869603330574"
+cache_bucket_name  = "clarivum-dev-cache-869603330574"
 logs_bucket_name   = "clarivum-dev-cdn-logs-869603330574"
 
-cloudfront_domain_name    = "dev.clarivum.com"
+cloudfront_domain_name     = "dev.clarivum.com"
 cloudfront_alternate_names = []
 
-route53_zone_name       = "clarivum.com"
-route53_create_zone     = true
+route53_zone_name        = "clarivum.com"
+route53_create_zone      = false
 route53_existing_zone_id = null
 
 budget_amount_usd = 400

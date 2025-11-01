@@ -1,13 +1,13 @@
-region                    = "eu-central-1"
-environment               = "prod"
-vpc_id                    = "vpc-yyyyyyyy"
-public_subnet_ids         = ["subnet-public-a", "subnet-public-b", "subnet-public-c"]
-private_subnet_ids        = ["subnet-private-a", "subnet-private-b", "subnet-private-c"]
-route53_zone_id           = "ZYYYYYYYYYYYY"
-domain_name               = "cms"
-acm_certificate_arn       = "arn:aws:acm:eu-central-1:123456789012:certificate/yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy"
-container_image           = "123456789012.dkr.ecr.eu-central-1.amazonaws.com/clarivum/strapi:prod"
-environment_variables     = {
+region              = "eu-central-1"
+environment         = "prod"
+vpc_id              = "vpc-yyyyyyyy"
+public_subnet_ids   = ["subnet-public-a", "subnet-public-b", "subnet-public-c"]
+private_subnet_ids  = ["subnet-private-a", "subnet-private-b", "subnet-private-c"]
+route53_zone_id     = "ZYYYYYYYYYYYY"
+domain_name         = "cms"
+acm_certificate_arn = "arn:aws:acm:eu-central-1:123456789012:certificate/yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy"
+container_image     = "123456789012.dkr.ecr.eu-central-1.amazonaws.com/clarivum/strapi:prod"
+environment_variables = {
   NODE_ENV = "production"
 }
 secret_environment_variables = {

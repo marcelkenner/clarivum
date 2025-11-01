@@ -6,10 +6,20 @@ This workspace hosts the Strapi v5 application that powers Clarivum’s editoria
 
 1. Ensure Node 20+ is active (`nvm use 20` or `nvm use 22`).
 2. Install dependencies from the workspace root: `npm install` (or `npm ci` in CI).
-3. Copy `.env.example` to `.env` (to be added) and provide the required Postgres / Supabase credentials.
+3. Copy `.env.example` to `.env` and populate it with the generated Strapi secrets, your Postgres (or local SQLite) connection details, and the AWS S3 upload credentials.
 4. Run `npm run develop` to start the Strapi admin with hot reload.
 
 Refer to `cms/AGENTS.md` for the authoritative operational checklists, deployment notes, and guardrails.
+
+## Required environment variables
+
+Populate the following keys in `.env`, sourcing secrets from AWS Secrets Manager for remote environments:
+
+- `APP_KEYS`, `ADMIN_JWT_SECRET`, `API_TOKEN_SALT`, `TRANSFER_TOKEN_SALT`, `JWT_SECRET`, `ENCRYPTION_KEY`
+- `DATABASE_URL` or an equivalent set of `DATABASE_*` fields (client, host, port, name, username, password, SSL flags, filename for SQLite)
+- `STRAPI_UPLOAD_S3_BUCKET`, `STRAPI_UPLOAD_S3_REGION`, `STRAPI_UPLOAD_S3_ACCESS_KEY_ID`, `STRAPI_UPLOAD_S3_SECRET_ACCESS_KEY` (optional: `STRAPI_UPLOAD_S3_BASE_URL`, `STRAPI_UPLOAD_S3_ENDPOINT`, `STRAPI_UPLOAD_S3_FORCE_PATH_STYLE`, `STRAPI_UPLOAD_S3_SIGNATURE_VERSION`)
+
+See `docs/PRDs/requierments/strapi/setup.md` for the full platform checklists.
 
 ## Scripts
 
@@ -22,6 +32,7 @@ Refer to `cms/AGENTS.md` for the authoritative operational checklists, deploymen
 | `npm run lint`      | Placeholder lint step. Replace with ESLint once rules are defined. |
 | `npm run test`      | Placeholder test runner while suites are under construction.       |
 | `npm run deploy`    | Hooks into the Strapi deploy CLI for future automation.            |
+| `npm run secrets:generate` | Emit fresh Strapi application secrets for `.env` scaffolding.          |
 
 ## CI/CD alignment
 

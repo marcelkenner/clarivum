@@ -32,22 +32,22 @@ resource "aws_cloudfront_distribution" "primary" {
   }
 
   default_cache_behavior {
-    target_origin_id       = "s3-static"
-    viewer_protocol_policy = "redirect-to-https"
-    allowed_methods        = ["GET", "HEAD", "OPTIONS"]
-    cached_methods         = ["GET", "HEAD"]
-    cache_policy_id        = var.static_cache_policy_id
+    target_origin_id           = "s3-static"
+    viewer_protocol_policy     = "redirect-to-https"
+    allowed_methods            = ["GET", "HEAD", "OPTIONS"]
+    cached_methods             = ["GET", "HEAD"]
+    cache_policy_id            = var.static_cache_policy_id
     response_headers_policy_id = var.response_headers_policy_id
   }
 
   ordered_cache_behavior {
-    path_pattern           = "api/*"
-    target_origin_id       = "http-api"
-    viewer_protocol_policy = "redirect-to-https"
-    allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
-    cached_methods         = ["GET", "HEAD", "OPTIONS"]
-    cache_policy_id        = var.api_cache_policy_id
-    origin_request_policy_id = var.api_origin_request_policy_id
+    path_pattern               = "api/*"
+    target_origin_id           = "http-api"
+    viewer_protocol_policy     = "redirect-to-https"
+    allowed_methods            = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods             = ["GET", "HEAD", "OPTIONS"]
+    cache_policy_id            = var.api_cache_policy_id
+    origin_request_policy_id   = var.api_origin_request_policy_id
     response_headers_policy_id = var.response_headers_policy_id
   }
 

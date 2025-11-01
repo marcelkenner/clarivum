@@ -6,7 +6,7 @@ This directory will hold the infrastructure-as-code definition for the Clarivum 
 
 | Module | Path | Responsibility | Key Resources |
 | --- | --- | --- | --- |
-| Network | `modules/platform-network` | VPC, subnets, routing, NAT, flow logs | `aws_vpc`, `aws_subnet`, `aws_route_table`, `aws_nat_gateway`, `aws_vpc_flow_log` |
+| Network | `modules/platform-network` | VPC, subnets, routing, NAT, flow logs | `aws_vpc`, `aws_subnet`, `aws_route_table`, `aws_nat_gateway`, `aws_flow_log` |
 | Security Groups | `modules/platform-security-groups` | Runtime security groups + least-privilege rules | `aws_security_group`, `aws_security_group_rule` |
 | Secrets Manager | `modules/platform-secrets` | Database secrets, rotation wiring, CI access policies | `aws_secretsmanager_secret`, `aws_secretsmanager_secret_rotation`, `aws_iam_policy` |
 | Data Stores | `modules/platform-data` | DynamoDB table + Aurora references | `aws_dynamodb_table`, outputs re-exporting Aurora info |

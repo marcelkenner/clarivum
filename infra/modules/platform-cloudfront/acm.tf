@@ -3,9 +3,9 @@ locals {
 }
 
 resource "aws_acm_certificate" "this" {
-  provider          = aws.us_east_1
-  domain_name       = var.domain_name
-  validation_method = "DNS"
+  provider                  = aws.us_east_1
+  domain_name               = var.domain_name
+  validation_method         = "DNS"
   subject_alternative_names = var.alternate_domain_names
 
   tags = merge(local.distribution_tags, {

@@ -33,9 +33,9 @@ resource "aws_security_group" "alb" {
   }
 
   tags = merge(local.base_tags, {
-    Name       = "${var.name}-alb-sg"
-    Component  = "edge"
-    Layer      = "public"
+    Name      = "${var.name}-alb-sg"
+    Component = "edge"
+    Layer     = "public"
   })
 }
 

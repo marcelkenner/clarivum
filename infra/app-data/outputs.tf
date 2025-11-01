@@ -46,9 +46,3 @@ output "asset_buckets" {
     }
   }
 }
-
-output "secrets" {
-  description = "Map of Secrets Manager ARNs keyed by secret path"
-  value       = { for name, secret in aws_secretsmanager_secret.app_data : name => secret.arn }
-  sensitive   = true
-}

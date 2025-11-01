@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { createVerticalExperienceCoordinator } from "@/app/_vertical-experience/coordinator/VerticalExperienceCoordinator";
 import { ArticleView } from "@/app/_vertical-experience/view/VerticalViews";
 import { buildBreadcrumbs } from "@/app/_vertical-experience/viewmodel/VerticalViewModels";
+import { PageParamsResolver } from "@/lib/next/params/PageParamsResolver";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import {
   buildArticleMetadata,
@@ -10,6 +11,12 @@ import {
 } from "@/lib/seo/routes/vertical-article";
 
 import type { Metadata } from "next";
+
+type ArticleRouteParams = {
+  vertical: string;
+  category: string;
+  slug: string;
+};
 
 export const revalidate = 86400;
 
@@ -21,10 +28,11 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { vertical: string; category: string; slug: string };
+  params: Promise<ArticleRouteParams>;
 }): Promise<Metadata> {
+  const routeParams = await PageParamsResolver.from<ArticleRouteParams>(params).resolve();
   const coordinator = createVerticalExperienceCoordinator();
-  const model = coordinator.buildArticle(params);
+  const model = coordinator.buildArticle(routeParams);
 
   if (!model) {
     return {};
@@ -33,13 +41,10 @@ export async function generateMetadata({
   return buildArticleMetadata(model);
 }
 
-export default function ArticlePage({
-  params,
-}: {
-  params: { vertical: string; category: string; slug: string };
-}) {
+export default async function ArticlePage({ params }: { params: Promise<ArticleRouteParams> }) {
+  const routeParams = await PageParamsResolver.from<ArticleRouteParams>(params).resolve();
   const coordinator = createVerticalExperienceCoordinator();
-  const model = coordinator.buildArticle(params);
+  const model = coordinator.buildArticle(routeParams);
 
   if (!model) {
     notFound();
