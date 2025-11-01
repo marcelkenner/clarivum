@@ -4,6 +4,7 @@ import path from "node:path";
 import process from "node:process";
 import { createDatabaseUrlProvider } from "./lib/database-url-provider.mjs";
 import { loadPgModule, PgModuleMissingError } from "./lib/postgres-module-loader.mjs";
+import { AwsSecretsManagerModuleMissingError } from "./lib/secrets-manager-module-loader.mjs";
 
 const MIGRATIONS_DIR = path.resolve(process.cwd(), "database/migrations");
 const MIGRATIONS_TABLE = "public.schema_migrations";
@@ -127,7 +128,7 @@ async function run() {
 }
 
 run().catch((error) => {
-  if (error instanceof PgModuleMissingError) {
+  if (error instanceof PgModuleMissingError || error instanceof AwsSecretsManagerModuleMissingError) {
     console.error(error.message);
   } else {
     console.error(error);

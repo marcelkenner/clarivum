@@ -1,15 +1,18 @@
 import process from "node:process";
-import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
+import { loadSecretsManagerModule } from "./secrets-manager-module-loader.mjs";
 
 const DEFAULT_REGION = "eu-central-1";
 
 export class SecretsManagerGateway {
-  constructor() {
+  constructor({ moduleLoader = loadSecretsManagerModule } = {}) {
+    this.moduleLoader = moduleLoader;
     this.clientsByRegion = new Map();
+    this.modulePromise = undefined;
   }
 
-  async getSecretString(secretId, region) {
-    const client = this.#getClient(region);
+  async getSecretString({ secretId, region, label }) {
+    const { SecretsManagerClient, GetSecretValueCommand } = await this.#loadModule(label);
+    const client = this.#getClient(region, SecretsManagerClient);
     const response = await client.send(new GetSecretValueCommand({ SecretId: secretId }));
     if (response.SecretString) {
       return response.SecretString;
@@ -20,11 +23,18 @@ export class SecretsManagerGateway {
     throw new Error(`Secret ${secretId} did not contain a string or binary value.`);
   }
 
-  #getClient(region) {
+  #getClient(region, SecretsManagerClient) {
     if (!this.clientsByRegion.has(region)) {
       this.clientsByRegion.set(region, new SecretsManagerClient({ region }));
     }
     return this.clientsByRegion.get(region);
+  }
+
+  async #loadModule(label) {
+    if (!this.modulePromise) {
+      this.modulePromise = Promise.resolve().then(() => this.moduleLoader({ label }));
+    }
+    return this.modulePromise;
   }
 }
 
@@ -58,7 +68,11 @@ export class DatabaseUrlProvider {
     for (const secretId of secretIds) {
       console.log(`${prefix} Loading DATABASE_URL from Secrets Manager (${secretId}) in ${region}.`);
       try {
-        const secretString = await this.gateway.getSecretString(secretId, region);
+        const secretString = await this.gateway.getSecretString({
+          secretId,
+          region,
+          label: label ?? "db:migrate",
+        });
         const connectionString = this.#parseSecret(secretString, secretId, prefix);
         process.env.DATABASE_URL = connectionString;
         console.log(`${prefix} Resolved DATABASE_URL via Secrets Manager.`);
